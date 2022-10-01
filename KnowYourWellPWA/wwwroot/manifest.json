@@ -15,7 +15,7 @@
       "type": "image/png"
     },
 
-    {
+    { 
       "purpose": "any",
       "sizes": "128x128",
       "src": "/images/iicon-128x128.png",
