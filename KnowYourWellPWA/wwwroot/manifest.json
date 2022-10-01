@@ -30,8 +30,8 @@
     },
     {
       "purpose": "any",
-      "sizes": "512x512",
-      "src": "/images/icon-512x512.png",
+      "sizes": "429x420",
+      "src": "/images/icon-420x420.png",
       "type": "image/png"
     }
   ]
