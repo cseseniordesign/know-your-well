@@ -67,7 +67,7 @@
     if ('serviceworker' in navigator) {
     // use the window load event to keep the page load performant
     window.addeventlistener('load', () => {
-    navigator.serviceworker.register('./sw.js');
+    navigator.serviceworker.register('/sw.js');
     });
     }
     </script>
