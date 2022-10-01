@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KnowYourWellPWA.styles.css" asp-append-version="true" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 </head>
 <body>
     <header>
@@ -61,5 +62,24 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+     <script>
+    // check that service workers are supported
+    if ('serviceworker' in navigator) {
+    // use the window load event to keep the page load performant
+    window.addeventlistener('load', () => {
+    navigator.serviceworker.register('/sw.js');
+    });
+    }
+    </script>
+
+
+    
+
+
+
 </body>
+
+
 </html>
+
+
