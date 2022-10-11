@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@userfront/core": "^0.4.6",
+    "bootstrap": "^5.2.2",
+    "react-select": "^5.4.0"
+  }
+}
