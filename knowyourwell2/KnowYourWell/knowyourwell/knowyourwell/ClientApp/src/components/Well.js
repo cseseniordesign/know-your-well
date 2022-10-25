@@ -31,12 +31,6 @@ export class Well extends Component {
                 <p> <strong> Well Selection </strong></p>
                 <List.Item >
                     <List.Content>
-                        <a href="/EditWell" style={{ width: "17%", height: "17%" }} class="btn btn-secondary btn-lg btn-block">New Well </a>
-                    </List.Content>
-                    <br />
-                </List.Item>
-                <List.Item >
-                    <List.Content>
                         <a href="/" style={{ width: "17%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #1 </a>
                     </List.Content>
                     <br />
@@ -74,6 +68,12 @@ export class Well extends Component {
                 <List.Item>
                     <List.Content>
                         <a href="/" style={{ width: "17%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #7</a>
+                    </List.Content>
+                    <br />
+                </List.Item>
+                <List.Item >
+                    <List.Content>
+                        <a href="/EditWell" style={{ color: 'grey', width: "17%", height: "17%", borderWidth: 3, borderStyle: 'dashed', borderRadius: 1, borderColor: 'grey' }} class="btn btn-light btn-lg btn-block">New Well</a>
                     </List.Content>
                     <br />
                 </List.Item>
