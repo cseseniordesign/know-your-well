@@ -43,9 +43,14 @@ export class Login extends Component {
                     </div>
                 </div>
                 <div className="d-grid" >
-                    <button type="submit" className="btn btn-primary" >
-                        Submit
-                    </button>
+                    {
+                       /*Submit button removed so sign-in automatically goes to Wells Page
+                        * 
+                        * <button type="submit" className="btn btn-primary" >
+                           Submit
+                          </button>
+                       */}
+                    <a href="/Well" class="btn btn-primary">Sign In</a>
                     <p></p>
                     <a href="/Signup" class="btn btn-primary">Sign Up</a>
                 </div>
