@@ -1,9 +1,13 @@
 {
   "dependencies": {
+    "@types/react-select": "^5.0.1",
     "@userfront/core": "^0.4.6",
     "bootstrap": "^5.2.2",
+    "npm": "^8.19.2",
+    "react": "^18.2.0",
     "react-bootstrap-form": "^0.1.4-beta6",
-    "react-select": "^5.4.0",
+    "react-router-dom": "^6.4.2",
+    "react-select": "^5.5.0",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.3"
   }
