@@ -26,37 +26,36 @@ export class Well extends Component {
     }
     render() {
         return (
-            //props to https://travishorn.com/responsive-buttons-with-bootstrap-7c2a7c144308 for responsive buttons.
             <List style={{ textAlign: 'center' }}>
                 <h1> <strong>Know Your Well </strong></h1>
                 <p> <strong> Well Selection </strong></p>
                 <List.Item >
                     <List.Content>
-                        <a href="/" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">abcdefghijkl mnopqrstuvwxy </a>
+                        <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #1 </a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item>
                     <List.Content>
-                        <a href="/" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #2</a>
+                        <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #2</a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item>
                     <List.Content>
-                        <a href="/" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #3</a>
+                        <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #3</a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item>
                     <List.Content>
-                        <a href="/" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #4</a>
+                        <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #4</a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item>
                     <List.Content>
-                        <a href="/" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #5</a>
+                        <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #5</a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -68,13 +67,13 @@ export class Well extends Component {
                 </List.Item>
                 <List.Item>
                     <List.Content>
-                        <a href="/" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #7</a>
+                        <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #7</a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item >
                     <List.Content>
-                        <a href="/EditWell" style={{ color: 'grey', width: "45%", height: "17%", borderWidth: 3, borderStyle: 'dashed', borderRadius: 1, borderColor: 'grey' }} class="btn btn-light btn-lg btn-block">New Well</a>
+                        <a href="/PreField" style={{ color: 'grey', width: "45%", height: "17%", borderWidth: 3, borderStyle: 'dashed', borderRadius: 1, borderColor: 'grey' }} class="btn btn-light btn-lg btn-block">New Well</a>
                     </List.Content>
                     <br />
                 </List.Item>
