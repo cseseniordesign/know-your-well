@@ -78,30 +78,6 @@ export class Well extends Component {
                     <br />
                 </List.Item>
             </List>
-             
-
-
-
-/*
-            <form style={{ textAlign: 'center' }} onSubmit={this.handleSubmit} >
-                <label style={{ paddingRight: '4px' }} >
-                   
-                    <a href="/Signup" class="btn btn-secondary">New Well</a>
-                    <br />
-                    <br />
-                    <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange}>
-                        <option value="Well_1">Well #1</option>
-                        <option value="Well_2">Well #2</option>
-                        <option value="Well_3">Well #3</option>
-                        <option value="Well_4">Well #4</option>
-                        <option value="Well_5">Well #5</option>
-                        <option value="Well_6">Well #6</option>
-                        <option value="Well_7">Well #7</option>
-                    </select>
-                </label>
-                <input type="submit" value=" Submit" />
-            </form>
-*/
         );
     }
 }
