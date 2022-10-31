@@ -12,8 +12,7 @@ export class Login extends Component {
     render() {
         return (
             <form>
-                <h1 id="kyw">Know Your Well</h1>
-                <h3>Log in</h3>
+                <h3 style={{ textAlign: "center" }}>Log in</h3>
                 <div className="mb-3">
                     <label>Email address</label>
                     <input

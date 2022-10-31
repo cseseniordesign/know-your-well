@@ -40,7 +40,6 @@ export class Lab extends Component {
     render() {
         return (
             <form method="post" style={{ display: 'block', textAlign: 'center', paddingBottom: '40px', paddingTop: '20px', border: 'solid' }} onSubmit={this.submit}>
-                <h1><strong>Know Your Well</strong></h1>
                 <h2>Lab</h2>
                 <div class="css">
                     <label>

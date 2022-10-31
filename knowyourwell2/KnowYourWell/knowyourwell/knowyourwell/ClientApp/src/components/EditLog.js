@@ -26,7 +26,6 @@ export class EditLog extends Component {
     render() {
         return (
             <List style={{ textAlign: 'center' }}>
-                <h1><strong>Know Your Well </strong></h1>
                 <br />
                 <h2>Edit Well ID </h2>
                 <br />

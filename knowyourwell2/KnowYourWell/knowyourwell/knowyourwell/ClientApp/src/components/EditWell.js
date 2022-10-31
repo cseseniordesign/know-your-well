@@ -26,7 +26,6 @@ export class EditWell extends Component {
     render() {
         return (
             <List style={{ textAlign: 'center' }}>
-                <h1><strong>Know Your Well</strong></h1>
                 <h2>Edit Well</h2>
                 <br />
                 <br />

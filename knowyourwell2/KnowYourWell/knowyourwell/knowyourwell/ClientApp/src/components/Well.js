@@ -27,8 +27,7 @@ export class Well extends Component {
     render() {
         return (
             <List style={{ textAlign: 'center' }}>
-                <h1> <strong>Know Your Well </strong></h1>
-                <p> <strong> Well Selection </strong></p>
+                <h2> <strong> Well Selection </strong></h2>
                 <List.Item >
                     <List.Content>
                         <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #1 </a>
