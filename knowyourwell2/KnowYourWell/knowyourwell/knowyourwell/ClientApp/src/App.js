@@ -15,6 +15,7 @@ export default class App extends Component {
             const { element, ...rest } = route;
             return <Route key={index} {...rest} element={element} />;
           })}
+                  <h1>Hello</h1>
          </Routes>
       </Layout>
     );
