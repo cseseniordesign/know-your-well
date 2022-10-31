@@ -13,7 +13,7 @@ export class Login extends Component {
         return (
             <form>
                 <h1 id="kyw">Know Your Well</h1>
-                <h3>Sign In</h3>
+                <h3>Log in</h3>
                 <div className="mb-3">
                     <label>Email address</label>
                     <input
@@ -43,9 +43,14 @@ export class Login extends Component {
                     </div>
                 </div>
                 <div className="d-grid" >
-                    <button type="submit" className="btn btn-primary" >
-                        Submit
-                    </button>
+                    {
+                       /*Submit button removed so sign-in automatically goes to Wells Page
+                        * 
+                        * <button type="submit" className="btn btn-primary" >
+                           Submit
+                          </button>
+                       */}
+                    <a href="/Well" class="btn btn-primary">Log in</a>
                     <p></p>
                     <a href="/Signup" class="btn btn-primary">Sign Up</a>
                 </div>
