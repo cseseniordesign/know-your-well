@@ -34,25 +34,25 @@ export class EditWell extends Component {
                
                 <List.Item>
                     <List.Content>
-                        <a href="/PreField" style={{ width: "17%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Pre-field</a>
+                        <a href="/PreField" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Pre-field</a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item>
                     <List.Content>
-                        <a href="/Field" style={{ width: "17%", height: "17%"}} class="btn btn-primary btn-lg btn-block">Field</a>
+                        <a href="/Field" style={{ width: "45%", height: "17%"}} class="btn btn-primary btn-lg btn-block">Field</a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item >
                     <List.Content>
-                        <a href="/Lab" style={{ width: "17%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Lab Test</a>
+                        <a href="/Lab" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Lab Test</a>
                     </List.Content>
                     <br />
                 </List.Item>
                 <List.Item>
-                    <List.Content>
-                        <a href="/EditLog" style={{ width: "17%", height: "17%" }} class="btn btn-primary btn-lg btn-block">View Previous Log</a>
+                    <List.Content >
+                        <a href="/EditLog" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">View Previous Log</a>
                     </List.Content>
                     <br />
                 </List.Item>
