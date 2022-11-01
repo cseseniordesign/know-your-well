@@ -7,7 +7,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "knowyourwell20221101124932ResourceGroup",
+      "defaultValue": "knowyourwell20221101132422ResourceGroup",
       "metadata": {
         "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
       }

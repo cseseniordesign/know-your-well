@@ -271,7 +271,7 @@ export class PreField extends Component {
                         <input type="text" onChange={this.setWellUsage} required />
                     </label>
                 </div>
-                <div class="css">
+                <div class="css"> 
                     <label>
                         <div>
                             Has any manure or pesticides been
