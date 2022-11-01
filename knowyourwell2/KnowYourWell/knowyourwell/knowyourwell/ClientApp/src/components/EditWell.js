@@ -27,9 +27,6 @@ export class EditWell extends Component {
         return (
             <List style={{ textAlign: 'center' }}>
                 <h2>Edit Well</h2>
-                <br />
-                <br />
-                <h2>What are you doing today?</h2>
                
                 <List.Item>
                     <List.Content>
