@@ -3,32 +3,20 @@ import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 import './css/PreField.css'
 
-const Topography = [
-    {
-        label: "Hill Top",
-        value: "Hill_Top",
-    },
-    {
-        label: "Hill Bottom",
-        value: "Hill_Bottom",
-    },
- 
-];
-
 const Well_Cover_Condition = [
     {
-        label: "Good",
-        value: "Good",
+        label: "Intact",
+        value: "Intact",
     },
     {
-        label: "Fair",
-        value: "Fair",
+        label: "Observable Opening",
+        value: "Observable_Opening",
     },
     {
-        label: "Bad",
-        value: "Bad",
+        label: "Damaged",
+        value: "Damaged",
     },
-];
+];;
 
 const Surface_Run_Off_Evidence = [
     {
