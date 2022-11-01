@@ -70,22 +70,6 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Topography of the well location
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Topography.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
                             Condition of the well cover
                         </div>
                         <div id="App">
