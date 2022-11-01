@@ -126,7 +126,6 @@ export class PreField extends Component {
     setCollectorName = (e) => this.setState({ Collector_Name: e.target.value });
     setComments = (e) => this.setState({ Comments: e.target.value });
 
-
     render() {
         return (
             <form method="post" style={{ display: 'block', textAlign: 'center', paddingBottom: '40px', paddingTop:'20px', border: 'solid' }} onSubmit={this.submit}>
