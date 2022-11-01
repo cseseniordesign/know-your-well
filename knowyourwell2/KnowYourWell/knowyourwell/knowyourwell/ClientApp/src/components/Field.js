@@ -26,11 +26,7 @@ const Surface_Run_Off_Evidence = [
     {
         label: "No",
         value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
+    } 
 ];
 
 const Evidence_Of_Pooling = [
@@ -41,11 +37,7 @@ const Evidence_Of_Pooling = [
     {
         label: "No",
         value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
+    } 
 ];
 
 export class Field extends Component {

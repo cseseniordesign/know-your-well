@@ -6,48 +6,32 @@ import './css/PreField.css'
 
 const Maintenance = [
     {
-        label: "Maintenance 1",
-        value: "maintenance_1",
+        label: "Yes",
+        value: "Yes",
     },
     {
-        label: "Maintenance 2",
-        value: "maintenance_2",
+        label: "No",
+        value: "No",
     },
     {
-        label: "Maintenance 3",
-        value: "maintenance_3",
-    },
-    {
-        label: "Maintenance 4",
-        value: "maintenance_4",
-    },
-    {
-        label: "Maintenance 5",
-        value: "maintenance_5",
-    },
+        label: "Unknown",
+        value: "Unknown",
+    } 
 ];
 
 const Development = [
     {
-        label: "major land use / development changes 1",
-        value: "change_1",
+        label: "Yes",
+        value: "Yes",
     },
     {
-        label: "major land use / development changes 2",
-        value: "change_2",
+        label: "No",
+        value: "No",
     },
     {
-        label: "major land use / development changes 3",
-        value: "change_3",
-    },
-    {
-        label: "major land use / development changes 4",
-        value: "change_4",
-    },
-    {
-        label: "major land use / development changes 5",
-        value: "change_5",
-    },
+        label: "Unknown",
+        value: "Unknown",
+    }
 ];
 
 const Fertilizers_Pesticides = [
@@ -59,6 +43,10 @@ const Fertilizers_Pesticides = [
         label: "No",
         value: "No",
     },
+    {
+        label: "Unknown",
+        value: "Unknown",
+    }
 ];
 
 const Aquifer_Type = [
