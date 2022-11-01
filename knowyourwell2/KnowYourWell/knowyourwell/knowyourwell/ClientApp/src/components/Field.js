@@ -16,7 +16,7 @@ const Well_Cover_Condition = [
         label: "Damaged",
         value: "Damaged",
     },
-];;
+];
 
 const Surface_Run_Off_Evidence = [
     {
