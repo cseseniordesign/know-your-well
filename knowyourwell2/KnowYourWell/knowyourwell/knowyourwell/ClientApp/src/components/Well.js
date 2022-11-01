@@ -2,7 +2,6 @@
 import { List } from 'semantic-ui-react'
 
 
-
 export class Well extends Component {
     static displayName = Well.name;
 

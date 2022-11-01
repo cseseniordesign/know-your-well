@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
-import { List } from 'semantic-ui-react'
 import './css/PreField.css'
 
 const Well_Cover_Condition = [
