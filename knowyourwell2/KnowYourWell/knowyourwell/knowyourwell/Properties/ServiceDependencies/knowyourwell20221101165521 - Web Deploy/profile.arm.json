@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "knowyourwell",
+      "defaultValue": "knowyourwell20221101165521",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }
