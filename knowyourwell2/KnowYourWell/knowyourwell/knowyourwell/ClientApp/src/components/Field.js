@@ -3,30 +3,19 @@ import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 import './css/PreField.css'
 
-const Topography = [
-    {
-        label: "Hill Top",
-        value: "Hill_Top",
-    },
-    {
-        label: "Hill Bottom",
-        value: "Hill_Bottom",
-    },
- 
-];
 
 const Well_Cover_Condition = [
     {
-        label: "Good",
-        value: "Good",
+        label: "Intact",
+        value: "Intact",
     },
     {
-        label: "Fair",
-        value: "Fair",
+        label: "Observable Opening",
+        value: "Observable_Opening",
     },
     {
-        label: "Bad",
-        value: "Bad",
+        label: "Damaged",
+        value: "Damaged",
     },
 ];
 
@@ -85,22 +74,6 @@ export class Field extends Component {
                             note-worthy about your well
                         </div>
                         <p><textarea type="text" class="textarea resize-ta" required autoFocus></textarea></p>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Topography of the well location
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Topography.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
                     </label>
                 </div>
                 <div class="css">
