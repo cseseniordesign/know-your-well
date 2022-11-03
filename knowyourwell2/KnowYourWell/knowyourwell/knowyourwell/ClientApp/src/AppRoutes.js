@@ -6,7 +6,9 @@ import { EditLog } from "./components/EditLog";
 import { PreField } from "./components/PreField";
 import { Field } from "./components/Field";
 import { Lab } from "./components/Lab";
-
+import { ViewWell } from "./components/ViewWell";
+import { ViewField } from "./components/ViewField";
+import { ViewLab } from "./components/ViewLab";
 
 
 
@@ -45,7 +47,18 @@ const AppRoutes = [
         path: '/Lab',
         element: <Lab />
     },
-
+    {
+        path: '/ViewWell',
+        element: <ViewWell />
+    },
+    {
+        path: '/ViewField',
+        element: <ViewField />
+    },
+    {
+        path: '/ViewLab',
+        element: <ViewLab />
+    },
 ];
 
 export default AppRoutes;

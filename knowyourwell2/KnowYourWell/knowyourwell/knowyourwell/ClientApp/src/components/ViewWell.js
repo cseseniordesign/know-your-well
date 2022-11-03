@@ -2,8 +2,8 @@
 import { List } from 'semantic-ui-react'
 
 
-export class EditLog extends Component {
-    static displayName = EditLog.name;
+export class ViewWell extends Component {
+    static displayName = ViewWell.name;
 
     constructor(props) {
         super(props);
@@ -26,23 +26,11 @@ export class EditLog extends Component {
         return (
             <List style={{ textAlign: 'center' }}>
                 <br />
-                <h2>Edit Well ID</h2>
+                <h2>Well ID</h2>
                 <br />
                 <List.Item >
                     <List.Content>
-                        <a href="/ViewWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well</a>
-                    </List.Content>
-                    <br />
-                </List.Item>
-                <List.Item>
-                    <List.Content>
-                        <a href="/ViewField" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Field</a>
-                    </List.Content>
-                    <br />
-                </List.Item>
-                <List.Item>
-                    <List.Content>
-                        <a href="/ViewLab" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Lab</a>
+                        <a href="/Prefield" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">---</a>
                     </List.Content>
                     <br />
                 </List.Item>
