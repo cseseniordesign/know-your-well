@@ -45,7 +45,7 @@ export class NavMenu extends Component {
                                 <NavLink tag={Link} className="text-dark" to="EditLog">Edit Log</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="PreField">PreField</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="PreField">Well Info</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="Field">Field</NavLink>

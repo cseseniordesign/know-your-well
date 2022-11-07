@@ -127,7 +127,7 @@ export class PreField extends Component {
     render() {
         return (
             <form method="post" style={{ display: 'block', textAlign: 'center', paddingBottom: '40px', paddingTop:'20px', border: 'solid' }} onSubmit={this.submit}>
-                <h2>Prefield</h2>
+                <h2>Well Info</h2>
                 <div class="css">
                     <label>
                         <div>
