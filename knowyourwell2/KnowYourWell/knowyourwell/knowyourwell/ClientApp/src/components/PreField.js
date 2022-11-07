@@ -1,53 +1,35 @@
 ﻿import React, { Component } from 'react';
-import Select from 'react-select';
-import { List } from 'semantic-ui-react'
 import './css/PreField.css'
 
 
 const Maintenance = [
     {
-        label: "Maintenance 1",
-        value: "maintenance_1",
+        label: "Yes",
+        value: "Yes",
     },
     {
-        label: "Maintenance 2",
-        value: "maintenance_2",
+        label: "No",
+        value: "No",
     },
     {
-        label: "Maintenance 3",
-        value: "maintenance_3",
-    },
-    {
-        label: "Maintenance 4",
-        value: "maintenance_4",
-    },
-    {
-        label: "Maintenance 5",
-        value: "maintenance_5",
-    },
+        label: "Unknown",
+        value: "Unknown",
+    } 
 ];
 
 const Development = [
     {
-        label: "major land use / development changes 1",
-        value: "change_1",
+        label: "Yes",
+        value: "Yes",
     },
     {
-        label: "major land use / development changes 2",
-        value: "change_2",
+        label: "No",
+        value: "No",
     },
     {
-        label: "major land use / development changes 3",
-        value: "change_3",
-    },
-    {
-        label: "major land use / development changes 4",
-        value: "change_4",
-    },
-    {
-        label: "major land use / development changes 5",
-        value: "change_5",
-    },
+        label: "Unknown",
+        value: "Unknown",
+    }
 ];
 
 const Fertilizers_Pesticides = [
@@ -59,38 +41,59 @@ const Fertilizers_Pesticides = [
         label: "No",
         value: "No",
     },
+    {
+        label: "Unknown",
+        value: "Unknown",
+    }
 ];
 
 const Aquifer_Type = [
     {
-        label: "Aquifer Type A",
-        value: "Aquifer_Type_A",
+
+        label: "Confined",
+        value: "Confined",
     },
     {
-        label: "Aquifer Type B",
-        value: "Aquifer_Type_B",
+        label: "Unconfined",
+        value: "Unconfined",
+    },
+    {
+        label: "Unknown",
+        value: "Unknown",
     },
 ];
 
 const Aquifer_Class = [
     {
-        label: "Aquifer Class A",
-        value: "Aquifer_Class_A",
+        label: "Bedrock",
+        value: "Bedrock",
     },
     {
-        label: "Aquifer Class B",
-        value: "Aquifer_Class_B",
+        label: "Sand or Gravel",
+        value: "Sand_or_Gravel",
+    },
+    {
+        label: "Unknown",
+        value: "Unknown",
     },
 ];
 
 const Well_Type = [
     {
-        label: "Well Type A",
-        value: "Well_Type_A",
+        label: "Drilled",
+        value: "Drilled",
     },
     {
-        label: "Well Type B",
-        value: "Well_Type_B",
+        label: "Driven",
+        value: "Driven",
+    },
+    {
+        label: "Dug",
+        value: "Dug",
+    },
+    {
+        label: "Unknown",
+        value: "Unknown",
     },
 ];
 
@@ -122,7 +125,6 @@ export class PreField extends Component {
     setCasingMaterial = (e) => this.setState({ Casing_Material: e.target.value });
     setCollectorName = (e) => this.setState({ Collector_Name: e.target.value });
     setComments = (e) => this.setState({ Comments: e.target.value });
-
 
     render() {
         return (
@@ -268,7 +270,7 @@ export class PreField extends Component {
                         <input type="text" onChange={this.setWellUsage} required />
                     </label>
                 </div>
-                <div class="css">
+                <div class="css"> 
                     <label>
                         <div>
                             Has any manure or pesticides been

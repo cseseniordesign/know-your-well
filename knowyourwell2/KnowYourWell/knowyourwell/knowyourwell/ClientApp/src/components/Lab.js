@@ -1,20 +1,18 @@
 ﻿import React, { Component } from 'react';
-import Select from 'react-select';
-import { List } from 'semantic-ui-react'
 import './css/PreField.css'
 
 const Bacteria = [
     {
-        label: "Positive",
-        value: "Positive",
+        label: "Clear",
+        value: "Clear",
     },
     {
-        label: "Negative",
-        value: "Negative",
+        label: "Yellow without fluorescent rim",
+        value: "Yellow_without_fluorescent",
     },
     {
-        label: "neutral ",
-        value: "neutral ",
+        label: "Yellow with fluorescent rim ",
+        value: "Yellow_with_fluorescent ",
     },
 
 ];

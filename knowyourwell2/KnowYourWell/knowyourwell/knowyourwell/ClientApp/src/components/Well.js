@@ -1,7 +1,5 @@
 ﻿import React, { Component } from 'react';
-import Select from 'react-select'; 
 import { List } from 'semantic-ui-react'
-
 
 
 export class Well extends Component {
@@ -60,7 +58,7 @@ export class Well extends Component {
                 </List.Item>
                 <List.Item>
                     <List.Content>
-                        <a href="/" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #6</a>
+                        <a href="/EditWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well #6</a>
                     </List.Content>
                     <br />
                 </List.Item>
