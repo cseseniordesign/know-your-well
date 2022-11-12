@@ -97,6 +97,24 @@ const Well_Type = [
     },
 ];
 
+const Topography = [
+    {
+        label: "Hill top",
+        value: "Hill top",
+    },
+    {
+        label: "Hill Slope",
+        value: "Hill Slope",
+    },
+    {
+        label: "Level land",
+        value: "Level land",
+    },
+    {
+        label: "Depression",
+        value: "Depression",
+    },
+];
 
 export class PreField extends Component {
     static displayName = PreField.name;
@@ -249,7 +267,7 @@ export class PreField extends Component {
                         <div>
                             Any major land use / development
                             changes around the well within the
-                            last five year
+                            last five years?
                         </div>
                         <div id="App">
                             <div className="select-container">
@@ -299,7 +317,7 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Bore hole diameter:
+                            Bore hole diameter in inches:
                         </div>
                         <input type="text" onChange={this.setBoreHoleDiameter} required />
                     </label>
@@ -307,7 +325,7 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Total depth of well:
+                            Total depth of well in feet:
                         </div>
                         <input type="text" onChange={this.setDepthOfWell} required />
                     </label>
@@ -315,17 +333,9 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Field Title
+                            Water level in feet:
                         </div>
-                        <input type="text" onChange={this.setFieldTitle} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Water level:
-                        </div>
-                        <input type="text" onChange={this.setWaterLevel} required />
+                        <input type="text" onChange={this.setDepthOfWell} required />
                     </label>
                 </div>
                 <div class="css">
@@ -363,7 +373,7 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Well Type:
+                            Well Type (construction method):
                         </div>
                         <div id="App">
                             <div className="select-container">
@@ -395,9 +405,41 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
+                            Data Collector's Observations:
+                        </div>
+                        <input type="text" onChange={this.Comments} required />
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Topography of the well location:
+                        </div>
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
+                                    {Topography.map((option) => (
+                                        <option value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
                             Comments:
                         </div>
                         <input type="text" onChange={this.Comments} required />
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Date:
+                        </div>
+                        <input type="date" onChange={this.Comments} required />
                     </label>
                 </div>
 
