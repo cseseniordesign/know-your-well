@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import './css/PreField.css'
+import './css/WellInfo.css'
 
 const Bacteria = [
     {

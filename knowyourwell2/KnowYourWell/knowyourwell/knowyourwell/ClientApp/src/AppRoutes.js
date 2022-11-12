@@ -3,7 +3,7 @@ import { Signup } from "./components/Signup";
 import { Well } from "./components/Well";
 import { EditWell } from "./components/EditWell";
 import { EditLog } from "./components/EditLog";
-import { PreField } from "./components/PreField";
+import { WellInfo } from "./components/WellInfo";
 import { Field } from "./components/Field";
 import { Lab } from "./components/Lab";
 import { ViewWell } from "./components/ViewWell";
@@ -36,8 +36,8 @@ const AppRoutes = [
         element: <EditLog />
     },
     {
-        path: '/PreField',
-        element: <PreField />
+        path: '/Well Info',
+        element: <WellInfo />
     },
     {
         path: '/Field',

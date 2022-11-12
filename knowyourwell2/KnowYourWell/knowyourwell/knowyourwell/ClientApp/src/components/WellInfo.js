@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import './css/PreField.css'
+import './css/WellInfo.css'
 
 
 const Yes_No_Unkown = [
@@ -86,8 +86,8 @@ const Topography = [
     },
 ];
 
-export class PreField extends Component {
-    static displayName = PreField.name;
+export class WellInfo extends Component {
+    static displayName = WellInfo.name;
     state = {};
     submit = (e) => {
         e.preventDefault(); // Prevent submitting form to the server
@@ -414,22 +414,7 @@ export class PreField extends Component {
                         </div>
                     </label>
                 </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Comments:
-                        </div>
-                        <input type="text" onChange={this.Comments} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Date:
-                        </div>
-                        <input type="date" onChange={this.Comments} required />
-                    </label>
-                </div>
+                -
 
                 <br></br>
 
