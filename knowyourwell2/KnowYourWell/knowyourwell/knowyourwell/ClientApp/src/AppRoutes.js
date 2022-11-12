@@ -36,8 +36,8 @@ const AppRoutes = [
         element: <EditLog />
     },
     {
-        path: '/Well Info',
-        element: <WellInfo />
+        path: '/WellInfo',
+        element: <Well Info />
     },
     {
         path: '/Field',

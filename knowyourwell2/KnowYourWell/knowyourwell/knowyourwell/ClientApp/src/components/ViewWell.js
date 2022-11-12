@@ -30,7 +30,7 @@ export class ViewWell extends Component {
                 <br />
                 <List.Item >
                     <List.Content>
-                        <a href="/Prefield" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">---</a>
+                        <a href="/WellInfo" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">---</a>
                     </List.Content>
                     <br />
                 </List.Item>
