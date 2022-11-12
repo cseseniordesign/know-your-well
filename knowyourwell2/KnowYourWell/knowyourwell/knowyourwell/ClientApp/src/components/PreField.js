@@ -2,7 +2,7 @@
 import './css/PreField.css'
 
 
-const Maintenance = [
+const Yes_No_Unkown = [
     {
         label: "Yes",
         value: "Yes",
@@ -15,36 +15,6 @@ const Maintenance = [
         label: "Unknown",
         value: "Unknown",
     } 
-];
-
-const Development = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    }
-];
-
-const Fertilizers_Pesticides = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    }
 ];
 
 const Aquifer_Type = [
@@ -225,7 +195,16 @@ export class PreField extends Component {
                         <div>
                             Any complaints about smell or taste of water?
                         </div>
-                        <input type="text" onChange={this.setComplaints} required />
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
+                                    {Yes_No_Unkown.map((option) => (
+                                        <option value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" onChange={this.setWellConstructionCompletation} required />
                     </label>
                 </div>
                 <div class="css">
@@ -234,7 +213,16 @@ export class PreField extends Component {
                             Does the well ever go dry? <br />
                             (if so, when?)
                         </div>
-                        <input type="text" onChange={this.setComplaints} required />
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
+                                    {Yes_No_Unkown.map((option) => (
+                                        <option value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" onChange={this.setWellConstructionCompletation} required />
                     </label>
                 </div>
                 <div class="css">
@@ -254,7 +242,7 @@ export class PreField extends Component {
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Maintenance.map((option) => (
+                                    {Yes_No_Unkown.map((option) => (
                                         <option value={option.value}>{option.label}</option>
                                     ))}
                                 </select>
@@ -272,7 +260,7 @@ export class PreField extends Component {
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Development.map((option) => (
+                                    {Yes_No_Unkown.map((option) => (
                                         <option value={option.value}>{option.label}</option>
                                     ))}
                                 </select>
@@ -298,7 +286,7 @@ export class PreField extends Component {
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Fertilizers_Pesticides.map((option) => (
+                                    {Yes_No_Unkown.map((option) => (
                                         <option value={option.value}>{option.label}</option>
                                     ))}
                                 </select>
@@ -442,6 +430,8 @@ export class PreField extends Component {
                         <input type="date" onChange={this.Comments} required />
                     </label>
                 </div>
+
+                <br></br>
 
                 <button type="submit">Save</button>
             </form>
