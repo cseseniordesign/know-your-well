@@ -37,7 +37,7 @@ const AppRoutes = [
     },
     {
         path: '/WellInfo',
-        element: <Well Info />
+        element: <WellInfo />
     },
     {
         path: '/Field',
