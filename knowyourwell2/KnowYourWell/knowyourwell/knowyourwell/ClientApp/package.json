@@ -53,12 +53,12 @@
     "nth-check": "^3.0.1"
   },
   "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src/",
     "prestart": "node aspnetcore-https && node aspnetcore-react",
     "start": "rimraf ./build && react-scripts start",
-    "build": "react-scripts build",
-    "test": "cross-env CI=true react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "test": "cross-env CI=true react-scripts test --env=jsdom"
   },
   "eslintConfig": {
     "extends": [
