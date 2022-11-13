@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import './css/WellInfo.css'
 
-
 const Yes_No_Unkown = [
     {
         label: "Yes",
@@ -85,6 +84,7 @@ const Topography = [
         value: "Depression",
     },
 ];
+
 
 export class WellInfo extends Component {
     static displayName = WellInfo.name;
@@ -230,8 +230,7 @@ export class WellInfo extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Any maintenance done to the well itself
-                            within the last five years?
+                            Any maintenance done to the well itself within the last five years?
                         </div>
                         <div id="App">
                             <div className="select-container">
@@ -421,7 +420,7 @@ export class WellInfo extends Component {
                     </label>
                 </div>
 
-                <br></br>
+                <br />
 
                 <button type="submit">Save</button>
             </form>
