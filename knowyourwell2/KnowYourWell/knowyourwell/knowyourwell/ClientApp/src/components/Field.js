@@ -68,13 +68,16 @@ export class Field extends Component {
                                 </select>
                             </div>
                         </div>
+                        <div>
+                            Description of well cover:
+                        </div>
+                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Is there evidence of surface
-                            run-off entry to the well?
+                            Is there evidence of surface run-off entry to the well?
                         </div>
                         <div id="App">
                             <div className="select-container">
@@ -90,8 +93,7 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Is there evidence of pooling or
-                            Puddles within 12 ft of the well?
+                            Is there evidence of pooling or puddles within 12 ft of the well?
                         </div>
                         <div id="App">
                             <div className="select-container">
@@ -142,7 +144,7 @@ export class Field extends Component {
                         <div>
                             Observations:
                         </div>
-                        <p><textarea type="text" class="textarea resize-ta" required></textarea></p>
+                        <p><textarea type="text" class="textarea resize-ta" ></textarea></p>
                     </label>
                 </div>
                 <div class="css">

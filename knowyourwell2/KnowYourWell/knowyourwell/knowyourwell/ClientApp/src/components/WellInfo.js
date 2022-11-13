@@ -139,7 +139,7 @@ export class WellInfo extends Component {
                         <div>
                             Name of the resident well user:
                         </div>
-                        <input type="text" onChange={this.setResidentName} required autoFocus />
+                        <input type="text" onChange={this.setResidentName} />
                     </label>
                 </div>
                 <div class="css">
@@ -147,7 +147,7 @@ export class WellInfo extends Component {
                         <div>
                             Address:
                         </div>
-                        <input type="text" onChange={this.setAddress} required />
+                        <input type="text" onChange={this.setAddress} />
                     </label>
                 </div>
                 <div class="css">
@@ -155,7 +155,7 @@ export class WellInfo extends Component {
                         <div>
                             City:
                         </div>
-                        <input type="text" onChange={this.setCity} required />
+                        <input type="text" onChange={this.setCity} />
                     </label>
                 </div>
                 <div class="css">
@@ -163,7 +163,7 @@ export class WellInfo extends Component {
                         <div>
                             State:
                         </div>
-                        <input type="text" onChange={this.setState} required />
+                        <input type="text" onChange={this.setState} />
                     </label>
                 </div>
                 <div class="css">
@@ -171,7 +171,7 @@ export class WellInfo extends Component {
                         <div>
                             Zip code:
                         </div>
-                        <input type="text" onChange={this.setZibCode} required />
+                        <input type="text" onChange={this.setZibCode} />
                     </label>
                 </div>
                 <div class="css">
@@ -179,7 +179,7 @@ export class WellInfo extends Component {
                         <div>
                             Well owner (if different from resident):
                         </div>
-                        <input type="text" onChange={this.setWellOwner} required />
+                        <input type="text" onChange={this.setWellOwner} />
                     </label>
                 </div>
                 <div class="css">
@@ -199,7 +199,7 @@ export class WellInfo extends Component {
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Yes_No_Unkown.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -210,27 +210,21 @@ export class WellInfo extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Does the well ever go dry? <br />
-                            (if so, when?)
+                            Does the well ever go dry?
                         </div>
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Yes_No_Unkown.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
                         </div>
-                        <input type="text" onChange={this.setWellConstructionCompletation} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
                         <div>
-                            Any complaints about smell or taste of water?
+                            If so, when?
                         </div>
-                        <input type="text" onChange={this.setComplaints} required />
+                        <input type="text" onChange={this.setWellConstructionCompletation} />
                     </label>
                 </div>
                 <div class="css">
@@ -243,7 +237,7 @@ export class WellInfo extends Component {
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Yes_No_Unkown.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -253,15 +247,13 @@ export class WellInfo extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Any major land use / development
-                            changes around the well within the
-                            last five years?
+                            Any major land use / development changes around the well within the last five years?
                         </div>
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Yes_No_Unkown.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -273,21 +265,19 @@ export class WellInfo extends Component {
                         <div>
                             How many people use this well?
                         </div>
-                        <input type="text" onChange={this.setWellUsage} required />
+                        <input type="text" onChange={this.setWellUsage} />
                     </label>
                 </div>
                 <div class="css"> 
                     <label>
                         <div>
-                            Has any manure or pesticides been
-                            applied near the well within the last
-                            five years?
+                            Has any manure or pesticides been applied near the well within the last five years?
                         </div>
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Yes_No_Unkown.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -307,7 +297,7 @@ export class WellInfo extends Component {
                         <div>
                             Bore hole diameter in inches:
                         </div>
-                        <input type="text" onChange={this.setBoreHoleDiameter} required />
+                        <input type="text" onChange={this.setBoreHoleDiameter} />
                     </label>
                 </div>
                 <div class="css">
@@ -315,7 +305,7 @@ export class WellInfo extends Component {
                         <div>
                             Total depth of well in feet:
                         </div>
-                        <input type="text" onChange={this.setDepthOfWell} required />
+                        <input type="text" onChange={this.setDepthOfWell} />
                     </label>
                 </div>
                 <div class="css">
@@ -323,7 +313,7 @@ export class WellInfo extends Component {
                         <div>
                             Water level in feet:
                         </div>
-                        <input type="text" onChange={this.setDepthOfWell} required />
+                        <input type="text" onChange={this.setDepthOfWell} />
                     </label>
                 </div>
                 <div class="css">
@@ -335,7 +325,7 @@ export class WellInfo extends Component {
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Aquifer_Type.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -351,7 +341,7 @@ export class WellInfo extends Component {
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Aquifer_Class.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -367,7 +357,7 @@ export class WellInfo extends Component {
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Well_Type.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -379,7 +369,7 @@ export class WellInfo extends Component {
                         <div>
                             What is the well casing material made of?
                         </div>
-                        <input type="text" onChange={this.setCasingMaterial} required />
+                        <input type="text" onChange={this.setCasingMaterial} />
                     </label>
                 </div>
                 <div class="css">
@@ -395,7 +385,7 @@ export class WellInfo extends Component {
                         <div>
                             Data Collector's Observations:
                         </div>
-                        <input type="text" onChange={this.Comments} required />
+                        <input type="text" onChange={this.Comments} />
                     </label>
                 </div>
                 <div class="css">
@@ -414,7 +404,22 @@ export class WellInfo extends Component {
                         </div>
                     </label>
                 </div>
-                -
+                <div class="css">
+                    <label>
+                        <div>
+                            Comments:
+                        </div>
+                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Date:
+                        </div>
+                        <input type="date" onChange={this.Comments} required />
+                    </label>
+                </div>
 
                 <br></br>
 
