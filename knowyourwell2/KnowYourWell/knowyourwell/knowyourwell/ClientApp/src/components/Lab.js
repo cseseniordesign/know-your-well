@@ -44,7 +44,7 @@ export class Lab extends Component {
                         <div>
                             Ammonia (0-10 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setAmmonia} />
+                        <input type="number" onChange={this.setAmmonia} autoFocus/>
                     </label>
                 </div>
                 <div class="css">
@@ -125,7 +125,7 @@ export class Lab extends Component {
                         <div>
                             Additional observations:
                         </div>
-                        <p><textarea type="text" class="textarea resize-ta" autoFocus></textarea></p>
+                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
                     </label>
                 </div>
                 <div class="css">
@@ -141,7 +141,7 @@ export class Lab extends Component {
                         <div>
                             Comments:
                         </div>
-                        <p><textarea type="text" class="textarea resize-ta" autoFocus></textarea></p>
+                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
                     </label>
                 </div>
 
