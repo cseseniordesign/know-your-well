@@ -47,9 +47,7 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Conditions: Describe weather,
-                            temperature,<br/> or anything
-                            note-worthy about your well
+                            Conditions: Describe weather, temperature, or anything note-worthy about your well
                         </div>
                         <p><textarea type="text" class="textarea resize-ta" required autoFocus></textarea></p>
                     </label>
@@ -110,7 +108,6 @@ export class Field extends Component {
                     <label>
                         <div>
                             Groundwater Temperature in Celsius:
-
                         </div>
                         <input type="text" onChange={this.setGroundwater_Temperature} required />
                     </label>
