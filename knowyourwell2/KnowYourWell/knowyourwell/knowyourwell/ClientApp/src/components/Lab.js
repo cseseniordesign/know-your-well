@@ -42,34 +42,32 @@ export class Lab extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Ammonia <br/> [0-10 ppm(mg/L)]
+                            Ammonia (0-10 ppm(mg/L)):
                         </div>
-                        <input type="text" onChange={this.setAmmonia} required />
+                        <input type="number" onChange={this.setAmmonia} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Calcium hardness <br/>
-                            [50-500 ppm(mg/L)]
+                            Calcium hardness (50-500 ppm(mg/L)):
                         </div>
-                        <input type="text" onChange={this.setCalciumHardness} required />
+                        <input type="number" onChange={this.setCalciumHardness} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Chloride <br/>
-                            [0-400 ppm(mg/L)]
+                            Chloride (0-400 ppm(mg/L)):
                         </div>
-                        <input type="text" onChange={this.setChloride} required />
+                        <input type="number" onChange={this.setChloride} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Bacteria (Colilert) <br />
-                            [Positive if more than 1 MPN/100ml]
+                            Bacteria (Colilert): <br />
+                            (Positive if more than 1 MPN/100ml)
                         </div>
                         <div id="App">
                             <div className="select-container">
@@ -85,37 +83,33 @@ export class Lab extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Copper <br/>
-                            [0-10 ppm(mg/L)]
+                            Copper (0-10 ppm(mg/L)):
                         </div>
-                        <input type="text" onChange={this.setCopper} required />
+                        <input type="number" onChange={this.setCopper} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Iron<br/>
-                            [0-10 ppm(mg/L)]
+                            Iron (0-10 ppm(mg/L)):
                         </div>
-                        <input type="text" onChange={this.setIron} required />
+                        <input type="number" onChange={this.setIron} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Manganese<br/>
-                            [0-50 ppm(mg/L)]
+                            Manganese (0-50 ppm(mg/L)):
                         </div>
-                        <input type="text" onChange={this.setManganese} required />
+                        <input type="number" onChange={this.setManganese} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Nitrate <br/>
-                            [0-45 ppm(mg/L)]
+                            Nitrate (0-45 ppm(mg/L)):
                         </div>
-                        <input type="text" onChange={this.setNitrate} required />
+                        <input type="number" onChange={this.setNitrate} />
                     </label>
                 </div>
                 <div class="css">
@@ -131,10 +125,28 @@ export class Lab extends Component {
                         <div>
                             Additional observations:
                         </div>
-                        <p><textarea type="text" class="textarea resize-ta" required autoFocus></textarea></p>
+                        <p><textarea type="text" class="textarea resize-ta" autoFocus></textarea></p>
                     </label>
-
                 </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Date:
+                        </div>
+                        <input type="date" onChange={this.Comments} required />
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Comments:
+                        </div>
+                        <p><textarea type="text" class="textarea resize-ta" autoFocus></textarea></p>
+                    </label>
+                </div>
+
+                <br />
+
                 <button type="submit">Save</button>
             </form>
         );
