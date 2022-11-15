@@ -16,7 +16,7 @@ export class AboutProject extends Component {
                 <div className="mb-3">
                     <p>
                         “Know Your Well” is a Nebraska Environmental Trust-funded project training high school students how to sample and test well water quality.
-                        This project runs began in 2017 and expects to connect with 50 schools across Nebraska by 2025. 
+                        This project began in 2017 and expects to connect with 50 schools across Nebraska by 2025. 
                         Students will compare their results with tests conducted at the University of Nebraska Water Sciences Laboratory. 
                         Over 300 private wells will eventually be tested for nitrate, nitrite, metals, pesticides, and more. 
                         Well owners are supplied with test results and provided with information to help them evaluate their water quality.  
