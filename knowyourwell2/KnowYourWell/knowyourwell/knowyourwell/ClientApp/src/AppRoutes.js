@@ -1,5 +1,6 @@
 import { Login } from "./components/Login";
 import { Signup } from "./components/Signup";
+import { AboutProject } from "./components/AboutProject";
 import { Well } from "./components/Well";
 import { EditWell } from "./components/EditWell";
 import { EditLog } from "./components/EditLog";
@@ -20,6 +21,10 @@ const AppRoutes = [
     {
     path: '/Signup',
     element: <Signup />
+    },
+    {
+    path: '/AboutProject',
+    element: <AboutProject />
     },
     {
     path: '/Well',
