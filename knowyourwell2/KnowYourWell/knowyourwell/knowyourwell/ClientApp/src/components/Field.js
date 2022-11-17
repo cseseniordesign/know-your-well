@@ -21,12 +21,12 @@ const Well_Cover_Condition = [
 
 const Surface_Run_Off_Evidence = [
     {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
         label: "No",
         value: "No",
+    },
+    {
+        label: "Yes",
+        value: "Yes",
     },
     {
         label: "Unknown",
@@ -36,12 +36,12 @@ const Surface_Run_Off_Evidence = [
 
 const Evidence_Of_Pooling = [
     {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
         label: "No",
         value: "No",
+    },
+    {
+        label: "Yes",
+        value: "Yes",
     },
     {
         label: "Unknown",
