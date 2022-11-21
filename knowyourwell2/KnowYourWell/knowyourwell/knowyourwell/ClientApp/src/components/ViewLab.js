@@ -1,52 +1,39 @@
 ﻿import React, { Component } from 'react';
-import Select from 'react-select';
 import { List } from 'semantic-ui-react'
-import './css/WellInfo.css'
-
-const Bacteria = [
-    {
-        label: "Clear",
-        value: "Clear",
-    },
-    {
-        label: "Yellow without fluorescent rim",
-        value: "Yellow_without_fluorescent",
-    },
-    {
-        label: "Yellow with fluorescent rim ",
-        value: "Yellow_with_fluorescent ",
-    },
-
-];
 
 
-export class Lab extends Component {
-    static displayName = Lab.name;
-    state = {};
-    submit = (e) => {
-        e.preventDefault(); // Prevent submitting form to the server
-        window.alert(`This ${this.state.name}! has been submitted `); //${this.state.food}!${this.state.isDessert ? ' A lovely dessert!' : ''}
-    };
+export class ViewLab extends Component {
+    static displayName = ViewLab.name;
 
-    setAmmonia = (e) => this.setState({ Ammonia: e.target.value });
-    setCalciumHardness = (e) => this.setState({ Calcium_Hardness: e.target.value });
-    setChloride = (e) => this.setState({ Chloride: e.target.value });
-    setCopper = (e) => this.setState({ Copper: e.target.value });
-    setIron = (e) => this.setState({ Iron: e.target.value });
-    setManganese = (e) => this.setState({ Manganese: e.target.value });
-    setNitrate = (e) => this.setState({ Nitrate: e.target.value });
-    setCollectorName = (e) => this.setState({ CollectorName: e.target.value });
+    constructor(props) {
+        super(props);
+        this.state = { value: 'coconut' };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ value: event.target.value });
+    }
+
+    handleSubmit(event) {
+        alert('You Selected: ' + this.state.value);
+        event.preventDefault();
+    }
 
     render() {
         return (
-            <form method="post" style={{ display: 'block', textAlign: 'center', paddingBottom: '40px', paddingTop: '20px', border: 'solid' }} onSubmit={this.submit}>
-                <h2>Lab</h2>
+            <List style={{ textAlign: 'center' }}>
+                <br />
+                <h2>Well ID: Lab</h2>
+                <br />
                 <div class="css">
                     <label>
                         <div>
                             Ammonia (0-10 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setAmmonia} autoFocus/>
+                        <input type="number" onChange={this.setAmmonia} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -54,7 +41,7 @@ export class Lab extends Component {
                         <div>
                             Calcium hardness (50-500 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setCalciumHardness} />
+                        <input type="number" onChange={this.setCalciumHardness} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -62,7 +49,7 @@ export class Lab extends Component {
                         <div>
                             Chloride (0-400 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setChloride} />
+                        <input type="number" onChange={this.setChloride} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -73,10 +60,8 @@ export class Lab extends Component {
                         </div>
                         <div id="App">
                             <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Bacteria.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
-                                    ))}
+                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} disabled="disabled" >
+                                    
                                 </select>
                             </div>
                         </div>
@@ -87,7 +72,7 @@ export class Lab extends Component {
                         <div>
                             Copper (0-10 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setCopper} />
+                        <input type="number" onChange={this.setCopper} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -95,7 +80,7 @@ export class Lab extends Component {
                         <div>
                             Iron (0-10 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setIron} />
+                        <input type="number" onChange={this.setIron} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -103,7 +88,7 @@ export class Lab extends Component {
                         <div>
                             Manganese (0-50 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setManganese} />
+                        <input type="number" onChange={this.setManganese} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -111,7 +96,7 @@ export class Lab extends Component {
                         <div>
                             Nitrate (0-45 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setNitrate} />
+                        <input type="number" onChange={this.setNitrate} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -119,7 +104,7 @@ export class Lab extends Component {
                         <div>
                             Data Collector’s Name:
                         </div>
-                        <input type="text" onChange={this.setCollectorName} required />
+                        <input type="text" onChange={this.setCollectorName} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -127,7 +112,7 @@ export class Lab extends Component {
                         <div>
                             Additional observations:
                         </div>
-                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
+                        <p><textarea type="text" class="textarea resize-ta" disabled="disabled"></textarea></p>
                     </label>
                 </div>
                 <div class="css">
@@ -135,7 +120,7 @@ export class Lab extends Component {
                         <div>
                             Date:
                         </div>
-                        <input type="date" onChange={this.Comments} required />
+                        <input type="date" onChange={this.Comments} disabled="disabled" />
                     </label>
                 </div>
                 <div class="css">
@@ -143,14 +128,10 @@ export class Lab extends Component {
                         <div>
                             Comments:
                         </div>
-                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
+                        <p><textarea type="text" class="textarea resize-ta" disabled="disabled"></textarea></p>
                     </label>
                 </div>
-
-                <br />
-
-                <button type="submit">Save</button>
-            </form>
+            </List>
         );
     }
 }

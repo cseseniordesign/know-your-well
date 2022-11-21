@@ -1,56 +1,9 @@
 ﻿import React, { Component } from 'react';
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
-import './css/PreField.css'
+import './css/WellInfo.css'
 
-
-const Maintenance = [
-    {
-        label: "Maintenance 1",
-        value: "maintenance_1",
-    },
-    {
-        label: "Maintenance 2",
-        value: "maintenance_2",
-    },
-    {
-        label: "Maintenance 3",
-        value: "maintenance_3",
-    },
-    {
-        label: "Maintenance 4",
-        value: "maintenance_4",
-    },
-    {
-        label: "Maintenance 5",
-        value: "maintenance_5",
-    },
-];
-
-const Development = [
-    {
-        label: "major land use / development changes 1",
-        value: "change_1",
-    },
-    {
-        label: "major land use / development changes 2",
-        value: "change_2",
-    },
-    {
-        label: "major land use / development changes 3",
-        value: "change_3",
-    },
-    {
-        label: "major land use / development changes 4",
-        value: "change_4",
-    },
-    {
-        label: "major land use / development changes 5",
-        value: "change_5",
-    },
-];
-
-const Fertilizers_Pesticides = [
+const Yes_No_Unknown = [
     {
         label: "Yes",
         value: "Yes",
@@ -59,6 +12,10 @@ const Fertilizers_Pesticides = [
         label: "No",
         value: "No",
     },
+    {
+        label: "Unknown",
+        value: "Unknown",
+    } 
 ];
 
 const Aquifer_Type = [
@@ -102,6 +59,7 @@ const Well_Type = [
         value: "Driven",
     },
     {
+
         label: "Dug",
         value: "Dug",
     },
@@ -111,9 +69,28 @@ const Well_Type = [
     },
 ];
 
+const Topography = [
+    {
+        label: "Hill Top",
+        value: "Hill_Top",
+    },
+    {
+        label: "Hill Slope",
+        value: "Hill_Slope",
+    },
+    {
+        label: "Level Land",
+        value: "Level_Land",
+    },
+    {
+        label: "Depression",
+        value: "Depression",
+    }
+];
 
-export class PreField extends Component {
-    static displayName = PreField.name;
+
+export class WellInfo extends Component {
+    static displayName = WellInfo.name;
     state = {};
     submit = (e) => {
         e.preventDefault(); // Prevent submitting form to the server
@@ -140,11 +117,10 @@ export class PreField extends Component {
     setCollectorName = (e) => this.setState({ Collector_Name: e.target.value });
     setComments = (e) => this.setState({ Comments: e.target.value });
 
-
     render() {
         return (
             <form method="post" style={{ display: 'block', textAlign: 'center', paddingBottom: '40px', paddingTop:'20px', border: 'solid' }} onSubmit={this.submit}>
-                <h2>Prefield</h2>
+                <h2>Well Info</h2>
                 <div class="css">
                     <label>
                         <div>
@@ -166,7 +142,7 @@ export class PreField extends Component {
                         <div>
                             Name of the resident well user:
                         </div>
-                        <input type="text" onChange={this.setResidentName} required autoFocus />
+                        <input type="text" onChange={this.setResidentName} />
                     </label>
                 </div>
                 <div class="css">
@@ -174,7 +150,7 @@ export class PreField extends Component {
                         <div>
                             Address:
                         </div>
-                        <input type="text" onChange={this.setAddress} required />
+                        <input type="text" onChange={this.setAddress} />
                     </label>
                 </div>
                 <div class="css">
@@ -182,7 +158,7 @@ export class PreField extends Component {
                         <div>
                             City:
                         </div>
-                        <input type="text" onChange={this.setCity} required />
+                        <input type="text" onChange={this.setCity} />
                     </label>
                 </div>
                 <div class="css">
@@ -190,7 +166,7 @@ export class PreField extends Component {
                         <div>
                             State:
                         </div>
-                        <input type="text" onChange={this.setState} required />
+                        <input type="text" onChange={this.setState} />
                     </label>
                 </div>
                 <div class="css">
@@ -198,7 +174,7 @@ export class PreField extends Component {
                         <div>
                             Zip code:
                         </div>
-                        <input type="text" onChange={this.setZibCode} required />
+                        <input type="text" onChange={this.setZibCode} />
                     </label>
                 </div>
                 <div class="css">
@@ -206,7 +182,7 @@ export class PreField extends Component {
                         <div>
                             Well owner (if different from resident):
                         </div>
-                        <input type="text" onChange={this.setWellOwner} required />
+                        <input type="text" onChange={this.setWellOwner} />
                     </label>
                 </div>
                 <div class="css">
@@ -222,37 +198,48 @@ export class PreField extends Component {
                         <div>
                             Any complaints about smell or taste of water?
                         </div>
-                        <input type="text" onChange={this.setComplaints} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Does the well ever go dry? <br />
-                            (if so, when?)
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
+                                    {Yes_No_Unknown.map((option) => (
+                                        <option value={option.value}>{option.label}</option> // required
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                        <input type="text" onChange={this.setComplaints} required />
+                        <input type="text" onChange={this.setWellConstructionCompletation} required />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Any complaints about smell or taste of water?
-                        </div>
-                        <input type="text" onChange={this.setComplaints} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Any maintenance done to the well itself
-                            within the last five years?
+                            Does the well ever go dry?
                         </div>
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Maintenance.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                    {Yes_No_Unknown.map((option) => (
+                                        <option value={option.value}>{option.label}</option> // required
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            If so, when?
+                        </div>
+                        <input type="text" onChange={this.setWellConstructionCompletation} />
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Any maintenance done to the well itself within the last five years?
+                        </div>
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
+                                    {Yes_No_Unknown.map((option) => (
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -262,15 +249,13 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Any major land use / development
-                            changes around the well within the
-                            last five year
+                            Any major land use / development changes around the well within the last five years?
                         </div>
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Development.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                    {Yes_No_Unknown.map((option) => (
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -282,21 +267,19 @@ export class PreField extends Component {
                         <div>
                             How many people use this well?
                         </div>
-                        <input type="text" onChange={this.setWellUsage} required />
+                        <input type="text" onChange={this.setWellUsage} />
                     </label>
                 </div>
-                <div class="css">
+                <div class="css"> 
                     <label>
                         <div>
-                            Has any manure or pesticides been
-                            applied near the well within the last
-                            five years?
+                            Has any manure or pesticides been applied near the well within the last five years?
                         </div>
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Fertilizers_Pesticides.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                    {Yes_No_Unknown.map((option) => (
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -314,33 +297,25 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Bore hole diameter:
+                            Bore hole diameter in inches:
                         </div>
-                        <input type="text" onChange={this.setBoreHoleDiameter} required />
+                        <input type="text" onChange={this.setBoreHoleDiameter} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Total depth of well:
+                            Total depth of well in feet:
                         </div>
-                        <input type="text" onChange={this.setDepthOfWell} required />
+                        <input type="text" onChange={this.setDepthOfWell} />
                     </label>
                 </div>
                 <div class="css">
                     <label>
                         <div>
-                            Field Title
+                            Water level in feet:
                         </div>
-                        <input type="text" onChange={this.setFieldTitle} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Water level:
-                        </div>
-                        <input type="text" onChange={this.setWaterLevel} required />
+                        <input type="text" onChange={this.setDepthOfWell} />
                     </label>
                 </div>
                 <div class="css">
@@ -352,7 +327,7 @@ export class PreField extends Component {
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Aquifer_Type.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -368,7 +343,7 @@ export class PreField extends Component {
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Aquifer_Class.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -378,13 +353,13 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Well Type:
+                            Well Type (construction method):
                         </div>
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
                                     {Well_Type.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{option.label}</option> // required
                                     ))}
                                 </select>
                             </div>
@@ -396,7 +371,7 @@ export class PreField extends Component {
                         <div>
                             What is the well casing material made of?
                         </div>
-                        <input type="text" onChange={this.setCasingMaterial} required />
+                        <input type="text" onChange={this.setCasingMaterial} />
                     </label>
                 </div>
                 <div class="css">
@@ -410,11 +385,45 @@ export class PreField extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Comments:
+                            Data Collector's Observations:
                         </div>
-                        <input type="text" onChange={this.Comments} required />
+                        <input type="text" onChange={this.Comments} />
                     </label>
                 </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Topography of the well location:
+                        </div>
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
+                                    {Topography.map((option) => (
+                                        <option value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Comments:
+                        </div>
+                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
+                    </label>
+                </div>
+                <div class="css">
+                    <label>
+                        <div>
+                            Date:
+                        </div>
+                        <input type="date" onChange={this.Comments} required />
+                    </label>
+                </div>
+
+                <br />
 
                 <button type="submit">Save</button>
             </form>

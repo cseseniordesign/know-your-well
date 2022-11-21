@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
-import Select from 'react-select'; 
+import Select from 'react-select';
 import { List } from 'semantic-ui-react'
-
 
 
 export class Well extends Component {

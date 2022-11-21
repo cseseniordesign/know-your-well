@@ -30,7 +30,7 @@ export class EditWell extends Component {
                
                 <List.Item>
                     <List.Content>
-                        <a href="/PreField" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Pre-field</a>
+                        <a href="/WellInfo" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well Info</a>
                     </List.Content>
                     <br />
                 </List.Item>
