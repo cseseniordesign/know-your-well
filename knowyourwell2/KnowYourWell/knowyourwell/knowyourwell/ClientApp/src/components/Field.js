@@ -21,12 +21,12 @@ const Well_Cover_Condition = [
 
 const Yes_No = [
     {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
         label: "No",
         value: "No",
+    },
+    {
+        label: "Yes",
+        value: "Yes",
     },
     {
         label: "Unknown",

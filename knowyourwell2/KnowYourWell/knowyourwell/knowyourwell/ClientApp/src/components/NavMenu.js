@@ -26,7 +26,7 @@ export class NavMenu extends Component {
             <header>
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
                     <NavbarBrand tag={Link} to="/">
-                        <img src={require('./images/placeholder-logo.png')} className="logo"/>
+                        <img src={require('./images/placeholder-logo.png')} alt="" className="logo"/>
                     </NavbarBrand>
                     <NavbarBrand tag={Link} to="/" className="banner">Know Your Well</NavbarBrand>
                     <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
@@ -39,7 +39,10 @@ export class NavMenu extends Component {
                                 <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="EditWell">Well Name/ID</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="AboutProject">About Project</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-dark" to="EditWell">Edit Well</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="EditLog">Edit Log</NavLink>
