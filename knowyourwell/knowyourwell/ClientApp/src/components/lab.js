@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Axios from 'axios' 
 
 export default function Lab() {
-
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -15,14 +14,14 @@ export default function Lab() {
     const [nitrate, setNitrate] = useState(0);
     const [name, setName] = useState("");
     const [observations, setObservations] = useState("");
-
+    
     const [bacteria, setBacteria] = useState("");
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
 
     const addLab = () => {
-        Axios.post('https://localhost:7193/createlab', {
+        Axios.post('http://localhost:7193/createlab', {
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
@@ -48,7 +47,7 @@ export default function Lab() {
 
     return (
         <div className="form-container">
-            <form method="post" id="submissionAlert" action="create" >
+            <form method="post" id="submissionAlert" action="create" > 
                 <h2>Lab</h2>
                 <div className="css">
                     <label for="ammonia">
