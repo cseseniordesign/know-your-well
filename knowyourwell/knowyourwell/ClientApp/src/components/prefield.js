@@ -1,5 +1,7 @@
 ﻿import React from 'react'
 import './css/PreField.css'
+import './css/forms.css'
+
 
 
 const Maintenance = [
@@ -101,156 +103,130 @@ const Well_Type = [
 export default function PreField() {
 
     return (
-        <form style={{ display: 'block', textAlign: 'center', paddingBottom: '40px', paddingTop: '20px', border: 'solid' }}  >
-            <h2>Prefield</h2>
-            <div className="css">
-                <label>
-                    <div>
+        <div className="form-container">
+            <form >
+                <h2>Prefield</h2>
+                <div className="css">
+                    <label>
                         Well ID:
-                    </div>
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
+                </div>
+                <div className="css">
+                    <label>
                         Well Name:
-                    </div>
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
+                </div>
+                <div className="css">
+                    <label>
                         Name of the resident well user:
-                    </div>
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
+                </div>
 
-            <div className="css">
-                <label>
-                    <div>
-                        Address:
-                    </div>
+                <div className="css">
+                    <label>
+                            Address:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        City:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            City:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        State:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            State:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Zip code:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Zip code:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Well owner (if different from resident):
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Well owner (if different from resident):
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Well construction completed:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Well construction completed:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Any complaints about smell or taste of water?
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Any complaints about smell or taste of water?
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Does the well ever go dry? <br />
-                        (if so, when?)
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Does the well ever go dry? <br />
+                            (if so, when?)
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Any complaints about smell or taste of water?
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Any complaints about smell or taste of water?
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Any maintenance done to the well itself
-                        within the last five years?
-                    </div>
-                    <div id="App">
-                        <div className="select-container">
-                            <select style={{ width: '20em' }}   >
-                                {Maintenance.map((option) => (
-                                    <option value={option.value}>{option.label}</option>
-                                ))}
-                            </select>
+                </div>
+                <div className="css">
+                    <label>
+                        <div>
+                            Any maintenance done to the well itself
+                            within the last five years?
                         </div>
-                    </div>
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Any major land use / development
-                        changes around the well within the
-                        last five year
-                    </div>
-                    <div id="App">
-                        <div className="select-container">
-                            <select style={{ width: '20em' }}   >
-                                {Development.map((option) => (
-                                    <option value={option.value}>{option.label}</option>
-                                ))}
-                            </select>
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }}   >
+                                    {Maintenance.map((option) => (
+                                        <option value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        How many people use this well?
-                    </div>
+                    </label>
+                </div>
+                <div className="css">
+                    <label>
+                        <div>
+                            Any major land use / development
+                            changes around the well within the
+                            last five year
+                        </div>
+                        <div id="App">
+                            <div className="select-container">
+                                <select style={{ width: '20em' }}   >
+                                    {Development.map((option) => (
+                                        <option value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div className="css">
+                    <label>
+                            How many people use this well?
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Has any manure or pesticides been
-                        applied near the well within the last
-                        five years?
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Has any manure or pesticides been
+                            applied near the well within the last
+                            five years?
+                    </label>
                     <div id="App">
                         <div className="select-container">
                             <select style={{ width: '20em' }}  >
@@ -260,53 +236,41 @@ export default function PreField() {
                             </select>
                         </div>
                     </div>
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Well GPS Coordinates (if registered):
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Well GPS Coordinates (if registered):
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Bore hole diameter:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Bore hole diameter:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Total depth of well:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Total depth of well:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Field Title
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Field Title
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Water level:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Water level:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Aquifer Type:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Aquifer Type:
+                    </label>
                     <div id="App">
                         <div className="select-container">
                             <select style={{ width: '20em' }}   >
@@ -316,13 +280,11 @@ export default function PreField() {
                             </select>
                         </div>
                     </div>
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Aquifer className:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Aquifer className:
+                    </label>
                     <div id="App">
                         <div className="select-container">
                             <select style={{ width: '20em' }}   >
@@ -332,13 +294,11 @@ export default function PreField() {
                             </select>
                         </div>
                     </div>
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Well Type:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Well Type:
+                    </label>
                     <div id="App">
                         <div className="select-container">
                             <select style={{ width: '20em' }}>
@@ -348,33 +308,27 @@ export default function PreField() {
                             </select>
                         </div>
                     </div>
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        What is the well casing material made of?
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            What is the well casing material made of?
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Data Collector’s Name:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Data Collector’s Name:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <div className="css">
-                <label>
-                    <div>
-                        Comments:
-                    </div>
+                </div>
+                <div className="css">
+                    <label>
+                            Comments:
+                    </label>
                     <input type="text" />
-                </label>
-            </div>
-            <button type="submit">Save</button>
-        </form>
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
     );
 }
