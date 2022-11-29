@@ -15,13 +15,16 @@ label {
 }
 
  select{
-     width:15em;
+     width:19em;
  }
 
 input {
-    width: 15em;
+    width: 19em;
 }
 
 textarea {
-    width: 15em;
+    width: 19em;
+}
+.css {
+    padding: 10px 0px 5px 10px
 }

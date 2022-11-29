@@ -11,15 +11,14 @@ import EditWell from './components/editwell';
 import PreField from './components/prefield';
 import Field from './components/field';
 import Lab from './components/lab';
-import EditLog from './components/editlog';
+import EditLog from './components/editlog'; 
 
 
-
-export default function App() {
-    return (
+export default function App() { 
+    return ( 
         <>
             <NavMenu />
-            <Routes>
+            <Routes>  
                 <Route exact path="/" element={<Login />} />
                 <Route exact path="/signup" element={<SignUp />} />
                 <Route exact path="/well" element={<Well />} />

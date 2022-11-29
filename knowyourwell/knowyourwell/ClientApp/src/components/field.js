@@ -1,5 +1,4 @@
 ﻿import React from 'react'
-import './css/PreField.css'
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'       
@@ -11,11 +10,10 @@ export default function Field() {
     const [conductivity, setConductivity] = useState(0);
     const [name, setName] = useState("");
     const [observation, setObservation] = useState("");
-
     const [wellcover, setWellcover] = useState("");
     const handleChange_wellcover = (event) => {
-        setWellcover(event.target.value);
-    };
+        setWellcover(event.target.value); 
+    }; 
 
     const [evidence, setEvidence] = useState("");
     const handleChange_evidence = (event) => {
@@ -25,9 +23,9 @@ export default function Field() {
     const [pooling, setPooling] = useState("");
     const handleChange_pooling = (event) => {
         setPooling(event.target.value);
-    };
+    }; 
 
-    const addField = () => {
+    const addField = () => { 
         Axios.post('http://localhost:7193/api/insert', {
             conditions: conditions,
             wellcover: wellcover,
@@ -42,8 +40,8 @@ export default function Field() {
         
             .then(() => {
                 console.log("success");
-            })
-    };
+            }) 
+    };  
 
     var form = document.getElementById('submissionAlert');
     const myFunction = () => {
@@ -65,7 +63,7 @@ export default function Field() {
                         type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required autoFocus
                         onChange={(event) => {
                             setConditions(event.target.value);
-                        }}
+                        }} 
                     />
                 </div>
                 <div className="css">
@@ -78,7 +76,7 @@ export default function Field() {
                                 value={wellcover}
                                 onChange={handleChange_wellcover}
                             >
-                                <option hidden selected>Select one...</option>
+                                <option hidden selected>Select one...</option> 
                                 <option value="Intact" id="wellcover" name="wellcover" required >Intact</option>
                                 <option value="Observable_Opening" id="wellcover" name="wellcover" required>Observable Opening</option>
                                 <option value="Damaged" id="wellcover" name="wellcover" required >Damaged</option>

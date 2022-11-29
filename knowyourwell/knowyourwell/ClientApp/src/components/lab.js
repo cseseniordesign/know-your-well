@@ -1,5 +1,4 @@
 ﻿import React from 'react'
-import './css/PreField.css'
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios' 
@@ -8,15 +7,14 @@ export default function Lab() {
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
-    const [copper, setCopper] = useState(0);
-    const [iron, setIron] = useState(0);
-    const [manganese, setManganese] = useState(0);
-    const [nitrate, setNitrate] = useState(0);
-    const [name, setName] = useState("");
-    const [observations, setObservations] = useState("");
-    
-    const [bacteria, setBacteria] = useState("");
-    const handleChange_Bacteria = (event) => {
+    const [copper, setCopper] = useState(0); 
+    const [iron, setIron] = useState(0); 
+    const [manganese, setManganese] = useState(0); 
+    const [nitrate, setNitrate] = useState(0); 
+    const [name, setName] = useState(""); 
+    const [observations, setObservations] = useState(""); 
+    const [bacteria, setBacteria] = useState(""); 
+    const handleChange_Bacteria = (event) => { 
         setBacteria(event.target.value);
     };
 
@@ -36,7 +34,7 @@ export default function Lab() {
             .then(() => {
                 console.log("success");
             })
-    };
+    }; 
 
     var form = document.getElementById('submissionAlert');
     const myFunction = () => {
@@ -63,14 +61,14 @@ export default function Lab() {
                 <div className="css">
                     <label for="calcium">
                         Calcium hardness <br /> [50-500 ppm(mg/L)]
-                    </label>
-                    <input
+                    </label> 
+                    <input 
                         type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" required
                         onChange={(event) => {
                             setCalcium(event.target.value);
-                        }}
-                    />
-                </div>
+                        }} 
+                    /> 
+                </div> 
                 <div className="css">
                     <label for="chloride">
                         Chloride <br /> [0-400 ppm(mg/L)]

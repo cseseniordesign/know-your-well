@@ -2,7 +2,6 @@
 import './css/login_signup.css';
 
 
-
 export default function SignUp() {
 
     return (

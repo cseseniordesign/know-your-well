@@ -4,11 +4,10 @@ const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
 
-
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(bodyParser.json()); 
+app.use(express.json()); 
+app.use(bodyParser.json());  
 
 
 const db = mysql.createPool({
@@ -23,7 +22,7 @@ const db = mysql.createPool({
     // database: "kyw",
 });
 
-app.post('/api/insert', (req, res) => {
+app.post('/api/insert', (req, res) => { 
     /**  field */
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
@@ -38,7 +37,7 @@ app.post('/api/insert', (req, res) => {
     /**  field */
     db.query(   
         
-        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation) VALUES(?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation) VALUES(?,?,?,?,?,?,?,?,?)", 
         [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation],
         (err, result) => {
             if (err) {
@@ -74,6 +73,54 @@ app.post('/createlab', (req, res) => {
         }
     );
 });
+
+
+app.post('/createwellinfo', (req, res) => {
+    /*
+    const wellcode  = req.body.ammonia;
+    const wellname  = req.body.calcium;
+    const school_id  = req.body.chloride;
+    const welluser  = req.body.bacteria;
+    const address = req.body.copper;
+    const city = req.body.iron;
+    const state = req.body.manganese;
+    const zipcode = req.body.nitrate;
+    const wellowner = req.body.name;
+    const installyear  = req.body.observations;
+    */
+
+    /*
+   const wellcode  = req.body.ammonia;
+   const wellname  = req.body.calcium;
+   const school_id  = req.body.chloride;
+   const welluser  = req.body.bacteria;
+   const address = req.body.copper;
+   const city = req.body.iron;
+   const state = req.body.manganese;
+   const zipcode = req.body.nitrate;
+   const wellowner = req.body.name;
+   const installyear  = req.body.observations;
+   */
+
+    db.query(
+        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, gps_coordinates, boreholediameter, totaldepth, fieldtitle, well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [
+            wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste,
+            smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
+            gps_coordinates, boreholediameter, totaldepth, fieldtitle, well_waterleveldepth, aquifertype, aquiferclass, welltype,
+            wellcasematerial, datacollector, observation, comments, dateentered
+        ],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values Inserted");
+            }
+        }
+    );
+});
+
+
 
 
 app.listen(7193, () => {  
