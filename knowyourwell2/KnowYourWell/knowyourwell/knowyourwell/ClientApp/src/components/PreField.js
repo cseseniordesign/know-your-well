@@ -63,51 +63,34 @@ const Fertilizers_Pesticides = [
 
 const Aquifer_Type = [
     {
-
-        label: "Confined",
-        value: "Confined",
+        label: "Aquifer Type A",
+        value: "Aquifer_Type_A",
     },
     {
-        label: "Unconfined",
-        value: "Unconfined",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
+        label: "Aquifer Type B",
+        value: "Aquifer_Type_B",
     },
 ];
 
 const Aquifer_Class = [
     {
-        label: "Bedrock",
-        value: "Bedrock",
+        label: "Aquifer Class A",
+        value: "Aquifer_Class_A",
     },
     {
-        label: "Sand or Gravel",
-        value: "Sand_or_Gravel",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
+        label: "Aquifer Class B",
+        value: "Aquifer_Class_B",
     },
 ];
 
 const Well_Type = [
     {
-        label: "Drilled",
-        value: "Drilled",
+        label: "Well Type A",
+        value: "Well_Type_A",
     },
     {
-        label: "Driven",
-        value: "Driven",
-    },
-    {
-        label: "Dug",
-        value: "Dug",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
+        label: "Well Type B",
+        value: "Well_Type_B",
     },
 ];
 

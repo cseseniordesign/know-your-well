@@ -5,16 +5,16 @@ import './css/PreField.css'
 
 const Bacteria = [
     {
-        label: "Clear",
-        value: "Clear",
+        label: "Positive",
+        value: "Positive",
     },
     {
-        label: "Yellow without fluorescent rim",
-        value: "Yellow_without_fluorescent",
+        label: "Negative",
+        value: "Negative",
     },
     {
-        label: "Yellow with fluorescent rim ",
-        value: "Yellow_with_fluorescent ",
+        label: "neutral ",
+        value: "neutral ",
     },
 
 ];
