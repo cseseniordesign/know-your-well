@@ -1,0 +1,27 @@
+﻿.form-container {
+    border: solid;
+    border-width:0.2em;
+}
+form {
+    display: block;
+    text-align: center;
+    padding: 20px 0px 40px 0;
+    
+}
+
+label {
+    display: block;
+    text-align:center
+}
+
+ select{
+     width:15em;
+ }
+
+input {
+    width: 15em;
+}
+
+textarea {
+    width: 15em;
+}
