@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+<<<<<<< HEAD
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 import './css/PreField.css'
@@ -27,6 +28,23 @@ const Well_Cover_Condition = [
     {
         label: "Bad",
         value: "Bad",
+=======
+import './css/PreField.css'
+
+
+const Well_Cover_Condition = [
+    {
+        label: "Intact",
+        value: "Intact",
+    },
+    {
+        label: "Observable Opening",
+        value: "Observable_Opening",
+    },
+    {
+        label: "Damaged",
+        value: "Damaged",
+>>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
     },
 ];
 
@@ -90,6 +108,7 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
+<<<<<<< HEAD
                             Topography of the well location
                         </div>
                         <div id="App">
@@ -106,6 +125,8 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
+=======
+>>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
                             Condition of the well cover
                         </div>
                         <div id="App">
