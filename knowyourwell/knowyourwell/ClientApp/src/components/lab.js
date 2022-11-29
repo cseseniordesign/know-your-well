@@ -22,7 +22,7 @@ export default function Lab() {
     };
 
     const addLab = () => {
-        Axios.post('https://localhost:7193/createlab', {
+        Axios.post('https://localhost:7193/api/insert', {
             Ammonia: Ammonia,
             Calcium: Calcium,
             Chloride: Chloride,
@@ -48,7 +48,7 @@ export default function Lab() {
 
     return (
         <div className="form-container">
-            <form method="post" id="submissionAlert"  >
+            <form method="post" id="submissionAlert"  action="insert" >
                 <h2>Lab</h2>
                 <div className="css">
                     <label for="Ammonia">

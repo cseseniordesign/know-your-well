@@ -24,6 +24,7 @@ const db = mysql.createPool({
 });
 
 app.post('/api/insert', (req, res) => {
+    /**  field */
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
     const evidence = req.body.evidence;
@@ -34,6 +35,21 @@ app.post('/api/insert', (req, res) => {
     const name = req.body.name;
     const observation = req.body.observation;
 
+    /**  lab */
+
+    const Ammonia = req.body.Ammonia;
+    const Calcium = req.body.Calcium;
+    const Chloride = req.body.Chloride;
+    const Bacteria = req.body.Bacteria;
+    const Copper = req.body.Copper;
+    const Iron = req.body.Iron;
+    const Manganese = req.body.Manganese;
+    const Nitrate = req.body.Nitrate;
+    const Name = req.body.Name;
+    const observations = req.body.observations;
+
+
+    /**  field */
     db.query(   
         "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation) VALUES(?,?,?,?,?,?,?,?,?)",
         [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation],
@@ -45,8 +61,22 @@ app.post('/api/insert', (req, res) => {
             }
         }
     );
-});
 
+    /**  lab */
+    db.query(
+        "INSERT INTO lab (Ammonia, Calcium, Chloride, Bacteria, Copper, Iron, Manganese, Nitrate, Name, observations) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        [Ammonia, Calcium, Chloride, Bacteria, Copper, Iron, Manganese, Nitrate, Name, observations],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values Inserted");
+            }
+        }
+    );
+    
+});
+/*
 app.post('/createlab', (req, res) => {
     const Ammonia = req.body.Ammonia;
     const Calcium = req.body.Calcium;
