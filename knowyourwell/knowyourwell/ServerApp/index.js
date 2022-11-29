@@ -36,7 +36,7 @@ app.post('/api/insert', (req, res) => {
     const observation = req.body.observation;
 
     /**  lab */
-
+    debugger;
     const Ammonia = req.body.Ammonia;
     const Calcium = req.body.Calcium;
     const Chloride = req.body.Chloride;
@@ -51,6 +51,7 @@ app.post('/api/insert', (req, res) => {
 
     /**  field */
     db.query(   
+        
         "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation) VALUES(?,?,?,?,?,?,?,?,?)",
         [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation],
         (err, result) => {
@@ -64,8 +65,8 @@ app.post('/api/insert', (req, res) => {
 
     /**  lab */
     db.query(
-        "INSERT INTO lab (Ammonia, Calcium, Chloride, Bacteria, Copper, Iron, Manganese, Nitrate, Name, observations) VALUES(?,?,?,?,?,?,?,?,?,?)",
-        [Ammonia, Calcium, Chloride, Bacteria, Copper, Iron, Manganese, Nitrate, Name, observations],
+        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -76,7 +77,7 @@ app.post('/api/insert', (req, res) => {
     );
     
 });
-/*
+ /*
 app.post('/createlab', (req, res) => {
     const Ammonia = req.body.Ammonia;
     const Calcium = req.body.Calcium;
