@@ -7,8 +7,8 @@ import Axios from 'axios'
 export default function Field() {
     const [conditions, setConditions] = useState("");
     const [temp, setTemp] = useState(0);
-    const [ph, setPh] = useState("");
-    const [conductivity, setConductivity] = useState("");
+    const [ph, setPh] = useState(0);
+    const [conductivity, setConductivity] = useState(0);
     const [name, setName] = useState("");
     const [observation, setObservation] = useState("");
 
@@ -43,14 +43,6 @@ export default function Field() {
             .then(() => {
                 console.log("success");
             })
-            .catch((error) => {
-                debugger;
-                console.log(error.response.conditions);
-                console.log(error.response.wellcover);
-                console.log(error.response.evidence);
-                console.log(error.response.pooling);
-                console.log(error.response.temp);
-            });
     };
 
     var form = document.getElementById('submissionAlert');
@@ -182,7 +174,7 @@ export default function Field() {
                         Observations
                     </label>
                     <textarea
-                        type="text" className="textarea resize-ta" maxlength="150" id="observation" name="observation" required
+                        type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation" required
                         onChange={(event) => {
                             setObservation(event.target.value);
                         }}

@@ -21,23 +21,23 @@ export default function Lab() {
         setBacteria(event.target.value);
     };
 
-    //const addLab = () => {
-    //    Axios.post('http://localhost:7193/createlab', {
-    //        Ammonia: Ammonia,
-    //        Calcium: Calcium,
-    //        Chloride: Chloride,
-    //        Copper: Copper,
-    //        Bacteria: Bacteria,
-    //        Iron: Iron,
-    //        Manganese: Manganese,
-    //        Nitrate: Nitrate,
-    //        Name: Name,
-    //        observations: observations,
-    //    })
-    //        .then(() => {
-    //            console.log("success");
-    //        })
-    //};
+    const addLab = () => {
+        Axios.post('https://localhost:7193/createlab', {
+            Ammonia: Ammonia,
+            Calcium: Calcium,
+            Chloride: Chloride,
+            Copper: Copper,
+            Bacteria: Bacteria,
+            Iron: Iron,
+            Manganese: Manganese,
+            Nitrate: Nitrate,
+            Name: Name,
+            observations: observations,
+        })
+            .then(() => {
+                console.log("success");
+            })
+    };
 
     var form = document.getElementById('submissionAlert');
     const myFunction = () => {
@@ -70,7 +70,6 @@ export default function Lab() {
                         onChange={(event) => {
                             setCalcium(event.target.value);
                         }}
-
                     />
                 </div>
                 <div className="css">
@@ -124,7 +123,6 @@ export default function Lab() {
                         onChange={(event) => {
                             setIron(event.target.value);
                         }}
-
                     />
                 </div>
                 <div className="css">
@@ -171,7 +169,7 @@ export default function Lab() {
                         }}
                     />
                 </div>
-                <button type="submit" onClick={myFunction}  >Save</button>
+                <button type="submit" onClick={addLab}  >Save</button>
             </form>
         </div>
     );

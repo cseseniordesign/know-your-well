@@ -1,11 +1,13 @@
-﻿/*
-const express = require("express");
+﻿const express = require("express");
+const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
 
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(bodyParser.json()); 
 
 const db = mysql.createPool({
     user: "fnaif",
@@ -49,4 +51,3 @@ app.listen(7193, () => {
     console.log("server is running");
 });
 
-*/
