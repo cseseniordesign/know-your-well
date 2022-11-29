@@ -28,7 +28,6 @@ export default function Field() {
     };
 
     const addField = () => {
-        debugger;
         Axios.post('http://localhost:7193/api/insert', {
             conditions: conditions,
             wellcover: wellcover,
@@ -40,16 +39,18 @@ export default function Field() {
             name: name,
             observation: observation,
         })
+        
             .then(() => {
                 console.log("success");
+            })
+            .catch((error) => {
+                debugger;
+                console.log(error.response.conditions);
+                console.log(error.response.wellcover);
+                console.log(error.response.evidence);
+                console.log(error.response.pooling);
+                console.log(error.response.temp);
             });
-            //.catch((error) => {
-            //    console.log(error.response.conditions);
-            //    console.log(error.response.wellcover);
-            //    console.log(error.response.evidence);
-            //    console.log(error.response.pooling);
-            //    console.log(error.response.temp);
-            //});
     };
 
     var form = document.getElementById('submissionAlert');
@@ -59,7 +60,7 @@ export default function Field() {
         }
     }
     return (
-        /*<div className="form-container"> */
+        <div className="form-container"> 
             <form method="post" id="submissionAlert" action="create" >
                 <h2>Field</h2>
                 <div className="css">
@@ -189,6 +190,6 @@ export default function Field() {
                 </div>
                 <button type="submit" onClick={addField}  >Save</button>
             </form >
-       /* </div>*/
+        </div>
     );
 }
