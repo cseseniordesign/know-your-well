@@ -23,7 +23,7 @@ const db = mysql.createPool({
     // database: "kyw",
 });
 
-app.post('/createfield', (req, res) => {
+app.post('/api/insert', (req, res) => {
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
     const evidence = req.body.evidence;

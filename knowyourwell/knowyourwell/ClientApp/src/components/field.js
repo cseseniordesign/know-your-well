@@ -29,7 +29,7 @@ export default function Field() {
 
     const addField = () => {
         debugger;
-        Axios.post('http://localhost:7193/createfield', {
+        Axios.post('http://localhost:7193/api/insert', {
             conditions: conditions,
             wellcover: wellcover,
             evidence: evidence,
