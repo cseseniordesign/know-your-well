@@ -36,16 +36,15 @@ app.post('/api/insert', (req, res) => {
     const observation = req.body.observation;
 
     /**  lab */
-    debugger;
-    const Ammonia = req.body.Ammonia;
-    const Calcium = req.body.Calcium;
-    const Chloride = req.body.Chloride;
-    const Bacteria = req.body.Bacteria;
-    const Copper = req.body.Copper;
-    const Iron = req.body.Iron;
-    const Manganese = req.body.Manganese;
-    const Nitrate = req.body.Nitrate;
-    const Name = req.body.Name;
+    const ammonia = req.body.ammonia;
+    const calcium = req.body.calcium;
+    const chloride = req.body.chloride;
+    const bacteria = req.body.bacteria;
+    const copper = req.body.copper;
+    const iron = req.body.iron;
+    const manganese = req.body.manganese;
+    const nitrate = req.body.nitrate;
+    //const name = req.body.name;
     const observations = req.body.observations;
 
 
