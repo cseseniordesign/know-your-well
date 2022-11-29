@@ -22,21 +22,21 @@ const db = mysql.createPool({
 });
 
 app.post('/createlab', (req, res) => {
-    const Ammonia = req.body.Ammonia;
-    const Calcium = req.body.Calcium;
-    const Chloride = req.body.Chloride;
-    const Bacteria = req.body.Bacteria;
-    const Copper = req.body.Copper;
-    const Iron = req.body.Iron;
-    const Manganese = req.body.Manganese;
-    const Nitrate = req.body.Nitrate;
-    const Name = req.body.Name;
+    const ammonia = req.body.ammonia;
+    const calcium = req.body.calcium;
+    const chloride = req.body.chloride;
+    const bacteria = req.body.bacteria;
+    const copper = req.body.copper;
+    const iron = req.body.iron;
+    const manganese = req.body.manganese;
+    const nitrate = req.body.nitrate;
+    const name = req.body.name;
     const observations = req.body.observations;
 
 
     db.query(
-        "INSERT INTO lab (Ammonia, Calcium, Chloride, Bacteria, Copper, Iron, Manganese, Nitrate, Name, observations) VALUES(?,?,?,?,?,?,?,?,?,?)",
-        [Ammonia, Calcium, Chloride, Bacteria, Copper, Iron, Manganese, Nitrate, Name, observations],
+        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations],
         (err, result) => {
             if (err) {
                 console.log(err);

@@ -6,13 +6,13 @@ import Axios from 'axios'
 
 export default function Lab() {
 
-    const [ammonia, setAmmonia] = useState("");
-    const [calcium, setCalcium] = useState("");
-    const [chloride, setChloride] = useState("");
-    const [copper, setCopper] = useState("");
-    const [iron, setIron] = useState("");
-    const [manganese, setManganese] = useState("");
-    const [nitrate, setNitrate] = useState("");
+    const [ammonia, setAmmonia] = useState(0);
+    const [calcium, setCalcium] = useState(0);
+    const [chloride, setChloride] = useState(0);
+    const [copper, setCopper] = useState(0);
+    const [iron, setIron] = useState(0);
+    const [manganese, setManganese] = useState(0);
+    const [nitrate, setNitrate] = useState(0);
     const [name, setName] = useState("");
     const [observations, setObservations] = useState("");
 
@@ -48,14 +48,14 @@ export default function Lab() {
 
     return (
         <div className="form-container">
-            <form method="post" id="submissionAlert"  action="insert" >
+            <form method="post" id="submissionAlert" action="create" >
                 <h2>Lab</h2>
                 <div className="css">
                     <label for="ammonia">
                         Ammonia <br /> [0-10 ppm(mg/L)]
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" required
+                        type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" required
                         onChange={(event) => {
                             setAmmonia(event.target.value); 
                         }}
@@ -66,7 +66,7 @@ export default function Lab() {
                         Calcium hardness <br /> [50-500 ppm(mg/L)]
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" required
+                        type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" required
                         onChange={(event) => {
                             setCalcium(event.target.value);
                         }}
@@ -77,7 +77,7 @@ export default function Lab() {
                         Chloride <br /> [0-400 ppm(mg/L)]
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" required
+                        type="number" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" required
                         onChange={(event) => {
                             setChloride(event.target.value);
                         }}
@@ -107,7 +107,7 @@ export default function Lab() {
                         Copper <br /> [0-10 ppm(mg/L)]
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="copper" name="copper" min="0" max="10" required
+                        type="number" className="textarea resize-ta" id="copper" name="copper" min="0" max="10" required
                         onChange={(event) => {
                             setCopper(event.target.value);
                         }}
@@ -119,7 +119,7 @@ export default function Lab() {
                     </label>
                     <input
 
-                        type="text" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" required
+                        type="number" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" required
                         onChange={(event) => {
                             setIron(event.target.value);
                         }}
@@ -130,7 +130,7 @@ export default function Lab() {
                         Manganese<br /> [0-50 ppm(mg/L)]
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" required
+                        type="number" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" required
                         onChange={(event) => {
                             setManganese(event.target.value);
                         }}
@@ -141,7 +141,7 @@ export default function Lab() {
                         Nitrate <br /> [0-45 ppm(mg/L)]
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="45" required
+                        type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="45" required
                         onChange={(event) => {
                             setNitrate(event.target.value);
                         }}
