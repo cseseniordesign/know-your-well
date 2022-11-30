@@ -354,7 +354,7 @@ export default function PreField() {
                         <div className="select-container">
                             <select
                                 value={pestmanure}
-                                onChange={handleChange_aquifertype}
+                                onChange={handleChange_pestmanure}
                             >
                                 <option hidden selected>Select one...</option>
                                 <option value="Yes" id="pestmanure" name="pestmanure" required >Yes</option>
@@ -427,7 +427,7 @@ export default function PreField() {
                         <div className="select-container">
                             <select
                                 value={aquifertype}
-                                onChange={handleChange_pestmanure}
+                                onChange={handleChange_aquifertype}
                             >
                                 <option hidden selected>Select one...</option>
                                 <option value="Yes" id="aquifertype" name="aquifertype" required >Yes</option>
