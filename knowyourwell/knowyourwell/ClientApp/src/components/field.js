@@ -51,7 +51,7 @@ export default function Field() {
     }
     return (
         <div className="form-container"> 
-            <form method="post" id="submissionAlert" action="create" >
+            <form  >
                 <h2>Field</h2>
                 <div className="css">
                     <label for="conditions">

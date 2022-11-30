@@ -45,7 +45,7 @@ export default function Lab() {
 
     return (
         <div className="form-container">
-            <form method="post" id="submissionAlert" action="create" > 
+            <form  > 
                 <h2>Lab</h2>
                 <div className="css">
                     <label for="ammonia">
