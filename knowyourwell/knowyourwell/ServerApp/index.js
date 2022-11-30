@@ -9,7 +9,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); 
 app.use(bodyParser.json());  
 
-
 const db = mysql.createPool({
     user: "fnaif",
     host: "cse.unl.edu",
@@ -74,33 +73,39 @@ app.post('/createlab', (req, res) => {
     );
 });
 
-
 app.post('/createwellinfo', (req, res) => {
-    /*
-    const wellcode  = req.body.ammonia;
-    const wellname  = req.body.calcium;
-    const school_id  = req.body.chloride;
-    const welluser  = req.body.bacteria;
-    const address = req.body.copper;
-    const city = req.body.iron;
-    const state = req.body.manganese;
-    const zipcode = req.body.nitrate;
-    const wellowner = req.body.name;
-    const installyear  = req.body.observations;
-    */
 
-    /*
-   const wellcode  = req.body.ammonia;
-   const wellname  = req.body.calcium;
-   const school_id  = req.body.chloride;
-   const welluser  = req.body.bacteria;
-   const address = req.body.copper;
-   const city = req.body.iron;
-   const state = req.body.manganese;
-   const zipcode = req.body.nitrate;
-   const wellowner = req.body.name;
-   const installyear  = req.body.observations;
-   */
+    const wellcode = req.body.wellcode;
+    const wellname = req.body.wellname;
+    const school_id = req.body.school_id;
+    const welluser = req.body.welluser;
+    const address = req.body.address;
+    const city = req.body.city;
+    const state = req.body.state;
+    const zipcode = req.body.zipcode;
+    const wellowner = req.body.wellowner;
+    const installyear = req.body.installyear;
+    const smelltaste = req.body.smelltaste;
+    const smelltaste_description = req.body.smelltaste_description;
+    const welldry = req.body.welldry;
+    const welldry_description = req.body.welldry_description;
+    const maintenance5yr = req.body.maintenance5yr;
+    const landuse5yr = req.body.landuse5yr;
+    const numberwelluser = req.body.numberwelluser;
+    const pestmanure = req.body.pestmanure;
+    const gps_coordinates = req.body.gps_coordinates;
+    const boreholediameter = req.body.boreholediameter;
+    const totaldepth = req.body.totaldepth;
+    const fieldtitle = req.body.fieldtitle;
+    const well_waterleveldepth = req.body.well_waterleveldepth;
+    const aquifertype = req.body.aquifertype;
+    const aquiferclass = req.body.aquiferclass;
+    const welltype = req.body.welltype;
+    const wellcasematerial = req.body.wellcasematerial;
+    const datacollector = req.body.datacollector;
+    const observation = req.body.observation;
+    const comments = req.body.comments;
+    const dateentered = req.body.dateentered;
 
     db.query(
         "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, gps_coordinates, boreholediameter, totaldepth, fieldtitle, well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -119,9 +124,6 @@ app.post('/createwellinfo', (req, res) => {
         }
     );
 });
-
-
-
 
 app.listen(7193, () => {  
     console.log("server is running");

@@ -3,132 +3,6 @@ import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
 
-const Maintenance = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    }
-];
-
-const smelltaste = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    }
-];
-
-const welldry = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    }
-];
-
-const Development = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    }
-];
-
-const pestmanure = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    }
-];
-
-const Aquifer_Type = [
-    {
-
-        label: "Confined",
-        value: "Confined",
-    },
-    {
-        label: "Unconfined",
-        value: "Unconfined",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
-];
-
-const Aquifer_Class = [
-    {
-        label: "Bedrock",
-        value: "Bedrock",
-    },
-    {
-        label: "Sand or Gravel",
-        value: "Sand_or_Gravel",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
-];
-
-const Well_Type = [
-    {
-        label: "Drilled",
-        value: "Drilled",
-    },
-    {
-        label: "Driven",
-        value: "Driven",
-    },
-    {
-        label: "Dug",
-        value: "Dug",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
-];
-
-
 export default function PreField() {
 
     const [wellcode, setWellcode] = useState("");
@@ -154,7 +28,6 @@ export default function PreField() {
     const [comments, setComments] = useState("");
     const [dateentered, setDateentered] = useState("");
 
-    //
     const [smelltaste, setSmelltaste] = useState("");
     const handleChange_smelltaste = (event) => {
         setSmelltaste(event.target.value);
@@ -255,7 +128,7 @@ export default function PreField() {
                         Well ID:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="wellcode" name="wellcode" required
+                        type="text" className="textarea resize-ta" id="wellcode" name="wellcode" required autofocus
                         onChange={(event) => {
                             setWellcode(event.target.value);
                         }}
@@ -266,7 +139,7 @@ export default function PreField() {
                         Well Name:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="wellname" name="wellname" required
+                        type="text" className="textarea resize-ta" id="wellname" name="wellname" required autofocus
                         onChange={(event) => {
                             setWellname(event.target.value);
                         }}
@@ -277,7 +150,7 @@ export default function PreField() {
                         School Name (School-ID):
                     </label>
                     <input
-                        type="number" className="textarea resize-ta" id="school_id" name="school_id" required
+                        type="number" className="textarea resize-ta" id="school_id" name="school_id" required autofocus
                         onChange={(event) => {
                             setSchool_id(event.target.value);
                         }}
@@ -288,7 +161,7 @@ export default function PreField() {
                         Name of the resident well user:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="welluser" name="welluser" required
+                        type="text" className="textarea resize-ta" id="welluser" name="welluser" required autofocus 
                         onChange={(event) => {
                             setWelluser(event.target.value);
                         }}
@@ -299,7 +172,7 @@ export default function PreField() {
                         Address:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="address" name="address" required
+                        type="text" className="textarea resize-ta" id="address" name="address" required autofocus 
                         onChange={(event) => {
                             setAddress(event.target.value);
                         }}
