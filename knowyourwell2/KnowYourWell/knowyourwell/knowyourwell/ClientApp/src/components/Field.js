@@ -27,10 +27,6 @@ const Yes_No = [
     {
         label: "Yes",
         value: "Yes",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
     }
 ];
 
@@ -62,8 +58,7 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Is there evidence of surface
-                            run-off entry to the well?
+                            Is there evidence of surface run-off entry to the well?
                         </div>
                         <div id="App">
                             <div className="select-container">
@@ -84,12 +79,16 @@ export class Field extends Component {
                         <div id="App">
                             <div className="select-container">
                                 <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Yes_No.map((option) => (
+                                    {Well_Cover_Condition.map((option) => (
                                         <option value={option.value}>{option.label}</option>
                                     ))}
                                 </select>
                             </div>
                         </div>
+                        <div>
+                            Describe the condition of the well cover:
+                        </div> // shows IF values is "Observable Opening" or "Damaged"
+                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
                     </label>
                 </div>
                 <div class="css">
@@ -113,7 +112,7 @@ export class Field extends Component {
                         <div>
                             Groundwater Temperature in Celsius:
                         </div>
-                        <input type="text" onChange={this.setGroundwater_Temperature} required />
+                        <input type="number" onChange={this.setGroundwater_Temperature} required />
                     </label>
                 </div>
                 <div class="css">
@@ -121,7 +120,7 @@ export class Field extends Component {
                         <div>
                             pH (0-14):
                         </div>
-                        <input type="text" onChange={this.setPH} required />
+                        <input type="number" min="0" max="14" step=".01" onChange={this.setPH} required />
                     </label>
                 </div>
                 <div class="css">
@@ -129,7 +128,7 @@ export class Field extends Component {
                         <div>
                             Conductivity (uS/cm):
                         </div>
-                        <input type="text" onChange={this.setConductivity} required />
+                        <input type="number" onChange={this.setConductivity} required />
                     </label>
                 </div>
                 <div class="css">

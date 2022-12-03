@@ -46,7 +46,7 @@ export class Lab extends Component {
                         <div>
                             Ammonia (0-10 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setAmmonia} autoFocus/>
+                        <input type="number" min="0" max="10" onChange={this.setAmmonia} autoFocus/>
                     </label>
                 </div>
                 <div class="css">
@@ -54,7 +54,7 @@ export class Lab extends Component {
                         <div>
                             Calcium hardness (50-500 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setCalciumHardness} />
+                        <input type="number" min="50" max="500" onChange={this.setCalciumHardness} />
                     </label>
                 </div>
                 <div class="css">
@@ -62,7 +62,7 @@ export class Lab extends Component {
                         <div>
                             Chloride (0-400 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setChloride} />
+                        <input type="number" min="0" max="400" onChange={this.setChloride} />
                     </label>
                 </div>
                 <div class="css">
@@ -87,7 +87,7 @@ export class Lab extends Component {
                         <div>
                             Copper (0-10 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setCopper} />
+                        <input type="number" min="0" max="12" onChange={this.setCopper} />
                     </label>
                 </div>
                 <div class="css">
@@ -95,7 +95,7 @@ export class Lab extends Component {
                         <div>
                             Iron (0-10 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setIron} />
+                        <input type="number" min="0" max="10" onChange={this.setIron} />
                     </label>
                 </div>
                 <div class="css">
@@ -103,7 +103,7 @@ export class Lab extends Component {
                         <div>
                             Manganese (0-50 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setManganese} />
+                        <input type="number" min="0" max="50" onChange={this.setManganese} />
                     </label>
                 </div>
                 <div class="css">
@@ -111,7 +111,7 @@ export class Lab extends Component {
                         <div>
                             Nitrate (0-45 ppm(mg/L)):
                         </div>
-                        <input type="number" onChange={this.setNitrate} />
+                        <input type="number" min="0" max="50" onChange={this.setNitrate} />
                     </label>
                 </div>
                 <div class="css">

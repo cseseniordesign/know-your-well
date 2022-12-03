@@ -188,9 +188,9 @@ export class WellInfo extends Component {
                 <div class="css">
                     <label>
                         <div>
-                            Well construction completed:
+                            Year well construction completed:
                         </div>
-                        <input type="text" onChange={this.setWellConstructionCompletation} required />
+                        <input type="number" min="1700" max="2100" onChange={this.setWellConstructionCompletation} required />
                     </label>
                 </div>
                 <div class="css">
@@ -267,7 +267,7 @@ export class WellInfo extends Component {
                         <div>
                             How many people use this well?
                         </div>
-                        <input type="text" onChange={this.setWellUsage} />
+                        <input type="text" min="0" onChange={this.setWellUsage} />
                     </label>
                 </div>
                 <div class="css"> 
@@ -299,7 +299,7 @@ export class WellInfo extends Component {
                         <div>
                             Bore hole diameter in inches:
                         </div>
-                        <input type="text" onChange={this.setBoreHoleDiameter} />
+                        <input type="text" min="0" onChange={this.setBoreHoleDiameter} />
                     </label>
                 </div>
                 <div class="css">
@@ -307,7 +307,7 @@ export class WellInfo extends Component {
                         <div>
                             Total depth of well in feet:
                         </div>
-                        <input type="text" onChange={this.setDepthOfWell} />
+                        <input type="text" min="0" onChange={this.setDepthOfWell} />
                     </label>
                 </div>
                 <div class="css">
@@ -315,7 +315,7 @@ export class WellInfo extends Component {
                         <div>
                             Water level in feet:
                         </div>
-                        <input type="text" onChange={this.setDepthOfWell} />
+                        <input type="text" min="0" onChange={this.setDepthOfWell} />
                     </label>
                 </div>
                 <div class="css">
