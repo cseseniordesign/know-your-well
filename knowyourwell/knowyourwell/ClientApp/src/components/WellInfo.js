@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 import './css/WellInfo.css'
@@ -89,7 +89,7 @@ const Topography = [
 ];
 
 
-export class WellInfo extends Component {
+export class WellInfo {
     static displayName = WellInfo.name;
     state = {};
     submit = (e) => {
