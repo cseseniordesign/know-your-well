@@ -12,7 +12,7 @@ import PreField from './components/prefield';
 import Field from './components/field';
 import Lab from './components/lab';
 import EditLog from './components/editlog';
-import AboutProject from './components/AboutProject';  
+import AboutProject from './components/aboutproject';  
 
 
 export default function App() { 
