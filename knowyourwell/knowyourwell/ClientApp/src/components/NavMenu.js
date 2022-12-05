@@ -39,13 +39,16 @@ export default class NavMenu extends React.Component {
                                 <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="EditWell">Edit Well</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="AboutProject">About Project</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-dark" to="EditWell">Well Name/ID</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="EditLog">Edit Log</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="PreField">PreField</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="WellInfo">Well Info</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="Field">Field</NavLink>
