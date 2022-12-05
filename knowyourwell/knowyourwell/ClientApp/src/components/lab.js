@@ -42,10 +42,11 @@ export default function Lab() {
             alert("Succesfully submitted!");
         }
     }
+    
 
     return (
         <div className="form-container">
-            <form  > 
+            <form action="/editwell" id="submissionAlert"> 
                 <h2>Lab</h2>
                 <div className="css">
                     <label for="ammonia">
@@ -166,8 +167,8 @@ export default function Lab() {
                         }}
                     />
                 </div>
-                <button type="submit" onClick={addLab}  >Save</button>
+                <button type="submit" onClick={addLab, myFunction }  >Save</button>
             </form>
-        </div>
+        </div>   
     );
 }

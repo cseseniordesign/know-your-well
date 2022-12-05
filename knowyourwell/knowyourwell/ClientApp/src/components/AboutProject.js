@@ -1,9 +1,9 @@
 import React from 'react';
-import Userfront from "@userfront/core";
+/*import Userfront from "@userfront/core";*/
 import './css/style.css';
 
 // Initialize Userfront Core JS
-Userfront.init("demo1234");
+//Userfront.init("demo1234");
 
 
 export default function AboutProject() {

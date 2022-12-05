@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿/*
+import React from 'react';
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 import './css/WellInfo.css'
@@ -434,4 +435,4 @@ export class WellInfo {
 
 
 
-
+*/
