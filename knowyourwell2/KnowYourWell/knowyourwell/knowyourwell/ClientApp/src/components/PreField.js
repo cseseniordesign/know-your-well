@@ -1,9 +1,6 @@
 ﻿import React, { Component } from 'react';
-<<<<<<< HEAD
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
-=======
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
 import './css/PreField.css'
 
 
@@ -66,78 +63,34 @@ const Fertilizers_Pesticides = [
 
 const Aquifer_Type = [
     {
-<<<<<<< HEAD
         label: "Aquifer Type A",
         value: "Aquifer_Type_A",
     },
     {
         label: "Aquifer Type B",
         value: "Aquifer_Type_B",
-=======
-
-        label: "Confined",
-        value: "Confined",
-    },
-    {
-        label: "Unconfined",
-        value: "Unconfined",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
     },
 ];
 
 const Aquifer_Class = [
     {
-<<<<<<< HEAD
         label: "Aquifer Class A",
         value: "Aquifer_Class_A",
     },
     {
         label: "Aquifer Class B",
         value: "Aquifer_Class_B",
-=======
-        label: "Bedrock",
-        value: "Bedrock",
-    },
-    {
-        label: "Sand or Gravel",
-        value: "Sand_or_Gravel",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
     },
 ];
 
 const Well_Type = [
     {
-<<<<<<< HEAD
         label: "Well Type A",
         value: "Well_Type_A",
     },
     {
         label: "Well Type B",
         value: "Well_Type_B",
-=======
-        label: "Drilled",
-        value: "Drilled",
-    },
-    {
-        label: "Driven",
-        value: "Driven",
-    },
-    {
-        label: "Dug",
-        value: "Dug",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
     },
 ];
 

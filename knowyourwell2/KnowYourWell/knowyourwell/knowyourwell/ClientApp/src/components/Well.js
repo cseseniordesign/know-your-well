@@ -1,8 +1,5 @@
 ﻿import React, { Component } from 'react';
-<<<<<<< HEAD
 import Select from 'react-select'; 
-=======
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
 import { List } from 'semantic-ui-react'
 
 
