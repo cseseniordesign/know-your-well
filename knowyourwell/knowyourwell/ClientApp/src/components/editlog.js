@@ -1,5 +1,4 @@
-﻿/*
-import React from 'react'
+﻿import React from 'react'
 import { List } from 'semantic-ui-react'
 
 
@@ -12,7 +11,7 @@ export default function EditLog() {
                 <br />
                 <List.Item>
                     <List.Content>
-                        <a href="/ViewWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well</a>
+                        <a href="/ViewWell" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Well Info</a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -31,4 +30,3 @@ export default function EditLog() {
             </List>
         );
 }
-*/

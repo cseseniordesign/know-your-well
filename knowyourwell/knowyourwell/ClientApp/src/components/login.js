@@ -8,7 +8,7 @@ export default function Login() {
     return (
         <form id="style-login-signup-form">
             <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>Log in</h3>
-            <div className="mb-3"> 
+            <div className="mb-3">
                 <label >Email address</label>
                 <input id="resize"
                     type="email"

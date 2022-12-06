@@ -1,7 +1,8 @@
 ﻿import React from 'react'
-import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios' 
+import './css/forms.css'
+
 
 export default function Lab() {
     const [ammonia, setAmmonia] = useState(0);
@@ -13,7 +14,8 @@ export default function Lab() {
     const [nitrate, setNitrate] = useState(0); 
     const [name, setName] = useState(""); 
     const [observations, setObservations] = useState(""); 
-    const [bacteria, setBacteria] = useState(""); 
+    const [bacteria, setBacteria] = useState("");
+    const [dateentered, setDateentered] = useState(""); 
     const handleChange_Bacteria = (event) => { 
         setBacteria(event.target.value);
     };
@@ -30,6 +32,7 @@ export default function Lab() {
             nitrate: nitrate,
             name: name,
             observations: observations,
+            dateentered: dateentered,
         })
             .then(() => {
                 console.log("success");
@@ -42,12 +45,14 @@ export default function Lab() {
             alert("Succesfully submitted!");
         }
     }
-    
+    const myFunction3 = () => {
+        window.location.href = "/editwell";
+    }
 
     return (
-        <div className="form-container">
-            <form action="/editwell" id="submissionAlert"> 
-                <h2>Lab</h2>
+        //<div className="form-container" >
+        <form action="/editwell"> {/*id="submissionAlert"*/}
+            <h2>Lab</h2>
                 <div className="css">
                     <label for="ammonia">
                         Ammonia <br /> [0-10 ppm(mg/L)]
@@ -110,7 +115,7 @@ export default function Lab() {
                             setCopper(event.target.value);
                         }}
                     />
-                </div>
+                    </div>
                 <div className="css">
                     <label for="iron">
                         Iron<br /> [0-10 ppm(mg/L)]
@@ -122,7 +127,7 @@ export default function Lab() {
                             setIron(event.target.value);
                         }}
                     />
-                </div>
+                    </div>
                 <div className="css">
                     <label for="manganese">
                         Manganese<br /> [0-50 ppm(mg/L)]
@@ -166,9 +171,21 @@ export default function Lab() {
                             setObservations(event.target.value);
                         }}
                     />
-                </div>
-                <button type="submit" onClick={addLab, myFunction }  >Save</button>
+            </div>
+            <div className="css">
+                <label for="dateentered">
+                    Date Entered:
+                </label>
+                <input
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    onChange={(event) => {
+                        setDateentered(event.target.value);
+                    }}
+                />
+            </div>
+            <button type="submit" onClick={addLab}  >Submit</button>
+            <button type="submit" onClick={myFunction3}  >Back</button>
             </form>
-        </div>   
+        //</div>
     );
 }

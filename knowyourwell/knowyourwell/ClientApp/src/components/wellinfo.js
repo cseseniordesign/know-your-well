@@ -3,7 +3,7 @@ import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
 
-export default function PreField() {
+export default function WellInfo() {
 
     const [wellcode, setWellcode] = useState("");
     const [wellname, setWellname] = useState("");
@@ -19,7 +19,6 @@ export default function PreField() {
     const [gps_coordinates, setGps_coordinates] = useState(0);
     const [boreholediameter, setBoreholediameter] = useState(0);
     const [totaldepth, setTotaldepth] = useState(0);
-    const [fieldtitle, setFieldtitle] = useState("")
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
 
     const [wellcasematerial, setWellcasematerial] = useState("");
@@ -55,6 +54,11 @@ export default function PreField() {
     const [pestmanure, setPestmanure] = useState("");
     const handleChange_pestmanure = (event) => {
         setPestmanure(event.target.value);
+    };
+
+    const [topography, setTopography] = useState("");
+    const handleChange_topography = (event) => {
+        setTopography(event.target.value);
     };
 
     const [aquifertype, setAquifertype] = useState("");
@@ -95,7 +99,7 @@ export default function PreField() {
             gps_coordinates: gps_coordinates,
             boreholediameter: boreholediameter,
             totaldepth: totaldepth,
-            fieldtitle: fieldtitle,
+            topography: topography,
             well_waterleveldepth: well_waterleveldepth,
             aquifertype: aquifertype,
             aquiferclass: aquiferclass,
@@ -120,9 +124,9 @@ export default function PreField() {
 
 
     return (
-        <div className="form-container">
+        //<div className="form-container">
             <form >
-                <h2>Prefield</h2>
+                <h2>Well Info</h2>
                 <div className="css">
                     <label for="wellcode">
                         Well ID:
@@ -139,7 +143,7 @@ export default function PreField() {
                         Well Name:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="wellname" name="wellname" required autofocus
+                        type="text" className="textarea resize-ta" id="wellname" name="wellname" required
                         onChange={(event) => {
                             setWellname(event.target.value);
                         }}
@@ -150,7 +154,7 @@ export default function PreField() {
                         School Name (School-ID):
                     </label>
                     <input
-                        type="number" className="textarea resize-ta" id="school_id" name="school_id" required autofocus
+                        type="number" className="textarea resize-ta" id="school_id" name="school_id" required
                         onChange={(event) => {
                             setSchool_id(event.target.value);
                         }}
@@ -161,7 +165,7 @@ export default function PreField() {
                         Name of the resident well user:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="welluser" name="welluser" required autofocus 
+                        type="text" className="textarea resize-ta" id="welluser" name="welluser" 
                         onChange={(event) => {
                             setWelluser(event.target.value);
                         }}
@@ -172,7 +176,7 @@ export default function PreField() {
                         Address:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="address" name="address" required autofocus 
+                        type="text" className="textarea resize-ta" id="address" name="address" 
                         onChange={(event) => {
                             setAddress(event.target.value);
                         }}
@@ -180,10 +184,10 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="city">
-                        City:
+                        Village, Town, or City:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="city" name="city" required
+                        type="text" className="textarea resize-ta" id="city" name="city"
                         onChange={(event) => {
                             setCity(event.target.value);
                         }}
@@ -194,7 +198,7 @@ export default function PreField() {
                         State:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="state" name="state" required
+                        type="text" className="textarea resize-ta" id="state" name="state"
                         onChange={(event) => {
                             setState(event.target.value);
                         }}
@@ -205,7 +209,7 @@ export default function PreField() {
                         Zip code:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="zipcode" name="zipcode" required
+                        type="number" className="textarea resize-ta" id="zipcode" name="zipcode" min="00001" max="99950" minlength="5" maxlength="5"
                         onChange={(event) => {
                             setZipcode(event.target.value);
                         }}
@@ -216,7 +220,7 @@ export default function PreField() {
                         Well owner (if different from resident):
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="wellowner" name="wellowner" required
+                        type="text" className="textarea resize-ta" id="wellowner" name="wellowner"
                         onChange={(event) => {
                             setWellowner(event.target.value);
                         }}
@@ -253,19 +257,18 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="smelltaste_description">
-                        Smell or taste of water descibtion?
+                        Smell or taste of water desciption:
                     </label>
                     <textarea
-                        type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150" required autoFocus
-                        onChange={(event) => {
+                        type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
+                        onChange={(event) => { // if 'yes'
                             setSmelltaste_description(event.target.value);
                         }}
                     />
                 </div>
                 <div className="css">
                     <label for="welldry">
-                        Does the well ever go dry? <br />
-                        (if so, when?)
+                        Does the well ever go dry?
                     </label>
                     <div id="App">
                         <div className="select-container">
@@ -283,11 +286,11 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="welldry_description">
-                        Well dry_description?
+                        If so, when?
                     </label>
 
                     <textarea
-                        type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150" required autoFocus
+                        type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
                         onChange={(event) => {
                             setWelldry_description(event.target.value);
                         }}
@@ -317,7 +320,7 @@ export default function PreField() {
                     <label for="landuse5yr">
                             Any major land use / development
                             changes<br /> around the well within the
-                            last five year
+                            last five years?
                     </label>
                         <div id="App">
                             <div className="select-container">
@@ -338,7 +341,7 @@ export default function PreField() {
                         How many people use this well?
                     </label>
                     <input
-                        type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" required
+                        type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser"
                         onChange={(event) => {
                             setNumberwelluser(event.target.value);
                         }}
@@ -377,10 +380,10 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="boreholediameter">
-                        Bore hole diameter:
+                        Bore hole diameter (inches):
                     </label>
                     <input
-                        type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" required
+                        type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter"
                         onChange={(event) => {
                             setBoreholediameter(event.target.value);
                         }}
@@ -388,32 +391,40 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="totaldepth">
-                        Total depth of well:
+                        Total depth of well (feet):
                     </label>
                     <input
-                        type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth" required
+                        type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth"
                         onChange={(event) => {
                             setTotaldepth(event.target.value);
                         }}
                     />
                 </div>
                 <div className="css">
-                    <label for="fieldtitle">
-                        Field Title
+                    <label for="topography">
+                        Topography of the well location:
                     </label>
-                    <input
-                        type="text" className="textarea resize-ta" id="fieldtitle" name="fieldtitle" required
-                        onChange={(event) => {
-                            setFieldtitle(event.target.value);
-                        }}
-                    />
+                <div id="App">
+                    <div className="select-container">
+                        <select
+                            value={topography}
+                            onChange={handleChange_topography}
+                        >
+                            <option hidden selected>Select one...</option>
+                            <option value="HillTop" id="topography" name="topography" required >Hill Top</option>
+                            <option value="HillSlope" id="topography" name="topography" required >Hill Slope</option>
+                            <option value="LevelLand" id="topography" name="topography" required >Level Land</option>
+                            <option value="Depression" id="topography" name="topography" required >Depression</option>
+                        </select>
+                    </div>
+                </div>
                 </div>
                 <div className="css">
                     <label for="well_waterleveldepth">
-                        Water level:
+                        Water level (feet):
                     </label>
                     <input
-                        type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" required
+                        type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth"
                         onChange={(event) => {
                             setWell_waterleveldepth(event.target.value);
                         }}
@@ -430,8 +441,8 @@ export default function PreField() {
                                 onChange={handleChange_aquifertype}
                             >
                                 <option hidden selected>Select one...</option>
-                                <option value="Yes" id="aquifertype" name="aquifertype" required >Yes</option>
-                                <option value="No" id="aquifertype" name="aquifertype" required >No</option>
+                                <option value="Confined" id="aquifertype" name="aquifertype" required >Confined</option>
+                                <option value="Unconfined" id="aquifertype" name="aquifertype" required >Unconfined</option>
                                 <option value="Unknown" id="aquifertype" name="aquifertype" required >Unknown</option>
                             </select>
                         </div>
@@ -439,7 +450,7 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="aquiferclass">
-                        Aquifer className:
+                        Aquifer Class:
                     </label>
                     <div id="App">
                         <div className="select-container">
@@ -448,8 +459,8 @@ export default function PreField() {
                                 onChange={handleChange_aquiferclass}
                             >
                                 <option hidden selected>Select one...</option>
-                                <option value="Yes" id="aquiferclass" name="aquiferclass" required >Yes</option>
-                                <option value="No" id="aquiferclass" name="aquiferclass" required >No</option>
+                                <option value="Bedrock" id="aquiferclass" name="aquiferclass" required >Bedrock</option>
+                                <option value="SandOrGravel" id="aquiferclass" name="aquiferclass" required >Sand or Gravel</option>
                                 <option value="Unknown" id="aquiferclass" name="aquiferclass" required >Unknown</option>
                             </select>
                         </div>
@@ -457,7 +468,7 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="welltype">
-                        Well Type:
+                        Well Type (Construction Method):
                     </label>
                     <div id="App">
                         <div className="select-container">
@@ -479,7 +490,7 @@ export default function PreField() {
                         What is the well casing material made of?
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="wellcasematerial" name="wellcasematerial" required
+                        type="text" className="textarea resize-ta" id="wellcasematerial" name="wellcasematerial"
                         onChange={(event) => {
                             setWellcasematerial(event.target.value);
                         }}
@@ -501,7 +512,7 @@ export default function PreField() {
                         Observations:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="observation" name="observation" required
+                        type="text" className="textarea resize-ta" id="observation" name="observation"
                         onChange={(event) => {
                             setObservation(event.target.value);
                         }}
@@ -511,8 +522,8 @@ export default function PreField() {
                     <label for="comments">
                         Comments:
                     </label>
-                    <input
-                        type="text" className="textarea resize-ta" id="comments" name="comments" required
+                    <textarea
+                        type="text" className="textarea resize-ta" id="comments" name="comments"
                         onChange={(event) => {
                             setComments(event.target.value);
                         }}
@@ -523,7 +534,7 @@ export default function PreField() {
                         Date Entered:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                        type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
                         onChange={(event) => {
                             setDateentered(event.target.value);
                         }}
@@ -531,6 +542,7 @@ export default function PreField() {
                 </div>
                 <button type="submit" onClick={addWellInfo} >Save</button>
             </form>
-        </div>
+        //</div>
     );
 }
+

@@ -60,7 +60,7 @@ export default function Well() {
             </List.Item>
             <List.Item >
                 <List.Content>
-                    <a href="/PreField" style={{ color: 'grey', width: "45%", height: "17%", borderWidth: 3, borderStyle: 'dashed', borderRadius: 1, borderColor: 'grey' }} className="btn btn-light btn-lg btn-block">New Well</a>
+                    <a href="/WellInfo" style={{ color: 'grey', width: "45%", height: "17%", borderWidth: 3, borderStyle: 'dashed', borderRadius: 1, borderColor: 'grey' }} className="btn btn-light btn-lg btn-block">New Well</a>
                 </List.Content>
                 <br />
             </List.Item>

@@ -11,6 +11,10 @@ export default function Field() {
     const [name, setName] = useState("");
     const [observation, setObservation] = useState("");
     const [wellcover, setWellcover] = useState("");
+    const [wellcoverdescription, setWellcoverDescription] = useState("");
+    const [comments, setComments] = useState("");
+    const [dateentered, setDateentered] = useState("");
+
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value); 
     }; 
@@ -29,6 +33,7 @@ export default function Field() {
         Axios.post('http://localhost:7193/api/insert', {
             conditions: conditions,
             wellcover: wellcover,
+            wellcoverdescription: wellcoverdescription,
             evidence: evidence,
             pooling: pooling,
             temp: temp,
@@ -36,6 +41,8 @@ export default function Field() {
             conductivity: conductivity,
             name: name,
             observation: observation,
+            comments: comments,
+            dateentered: dateentered,
         })
         
             .then(() => {
@@ -49,18 +56,21 @@ export default function Field() {
             alert("Succesfully submitted!");
         }
     }
+    const myFunction3 = () => {
+        window.location.href = "/editwell";
+    }
     return (
-        <div className="form-container"> 
-            <form  >
-                <h2>Field</h2>
+        //<div className="form-container"> 
+            <form action="/editwell"  > {/*id="submissionAlert"*/}
+            <h2>Field</h2>
                 <div className="css">
                     <label for="conditions">
                         Conditions: Describe weather,
-                        temperature,<br /> or anything
+                        temperature,{/*<br />*/} or anything
                         note-worthy about your well
                     </label>
                     <textarea
-                        type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required autoFocus
+                        type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required 
                         onChange={(event) => {
                             setConditions(event.target.value);
                         }} 
@@ -83,7 +93,18 @@ export default function Field() {
                             </select>
                         </div>
                     </div>
-                </div>
+            </div>
+            <div className="css">
+                <label for="wellcoverdescription">
+                    Well Cover Description:
+                </label>
+                <textarea
+                    type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                    onChange={(event) => {
+                        setWellcoverDescription(event.target.value);
+                    }}
+                />
+            </div>
                 <div className="css">
                     <label for="evidence">
                         Is there evidence of surface<br />
@@ -98,7 +119,6 @@ export default function Field() {
                                 <option hidden selected>Select one...</option>
                                 <option value="Yes" id="evidence" name="evidence" required >Yes</option>
                                 <option value="No" id="evidence" name="evidence" required >No</option>
-                                <option value="Unknown" id="evidence" name="evidence" required >Unknown</option>
                             </select>
                         </div>
                     </div>
@@ -117,7 +137,6 @@ export default function Field() {
                                 <option hidden selected>Select one...</option>
                                 <option value="Yes" id="pooling" name="pooling" required >Yes</option>
                                 <option value="No" id="pooling" name="pooling" required >No</option>
-                                <option value="Unknown" id="pooling" name="pooling" required >Unknown</option>
                             </select>
                         </div>
                     </div>
@@ -135,7 +154,7 @@ export default function Field() {
                 </div>
                 <div className="css">
                     <label for="ph">
-                        PH<br /> [0-14]
+                        pH<br /> [0-14]
                     </label>
                     <input
                         type="number" className="textarea resize-ta" min="0" max="14" id="ph" name="ph" required
@@ -143,7 +162,6 @@ export default function Field() {
                             setPh(event.target.value);
                         }}
                     />
-
                 </div>
                 <div className="css">
                     <label for="conductivity">
@@ -172,14 +190,37 @@ export default function Field() {
                         Observations
                     </label>
                     <textarea
-                        type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation" required
+                        type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation"
                         onChange={(event) => {
                             setObservation(event.target.value);
                         }}
                     />
-                </div>
-                <button type="submit" onClick={addField}  >Save</button>
+            </div>
+            <div className="css">
+                <label for="comments">
+                    Comments:
+                </label>
+                <textarea
+                    type="text" className="textarea resize-ta" id="comments" name="comments"
+                    onChange={(event) => {
+                        setComments(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="dateentered">
+                    Date Entered:
+                </label>
+                <input
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    onChange={(event) => {
+                        setDateentered(event.target.value);
+                    }}
+                />
+            </div>
+            <button type="submit" onClick={addField}  >Submit</button>
+            <button type="submit" onClick={myFunction3}  >Back</button>
             </form >
-        </div>
+        //</div>
     );
 }

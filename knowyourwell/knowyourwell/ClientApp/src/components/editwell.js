@@ -6,12 +6,9 @@ export default function EditWell() {
     return ( 
         <List style={{ textAlign: 'center' }}> 
             <h2>Edit Well</h2>
-            <br />
-            <br />
-            <h2>What are you doing today?</h2>
             <List.Item>
                 <List.Content>
-                    <a href="/PreField" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Pre-field</a>
+                    <a href="/WellInfo" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>
                 </List.Content>
                 <br />
             </List.Item>
