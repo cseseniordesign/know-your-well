@@ -184,7 +184,7 @@ export default function ViewWell() {
             </div>
             <div className="css">
                 <label for="city">
-                    City:
+                    Village, Town, or City:
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="city" name="city" disabled="disabled"
