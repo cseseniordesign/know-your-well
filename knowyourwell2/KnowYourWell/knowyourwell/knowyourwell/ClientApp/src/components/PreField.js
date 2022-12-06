@@ -1,12 +1,9 @@
 ﻿import React, { Component } from 'react';
 <<<<<<< HEAD
-<<<<<<< HEAD
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 =======
 >>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
 import './css/PreField.css'
 
 
@@ -70,7 +67,6 @@ const Fertilizers_Pesticides = [
 const Aquifer_Type = [
     {
 <<<<<<< HEAD
-<<<<<<< HEAD
         label: "Aquifer Type A",
         value: "Aquifer_Type_A",
     },
@@ -78,8 +74,6 @@ const Aquifer_Type = [
         label: "Aquifer Type B",
         value: "Aquifer_Type_B",
 =======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
 
         label: "Confined",
         value: "Confined",
@@ -91,16 +85,12 @@ const Aquifer_Type = [
     {
         label: "Unknown",
         value: "Unknown",
-<<<<<<< HEAD
 >>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
     },
 ];
 
 const Aquifer_Class = [
     {
-<<<<<<< HEAD
 <<<<<<< HEAD
         label: "Aquifer Class A",
         value: "Aquifer_Class_A",
@@ -109,8 +99,6 @@ const Aquifer_Class = [
         label: "Aquifer Class B",
         value: "Aquifer_Class_B",
 =======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
         label: "Bedrock",
         value: "Bedrock",
     },
@@ -121,16 +109,12 @@ const Aquifer_Class = [
     {
         label: "Unknown",
         value: "Unknown",
-<<<<<<< HEAD
 >>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
     },
 ];
 
 const Well_Type = [
     {
-<<<<<<< HEAD
 <<<<<<< HEAD
         label: "Well Type A",
         value: "Well_Type_A",
@@ -139,8 +123,6 @@ const Well_Type = [
         label: "Well Type B",
         value: "Well_Type_B",
 =======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
         label: "Drilled",
         value: "Drilled",
     },
@@ -155,10 +137,7 @@ const Well_Type = [
     {
         label: "Unknown",
         value: "Unknown",
-<<<<<<< HEAD
 >>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
     },
 ];
 

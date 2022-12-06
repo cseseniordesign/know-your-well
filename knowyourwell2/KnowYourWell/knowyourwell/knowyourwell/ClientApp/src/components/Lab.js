@@ -1,17 +1,13 @@
 ﻿import React, { Component } from 'react';
 <<<<<<< HEAD
-<<<<<<< HEAD
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 =======
 >>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
 import './css/PreField.css'
 
 const Bacteria = [
     {
-<<<<<<< HEAD
 <<<<<<< HEAD
         label: "Positive",
         value: "Positive",
@@ -24,8 +20,6 @@ const Bacteria = [
         label: "neutral ",
         value: "neutral ",
 =======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
         label: "Clear",
         value: "Clear",
     },
@@ -36,10 +30,7 @@ const Bacteria = [
     {
         label: "Yellow with fluorescent rim ",
         value: "Yellow_with_fluorescent ",
-<<<<<<< HEAD
 >>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
     },
 
 ];

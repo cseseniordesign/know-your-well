@@ -1,11 +1,8 @@
 ﻿import React, { Component } from 'react';
 <<<<<<< HEAD
-<<<<<<< HEAD
 import Select from 'react-select'; 
 =======
 >>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
 import { List } from 'semantic-ui-react'
 
 
