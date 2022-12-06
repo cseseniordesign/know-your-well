@@ -13,9 +13,9 @@ import Field from './components/field';
 import Lab from './components/lab';
 import EditLog from './components/editlog';
 import AboutProject from './components/AboutProject';
-import ViewField from './components/viewfield';
-import ViewLab from './components/viewlab';
-import ViewWell from './components/viewwell';
+import ViewField from './components/ViewField';
+import ViewLab from './components/ViewLab';
+import ViewWell from './components/ViewWell';
 
 
 export default function App() { 
