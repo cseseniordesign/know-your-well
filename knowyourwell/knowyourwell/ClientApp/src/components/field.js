@@ -49,18 +49,21 @@ export default function Field() {
             alert("Succesfully submitted!");
         }
     }
+    const myFunction3 = () => {
+        window.location.href = "/editwell";
+    }
     return (
         <div className="form-container"> 
-            <form  >
-                <h2>Field</h2>
+            <h2>Field</h2>
+            <form action="/editwell"  > {/*id="submissionAlert"*/}
                 <div className="css">
                     <label for="conditions">
                         Conditions: Describe weather,
-                        temperature,<br /> or anything
+                        temperature,{/*<br />*/} or anything
                         note-worthy about your well
                     </label>
                     <textarea
-                        type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required autoFocus
+                        type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required 
                         onChange={(event) => {
                             setConditions(event.target.value);
                         }} 
@@ -178,7 +181,8 @@ export default function Field() {
                         }}
                     />
                 </div>
-                <button type="submit" onClick={addField}  >Save</button>
+                <button type="submit" onClick={addField}  >Submit</button>
+                    <button type="submit" onClick={myFunction3}  >Back</button>
             </form >
         </div>
     );

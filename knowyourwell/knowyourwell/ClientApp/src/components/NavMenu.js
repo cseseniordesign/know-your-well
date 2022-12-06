@@ -48,7 +48,7 @@ export default class NavMenu extends React.Component {
                                 <NavLink tag={Link} className="text-dark" to="EditLog">Edit Log</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="WellInfo">Well Info</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="prefield">Well Info</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="Field">Field</NavLink>

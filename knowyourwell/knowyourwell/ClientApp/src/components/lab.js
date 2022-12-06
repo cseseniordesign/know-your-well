@@ -1,7 +1,8 @@
 ﻿import React from 'react'
-import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios' 
+import './css/forms.css'
+
 
 export default function Lab() {
     const [ammonia, setAmmonia] = useState(0);
@@ -42,12 +43,14 @@ export default function Lab() {
             alert("Succesfully submitted!");
         }
     }
-    
+    const myFunction3 = () => {
+        window.location.href = "/editwell";
+    }
 
     return (
-        <div className="form-container">
-            <form action="/editwell" id="submissionAlert"> 
-                <h2>Lab</h2>
+        <div className="form-container" >
+            <h2>Lab</h2>
+            <form action="/editwell"> {/*id="submissionAlert"*/}
                 <div className="css">
                     <label for="ammonia">
                         Ammonia <br /> [0-10 ppm(mg/L)]
@@ -110,7 +113,7 @@ export default function Lab() {
                             setCopper(event.target.value);
                         }}
                     />
-                </div>
+                    </div>
                 <div className="css">
                     <label for="iron">
                         Iron<br /> [0-10 ppm(mg/L)]
@@ -122,7 +125,7 @@ export default function Lab() {
                             setIron(event.target.value);
                         }}
                     />
-                </div>
+                    </div>
                 <div className="css">
                     <label for="manganese">
                         Manganese<br /> [0-50 ppm(mg/L)]
@@ -167,7 +170,8 @@ export default function Lab() {
                         }}
                     />
                 </div>
-                <button type="submit" onClick={addLab, myFunction }  >Save</button>
+                <button type="submit" onClick={addLab}  >Submit</button>
+                <button type="submit" onClick={myFunction3}  >Back</button>
             </form>
         </div>   
     );

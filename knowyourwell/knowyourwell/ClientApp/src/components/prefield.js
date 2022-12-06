@@ -118,17 +118,21 @@ export default function PreField() {
         }
     }
 
+    const myFunction3 = () => {
+        window.location.href = "/editwell";
+    }
+
 
     return (
         <div className="form-container">
-            <form >
-                <h2>Prefield</h2>
+            <h2>Prefield</h2>
+            <form action="/editwell" > {/*id="submissionAlert" */}
                 <div className="css">
                     <label for="wellcode">
                         Well ID:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="wellcode" name="wellcode" required autofocus
+                        type="text" className="textarea resize-ta" id="wellcode" name="wellcode" required 
                         onChange={(event) => {
                             setWellcode(event.target.value);
                         }}
@@ -139,7 +143,7 @@ export default function PreField() {
                         Well Name:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="wellname" name="wellname" required autofocus
+                        type="text" className="textarea resize-ta" id="wellname" name="wellname" required 
                         onChange={(event) => {
                             setWellname(event.target.value);
                         }}
@@ -150,7 +154,7 @@ export default function PreField() {
                         School Name (School-ID):
                     </label>
                     <input
-                        type="number" className="textarea resize-ta" id="school_id" name="school_id" required autofocus
+                        type="number" className="textarea resize-ta" id="school_id" name="school_id" required 
                         onChange={(event) => {
                             setSchool_id(event.target.value);
                         }}
@@ -161,7 +165,7 @@ export default function PreField() {
                         Name of the resident well user:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="welluser" name="welluser" required autofocus 
+                        type="text" className="textarea resize-ta" id="welluser" name="welluser" required  
                         onChange={(event) => {
                             setWelluser(event.target.value);
                         }}
@@ -172,7 +176,7 @@ export default function PreField() {
                         Address:
                     </label>
                     <input
-                        type="text" className="textarea resize-ta" id="address" name="address" required autofocus 
+                        type="text" className="textarea resize-ta" id="address" name="address" required  
                         onChange={(event) => {
                             setAddress(event.target.value);
                         }}
@@ -213,7 +217,7 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="wellowner">
-                        Well owner (if different from resident):
+                        Well owner <br/> (if different from resident):
                     </label>
                     <input
                         type="text" className="textarea resize-ta" id="wellowner" name="wellowner" required
@@ -256,7 +260,7 @@ export default function PreField() {
                         Smell or taste of water descibtion?
                     </label>
                     <textarea
-                        type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150" required autoFocus
+                        type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150" required 
                         onChange={(event) => {
                             setSmelltaste_description(event.target.value);
                         }}
@@ -287,7 +291,7 @@ export default function PreField() {
                     </label>
 
                     <textarea
-                        type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150" required autoFocus
+                        type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150" required 
                         onChange={(event) => {
                             setWelldry_description(event.target.value);
                         }}
@@ -296,7 +300,7 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="maintenance5yr">
-                        Any maintenance done to the well<br /> itself
+                        Any maintenance done to the well{/*<br />*/} itself
                         within the last five years?
                     </label>
                     <div id="App">
@@ -312,11 +316,11 @@ export default function PreField() {
                             </select>
                         </div>
                     </div>
-                </div>
+                    </div>
                 <div className="css">
                     <label for="landuse5yr">
                             Any major land use / development
-                            changes<br /> around the well within the
+                            changes {/*<br /> */}around the well within the
                             last five year
                     </label>
                         <div id="App">
@@ -347,7 +351,7 @@ export default function PreField() {
                 <div className="css">
                     <label for="pestmanure">
                         Has any manure or pesticides been
-                        applied<br /> near the well within the last
+                        applied{/*<br />*/} near the well within the last
                         five years?
                     </label>
                     <div id="App">
@@ -366,7 +370,7 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="gps_coordinates">
-                        Well GPS Coordinates (if registered):
+                        Well GPS Coordinates <br/> (if registered):
                     </label>
                     <input
                         type="number" className="textarea resize-ta" id="gps_coordinates" name="gps_coordinates" required
@@ -399,7 +403,7 @@ export default function PreField() {
                 </div>
                 <div className="css">
                     <label for="fieldtitle">
-                        Field Title
+                        Field Title:
                     </label>
                     <input
                         type="text" className="textarea resize-ta" id="fieldtitle" name="fieldtitle" required
@@ -528,8 +532,9 @@ export default function PreField() {
                             setDateentered(event.target.value);
                         }}
                     />
-                </div>
-                <button type="submit" onClick={addWellInfo} >Save</button>
+                    </div>
+                    <button type="submit" onClick={addWellInfo} >Submit</button>
+                    <button type="submit" onClick={myFunction3}  >Back</button>
             </form>
         </div>
     );
