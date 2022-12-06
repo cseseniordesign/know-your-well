@@ -47,7 +47,8 @@ app.post('/api/insert', (req, res) => {
         }
     );
 });
- 
+
+
 app.post('/createlab', (req, res) => {
     const ammonia = req.body.ammonia;
     const calcium = req.body.calcium;
@@ -124,6 +125,20 @@ app.post('/createwellinfo', (req, res) => {
         }
     );
 });
+
+app.get('/Wells', (req, res) => {
+
+    const response  = "";
+    try {
+        response = db.query("SELECT wellname FROM wellinfo;");
+    }
+    catch (e) {
+        console.log(e);
+        response = "Connection Unsuccesful: Please Contact Admin."
+    } finally {
+        res.json(response);
+    }
+})
 
 app.listen(7193, () => {  
     console.log("server is running");

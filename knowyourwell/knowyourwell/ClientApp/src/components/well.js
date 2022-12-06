@@ -1,5 +1,14 @@
 ﻿import React from 'react';
 import { List } from 'semantic-ui-react'
+import Axios from 'axios'
+
+Axios
+    .get("http://localhost:7193/Wells", {
+        responseType: "json",
+    })
+    .then(function (response) {
+        console.log(response.data);
+    });
 
 
 export default function Well() {
