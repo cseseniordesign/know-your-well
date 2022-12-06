@@ -549,7 +549,6 @@ export default function ViewWell() {
                     }}
                 />
             </div>
-            <button type="submit" onClick={addWellInfo} >Save</button>
         </form>
         //</div>
     );

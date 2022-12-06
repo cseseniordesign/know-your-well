@@ -11,6 +11,7 @@ export default function Field() {
     const [name, setName] = useState("");
     const [observation, setObservation] = useState("");
     const [wellcover, setWellcover] = useState("");
+    const [wellcoverdescription, setWellcoverDescription] = useState("");
     const [comments, setComments] = useState("");
     const [dateentered, setDateentered] = useState("");
 
@@ -32,6 +33,7 @@ export default function Field() {
         Axios.post('http://localhost:7193/api/insert', {
             conditions: conditions,
             wellcover: wellcover,
+            wellcoverdescription: wellcoverdescription,
             evidence: evidence,
             pooling: pooling,
             temp: temp,
@@ -59,14 +61,12 @@ export default function Field() {
     }
     return (
         //<div className="form-container"> 
-            <form action="/editwell"  > {///*id="submissionAlert"*/
-        }
+            <form action="/editwell"  > {/*id="submissionAlert"*/}
             <h2>Field</h2>
                 <div className="css">
                     <label for="conditions">
                         Conditions: Describe weather,
-                        temperature,{///*<br />*/
-                        } or anything
+                        temperature,{/*<br />*/} or anything
                         note-worthy about your well
                     </label>
                     <textarea
@@ -93,7 +93,18 @@ export default function Field() {
                             </select>
                         </div>
                     </div>
-                </div>
+            </div>
+            <div className="css">
+                <label for="wellcoverdescription">
+                    Well Cover Description:
+                </label>
+                <textarea
+                    type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                    onChange={(event) => {
+                        setWellcoverDescription(event.target.value);
+                    }}
+                />
+            </div>
                 <div className="css">
                     <label for="evidence">
                         Is there evidence of surface<br />
@@ -179,7 +190,7 @@ export default function Field() {
                         Observations
                     </label>
                     <textarea
-                        type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation" required
+                        type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation"
                         onChange={(event) => {
                             setObservation(event.target.value);
                         }}
