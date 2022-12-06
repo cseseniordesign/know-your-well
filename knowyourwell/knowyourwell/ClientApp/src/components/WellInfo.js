@@ -1,437 +1,547 @@
-﻿import React from 'react';
-import Select from 'react-select';
-import { List } from 'semantic-ui-react'
-import './css/WellInfo.css'
+﻿import React from 'react'
+import './css/forms.css'
+import { useState } from 'react';
+import Axios from 'axios'
 
-const Yes_No_Unknown = [
-    {
-        label: "Yes",
-        value: "Yes",
-    },
-    {
-        label: "No",
-        value: "No",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    } 
-];
+export default function WellInfo() {
 
-const Aquifer_Type = [
-    {
+    const [wellcode, setWellcode] = useState("");
+    const [wellname, setWellname] = useState("");
+    const [school_id, setSchool_id] = useState(0);
+    const [welluser, setWelluser] = useState("");
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [zipcode, setZipcode] = useState("");
+    const [wellowner, setWellowner] = useState("");
+    const [installyear, setInstallyear] = useState(0); 
+    const [numberwelluser, setNumberwelluser] = useState(0);
+    const [gps_coordinates, setGps_coordinates] = useState(0);
+    const [boreholediameter, setBoreholediameter] = useState(0);
+    const [totaldepth, setTotaldepth] = useState(0);
+    const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
 
-        label: "Confined",
-        value: "Confined",
-    },
-    {
-        label: "Unconfined",
-        value: "Unconfined",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
-];
+    const [wellcasematerial, setWellcasematerial] = useState("");
+    const [datacollector, setDatacollector] = useState("");
+    const [observation, setObservation] = useState("");
+    const [comments, setComments] = useState("");
+    const [dateentered, setDateentered] = useState("");
 
-const Aquifer_Class = [
-    {
-        label: "Bedrock",
-        value: "Bedrock",
-    },
-    {
-        label: "Sand or Gravel",
-        value: "Sand_or_Gravel",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
-];
-
-const Well_Type = [
-    {
-        label: "Drilled",
-        value: "Drilled",
-    },
-    {
-        label: "Driven",
-        value: "Driven",
-    },
-    {
-
-        label: "Dug",
-        value: "Dug",
-    },
-    {
-        label: "Unknown",
-        value: "Unknown",
-    },
-];
-
-const Topography = [
-    {
-        label: "Hill Top",
-        value: "Hill_Top",
-    },
-    {
-        label: "Hill Slope",
-        value: "Hill_Slope",
-    },
-    {
-        label: "Level Land",
-        value: "Level_Land",
-    },
-    {
-        label: "Depression",
-        value: "Depression",
-    }
-];
-
-
-export class WellInfo {
-    static displayName = WellInfo.name;
-    state = {};
-    submit = (e) => {
-        e.preventDefault(); // Prevent submitting form to the server
-        window.alert(`This ${this.state.name}! has been submitted `); //${this.state.food}!${this.state.isDessert ? ' A lovely dessert!' : ''}
+    const [smelltaste, setSmelltaste] = useState("");
+    const handleChange_smelltaste = (event) => {
+        setSmelltaste(event.target.value);
     };
-    setWellID = (e) => this.setState({ Well_ID: e.target.value });
-    setWellName = (e) => this.setState({ Well_Name: e.target.value });
-    setResidentName = (e) => this.setState({ Resident_Name: e.target.value });
-    setAddress = (e) => this.setState({ Address: e.target.value });
-    setCity = (e) => this.setState({ City: e.target.value });
-    setState = (e) => this.setState({ State: e.target.value });
-    setZibCode = (e) => this.setState({ Zib_Code: e.target.value });
-    setWellOwner = (e) => this.setState({ Well_Owner: e.target.value });
-    setWellConstructionCompletation = (e) => this.setState({ Completation_Of_Well_Construction: e.target.value });
-    setComplaints = (e) => this.setState({ Smell_Or_Taste_Of_WaterComplaints: e.target.value });
-    setWellDryness = (e) => this.setState({ Well_Dryness: e.target.value });
-    setWellUsage = (e) => this.setState({ Well_Usage: e.target.value });
-    setGPSCoordinates = (e) => this.setState({ GPS_Coordinates: e.target.value });
-    setBoreHoleDiameter = (e) => this.setState({ Bore_Hole_Diameter: e.target.value });
-    setDepthOfWell = (e) => this.setState({ Depth_Of_Well: e.target.value });
-    setFieldTitle = (e) => this.setState({ Field_Title: e.target.value });
-    setWaterLevel = (e) => this.setState({ Water_Level: e.target.value });
-    setCasingMaterial = (e) => this.setState({ Casing_Material: e.target.value });
-    setCollectorName = (e) => this.setState({ Collector_Name: e.target.value });
-    setComments = (e) => this.setState({ Comments: e.target.value });
+    const [smelltaste_description, setSmelltaste_description] = useState("");
 
-    render() {
-        return (
-            <form method="post" style={{ display: 'block', textAlign: 'center', paddingBottom: '40px', paddingTop:'20px', border: 'solid' }} onSubmit={this.submit}>
-                <h2>Well Info</h2>
-                <div class="css">
-                    <label>
-                        <div>
-                            Well ID:
-                        </div>
-                        <input type="text" onChange={this.setWellID} required autoFocus />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Well Name:
-                        </div>
-                        <input type="text" onChange={this.setWellName} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Name of the resident well user:
-                        </div>
-                        <input type="text" onChange={this.setResidentName} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Address:
-                        </div>
-                        <input type="text" onChange={this.setAddress} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            City:
-                        </div>
-                        <input type="text" onChange={this.setCity} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            State:
-                        </div>
-                        <input type="text" onChange={this.setState} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Zip code:
-                        </div>
-                        <input type="text" onChange={this.setZibCode} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Well owner (if different from resident):
-                        </div>
-                        <input type="text" onChange={this.setWellOwner} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Year well construction completed:
-                        </div>
-                        <input type="number" min="1700" max="2100" onChange={this.setWellConstructionCompletation} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Any complaints about smell or taste of water?
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Yes_No_Unknown.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                        <input type="text" onChange={this.setWellConstructionCompletation} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Does the well ever go dry?
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Yes_No_Unknown.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            If so, when?
-                        </div>
-                        <input type="text" onChange={this.setWellConstructionCompletation} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Any maintenance done to the well itself within the last five years?
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Yes_No_Unknown.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Any major land use / development changes around the well within the last five years?
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Yes_No_Unknown.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            How many people use this well?
-                        </div>
-                        <input type="text" min="0" onChange={this.setWellUsage} />
-                    </label>
-                </div>
-                <div class="css"> 
-                    <label>
-                        <div>
-                            Has any manure or pesticides been applied near the well within the last five years?
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Yes_No_Unknown.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Well GPS Coordinates (if registered):
-                        </div>
-                        <input type="text" onChange={this.setGPSCoordinates} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Bore hole diameter in inches:
-                        </div>
-                        <input type="text" min="0" onChange={this.setBoreHoleDiameter} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Total depth of well in feet:
-                        </div>
-                        <input type="text" min="0" onChange={this.setDepthOfWell} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Water level in feet:
-                        </div>
-                        <input type="text" min="0" onChange={this.setDepthOfWell} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Aquifer Type:
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Aquifer_Type.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Aquifer Class:
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Aquifer_Class.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Well Type (construction method):
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Well_Type.map((option) => (
-                                        <option value={option.value}>{option.label}</option> // required
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            What is the well casing material made of?
-                        </div>
-                        <input type="text" onChange={this.setCasingMaterial} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Data Collector’s Name:
-                        </div>
-                        <input type="text" onChange={this.setCollectorName} required />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Data Collector's Observations:
-                        </div>
-                        <input type="text" onChange={this.Comments} />
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Topography of the well location:
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Topography.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Comments:
-                        </div>
-                        <p><textarea type="text" class="textarea resize-ta"></textarea></p>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-                            Date:
-                        </div>
-                        <input type="date" onChange={this.Comments} required />
-                    </label>
-                </div>
+    const [welldry, setWelldry] = useState("");
 
-                <br />
+    const handleChange_welldry = (event) => {
+        setWelldry(event.target.value);
+    };
 
-                <button type="submit">Save</button>
-            </form>
-            
-        );
+    const [welldry_description, setWelldry_description] = useState("");
+
+    const [maintenance5yr, setMaintenance5yr] = useState("");
+    const handleChange_maintenance5yr = (event) => {
+        setMaintenance5yr(event.target.value);
+    };
+
+    const [landuse5yr, setLanduse5yr] = useState("");
+    const handleChange_landuse5yr = (event) => {
+        setLanduse5yr(event.target.value);
+    };
+
+    const [pestmanure, setPestmanure] = useState("");
+    const handleChange_pestmanure = (event) => {
+        setPestmanure(event.target.value);
+    };
+
+    const [topography, setTopography] = useState("");
+    const handleChange_topography = (event) => {
+        setTopography(event.target.value);
+    };
+
+    const [aquifertype, setAquifertype] = useState("");
+    const handleChange_aquifertype = (event) => {
+        setAquifertype(event.target.value);
+    };
+    
+    const [aquiferclass, setAquiferclass] = useState("");
+    const handleChange_aquiferclass = (event) => {
+        setAquiferclass(event.target.value);
+    };
+
+    const [welltype, setWelltype] = useState("");
+    const handleChange_welltype = (event) => {
+        setWelltype(event.target.value);
+    };
+
+    const addWellInfo = () => {
+        Axios.post('http://localhost:7193/createwellinfo', {
+            wellcode: wellcode,
+            wellname: wellname,
+            school_id: school_id,
+            welluser: welluser,
+            address: address,
+            city: city,
+            state: state,
+            zipcode: zipcode,
+            wellowner: wellowner,
+            installyear: installyear,
+            smelltaste: smelltaste,
+            smelltaste_description: smelltaste_description,
+            welldry: welldry,
+            welldry_description: welldry_description,
+            maintenance5yr: maintenance5yr,
+            landuse5yr: landuse5yr,
+            numberwelluser: numberwelluser,
+            pestmanure: pestmanure,
+            gps_coordinates: gps_coordinates,
+            boreholediameter: boreholediameter,
+            totaldepth: totaldepth,
+            topography: topography,
+            well_waterleveldepth: well_waterleveldepth,
+            aquifertype: aquifertype,
+            aquiferclass: aquiferclass,
+            welltype: welltype,
+            wellcasematerial: wellcasematerial,
+            datacollector: datacollector,
+            observation: observation,
+            comments: comments,
+            dateentered: dateentered,
+        })
+            .then(() => {
+                console.log("success");
+            })
+    };
+
+    var form = document.getElementById('submissionAlert');
+    const myFunction = () => {
+        if (form.checkValidity()) {
+            alert("Succesfully submitted!");
+        }
     }
+
+
+    return (
+        //<div className="form-container">
+            <form >
+                <h2>Well Info</h2>
+                <div className="css">
+                    <label for="wellcode">
+                        Well ID:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="wellcode" name="wellcode" required autofocus
+                        onChange={(event) => {
+                            setWellcode(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="wellname">
+                        Well Name:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="wellname" name="wellname" required
+                        onChange={(event) => {
+                            setWellname(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="school_id">
+                        School Name (School-ID):
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="school_id" name="school_id" required
+                        onChange={(event) => {
+                            setSchool_id(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="welluser">
+                        Name of the resident well user:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="welluser" name="welluser" 
+                        onChange={(event) => {
+                            setWelluser(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="address">
+                        Address:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="address" name="address" 
+                        onChange={(event) => {
+                            setAddress(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="city">
+                        City:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="city" name="city"
+                        onChange={(event) => {
+                            setCity(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="state">
+                        State:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="state" name="state"
+                        onChange={(event) => {
+                            setState(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="zipcode">
+                        Zip code:
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="zipcode" name="zipcode" min="00001" max="99950" minlength="5" maxlength="5"
+                        onChange={(event) => {
+                            setZipcode(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="wellowner">
+                        Well owner (if different from resident):
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="wellowner" name="wellowner"
+                        onChange={(event) => {
+                            setWellowner(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="installyear">
+                        Well construction completion year:
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="installyear" name="installyear" required
+                        onChange={(event) => {
+                            setInstallyear(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="smelltaste">
+                        Any complaints about <br /> smell or taste of water?
+                    </label>
+                    <div id="App">
+                        <div className="select-container">
+                            <select
+                                value={smelltaste}
+                                onChange={handleChange_smelltaste}
+                            >
+                                <option hidden selected>Select one...</option>
+                                <option value="Yes" id="smelltaste" name="smelltaste" required >Yes</option>
+                                <option value="No" id="smelltaste" name="smelltaste" required >No</option>
+                                <option value="Unknown" id="smelltaste" name="smelltaste" required >Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="css">
+                    <label for="smelltaste_description">
+                        Smell or taste of water desciption:
+                    </label>
+                    <textarea
+                        type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
+                        onChange={(event) => { // if 'yes'
+                            setSmelltaste_description(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="welldry">
+                        Does the well ever go dry?
+                    </label>
+                    <div id="App">
+                        <div className="select-container">
+                            <select
+                                value={welldry}
+                                onChange={handleChange_welldry}
+                            >
+                                <option hidden selected>Select one...</option>
+                                <option value="Yes" id="welldry" name="welldry" required >Yes</option>
+                                <option value="No" id="welldry" name="welldry" required >No</option>
+                                <option value="Maybe" id="welldry" name="welldry" required >Maybe</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="css">
+                    <label for="welldry_description">
+                        If so, when?
+                    </label>
+
+                    <textarea
+                        type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
+                        onChange={(event) => {
+                            setWelldry_description(event.target.value);
+                        }}
+                    />
+
+                </div>
+                <div className="css">
+                    <label for="maintenance5yr">
+                        Any maintenance done to the well<br /> itself
+                        within the last five years?
+                    </label>
+                    <div id="App">
+                        <div className="select-container">
+                            <select
+                                value={maintenance5yr}
+                                onChange={handleChange_maintenance5yr}
+                            >
+                                <option hidden selected>Select one...</option>
+                                <option value="Yes" id="maintenance5yr" name="maintenance5yr" required >Yes</option>
+                                <option value="No" id="maintenance5yr" name="maintenance5yr" required >No</option>
+                                <option value="Unknown" id="maintenance5yr" name="maintenance5yr" required >Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="css">
+                    <label for="landuse5yr">
+                            Any major land use / development
+                            changes<br /> around the well within the
+                            last five years?
+                    </label>
+                        <div id="App">
+                            <div className="select-container">
+                                <select
+                                    value={landuse5yr}
+                                    onChange={handleChange_landuse5yr}
+                                >
+                                <option hidden selected>Select one...</option>
+                                <option value="Yes" id="landuse5yr" name="landuse5yr" required >Yes</option>
+                                <option value="No" id="landuse5yr" name="landuse5yr" required >No</option>
+                                <option value="Unknown" id="landuse5yr" name="landuse5yr" required >Unknown</option>
+                                </select>
+                            </div>
+                        </div>
+                </div>
+                <div className="css">
+                    <label for="numberwelluser">
+                        How many people use this well?
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser"
+                        onChange={(event) => {
+                            setNumberwelluser(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="pestmanure">
+                        Has any manure or pesticides been
+                        applied<br /> near the well within the last
+                        five years?
+                    </label>
+                    <div id="App">
+                        <div className="select-container">
+                            <select
+                                value={pestmanure}
+                                onChange={handleChange_pestmanure}
+                            >
+                                <option hidden selected>Select one...</option>
+                                <option value="Yes" id="pestmanure" name="pestmanure" required >Yes</option>
+                                <option value="No" id="pestmanure" name="pestmanure" required >No</option>
+                                <option value="Unknown" id="pestmanure" name="pestmanure" required >Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="css">
+                    <label for="gps_coordinates">
+                        Well GPS Coordinates (if registered):
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="gps_coordinates" name="gps_coordinates" required
+                        onChange={(event) => {
+                            setGps_coordinates(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="boreholediameter">
+                        Bore hole diameter (inches):
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter"
+                        onChange={(event) => {
+                            setBoreholediameter(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="totaldepth">
+                        Total depth of well (feet):
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth"
+                        onChange={(event) => {
+                            setTotaldepth(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="topography">
+                        Topography of the well location:
+                    </label>
+                <div id="App">
+                    <div className="select-container">
+                        <select
+                            value={topography}
+                            onChange={handleChange_topography}
+                        >
+                            <option hidden selected>Select one...</option>
+                            <option value="HillTop" id="topography" name="topography" required >Hill Top</option>
+                            <option value="HillSlope" id="topography" name="topography" required >Hill Slope</option>
+                            <option value="LevelLand" id="topography" name="topography" required >Level Land</option>
+                            <option value="Depression" id="topography" name="topography" required >Depression</option>
+                        </select>
+                    </div>
+                </div>
+                </div>
+                <div className="css">
+                    <label for="well_waterleveldepth">
+                        Water level (feet):
+                    </label>
+                    <input
+                        type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth"
+                        onChange={(event) => {
+                            setWell_waterleveldepth(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="aquifertype">
+                        Aquifer Type:
+                    </label>
+                    <div id="App">
+                        <div className="select-container">
+                            <select
+                                value={aquifertype}
+                                onChange={handleChange_aquifertype}
+                            >
+                                <option hidden selected>Select one...</option>
+                                <option value="Confined" id="aquifertype" name="aquifertype" required >Confined</option>
+                                <option value="Unconfined" id="aquifertype" name="aquifertype" required >Unconfined</option>
+                                <option value="Unknown" id="aquifertype" name="aquifertype" required >Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="css">
+                    <label for="aquiferclass">
+                        Aquifer Class:
+                    </label>
+                    <div id="App">
+                        <div className="select-container">
+                            <select
+                                value={aquiferclass}
+                                onChange={handleChange_aquiferclass}
+                            >
+                                <option hidden selected>Select one...</option>
+                                <option value="Bedrock" id="aquiferclass" name="aquiferclass" required >Bedrock</option>
+                                <option value="SandOrGravel" id="aquiferclass" name="aquiferclass" required >Sand or Gravel</option>
+                                <option value="Unknown" id="aquiferclass" name="aquiferclass" required >Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="css">
+                    <label for="welltype">
+                        Well Type (Construction Method):
+                    </label>
+                    <div id="App">
+                        <div className="select-container">
+                            <select
+                                value={welltype}
+                                onChange={handleChange_welltype}
+                            >
+                                <option hidden selected>Select one...</option>
+                                <option value="Drilled" id="welltype" name="welltype" required >Drilled</option>
+                                <option value="Driven" id="welltype" name="welltype" required >Driven</option>
+                                <option value="Dug" id="welltype" name="welltype" required >Dug</option>
+                                <option value="Unknown" id="welltype" name="welltype" required >Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="css">
+                    <label for="wellcasematerial">
+                        What is the well casing material made of?
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="wellcasematerial" name="wellcasematerial"
+                        onChange={(event) => {
+                            setWellcasematerial(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="datacollector">
+                        Data Collector’s Name:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="datacollector" name="datacollector" required
+                        onChange={(event) => {
+                            setDatacollector(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="observation">
+                        Observations:
+                    </label>
+                    <input
+                        type="text" className="textarea resize-ta" id="observation" name="observation"
+                        onChange={(event) => {
+                            setObservation(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="comments">
+                        Comments:
+                    </label>
+                    <textarea
+                        type="text" className="textarea resize-ta" id="comments" name="comments"
+                        onChange={(event) => {
+                            setComments(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="css">
+                    <label for="dateentered">
+                        Date Entered:
+                    </label>
+                    <input
+                        type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                        onChange={(event) => {
+                            setDateentered(event.target.value);
+                        }}
+                    />
+                </div>
+                <button type="submit" onClick={addWellInfo} >Save</button>
+            </form>
+        //</div>
+    );
 }
-
-
-
-

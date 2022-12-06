@@ -13,7 +13,8 @@ export default function Lab() {
     const [nitrate, setNitrate] = useState(0); 
     const [name, setName] = useState(""); 
     const [observations, setObservations] = useState(""); 
-    const [bacteria, setBacteria] = useState(""); 
+    const [bacteria, setBacteria] = useState("");
+    const [dateentered, setDateentered] = useState(""); 
     const handleChange_Bacteria = (event) => { 
         setBacteria(event.target.value);
     };
@@ -30,6 +31,7 @@ export default function Lab() {
             nitrate: nitrate,
             name: name,
             observations: observations,
+            dateentered: dateentered,
         })
             .then(() => {
                 console.log("success");
@@ -44,7 +46,7 @@ export default function Lab() {
     }
 
     return (
-        <div className="form-container">
+        //<div className="form-container">
             <form  > 
                 <h2>Lab</h2>
                 <div className="css">
@@ -165,9 +167,20 @@ export default function Lab() {
                             setObservations(event.target.value);
                         }}
                     />
-                </div>
+            </div>
+            <div className="css">
+                <label for="dateentered">
+                    Date Entered:
+                </label>
+                <input
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    onChange={(event) => {
+                        setDateentered(event.target.value);
+                    }}
+                />
+            </div>
                 <button type="submit" onClick={addLab}  >Save</button>
             </form>
-        </div>
+        //</div>
     );
 }

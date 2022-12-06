@@ -11,6 +11,9 @@ export default function Field() {
     const [name, setName] = useState("");
     const [observation, setObservation] = useState("");
     const [wellcover, setWellcover] = useState("");
+    const [comments, setComments] = useState("");
+    const [dateentered, setDateentered] = useState("");
+
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value); 
     }; 
@@ -36,6 +39,8 @@ export default function Field() {
             conductivity: conductivity,
             name: name,
             observation: observation,
+            comments: comments,
+            dateentered: dateentered,
         })
         
             .then(() => {
@@ -50,7 +55,7 @@ export default function Field() {
         }
     }
     return (
-        <div className="form-container"> 
+        //<div className="form-container"> 
             <form  >
                 <h2>Field</h2>
                 <div className="css">
@@ -98,7 +103,6 @@ export default function Field() {
                                 <option hidden selected>Select one...</option>
                                 <option value="Yes" id="evidence" name="evidence" required >Yes</option>
                                 <option value="No" id="evidence" name="evidence" required >No</option>
-                                <option value="Unknown" id="evidence" name="evidence" required >Unknown</option>
                             </select>
                         </div>
                     </div>
@@ -117,7 +121,6 @@ export default function Field() {
                                 <option hidden selected>Select one...</option>
                                 <option value="Yes" id="pooling" name="pooling" required >Yes</option>
                                 <option value="No" id="pooling" name="pooling" required >No</option>
-                                <option value="Unknown" id="pooling" name="pooling" required >Unknown</option>
                             </select>
                         </div>
                     </div>
@@ -177,9 +180,31 @@ export default function Field() {
                             setObservation(event.target.value);
                         }}
                     />
-                </div>
+            </div>
+            <div className="css">
+                <label for="comments">
+                    Comments:
+                </label>
+                <textarea
+                    type="text" className="textarea resize-ta" id="comments" name="comments"
+                    onChange={(event) => {
+                        setComments(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="dateentered">
+                    Date Entered:
+                </label>
+                <input
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    onChange={(event) => {
+                        setDateentered(event.target.value);
+                    }}
+                />
+            </div>
                 <button type="submit" onClick={addField}  >Save</button>
             </form >
-        </div>
+        //</div>
     );
 }
