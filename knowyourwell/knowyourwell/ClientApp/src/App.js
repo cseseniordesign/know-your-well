@@ -35,6 +35,7 @@ export default function App() {
                 <Route exact path="/viewfield" element={<ViewField />} />
                 <Route exact path="/viewlab" element={<ViewLab />} />
                 <Route exact path="/viewwell" element={<ViewWell />} />
+
             </Routes>
         </>
     );
