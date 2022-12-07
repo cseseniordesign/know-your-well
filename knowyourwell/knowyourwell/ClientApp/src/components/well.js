@@ -2,14 +2,27 @@
 import { List } from 'semantic-ui-react'
 import Axios from 'axios'
 
+var wellList = [];
 Axios
     .get("http://localhost:7193/Wells", {
         responseType: "json",
     })
     .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data.data);
+        for (const element of response.data.data) {
+            wellList.push(element.wellname);
+        }
+        var data = response;
+        printWellList();
     });
 
+
+function printWellList() {
+    console.log(wellList.length);
+    for (const well of wellList) {
+        console.log(well);
+    }
+}
 
 export default function Well() {
 
