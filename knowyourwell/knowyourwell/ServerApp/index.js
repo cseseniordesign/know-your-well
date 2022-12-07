@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
+const { response } = require("express");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -126,18 +127,16 @@ app.post('/createwellinfo', (req, res) => {
     );
 });
 
-app.get('/Wells', (req, res) => {
-
-    const response  = "";
-    try {
-        response = db.query("SELECT wellname FROM wellinfo;");
-    }
-    catch (e) {
-        console.log(e);
-        response = "Connection Unsuccesful: Please Contact Admin."
-    } finally {
-        res.json(response);
-    }
+//credit to https://arctype.com/blog/rest-api-tutorial/
+app.get('/Wells', async (req, res) => {
+    db.query("SELECT wellname FROM wellinfo;", function (err, data, fields) {
+        if (err) return next(new AppError(err))
+        res.status(200).json({
+            status: "success",
+            length: data?.length,
+            data: data,
+        });
+    })
 })
 
 app.listen(7193, () => {  
