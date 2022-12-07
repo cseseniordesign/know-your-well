@@ -32,12 +32,14 @@ app.post('/api/insert', (req, res) => {
     const conductivity = req.body.conductivity;
     const name = req.body.name;
     const observation = req.body.observation;
+    const dateentered = req.body.dateentered;
+
 
     /**  field */
     db.query(   
         
-        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation) VALUES(?,?,?,?,?,?,?,?,?)", 
-        [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation],
+        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)", 
+        [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -59,10 +61,12 @@ app.post('/createlab', (req, res) => {
     const nitrate = req.body.nitrate;
     const name = req.body.name;
     const observations = req.body.observations;
+    const dateentered = req.body.dateentered;
+
 
     db.query(
-        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations) VALUES(?,?,?,?,?,?,?,?,?,?)",
-        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations],
+        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -96,7 +100,6 @@ app.post('/createwellinfo', (req, res) => {
     const gps_coordinates = req.body.gps_coordinates;
     const boreholediameter = req.body.boreholediameter;
     const totaldepth = req.body.totaldepth;
-    const fieldtitle = req.body.fieldtitle;
     const well_waterleveldepth = req.body.well_waterleveldepth;
     const aquifertype = req.body.aquifertype;
     const aquiferclass = req.body.aquiferclass;
@@ -108,11 +111,11 @@ app.post('/createwellinfo', (req, res) => {
     const dateentered = req.body.dateentered;
 
     db.query(
-        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, gps_coordinates, boreholediameter, totaldepth, fieldtitle, well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, gps_coordinates, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
             wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste,
             smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
-            gps_coordinates, boreholediameter, totaldepth, fieldtitle, well_waterleveldepth, aquifertype, aquiferclass, welltype,
+            gps_coordinates, boreholediameter, totaldepth, well_waterleveldepth, aquifertype, aquiferclass, welltype,
             wellcasematerial, datacollector, observation, comments, dateentered
         ],
         (err, result) => {

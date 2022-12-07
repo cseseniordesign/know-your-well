@@ -8,14 +8,14 @@ import SignUp from './components/signup';
 import NavMenu from './components/NavMenu';
 import Well from './components/well';
 import EditWell from './components/editwell';
-import WellInfo from './components/wellinfo';
+import WellInfo from './components/WellInfo';
 import Field from './components/field';
 import Lab from './components/lab';
 import EditLog from './components/editlog';
-import AboutProject from './components/aboutproject';
-import ViewField from './components/viewfield';
-import ViewLab from './components/viewlab';
-import ViewWell from './components/viewwell';
+import AboutProject from './components/AboutProject';
+import ViewField from './components/ViewField';
+import ViewLab from './components/ViewLab';
+import ViewWell from './components/ViewWell';
 
 
 export default function App() { 
@@ -35,7 +35,6 @@ export default function App() {
                 <Route exact path="/viewfield" element={<ViewField />} />
                 <Route exact path="/viewlab" element={<ViewLab />} />
                 <Route exact path="/viewwell" element={<ViewWell />} />
-
             </Routes>
         </>
     );
