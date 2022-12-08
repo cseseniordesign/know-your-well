@@ -3,25 +3,6 @@ import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 import './css/PreField.css'
 
-
-const Well_Cover_Condition = [
-    {
-        label: "Good",
-        value: "Good",
-    },
-    {
-        label: "Fair",
-        value: "Fair",
-    },
-    {
-        label: "Bad",
-        value: "Bad",
-=======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
-import './css/PreField.css'
-
-
 const Well_Cover_Condition = [
     {
         label: "Intact",
@@ -94,31 +75,25 @@ export class Field extends Component {
                         <p><textarea type="text" class="textarea resize-ta" required autoFocus></textarea></p>
                     </label>
                 </div>
+                {/*<div class="css">*/}
+                {/*    <label>*/}
+                {/*        <div>*/}
+                {/*            Topography of the well location*/}
+                {/*        </div>*/}
+                {/*        <div id="App">*/}
+                {/*            <div className="select-container">*/}
+                {/*                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >*/}
+                {/*                    {Topography.map((option) => (*/}
+                {/*                        <option value={option.value}>{option.label}</option>*/}
+                {/*                    ))}*/}
+                {/*                </select>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </label>*/}
+                {/*</div>*/}
                 <div class="css">
                     <label>
                         <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            Topography of the well location
-                        </div>
-                        <div id="App">
-                            <div className="select-container">
-                                <select style={{ width: '20em' }} value={this.state.value} onChange={this.handleChange} >
-                                    {Topography.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="css">
-                    <label>
-                        <div>
-=======
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
                             Condition of the well cover
                         </div>
                         <div id="App">

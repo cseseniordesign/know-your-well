@@ -51,18 +51,6 @@ const Fertilizers_Pesticides = [
 
 const Aquifer_Type = [
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        label: "Aquifer Type A",
-        value: "Aquifer_Type_A",
-    },
-    {
-        label: "Aquifer Type B",
-        value: "Aquifer_Type_B",
-=======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
-
         label: "Confined",
         value: "Confined",
     },
@@ -88,10 +76,6 @@ const Aquifer_Class = [
     {
         label: "Unknown",
         value: "Unknown",
-<<<<<<< HEAD
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
     },
 ];
 
