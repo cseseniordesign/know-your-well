@@ -17,7 +17,7 @@ export default function Well() {
             .then(function (response) {
                 for (const element of response.data.data) {
                     wellList.push(
-                        <List.Item >
+                        <List.Item key={element.id}>
                             <List.Content>
                                 <a href="/EditWell" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{element.wellname} </a>
                             </List.Content>

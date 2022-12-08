@@ -129,7 +129,7 @@ app.post('/createwellinfo', (req, res) => {
 
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
-    db.query("SELECT wellname FROM wellinfo;", function (err, data, fields) {
+    db.query("SELECT id, wellname FROM wellinfo;", function (err, data, fields) {
         if (err) return (err)
         res.status(200).json({
             status: "success",
