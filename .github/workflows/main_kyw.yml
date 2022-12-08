@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - kyw
+name: Build and deploy Node.js app to Azure Web App - kyw
 
 on:
   push:
@@ -16,26 +16,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
         with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
+          node-version: '16.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: node-app
+          path: .
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
@@ -45,13 +44,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: .net-app
+          name: node-app
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
         with:
           app-name: 'kyw'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4F24FA306C82411485EB9A81F155056B }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_760707977D474640AB4E4E189FE9E016 }}
           package: .
