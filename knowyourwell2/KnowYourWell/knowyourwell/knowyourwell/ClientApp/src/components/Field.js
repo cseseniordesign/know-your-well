@@ -3,33 +3,23 @@ import Select from 'react-select';
 import { List } from 'semantic-ui-react'
 import './css/PreField.css'
 
-const Topography = [
-    {
-        label: "Hill Top",
-        value: "Hill_Top",
-    },
-    {
-        label: "Hill Bottom",
-        value: "Hill_Bottom",
-    },
- 
-];
 
-//const Well_Cover_Condition = [
-//    {
-//        label: "Good",
-//        value: "Good",
-//    },
-//    {
-//        label: "Fair",
-//        value: "Fair",
-//    },
-//    {
-//        label: "Bad",
-//        value: "Bad",
-//    },
-//    ]
- 
+const Well_Cover_Condition = [
+    {
+        label: "Good",
+        value: "Good",
+    },
+    {
+        label: "Fair",
+        value: "Fair",
+    },
+    {
+        label: "Bad",
+        value: "Bad",
+=======
+=======
+>>>>>>> parent of 099cfc8 (Delete direcotry)
+import './css/PreField.css'
 
 
 const Well_Cover_Condition = [
@@ -107,6 +97,8 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
+<<<<<<< HEAD
+<<<<<<< HEAD
                             Topography of the well location
                         </div>
                         <div id="App">
@@ -123,6 +115,10 @@ export class Field extends Component {
                 <div class="css">
                     <label>
                         <div>
+=======
+>>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
+=======
+>>>>>>> parent of 099cfc8 (Delete direcotry)
                             Condition of the well cover
                         </div>
                         <div id="App">
