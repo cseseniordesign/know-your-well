@@ -7,7 +7,6 @@ var wellList = [];
 export default function Well() {
     var example = [< h1 > test1</h1>, <h1>test2</h1>];
     const [isLoading, setLoading] = useState(true);
-    const [pokemon, setPokemon] = useState();
 
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
     useEffect(() => {
@@ -33,7 +32,6 @@ export default function Well() {
         return <h1>Loading</h1>;
     }
 
-    console.log(wellList.length)
     return (
         <List style={{ textAlign: 'center' }}>
             <h2> <strong> Well Selection </strong></h2>
