@@ -4,17 +4,6 @@ import Axios from 'axios'
 
 var wellList = [];
 
-function printWellList(wellList) {
-    return wellList.map(function (each) {
-        return (<List.Item >
-            <List.Content>
-                <a href="/EditWell" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{each} </a>
-            </List.Content>
-            <br />
-        </List.Item>);
-    })
-}
-
 export default function Well() {
     var example = [< h1 > test1</h1>, <h1>test2</h1>];
     const [isLoading, setLoading] = useState(true);
