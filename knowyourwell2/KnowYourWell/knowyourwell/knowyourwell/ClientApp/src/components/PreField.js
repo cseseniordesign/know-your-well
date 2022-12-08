@@ -1,58 +1,36 @@
 ﻿import React, { Component } from 'react';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import Select from 'react-select';
 import { List } from 'semantic-ui-react'
-=======
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
 import './css/PreField.css'
 
 
 const Maintenance = [
     {
-        label: "Maintenance 1",
-        value: "maintenance_1",
+        label: "Yes",
+        value: "Yes",
     },
     {
-        label: "Maintenance 2",
-        value: "maintenance_2",
+        label: "No",
+        value: "No",
     },
     {
-        label: "Maintenance 3",
-        value: "maintenance_3",
-    },
-    {
-        label: "Maintenance 4",
-        value: "maintenance_4",
-    },
-    {
-        label: "Maintenance 5",
-        value: "maintenance_5",
+        label: "Unknown",
+        value: "Unknown",
     },
 ];
 
 const Development = [
     {
-        label: "major land use / development changes 1",
-        value: "change_1",
+        label: "Yes",
+        value: "Yes",
     },
     {
-        label: "major land use / development changes 2",
-        value: "change_2",
+        label: "No",
+        value: "No",
     },
     {
-        label: "major land use / development changes 3",
-        value: "change_3",
-    },
-    {
-        label: "major land use / development changes 4",
-        value: "change_4",
-    },
-    {
-        label: "major land use / development changes 5",
-        value: "change_5",
+        label: "Unknown",
+        value: "Unknown",
     },
 ];
 
@@ -65,22 +43,14 @@ const Fertilizers_Pesticides = [
         label: "No",
         value: "No",
     },
+    {
+        label: "Unknown",
+        value: "Unknown",
+    },
 ];
 
 const Aquifer_Type = [
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        label: "Aquifer Type A",
-        value: "Aquifer_Type_A",
-    },
-    {
-        label: "Aquifer Type B",
-        value: "Aquifer_Type_B",
-=======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
-
         label: "Confined",
         value: "Confined",
     },
@@ -91,26 +61,11 @@ const Aquifer_Type = [
     {
         label: "Unknown",
         value: "Unknown",
-<<<<<<< HEAD
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
     },
 ];
 
 const Aquifer_Class = [
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        label: "Aquifer Class A",
-        value: "Aquifer_Class_A",
-    },
-    {
-        label: "Aquifer Class B",
-        value: "Aquifer_Class_B",
-=======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
         label: "Bedrock",
         value: "Bedrock",
     },
@@ -121,26 +76,12 @@ const Aquifer_Class = [
     {
         label: "Unknown",
         value: "Unknown",
-<<<<<<< HEAD
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
+
     },
 ];
 
 const Well_Type = [
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        label: "Well Type A",
-        value: "Well_Type_A",
-    },
-    {
-        label: "Well Type B",
-        value: "Well_Type_B",
-=======
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
         label: "Drilled",
         value: "Drilled",
     },
@@ -155,10 +96,6 @@ const Well_Type = [
     {
         label: "Unknown",
         value: "Unknown",
-<<<<<<< HEAD
->>>>>>> parent of cdcc2b7 (Merge pull request #119 from cseseniordesign/backend)
-=======
->>>>>>> parent of 099cfc8 (Delete direcotry)
     },
 ];
 
