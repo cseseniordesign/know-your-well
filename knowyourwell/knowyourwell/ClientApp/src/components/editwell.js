@@ -1,10 +1,10 @@
-﻿import React from 'react' 
-import { List } from 'semantic-ui-react' 
+﻿import React from 'react'
+import { List } from 'semantic-ui-react'
 
-export default function EditWell() { 
+export default function EditWell() {
 
-    return ( 
-        <List style={{ textAlign: 'center' }}> 
+    return (
+        <List style={{ textAlign: 'center' }}>
             <h2>Edit Well</h2>
             <List.Item>
                 <List.Content>
