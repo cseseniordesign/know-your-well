@@ -5,7 +5,7 @@ import './components/css/style.css';
 //pages
 import Login from "./components/login"; 
 import SignUp from './components/signup';
-import NavMenu from './components/NavMenu';
+import NavMenu from './components/navmenu';
 import Well from './components/well';
 import EditWell from './components/editwell';
 import WellInfo from './components/WellInfo';

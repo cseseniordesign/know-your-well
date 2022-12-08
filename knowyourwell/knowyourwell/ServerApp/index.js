@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
+const { response } = require("express");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,7 +50,8 @@ app.post('/api/insert', (req, res) => {
         }
     );
 });
- 
+
+
 app.post('/createlab', (req, res) => {
     const ammonia = req.body.ammonia;
     const calcium = req.body.calcium;
@@ -127,6 +129,18 @@ app.post('/createwellinfo', (req, res) => {
         }
     );
 });
+
+//credit to https://arctype.com/blog/rest-api-tutorial/
+app.get('/Wells', async (req, res) => {
+    db.query("SELECT id, wellname FROM wellinfo;", function (err, data, fields) {
+        if (err) return (err)
+        res.status(200).json({
+            status: "success",
+            length: data?.length,
+            data: data,
+        });
+    })
+})
 
 app.listen(7193, () => {  
     console.log("server is running");
