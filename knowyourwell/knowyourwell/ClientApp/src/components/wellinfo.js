@@ -13,6 +13,8 @@ export default function WellInfo() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
+    const [county, setCounty] = useState("");
+    const [nrd, setNrd] = useState("");
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState(0);
     const [numberwelluser, setNumberwelluser] = useState(0);
@@ -87,6 +89,8 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
+            county: county,
+            nrd: nrd,
             wellowner: wellowner,
             installyear: installyear,
             smelltaste: smelltaste,
@@ -138,17 +142,6 @@ export default function WellInfo() {
         <form action="/editwell" id="submissionAlert">
             <h2>Well Info</h2>
             <div className="css">
-                <label for="wellcode">
-                    Well ID:
-                </label>
-                <input
-                    type="text" className="textarea resize-ta" id="wellcode" name="wellcode" required autofocus
-                    onChange={(event) => {
-                        setWellcode(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
                 <label for="wellname">
                     Well Name:
                 </label>
@@ -156,17 +149,6 @@ export default function WellInfo() {
                     type="text" className="textarea resize-ta" id="wellname" name="wellname" required
                     onChange={(event) => {
                         setWellname(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label for="school_id">
-                    School Name (School-ID):
-                </label>
-                <input
-                    type="number" className="textarea resize-ta" id="school_id" name="school_id" required
-                    onChange={(event) => {
-                        setSchool_id(event.target.value);
                     }}
                 />
             </div>
@@ -222,6 +204,28 @@ export default function WellInfo() {
                     type="number" className="textarea resize-ta" id="zipcode" name="zipcode" min="00001" max="99950" minlength="5" maxlength="5"
                     onChange={(event) => {
                         setZipcode(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="county">
+                    County ID:
+                </label>
+                <input
+                    type="number" className="textarea resize-ta" id="county" name="county" min="1"
+                    onChange={(event) => {
+                        setCounty(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="nrd">
+                    NRD ID:
+                </label>
+                <input
+                    type="number" className="textarea resize-ta" id="nrd" name="nrd" min="1"
+                    onChange={(event) => {
+                        setNrd(event.target.value);
                     }}
                 />
             </div>
@@ -403,7 +407,7 @@ export default function WellInfo() {
                     Bore hole diameter (inches):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" min="0"
+                    type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" min="0" step=".00001"
                     onChange={(event) => {
                         setBoreholediameter(event.target.value);
                     }}
@@ -414,7 +418,7 @@ export default function WellInfo() {
                     Total depth of well (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth" min="0"
+                    type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth" min="0" step=".00001"
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                     }}
@@ -444,7 +448,7 @@ export default function WellInfo() {
                     Water level (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" min="0"
+                    type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" min="0" step=".00001"
                     onChange={(event) => {
                         setWell_waterleveldepth(event.target.value);
                     }}
@@ -535,17 +539,6 @@ export default function WellInfo() {
                     type="text" className="textarea resize-ta" id="observation" name="observation"
                     onChange={(event) => {
                         setObservation(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label for="comments">
-                    Comments:
-                </label>
-                <textarea
-                    type="text" className="textarea resize-ta" id="comments" name="comments"
-                    onChange={(event) => {
-                        setComments(event.target.value);
                     }}
                 />
             </div>

@@ -89,6 +89,8 @@ app.post('/createwellinfo', (req, res) => {
     const city = req.body.city;
     const state = req.body.state;
     const zipcode = req.body.zipcode;
+    const county = req.body.county;
+    const nrd = req.body.nrd;
     const wellowner = req.body.wellowner;
     const installyear = req.body.installyear;
     const smelltaste = req.body.smelltaste;
@@ -114,9 +116,9 @@ app.post('/createwellinfo', (req, res) => {
     const dateentered = req.body.dateentered;
 
     db.query(
-        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, setlatitude, setlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, setlatitude, setlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
-            wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste,
+            wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste,
             smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
             estlatitude, estlongitude, boreholediameter, totaldepth, well_waterleveldepth, aquifertype, aquiferclass, welltype,
             wellcasematerial, datacollector, observation, comments, dateentered
