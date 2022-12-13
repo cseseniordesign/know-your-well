@@ -184,7 +184,7 @@ export default function Lab() {
                     Date Entered:
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
                     onChange={(event) => {
                         setDateentered(event.target.value);
                     }}
