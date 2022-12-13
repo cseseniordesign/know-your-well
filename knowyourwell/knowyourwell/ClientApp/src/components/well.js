@@ -19,7 +19,7 @@ export default function Well() {
                     wellList.push(
                         <List.Item key={element.id}>
                             <List.Content>
-                                <a href="/EditWell" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{element.wellname} </a>
+                                <a href={`/EditWell?id=${element.id}&wellName=${element.wellname}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{element.wellname} </a>
                             </List.Content>
                             <br />
                         </List.Item>);
