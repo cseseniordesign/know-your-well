@@ -1,11 +1,11 @@
 ﻿import React from 'react'
 import { List } from 'semantic-ui-react'
-const [searchParams, setSearchParams] = useSearchParams();
-
-const wellName = searchParams.get("wellName")
+import { useSearchParams } from "react-router-dom";
 
 export default function EditWell() {
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const wellName = searchParams.get("wellName")
     return (
         <List style={{ textAlign: 'center' }}>
             <h2>{wellName}</h2>
