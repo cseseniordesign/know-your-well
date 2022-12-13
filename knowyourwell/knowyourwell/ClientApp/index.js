@@ -11,15 +11,17 @@ app.use(express.json());
 app.use(bodyParser.json());  
 
 const db = mysql.createPool({
+   
     user: "fnaif",
     host: "cse.unl.edu",
     password: "d5suMv1a",
     database: "fnaif",
 
-    // user:"fnaif2",
-    // host:"wslims.database.windows.net",
-    // password:"NYWell2022",
-    // database: "kyw",
+    //user: "newatercenter",
+    //host: "cse-vmdb-02.unl.edu",
+    //password: "Newaterazt22!",
+    //database: "newatercenter",
+   
 });
 
 app.post('/api/insert', (req, res) => { 

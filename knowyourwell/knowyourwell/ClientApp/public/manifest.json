@@ -3,13 +3,29 @@
   "name": "knowyourwell",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "purpose": "any maskable",
+      "sizes": "192x192",
+      "src": "/images/icon-192x192.png",
+      "type": "image/png"
+    },
+
+    {
+      "purpose": "any maskable",
+      "sizes": "128x128",
+      "src": "/images/browser-icon.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "/images/app-icon.png",
+      "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "scope": "./",
+  "start_url": "./",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme-color": "#000000",
   "background_color": "#ffffff"
+
 }
