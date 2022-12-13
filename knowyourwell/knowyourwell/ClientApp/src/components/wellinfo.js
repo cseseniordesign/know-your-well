@@ -5,9 +5,11 @@ import Axios from 'axios'
 
 export default function WellInfo() {
 
-    const [wellcode, setWellcode] = useState("");
+    //const [wellcode, setWellcode] = useState("");
+    const wellcode = 13
     const [wellname, setWellname] = useState("");
-    const [school_id, setSchool_id] = useState(0);
+    //const [school_id, setSchool_id] = useState(0);
+    const school_id = 17;
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -22,7 +24,8 @@ export default function WellInfo() {
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
 
     const [wellcasematerial, setWellcasematerial] = useState("");
-    const [datacollector, setDatacollector] = useState("");
+    //const [datacollector, setDatacollector] = useState("");
+    const datacollector = "John Smith"
     const [observation, setObservation] = useState("");
     const [comments, setComments] = useState("");
     const [dateentered, setDateentered] = useState("");
@@ -135,6 +138,7 @@ export default function WellInfo() {
         //<div className="form-container">
         <form action="/editwell" id="submissionAlert">
             <h2>Well Info</h2>
+            { /*}
             <div className="css">
                 <label for="wellcode">
                     Well ID:
@@ -146,6 +150,7 @@ export default function WellInfo() {
                     }}
                 />
             </div>
+            {*/}
             <div className="css">
                 <label for="wellname">
                     Well Name:
@@ -157,6 +162,7 @@ export default function WellInfo() {
                     }}
                 />
             </div>
+            {/* }
             <div className="css">
                 <label for="school_id">
                     School Name (School-ID):
@@ -168,6 +174,7 @@ export default function WellInfo() {
                     }}
                 />
             </div>
+            {*/ }
             <div className="css">
                 <label for="welluser">
                     Name of the resident well user:
@@ -503,6 +510,7 @@ export default function WellInfo() {
                     }}
                 />
             </div>
+            {/* }
             <div className="css">
                 <label for="datacollector">
                     Data Collector’s Name:
@@ -514,6 +522,7 @@ export default function WellInfo() {
                     }}
                 />
             </div>
+            { */}
             <div className="css">
                 <label for="observation">
                     Observations:
