@@ -62,7 +62,7 @@ export default function Lab() {
             <h2>Lab</h2>
             <div className="css">
                 <label for="ammonia">
-                    Ammonia <br /> [0-10 ppm(mg/L)]
+                    Ammonia - N<br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
                     type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" required
@@ -148,7 +148,7 @@ export default function Lab() {
             </div>
             <div className="css">
                 <label for="nitrate">
-                    Nitrate <br /> [0-45 ppm(mg/L)]
+                    Nitrate - N<br /> [0-45 ppm(mg/L)]
                 </label>
                 <input
                     type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="45" required
@@ -169,22 +169,11 @@ export default function Lab() {
                 />
             </div>
             <div className="css">
-                <label for="observations">
-                    Additional observations:
-                </label>
-                <textarea
-                    type="text" className="textarea resize-ta" maxLength="150" id="observations" name="observations" required
-                    onChange={(event) => {
-                        setObservations(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
                 <label for="dateentered">
                     Date Entered:
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
                     onChange={(event) => {
                         setDateentered(event.target.value);
                     }}

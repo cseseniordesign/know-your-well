@@ -162,7 +162,7 @@ export default function Field() {
                     pH<br /> [0-14]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" min="0" max="14" id="ph" name="ph" required
+                    type="number" className="textarea resize-ta" min="0" max="14" id="ph" name="ph" step=".01" required
                     onChange={(event) => {
                         setPh(event.target.value);
                     }}
@@ -202,22 +202,11 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="comments">
-                    Comments:
-                </label>
-                <textarea
-                    type="text" className="textarea resize-ta" id="comments" name="comments"
-                    onChange={(event) => {
-                        setComments(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
                 <label for="dateentered">
                     Date Entered:
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
                     onChange={(event) => {
                         setDateentered(event.target.value);
                     }}
