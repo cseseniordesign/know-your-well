@@ -15,10 +15,13 @@ export default function WellInfo() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
+    const [county, setCounty] = useState("");
+    const [nrd, setNrd] = useState("");
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState(0);
     const [numberwelluser, setNumberwelluser] = useState(0);
-    const [gps_coordinates, setGps_coordinates] = useState(0);
+    const [estlatitude, setEstlatitude] = useState(0);
+    const [estlongitude, setEstlongitude] = useState(0);
     const [boreholediameter, setBoreholediameter] = useState(0);
     const [totaldepth, setTotaldepth] = useState(0);
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
@@ -89,6 +92,8 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
+            county: county,
+            nrd: nrd,
             wellowner: wellowner,
             installyear: installyear,
             smelltaste: smelltaste,
@@ -99,7 +104,8 @@ export default function WellInfo() {
             landuse5yr: landuse5yr,
             numberwelluser: numberwelluser,
             pestmanure: pestmanure,
-            gps_coordinates: gps_coordinates,
+            estlatitude: estlatitude,
+            estlongitude: estlongitude,
             boreholediameter: boreholediameter,
             totaldepth: totaldepth,
             topography: topography,
@@ -138,19 +144,6 @@ export default function WellInfo() {
         //<div className="form-container">
         <form action="/editwell" id="submissionAlert">
             <h2>Well Info</h2>
-            { /*}
-            <div className="css">
-                <label for="wellcode">
-                    Well ID:
-                </label>
-                <input
-                    type="text" className="textarea resize-ta" id="wellcode" name="wellcode" required autofocus
-                    onChange={(event) => {
-                        setWellcode(event.target.value);
-                    }}
-                />
-            </div>
-            {*/}
             <div className="css">
                 <label for="wellname">
                     Well Name:
@@ -163,18 +156,6 @@ export default function WellInfo() {
                 />
             </div>
             {/* }
-            <div className="css">
-                <label for="school_id">
-                    School Name (School-ID):
-                </label>
-                <input
-                    type="number" className="textarea resize-ta" id="school_id" name="school_id" required
-                    onChange={(event) => {
-                        setSchool_id(event.target.value);
-                    }}
-                />
-            </div>
-            {*/ }
             <div className="css">
                 <label for="welluser">
                     Name of the resident well user:
@@ -231,6 +212,28 @@ export default function WellInfo() {
                 />
             </div>
             <div className="css">
+                <label for="county">
+                    County ID:
+                </label>
+                <input
+                    type="number" className="textarea resize-ta" id="county" name="county" min="1"
+                    onChange={(event) => {
+                        setCounty(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="nrd">
+                    NRD ID:
+                </label>
+                <input
+                    type="number" className="textarea resize-ta" id="nrd" name="nrd" min="1"
+                    onChange={(event) => {
+                        setNrd(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
                 <label for="wellowner">
                     Well owner (if different from resident):
                 </label>
@@ -246,7 +249,7 @@ export default function WellInfo() {
                     Well construction completion year:
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="installyear" name="installyear" required
+                    type="number" className="textarea resize-ta" id="installyear" name="installyear" min="1000" max="3000" required
                     onChange={(event) => {
                         setInstallyear(event.target.value);
                     }}
@@ -382,13 +385,24 @@ export default function WellInfo() {
                 </div>
             </div>
             <div className="css">
-                <label for="gps_coordinates">
-                    Well GPS Coordinates (if registered):
+                <label for="estlatitude">
+                    Estimated Latitude (in decimal degrees):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="gps_coordinates" name="gps_coordinates" required
+                    type="number" className="textarea resize-ta" id="estlatitude" name="estlatitude" min="40" max="43" step=".00001" required
                     onChange={(event) => {
-                        setGps_coordinates(event.target.value);
+                        setEstlatitude(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="estlongitude">
+                    Estimated Latitude (in decimal degrees):
+                </label>
+                <input
+                    type="number" className="textarea resize-ta" id="estlongitude" name="estlongitude" min="-104" max="-95.417" step=".00001" required
+                    onChange={(event) => {
+                        setEstlongitude(event.target.value);
                     }}
                 />
             </div>
@@ -397,7 +411,7 @@ export default function WellInfo() {
                     Bore hole diameter (inches):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter"
+                    type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" min="0" step=".00001"
                     onChange={(event) => {
                         setBoreholediameter(event.target.value);
                     }}
@@ -408,7 +422,7 @@ export default function WellInfo() {
                     Total depth of well (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth"
+                    type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth" min="0" step=".00001"
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                     }}
@@ -438,7 +452,7 @@ export default function WellInfo() {
                     Water level (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth"
+                    type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" min="0" step=".00001"
                     onChange={(event) => {
                         setWell_waterleveldepth(event.target.value);
                     }}
@@ -535,22 +549,11 @@ export default function WellInfo() {
                 />
             </div>
             <div className="css">
-                <label for="comments">
-                    Comments:
-                </label>
-                <textarea
-                    type="text" className="textarea resize-ta" id="comments" name="comments"
-                    onChange={(event) => {
-                        setComments(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
                 <label for="dateentered">
                     Date Entered:
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
                     onChange={(event) => {
                         setDateentered(event.target.value);
                     }}
