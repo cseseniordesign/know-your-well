@@ -155,7 +155,6 @@ export default function WellInfo() {
                     }}
                 />
             </div>
-            {/* }
             <div className="css">
                 <label for="welluser">
                     Name of the resident well user:
