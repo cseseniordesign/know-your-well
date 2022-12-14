@@ -7,24 +7,22 @@ const { response } = require("express");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); 
-app.use(bodyParser.json());  
+app.use(express.json());
+app.use(bodyParser.json());
 
 const db = mysql.createPool({
-   
     user: "fnaif",
     host: "cse.unl.edu",
     password: "d5suMv1a",
     database: "fnaif",
 
-    //user: "newatercenter",
-    //host: "cse-vmdb-02.unl.edu",
-    //password: "Newaterazt22!",
-    //database: "newatercenter",
-   
+    // user:"fnaif2",
+    // host:"wslims.database.windows.net",
+    // password:"NYWell2022",
+    // database: "kyw",
 });
 
-app.post('/api/insert', (req, res) => { 
+app.post('/api/insert', (req, res) => {
     /**  field */
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
@@ -39,9 +37,9 @@ app.post('/api/insert', (req, res) => {
 
 
     /**  field */
-    db.query(   
-        
-        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)", 
+    db.query(
+
+        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)",
         [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
         (err, result) => {
             if (err) {
@@ -91,6 +89,8 @@ app.post('/createwellinfo', (req, res) => {
     const city = req.body.city;
     const state = req.body.state;
     const zipcode = req.body.zipcode;
+    const county = req.body.county;
+    const nrd = req.body.nrd;
     const wellowner = req.body.wellowner;
     const installyear = req.body.installyear;
     const smelltaste = req.body.smelltaste;
@@ -101,7 +101,8 @@ app.post('/createwellinfo', (req, res) => {
     const landuse5yr = req.body.landuse5yr;
     const numberwelluser = req.body.numberwelluser;
     const pestmanure = req.body.pestmanure;
-    const gps_coordinates = req.body.gps_coordinates;
+    const estlatitude = req.body.estlatitude;
+    const estlongitude = req.body.estlongitude;
     const boreholediameter = req.body.boreholediameter;
     const totaldepth = req.body.totaldepth;
     const well_waterleveldepth = req.body.well_waterleveldepth;
@@ -115,11 +116,11 @@ app.post('/createwellinfo', (req, res) => {
     const dateentered = req.body.dateentered;
 
     db.query(
-        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, gps_coordinates, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
-            wellcode, wellname, school_id, welluser, address, city, state, zipcode, wellowner, installyear, smelltaste,
+            wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste,
             smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
-            gps_coordinates, boreholediameter, totaldepth, well_waterleveldepth, aquifertype, aquiferclass, welltype,
+            estlatitude, estlongitude, boreholediameter, totaldepth, well_waterleveldepth, aquifertype, aquiferclass, welltype,
             wellcasematerial, datacollector, observation, comments, dateentered
         ],
         (err, result) => {
@@ -144,6 +145,6 @@ app.get('/Wells', async (req, res) => {
     })
 })
 
-app.listen(7193, () => {  
+app.listen(7193, () => {
     console.log("server is running");
 });
