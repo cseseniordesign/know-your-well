@@ -53,12 +53,13 @@ export default function Lab() {
 
     function myFunction2() {
         addLab();
-        myFunction();
+        /*myFunction();*/
     }
 
     return (
         //<div className="form-container" >
-        <form action="/editwell" id="submissionAlert">
+        //action = "/editwell" id = "submissionAlert"
+        <form >
             <h2>Lab</h2>
             <div className="css">
                 <label for="ammonia">

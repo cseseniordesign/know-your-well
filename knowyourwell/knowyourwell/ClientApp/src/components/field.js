@@ -62,7 +62,7 @@ export default function Field() {
 
     function myFunction2() {
         addField();
-        myFunction();
+       /* myFunction();*/
     }
     return (
         //<div className="form-container"> 
