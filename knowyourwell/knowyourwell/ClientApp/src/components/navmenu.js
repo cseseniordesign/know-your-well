@@ -26,7 +26,7 @@ export default class NavMenu extends React.Component {
             <header>
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
                     <NavbarBrand tag={Link} to="/">
-                        <img src={require('./images/logo.png')} alt="app logo" className="logo" />
+                        <img src={require('./images/kywlogo.png')} alt="app logo" className="logo"/>
                     </NavbarBrand>
                     <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                     <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
