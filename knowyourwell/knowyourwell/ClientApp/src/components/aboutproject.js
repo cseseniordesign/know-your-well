@@ -24,36 +24,31 @@ export default function AboutProject() {
                 </p>
             </div>
             <h3>Related Organizations</h3>
-            <div className="mb-3">
-                <img src={require('./images/UNK.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
-            </div>
-            <div className="mb-3">
-                <a href="https://www.unk.edu">The University of Nebraska at Kearney</a>
-            </div>
-            <div className="mb-3">
-                <img src={require('./images/WaterForFood.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
-            </div>
-            <div className="mb-3">
-                <a href="https://waterforfood.nebraska.edu/">Daugherty Water for Food Global Institute</a>
-            </div>
-            <div className="mb-3">
-                <img src={require('./images/NET.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
-            </div>
-            <div className="mb-3">
-                <a href="https://environmentaltrust.nebraska.gov/">The Nebraska Environmental Trust</a>
-            </div>
-            <div className="mb-3">
-                <img src={require('./images/NDEE.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
-            </div>
-            <div className="mb-3">
-                <a href="http://www.deq.state.ne.us/">Nebraska Department of Environment and Energy</a>
-            </div>
-            <div className="mb-3">
-                <img src={require('./images/PMRNRD.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
-            </div>
-            <div className="mb-3">
-                <a href="https://www.papionrd.org//">Papio-Missouri River Natural Resource District</a>
-            </div>
+            <a href="https://www.unk.edu">
+                <div className="mb-3">
+                    <img src={require('./images/UNK.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
+                </div>
+            </a>
+            <a href="https://waterforfood.nebraska.edu/">
+                <div className="mb-3">
+                    <img src={require('./images/WaterForFood.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
+                </div>
+            </a>
+            <a href="https://environmentaltrust.nebraska.gov/">
+                <div className="mb-3">
+                    <img src={require('./images/NET.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
+                </div>
+            </a>
+            <a href="http://www.deq.state.ne.us/">
+                <div className="mb-3">
+                    <img src={require('./images/NDEE.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
+                </div>
+            </a>
+            <a href="https://www.papionrd.org//">
+                <div className="mb-3">
+                    <img src={require('./images/PMRNRD.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
+                </div>
+            </a>
         </form>
     )
 }
