@@ -151,7 +151,7 @@ export default function Field() {
                     Groundwater Temperature<br /> [Degrees Celsius]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="temp" name="temp" required
+                    type="number" className="textarea resize-ta" id="temp" name="temp" step="any" required
                     onChange={(event) => {
                         setTemp(event.target.value);
                     }}
@@ -162,7 +162,7 @@ export default function Field() {
                     pH<br /> [0-14]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" min="0" max="14" id="ph" name="ph" step=".01" required
+                    type="number" className="textarea resize-ta" min="1" max="14" id="ph" name="ph" step=".01" required
                     onChange={(event) => {
                         setPh(event.target.value);
                     }}

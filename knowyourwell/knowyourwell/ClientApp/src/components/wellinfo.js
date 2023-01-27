@@ -213,7 +213,7 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="county">
-                    County ID:
+                    County:
                 </label>
                 <input
                     type="number" className="textarea resize-ta" id="county" name="county" min="1"
@@ -224,7 +224,7 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="nrd">
-                    NRD ID:
+                    NRD:
                 </label>
                 <input
                     type="number" className="textarea resize-ta" id="nrd" name="nrd" min="1"
@@ -397,7 +397,7 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="estlongitude">
-                    Estimated Latitude (in decimal degrees):
+                    Estimated Longitude (in decimal degrees):
                 </label>
                 <input
                     type="number" className="textarea resize-ta" id="estlongitude" name="estlongitude" min="-104" max="-95.417" step=".00001" required
@@ -541,8 +541,8 @@ export default function WellInfo() {
                 <label for="observation">
                     Observations:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="observation" name="observation"
+                <textarea
+                    type="text" id="observation" name="observation" className="textarea resize-ta" maxLength="150"
                     onChange={(event) => {
                         setObservation(event.target.value);
                     }}

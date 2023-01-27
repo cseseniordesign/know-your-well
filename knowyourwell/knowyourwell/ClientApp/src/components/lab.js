@@ -13,7 +13,7 @@ export default function Lab() {
     const [manganese, setManganese] = useState(0);
     const [nitrate, setNitrate] = useState(0);
     const [name, setName] = useState("");
-    const [observations, setObservations] = useState("");
+    const [observation, setObservation] = useState("");
     const [bacteria, setBacteria] = useState("");
     const [dateentered, setDateentered] = useState("");
     const handleChange_Bacteria = (event) => {
@@ -31,7 +31,7 @@ export default function Lab() {
             manganese: manganese,
             nitrate: nitrate,
             name: name,
-            observations: observations,
+            observation: observation,
             dateentered: dateentered,
         })
             .then(() => {
@@ -66,7 +66,7 @@ export default function Lab() {
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" required
+                    type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" step="any"
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
@@ -77,7 +77,7 @@ export default function Lab() {
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" required
+                    type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" step="any"
                     onChange={(event) => {
                         setCalcium(event.target.value);
                     }}
@@ -88,7 +88,7 @@ export default function Lab() {
                     Chloride <br /> [0-400 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" required
+                    type="number" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" step="any"
                     onChange={(event) => {
                         setChloride(event.target.value);
                     }}
@@ -106,9 +106,9 @@ export default function Lab() {
                             onChange={handleChange_Bacteria}
                         >
                             <option hidden selected>Select one...</option>
-                            <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
-                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria" required>Yellow with fluorescent rim </option>
-                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria" required >Yellow without fluorescent rim</option>
+                            <option value="Clear" id="bacteria" name="bacteria">Clear</option>
+                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria">Yellow with fluorescent rim </option>
+                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria">Yellow without fluorescent rim</option>
                         </select>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ export default function Lab() {
                     Copper <br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="copper" name="copper" min="0" max="10" required
+                    type="number" className="textarea resize-ta" id="copper" name="copper" min="0" max="12" step="any"
                     onChange={(event) => {
                         setCopper(event.target.value);
                     }}
@@ -130,7 +130,7 @@ export default function Lab() {
                 </label>
                 <input
 
-                    type="number" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" required
+                    type="number" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" step="any"
                     onChange={(event) => {
                         setIron(event.target.value);
                     }}
@@ -141,7 +141,7 @@ export default function Lab() {
                     Manganese<br /> [0-50 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" required
+                    type="number" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" step="any"
                     onChange={(event) => {
                         setManganese(event.target.value);
                     }}
@@ -152,7 +152,7 @@ export default function Lab() {
                     Nitrate - N<br /> [0-45 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="45" required
+                    type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="50" step="any"
                     onChange={(event) => {
                         setNitrate(event.target.value);
                     }}
@@ -166,6 +166,17 @@ export default function Lab() {
                     type="text" className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="observation">
+                    Observations
+                </label>
+                <textarea
+                    type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation"
+                    onChange={(event) => {
+                        setObservation(event.target.value);
                     }}
                 />
             </div>
