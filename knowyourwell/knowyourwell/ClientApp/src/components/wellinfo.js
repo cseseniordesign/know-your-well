@@ -15,8 +15,6 @@ export default function WellInfo() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
-    const [county, setCounty] = useState("");
-    const [nrd, setNrd] = useState("");
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState(0);
     const [numberwelluser, setNumberwelluser] = useState(0);
@@ -32,6 +30,16 @@ export default function WellInfo() {
     const [observation, setObservation] = useState("");
     const [comments, setComments] = useState("");
     const [dateentered, setDateentered] = useState("");
+
+    const [county, setCounty] = useState("");
+    const handleChange_county = (event) => {
+        setCounty(event.target.value);
+    }
+
+    const [nrd, setNrd] = useState("");
+    const handleChange_nrd = (event) => {
+        setNrd(event.target.value);
+    }
 
     const [smelltaste, setSmelltaste] = useState("");
     const handleChange_smelltaste = (event) => {
@@ -213,25 +221,145 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="county">
-                    County ID:
+                    County:
                 </label>
-                <input
-                    type="number" className="textarea resize-ta" id="county" name="county" min="1"
-                    onChange={(event) => {
-                        setCounty(event.target.value);
-                    }}
-                />
+                <div className="select-container">
+                    <select
+                        value={county}
+                        onChange={handleChange_county}
+                    >
+                        <option hidden selected>Select one...</option>
+                        <option value="Adams" id="county" name="county" required >Adams</option>
+                        <option value="Antelope" id="county" name="county" required >Antelope</option>
+                        <option value="Arthur" id="county" name="county" required >Arthur</option>
+                        <option value="Banner" id="county" name="county" required >Banner</option>
+                        <option value="Blaine" id="county" name="county" required >Blaine</option>
+                        <option value="Boone" id="county" name="county" required >Boone</option>
+                        <option value="Box Butte" id="county" name="county" required >Box Butte</option>
+                        <option value="Boyd" id="county" name="county" required >Boyd</option>
+                        <option value="Brown" id="county" name="county" required >Brown</option>
+                        <option value="Buffalo" id="county" name="county" required >Buffalo</option>
+                        <option value="Burt" id="county" name="county" required >Burt</option>
+                        <option value="Butler" id="county" name="county" required >Butler</option>
+                        <option value="Cass" id="county" name="county" required >Cass</option>
+                        <option value="Cedar" id="county" name="county" required >Cedar</option>
+                        <option value="Chase" id="county" name="county" required >Chase</option>
+                        <option value="Cherry" id="county" name="county" required >Cherry</option>
+                        <option value="Cheyenne" id="county" name="county" required >Cheyenne</option>
+                        <option value="Clay" id="county" name="county" required >Clay</option>
+                        <option value="Colfax" id="county" name="county" required >Colfax</option>
+                        <option value="Cuming" id="county" name="county" required >Cuming</option>
+                        <option value="Custer" id="county" name="county" required >Custer</option>
+                        <option value="Dakota" id="county" name="county" required >Dakota</option>
+                        <option value="Dawes" id="county" name="county" required >Dawes</option>
+                        <option value="Dawson" id="county" name="county" required >Dawson</option>
+                        <option value="Dixon" id="county" name="county" required >Dixon</option>
+                        <option value="Dodge" id="county" name="county" required >Dodge</option>
+                        <option value="Douglas" id="county" name="county" required >Douglas</option>
+                        <option value="Deuel" id="county" name="county" required >Deuel</option>
+                        <option value="Dundy" id="county" name="county" required >Dundy</option>
+                        <option value="Fillmore" id="county" name="county" required >Fillmore</option>
+                        <option value="Franklin" id="county" name="county" required >Franklin</option>
+                        <option value="Frontier" id="county" name="county" required >Frontier</option>
+                        <option value="Furnas" id="county" name="county" required >Furnas</option>
+                        <option value="Gage" id="county" name="county" required >Gage</option>
+                        <option value="Garden" id="county" name="county" required >Garden</option>
+                        <option value="Garfield" id="county" name="county" required >Garfield</option>
+                        <option value="Gosper" id="county" name="county" required >Gosper</option>
+                        <option value="Grant" id="county" name="county" required >Grant</option>
+                        <option value="Greeley" id="county" name="county" required >Greeley</option>
+                        <option value="Hall" id="county" name="county" required >Hall</option>
+                        <option value="Hamilton" id="county" name="county" required >Hamilton</option>
+                        <option value="Harlan" id="county" name="county" required >Harlan</option>
+                        <option value="Hayes" id="county" name="county" required >Hayes</option>
+                        <option value="Hitchcock" id="county" name="county" required >Hitchcock</option>
+                        <option value="Holt" id="county" name="county" required >Holt</option>
+                        <option value="Hooker" id="county" name="county" required >Hooker</option>
+                        <option value="Howard" id="county" name="county" required >Howard</option>
+                        <option value="Jefferson" id="county" name="county" required >Jefferson</option>
+                        <option value="Johnson" id="county" name="county" required >Johnson</option>
+                        <option value="Kearney" id="county" name="county" required >Kearney</option>
+                        <option value="Keith" id="county" name="county" required >Keith</option>
+                        <option value="Keya Paha" id="county" name="county" required >Keya Paha</option>
+                        <option value="Kimball" id="county" name="county" required >Kimball</option>
+                        <option value="Knox" id="county" name="county" required >Knox</option>
+                        <option value="Lancaster" id="county" name="county" required >Lancaster</option>
+                        <option value="Lincoln" id="county" name="county" required >Lincoln</option>
+                        <option value="Logan" id="county" name="county" required >Logan</option>
+                        <option value="Loup" id="county" name="county" required >Loup</option>
+                        <option value="Madison" id="county" name="county" required >Madison</option>
+                        <option value="McPherson" id="county" name="county" required >McPherson</option>
+                        <option value="Merrick" id="county" name="county" required >Merrick</option>
+                        <option value="Morrill" id="county" name="county" required >Morrill</option>
+                        <option value="Nance" id="county" name="county" required >Nance</option>
+                        <option value="Nemaha" id="county" name="county" required >Nemaha</option>
+                        <option value="Nuckolls" id="county" name="county" required >Nuckolls</option>
+                        <option value="Otoe" id="county" name="county" required >Otoe</option>
+                        <option value="Pawnee" id="county" name="county" required >Pawnee</option>
+                        <option value="Perkins" id="county" name="county" required >Perkins</option>
+                        <option value="Phelps" id="county" name="county" required >Phelps</option>
+                        <option value="Pierce" id="county" name="county" required >Pierce</option>
+                        <option value="Platte" id="county" name="county" required >Platte</option>
+                        <option value="Polk" id="county" name="county" required >Polk</option>
+                        <option value="Red Willow" id="county" name="county" required >Red Willow</option>
+                        <option value="Richardson" id="county" name="county" required >Richardson</option>
+                        <option value="Rock" id="county" name="county" required >Rock</option>
+                        <option value="Saline" id="county" name="county" required >Saline</option>
+                        <option value="Sarpy" id="county" name="county" required >Sarpy</option>                        
+                        <option value="Saunders" id="county" name="county" required >Saunders</option>
+                        <option value="Scotts Bluff" id="county" name="county" required >Scotts Bluff</option>
+                        <option value="Seward" id="county" name="county" required >Seward</option>
+                        <option value="Sheridan" id="county" name="county" required >Sheridan</option>
+                        <option value="Sherman" id="county" name="county" required >Sherman</option>
+                        <option value="Sioux" id="county" name="county" required >Sioux</option>
+                        <option value="Stanton" id="county" name="county" required >Stanton</option>
+                        <option value="Thayer" id="county" name="county" required >Thayer</option>
+                        <option value="Thomas" id="county" name="county" required >Thomas</option>
+                        <option value="Thurston" id="county" name="county" required >Thurston</option>
+                        <option value="Valley" id="county" name="county" required >Valley</option>
+                        <option value="Washington" id="county" name="county" required >Washington</option>
+                        <option value="Wayne" id="county" name="county" required >Wayne</option>
+                        <option value="Webster" id="county" name="county" required >Webster</option>
+                        <option value="Wheeler" id="county" name="county" required >Wheeler</option>
+                        <option value="York" id="county" name="county" required >York</option>
+                    </select>
+                </div>
             </div>
             <div className="css">
                 <label for="nrd">
-                    NRD ID:
+                    NRD:
                 </label>
-                <input
-                    type="number" className="textarea resize-ta" id="nrd" name="nrd" min="1"
-                    onChange={(event) => {
-                        setNrd(event.target.value);
-                    }}
-                />
+                <div className="select-container">
+                    <select
+                        value={nrd}
+                        onChange={handleChange_nrd}
+                    >
+                        <option hidden selected>Select one...</option>
+                        <option value="Central Platte" id="nrd" name="nrd" required >Central Platte</option>
+                        <option value="Lewis and Clark" id="nrd" name="nrd" required >Lewis and Clark</option>
+                        <option value="Little Blue" id="nrd" name="nrd" required >Little Blue</option>
+                        <option value="Lower Big Blue" id="nrd" name="nrd" required >Lower Big Blue</option>
+                        <option value="Lower Elkhorn" id="nrd" name="nrd" required >Lower Elkhorn</option>
+                        <option value="Lower Loup" id="nrd" name="nrd" required >Lower Loup</option>
+                        <option value="Lower Niobrara" id="nrd" name="nrd" required >Lower Niobrara</option>
+                        <option value="Lower Platte North" id="nrd" name="nrd" required >Lower Platte North</option>
+                        <option value="Lower Platte South" id="nrd" name="nrd" required >Lower Platte South</option>
+                        <option value="Lower Republican" id="nrd" name="nrd" required >Lower Republican</option>
+                        <option value="Middle Niobrara" id="nrd" name="nrd" required >Middle Niobrara</option>
+                        <option value="Middle Republican" id="nrd" name="nrd" required >Middle Republican</option>
+                        <option value="Nemaha" id="nrd" name="nrd" required >Nemaha</option>
+                        <option value="North Platte" id="nrd" name="nrd" required >North Platte</option>
+                        <option value="Papio-Missouri River" id="nrd" name="nrd" required >Papio-Missouri River</option>
+                        <option value="South Platte" id="nrd" name="nrd" required >South Platte</option>
+                        <option value="Tri-Basin" id="nrd" name="nrd" required >Tri-Basin</option>
+                        <option value="Twin Platte" id="nrd" name="nrd" required >Twin Platte</option>
+                        <option value="Upper Big Blue" id="nrd" name="nrd" required >Upper Big Blue</option>
+                        <option value="Upper Elkhorn" id="nrd" name="nrd" required >Upper Elkhorn</option>
+                        <option value="Upper Loup" id="nrd" name="nrd" required >Upper Loup</option>
+                        <option value="Upper Niobrara-White" id="nrd" name="nrd" required >Upper Niobrara-White</option>
+                        <option value="Upper Republican" id="nrd" name="nrd" required >Upper Republican</option>
+                    </select>
+                </div>
             </div>
             <div className="css">
                 <label for="wellowner">
@@ -397,7 +525,7 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="estlongitude">
-                    Estimated Latitude (in decimal degrees):
+                    Estimated Longitude (in decimal degrees):
                 </label>
                 <input
                     type="number" className="textarea resize-ta" id="estlongitude" name="estlongitude" min="-104" max="-95.417" step=".00001" required
@@ -541,8 +669,8 @@ export default function WellInfo() {
                 <label for="observation">
                     Observations:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="observation" name="observation"
+                <textarea
+                    type="text" id="observation" name="observation" className="textarea resize-ta" maxLength="150"
                     onChange={(event) => {
                         setObservation(event.target.value);
                     }}
