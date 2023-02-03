@@ -53,7 +53,7 @@ export default function Lab() {
 
     function myFunction2() {
         addLab();
-        /*myFunction();*/
+        myFunction();
     }
 
     return (

@@ -137,7 +137,7 @@ export default function WellInfo() {
 
     function myFunction2() {
         addWellInfo();
-     /*   myFunction();*/
+        myFunction();
     }
 
     return (
