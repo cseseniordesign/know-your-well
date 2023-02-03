@@ -59,7 +59,7 @@ export default function Lab() {
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
-        <form >
+        <form id="submissionAlert">
             <h2>Lab</h2>
             <div className="css">
                 <label for="ammonia">
