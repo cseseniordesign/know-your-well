@@ -1,5 +1,6 @@
 ﻿import React from 'react'
 import './css/forms.css'
+import './css/wellinfo.css'
 import { useState } from 'react';
 import Axios from 'axios'
 
