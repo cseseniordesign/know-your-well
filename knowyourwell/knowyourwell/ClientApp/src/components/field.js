@@ -67,7 +67,7 @@ export default function Field() {
     return (
         //<div className="form-container">
         // action="/editwell"
-        <form  id="submissionAlert" >  
+        <form action="/editwell" id="submissionAlert" >  
             <h2>Field</h2>
             <div className="css">
                 <label for="conditions">
