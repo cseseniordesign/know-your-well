@@ -213,7 +213,7 @@ export default function WellInfo() {
                     Zip code:
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="zipcode" name="zipcode" min="00001" max="99950" minlength="5" maxlength="5"
+                    type="text" className="textarea resize-ta" id="zipcode" name="zipcode" pattern="[0-9]{5}"
                     onChange={(event) => {
                         setZipcode(event.target.value);
                     }}
@@ -377,7 +377,7 @@ export default function WellInfo() {
                     Well construction completion year:
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="installyear" name="installyear" min="1000" max="3000" required
+                    type="text" className="textarea resize-ta" id="installyear" name="installyear" pattern="[0-9]{4}" required
                     onChange={(event) => {
                         setInstallyear(event.target.value);
                     }}
@@ -486,7 +486,7 @@ export default function WellInfo() {
                     How many people use this well?
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser"
+                    type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" min="0"
                     onChange={(event) => {
                         setNumberwelluser(event.target.value);
                     }}
