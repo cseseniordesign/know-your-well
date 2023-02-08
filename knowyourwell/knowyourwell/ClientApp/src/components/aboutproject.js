@@ -46,7 +46,7 @@ export default function AboutProject() {
             </a>
             <a href="https://www.papionrd.org//">
                 <div className="mb-3">
-                    <img src={require('./images/PMRNRD.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
+                    <img src={require('./images/PMRNRD.jpg')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
                 </div>
             </a>
         </form>
