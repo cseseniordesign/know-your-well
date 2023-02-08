@@ -486,7 +486,7 @@ export default function WellInfo() {
                     How many people use this well?
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" min="0"
+                    type="text" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" pattern="[0-9]+"
                     onChange={(event) => {
                         setNumberwelluser(event.target.value);
                     }}
@@ -539,7 +539,7 @@ export default function WellInfo() {
                     Bore hole diameter (inches):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" pattern="[0-9]+[.]?[0-9]{0,5}"
                     onChange={(event) => {
                         setBoreholediameter(event.target.value);
                     }}
