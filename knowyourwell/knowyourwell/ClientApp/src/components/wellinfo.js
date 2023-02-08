@@ -514,10 +514,10 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="estlatitude">
-                    Estimated Latitude (in decimal degrees):
+                    Estimated Latitude (in decimal degrees): <br /> [40 - 43]
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-3]+|4[0-2]+[.]?[0-9]{1,5}" required
+                    type="text" className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
                     onChange={(event) => {
                         setEstlatitude(event.target.value);
                     }}
@@ -525,10 +525,10 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="estlongitude">
-                    Estimated Longitude (in decimal degrees):
+                    Estimated Longitude (in decimal degrees): <br /> [-104 - -95.417]
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-1[0-9][0-4]|-1[0-9][0-3][.]?[0-9]{1,5}|-9[6-9]|-9[6-9][.]?[0-9]{1,5}|-95[.]?[5-9][0-9]{0,4}|-95[.]?[4-9][2-9][0-9]{0,3}|-95[.]?[4-9][1-9][7-9][0-9]{0,2}" required
+                    type="text" className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
                     onChange={(event) => {
                         setEstlongitude(event.target.value);
                     }}
@@ -539,7 +539,7 @@ export default function WellInfo() {
                     Bore hole diameter (inches):
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" pattern="[0-9]+|[0-9]+[.]?[0-9]{1,5}"
+                    type="text" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setBoreholediameter(event.target.value);
                     }}
@@ -550,7 +550,7 @@ export default function WellInfo() {
                     Total depth of well (feet):
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+|[0-9]+[.]?[0-9]{1,5}"
+                    type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                     }}
@@ -580,7 +580,7 @@ export default function WellInfo() {
                     Water level (feet):
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+|[0-9]+[.]?[0-9]{1,5}"
+                    type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setWell_waterleveldepth(event.target.value);
                     }}

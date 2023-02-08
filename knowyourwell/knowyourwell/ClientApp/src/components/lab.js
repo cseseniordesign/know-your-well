@@ -66,7 +66,7 @@ export default function Lab() {
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" required
+                    type="text" className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
@@ -77,7 +77,7 @@ export default function Lab() {
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" required
+                    type="text" className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
                     onChange={(event) => {
                         setCalcium(event.target.value);
                     }}
@@ -88,7 +88,7 @@ export default function Lab() {
                     Chloride <br /> [0-400 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" required
+                    type="text" className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
                     onChange={(event) => {
                         setChloride(event.target.value);
                     }}
@@ -118,7 +118,7 @@ export default function Lab() {
                     Copper <br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="copper" name="copper" min="0" max="10" required
+                    type="text" className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setCopper(event.target.value);
                     }}
@@ -129,8 +129,7 @@ export default function Lab() {
                     Iron<br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
-
-                    type="number" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" required
+                    type="text" className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setIron(event.target.value);
                     }}
@@ -141,7 +140,7 @@ export default function Lab() {
                     Manganese<br /> [0-50 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" required
+                    type="text" className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
                     onChange={(event) => {
                         setManganese(event.target.value);
                     }}
@@ -152,7 +151,7 @@ export default function Lab() {
                     Nitrate - N<br /> [0-45 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="45" required
+                    type="text" className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
                     onChange={(event) => {
                         setNitrate(event.target.value);
                     }}
