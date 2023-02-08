@@ -1,11 +1,11 @@
 ﻿@media screen and (max-width: 575px) {
 
     img {
-        width: 80px;
+        width: 150px;
         height: 75px;
         object-fit: contain;
         background-repeat: no-repeat;
-        background-image: url(../images/kyw_banner_adobe.svg);
+        background-image: url(../images/kywbanner-01.svg);
       
     }
 }
