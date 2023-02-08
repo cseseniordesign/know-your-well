@@ -145,6 +145,6 @@ app.get('/Wells', async (req, res) => {
     })
 })
 
-app.listen(7193, () => {
+app.listen(process.env.PORT || 3030, () => {
     console.log("server is running");
 });

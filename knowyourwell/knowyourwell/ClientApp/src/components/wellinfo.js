@@ -145,13 +145,13 @@ export default function WellInfo() {
 
     function myFunction2() {
         addWellInfo();
-     /*   myFunction();*/
+        myFunction();
     }
 
     return (
         //<div className="form-container">
         /*action = "/editwell" id = "submissionAlert"*/
-        <form >
+        <form action="/editwell" id="submissionAlert" >
             <h2>Well Info</h2>
             <div className="css">
                 <label for="wellname">
