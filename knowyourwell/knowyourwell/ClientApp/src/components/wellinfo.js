@@ -399,18 +399,21 @@ export default function WellInfo() {
                             <option value="Unknown" id="smelltaste" name="smelltaste" required >Unknown</option>
                         </select>
                     </div>
+                    {smelltaste ==="Yes" && (
+                        <div className="css">
+                            <label for="smelltaste_description">
+                                Smell or taste of water desciption:
+                            </label>
+                            <textarea
+                                type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => { // if 'yes'
+                                    setSmelltaste_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
+
                 </div>
-            </div>
-            <div className="css">
-                <label for="smelltaste_description">
-                    Smell or taste of water desciption:
-                </label>
-                <textarea
-                    type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
-                    onChange={(event) => { // if 'yes'
-                        setSmelltaste_description(event.target.value);
-                    }}
-                />
             </div>
             <div className="css">
                 <label for="welldry">
@@ -428,19 +431,20 @@ export default function WellInfo() {
                             <option value="Maybe" id="welldry" name="welldry" required >Maybe</option>
                         </select>
                     </div>
+                    {welldry === "Yes" && (
+                        <div className="css">
+                            <label for="welldry_description">
+                                If so, when?
+                            </label>
+                            <textarea
+                                type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => {
+                                    setWelldry_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
-            </div>
-            <div className="css">
-                <label for="welldry_description">
-                    If so, when?
-                </label>
-                <textarea
-                    type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
-                    onChange={(event) => {
-                        setWelldry_description(event.target.value);
-                    }}
-                />
-
             </div>
             <div className="css">
                 <label for="maintenance5yr">

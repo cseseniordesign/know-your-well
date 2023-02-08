@@ -3,6 +3,7 @@ import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
 
+
 export default function Field() {
     const [conditions, setConditions] = useState("");
     const [temp, setTemp] = useState(0);
@@ -28,6 +29,7 @@ export default function Field() {
     const handleChange_pooling = (event) => {
         setPooling(event.target.value);
     };
+
 
     function addField () {   /*const addField = () => */
         Axios.post('http://localhost:7193/api/insert', {
@@ -125,6 +127,7 @@ export default function Field() {
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="evidence" name="evidence" required >Yes</option>
                             <option value="No" id="evidence" name="evidence" required >No</option>
+
                         </select>
                     </div>
                 </div>
