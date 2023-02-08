@@ -517,7 +517,7 @@ export default function WellInfo() {
                     Estimated Latitude (in decimal degrees):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="estlatitude" name="estlatitude" min="40" max="43" step=".00001" required
+                    type="text" className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-3][.]?[0-9]{0,5}" required
                     onChange={(event) => {
                         setEstlatitude(event.target.value);
                     }}
@@ -528,7 +528,7 @@ export default function WellInfo() {
                     Estimated Longitude (in decimal degrees):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="estlongitude" name="estlongitude" min="-104" max="-95.417" step=".00001" required
+                    type="text" className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-[0-9]+[.]?[0-9]{0,5}" required
                     onChange={(event) => {
                         setEstlongitude(event.target.value);
                     }}
@@ -550,7 +550,7 @@ export default function WellInfo() {
                     Total depth of well (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+[.]?[0-9]{0,5}"
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                     }}
@@ -580,7 +580,7 @@ export default function WellInfo() {
                     Water level (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+[.]?[0-9]{0,5}"
                     onChange={(event) => {
                         setWell_waterleveldepth(event.target.value);
                     }}
