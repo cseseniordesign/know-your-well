@@ -152,7 +152,7 @@ export default function Field() {
                     Groundwater Temperature<br /> [Degrees Celsius]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="temp" name="temp" required
+                    type="text" className="textarea resize-ta" id="temp" name="temp" pattern="[-]?([0-9]+|[0-9]+[.]?[0-9]*)" required
                     onChange={(event) => {
                         setTemp(event.target.value);
                     }}
@@ -163,7 +163,7 @@ export default function Field() {
                     pH<br /> [0-14]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" min="0" max="14" id="ph" name="ph" step=".01" required
+                    type="text" className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]|[1-9][.]?[0-9]{1,2}|1[0-3]|1[0-3][.]?[0-9]{1,2}|14" required
                     onChange={(event) => {
                         setPh(event.target.value);
                     }}
@@ -174,7 +174,7 @@ export default function Field() {
                     Conductivity <br /> [uS/cm]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="conductivity" name="conductivity" required
+                    type="text" className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?([0-9]+|[0-9]+[.]?[0-9]*)" required
                     onChange={(event) => {
                         setConductivity(event.target.value);
                     }}
