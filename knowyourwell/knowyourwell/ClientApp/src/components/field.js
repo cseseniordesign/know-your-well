@@ -62,10 +62,11 @@ export default function Field() {
 
     function myFunction2() {
         addField();
-       /* myFunction();*/
+        myFunction();
     }
     return (
-        //<div className="form-container"> 
+        //<div className="form-container">
+        // action="/editwell"
         <form action="/editwell" id="submissionAlert" >  
             <h2>Field</h2>
             <div className="css">
