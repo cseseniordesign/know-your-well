@@ -4,7 +4,7 @@ import Axios from 'axios'
 import './css/forms.css'
 
 
-export default function Lab() {
+export default function ClassLab() {
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -20,7 +20,7 @@ export default function Lab() {
         setBacteria(event.target.value);
     };
 
-    function addLab() {   /*const addLab = () =>*/
+    function addClassLab() {   /*const addLab = () =>*/
         Axios.post('http://localhost:7193/createlab', {
             ammonia: ammonia,
             calcium: calcium,
@@ -52,7 +52,7 @@ export default function Lab() {
     }
 
     function myFunction2() {
-        addLab();
+        addClassLab();
         myFunction();
     }
 
@@ -60,7 +60,7 @@ export default function Lab() {
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
         <form action="/editwell" id="submissionAlert">
-            <h2>Lab</h2>
+            <h2>Class Lab</h2>
             <div className="css">
                 <label for="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]

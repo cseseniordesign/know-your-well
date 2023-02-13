@@ -23,7 +23,7 @@ export default function EditLog() {
             </List.Item>
             <List.Item>
                 <List.Content>
-                    <a href="/ViewLab" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Lab</a>
+                    <a href="/ViewClassLab" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Class Lab</a>
                 </List.Content>
                 <br />
             </List.Item>
