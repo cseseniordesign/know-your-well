@@ -20,8 +20,8 @@ export default function ClassLab() {
         setBacteria(event.target.value);
     };
 
-    function addClassLab() {   /*const addLab = () =>*/
-        Axios.post('http://localhost:7193/createlab', {
+    function addClassLab() {   /*const addClassLab = () =>*/
+        Axios.post('http://localhost:7193/create', {
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
