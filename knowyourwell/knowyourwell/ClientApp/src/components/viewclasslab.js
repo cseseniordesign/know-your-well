@@ -184,6 +184,10 @@ export default function ViewLab() {
                     }}
                 />
             </div>
+            <div className="css">
+                <a href="mailto:waterinfo@unl.edu">
+                    If any data is incorrect email us at waterinfo@unl.edu</a>
+            </div>
         </form>
         //</div>
     );
