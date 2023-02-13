@@ -33,6 +33,12 @@ export default function EditWell() {
                 </List.Content>
                 <br />
             </List.Item>
+            <List.Item>
+                <List.Content >
+                    <a href="/FormSubmission" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Form Submission</a>
+                </List.Content>
+                <br />
+            </List.Item>
         </List>
     );
 }

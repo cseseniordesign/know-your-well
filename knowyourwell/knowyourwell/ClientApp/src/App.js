@@ -17,6 +17,7 @@ import ViewField from './components/viewfield';
 import ViewLab from './components/viewlab';
 import ViewWell from './components/viewwell';
 import FieldSelection from './components/fieldselection';
+import FormSubmission from './components/formsubmission';
 
 
 export default function App() { 
@@ -37,6 +38,7 @@ export default function App() {
                 <Route exact path="/viewlab" element={<ViewLab />} />
                 <Route exact path="/viewwell" element={<ViewWell />} />
                 <Route exact path="/fieldselection" element={<FieldSelection />} />
+                <Route exact path="/formsubmission" element={<FormSubmission />} />
             </Routes>
         </>
     );
