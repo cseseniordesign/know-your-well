@@ -56,6 +56,9 @@ export default class NavMenu extends React.Component {
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="Lab">Lab</NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-dark" to="FieldSelection">Field Selection</NavLink>
+                            </NavItem>
                         </ul>
                     </Collapse>
                 </Navbar>
@@ -63,5 +66,3 @@ export default class NavMenu extends React.Component {
         );
     }
 }
-
-

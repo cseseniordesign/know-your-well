@@ -16,6 +16,7 @@ import AboutProject from './components/aboutproject';
 import ViewField from './components/viewfield';
 import ViewLab from './components/viewlab';
 import ViewWell from './components/viewwell';
+import FieldSelection from './components/fieldselection';
 
 
 export default function App() { 
@@ -35,6 +36,7 @@ export default function App() {
                 <Route exact path="/viewfield" element={<ViewField />} />
                 <Route exact path="/viewlab" element={<ViewLab />} />
                 <Route exact path="/viewwell" element={<ViewWell />} />
+                <Route exact path="/fieldselection" element={<FieldSelection />} />
             </Routes>
         </>
     );
