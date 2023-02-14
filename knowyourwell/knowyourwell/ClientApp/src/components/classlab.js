@@ -189,8 +189,12 @@ export default function ClassLab() {
                     }}
                 />
             </div>
-            <button type="submit" onClick={myFunction2}  >Submit</button>
-            <button type="submit" onClick={myFunction3}  >Back</button>
+            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="submit" onClick={myFunction3} >Back</button>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
         </form>
         //</div>
     );
