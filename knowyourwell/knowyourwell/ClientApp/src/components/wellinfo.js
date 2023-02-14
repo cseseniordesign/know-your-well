@@ -700,8 +700,14 @@ export default function WellInfo() {
                     }}
                 />
             </div>
+
             <button type="submit" onClick={myFunction2} >Save</button>
             <button type="submit" onClick={myFunction3} >Back</button>
+
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
         </form>
         //</div>
     );

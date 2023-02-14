@@ -64,6 +64,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
@@ -75,6 +76,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="calcium">
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
@@ -86,6 +88,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="chloride">
                     Chloride <br /> [0-400 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
@@ -98,6 +101,7 @@ export default function ClassLab() {
                 <label for="bacteria">
                     Bacteria (Colilert) <br />
                     [Positive if more than 1 MPN/100ml]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -116,6 +120,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="copper">
                     Copper <br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
@@ -127,6 +132,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="iron">
                     Iron<br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
@@ -138,6 +144,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="manganese">
                     Manganese<br /> [0-50 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
@@ -149,6 +156,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="nitrate">
                     Nitrate - N<br /> [0-45 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
@@ -160,6 +168,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="name">
                     Data Collector’s Name:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="name" name="name" required
@@ -171,6 +180,7 @@ export default function ClassLab() {
             <div className="css">
                 <label for="dateentered">
                     Date Entered:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
