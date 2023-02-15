@@ -8,7 +8,7 @@ export default function FieldSelection() {
             <h2> <strong> Field Selection </strong></h2>
             <List.Item >
                 <List.Content>
-                    <a href="/lab" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Field Entry #1 </a>
+                    <a href="/classlab" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Field Entry #1 </a>
                 </List.Content>
                 <br />
             </List.Item>
