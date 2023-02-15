@@ -47,3 +47,10 @@ input[id="zipcode"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+#dateentered {
+    display: flex;
+    justify-content: center;
+}
+
+      

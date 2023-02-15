@@ -1,7 +1,14 @@
 ﻿import React from 'react'
 import { useState } from 'react';
 import Axios from 'axios'
-import './css/forms.css'
+import './css/forms.css' 
+
+//
+import DatePicker from 'react-datetime';
+import moment from 'moment';
+import 'react-datetime/css/react-datetime.css';
+
+
 
 
 export default function Lab() {
@@ -15,7 +22,11 @@ export default function Lab() {
     const [name, setName] = useState("");
     const [observations, setObservations] = useState("");
     const [bacteria, setBacteria] = useState("");
-    const [dateentered, setDateentered] = useState(new Date().toISOString().substr(0, 10));;
+
+    //const [dateentered, setDateentered] = useState(new Date().toISOString().substr(0, 10));
+    const [dateentered, setDateentered] = useState(moment());
+
+
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
@@ -175,15 +186,26 @@ export default function Lab() {
                     }}
                 />
             </div>
-            <div className="css">
+            <div className="css" >
                 <label for="dateentered">
                     Date Entered:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="dateentered" name="dateentered" defaultValue={defaultValue} required
-                />
+                <div id="dateentered">
+                <DatePicker 
+                    value={dateentered}
+                    dateFormat="DD-MM-YYYY"
+                    timeFormat="hh:mm A"
+                    onChange={(val) => setDateentered(val)}
+                    inputProps={{
+                        style: {
+                            width: 300,
+                            textAlign: 'center',
+                            border:'1px solid black'
+                        }
+                        }}
+                    /> {"  "}
+                </div>
             </div>
-           
             <button type="submit" onClick={myFunction2}  >Submit</button>
             <button type="submit" onClick={myFunction3}  >Back</button>
         </form>
