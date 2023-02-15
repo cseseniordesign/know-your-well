@@ -15,10 +15,17 @@ export default function Lab() {
     const [name, setName] = useState("");
     const [observations, setObservations] = useState("");
     const [bacteria, setBacteria] = useState("");
-    const [dateentered, setDateentered] = useState("");
+    const [dateentered, setDateentered] = useState(new Date().toISOString().substr(0, 10));;
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
+
+    const date = new Date();
+    const futureDate = date.getDate();
+    date.setDate(futureDate);
+    const defaultValue = date.toLocaleDateString('en-CA');
+
+    
 
     function addLab() {   /*const addLab = () =>*/
         Axios.post('http://localhost:7193/createlab', {
@@ -59,7 +66,7 @@ export default function Lab() {
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
-        <form action="/editwell" id="submissionAlert">
+        <form  >
             <h2>Lab</h2>
             <div className="css">
                 <label for="ammonia">
@@ -173,12 +180,10 @@ export default function Lab() {
                     Date Entered:
                 </label>
                 <input
-                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
-                    onChange={(event) => {
-                        setDateentered(event.target.value);
-                    }}
+                    type="text" className="textarea resize-ta" id="dateentered" name="dateentered" defaultValue={defaultValue} required
                 />
             </div>
+           
             <button type="submit" onClick={myFunction2}  >Submit</button>
             <button type="submit" onClick={myFunction3}  >Back</button>
         </form>
