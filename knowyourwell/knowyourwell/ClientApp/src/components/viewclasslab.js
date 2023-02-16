@@ -45,7 +45,7 @@ export default function ViewLab() {
             alert("Succesfully submitted!");
         }
     }
-    const backbutton = () => {
+    const backButton = () => {
         window.location.href = "/previousentries";
     }
 
@@ -185,7 +185,7 @@ export default function ViewLab() {
                 />
             </div>
             <div>
-                <button type="submit" onClick={backbutton} >Back</button>
+                <button type="submit" onClick={backButton} >Back</button>
             </div>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">

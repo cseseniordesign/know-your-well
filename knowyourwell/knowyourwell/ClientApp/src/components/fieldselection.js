@@ -3,7 +3,7 @@ import { List } from 'semantic-ui-react'
 
 export default function FieldSelection() {
 
-    const backbutton = () => {
+    const backButton = () => {
         window.location.href = "/editwell";
     }
 
@@ -18,7 +18,7 @@ export default function FieldSelection() {
             </List.Item>
             <List.Item>
                 <List.Content>
-                    <button type="submit" onClick={backbutton} >Back</button>
+                    <button type="submit" onClick={backButton} >Back</button>
                 </List.Content>
             </List.Item>
         </List>

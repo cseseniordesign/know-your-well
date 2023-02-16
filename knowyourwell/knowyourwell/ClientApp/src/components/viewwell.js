@@ -122,7 +122,7 @@ export default function ViewWell() {
         }
     }
 
-    const backbutton = () => {
+    const backButton = () => {
         window.location.href = "/PreviousEntries";
     }
 
@@ -553,7 +553,7 @@ export default function ViewWell() {
                 />
             </div>
             <div>
-                <button type="submit" onClick={backbutton} >Back</button>
+                <button type="submit" onClick={backButton} >Back</button>
             </div>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">
