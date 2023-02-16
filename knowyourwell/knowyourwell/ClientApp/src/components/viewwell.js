@@ -552,9 +552,7 @@ export default function ViewWell() {
                     }}
                 />
             </div>
-            <div>
-                <button type="submit" onClick={backButton} >Back</button>
-            </div>
+            <button onClick={backButton} >Back</button>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">
                     If any data is incorrect email us at waterinfo@unl.edu</a>

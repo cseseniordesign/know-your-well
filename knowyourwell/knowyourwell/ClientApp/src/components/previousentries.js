@@ -25,8 +25,8 @@ export default function PreviousEntries() {
             </List.Item>
             <List.Item>
                 <List.Content>
-                    <a href="/ViewField" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Field</a>
-                    <a href="/ViewClassLab" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Class Lab</a>
+                    <a href="/ViewField" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field</a>
+                    <a href="/ViewClassLab" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Class Lab</a>
                 </List.Content>
                 <br />
             </List.Item>
@@ -36,25 +36,12 @@ export default function PreviousEntries() {
             </List.Item>
             <List.Item>
                 <List.Content>
-                    <a href="/ViewField" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Field</a>
-                    <a href="/ViewField" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Field</a>
-                    <a href="/ViewClassLab" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Class Lab</a>
+                    <a href="/ViewField" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field</a>
+                    <a href="/ViewClassLab" style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg disabled" disabled>Class Lab</a>
                 </List.Content>
                 <br />
             </List.Item>
 
-            <List.Item>
-                <h4>[Field Date]</h4>
-            </List.Item>
-            <List.Item>
-                <List.Content>
-                    <a href="/ViewField" style={{ width: "45%", height: "17%" }} class="btn btn-primary btn-lg btn-block">Field</a>
-                </List.Content>
-                <List.Content>
-                    <a /*href="/ViewClassLab"*/ style={{ width: "45%", height: "17%" }} disabled class="btn btn-primary btn-lg btn-block">Class Lab</a>
-                </List.Content>
-                <br />
-            </List.Item>
             <List.Item>
                 <List.Content>
                     <button type="submit" onClick={backbutton} >Back</button>
