@@ -56,8 +56,8 @@ export default function ViewField() {
             alert("Succesfully submitted!");
         }
     }
-    const myFunction3 = () => {
-        window.location.href = "/editwell";
+    const backbutton = () => {
+        window.location.href = "/PreviousEntries";
     }
     return (
         //<div className="form-container"> 
@@ -220,6 +220,9 @@ export default function ViewField() {
                         setDateentered(event.target.value);
                     }}
                 />
+            </div>
+            <div>
+                <button type="submit" onClick={backbutton} >Back</button>
             </div>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">

@@ -11,7 +11,7 @@ import EditWell from './components/editwell';
 import WellInfo from './components/wellinfo';
 import Field from './components/field';
 import ClassLab from './components/classlab';
-import EditLog from './components/editlog';
+import PreviousEntries from './components/previousentries';
 import AboutProject from './components/aboutproject';
 import ViewField from './components/viewfield';
 import ViewClassLab from './components/viewclasslab';
@@ -32,7 +32,7 @@ export default function App() {
                 <Route exact path="/wellinfo" element={<WellInfo />} />
                 <Route exact path="/field" element={<Field />} />
                 <Route exact path="/classlab" element={<ClassLab />} />
-                <Route exact path="/editlog" element={<EditLog />} />
+                <Route exact path="/previousentries" element={<PreviousEntries />} />
                 <Route exact path="/aboutproject" element={<AboutProject />} />
                 <Route exact path="/viewfield" element={<ViewField />} />
                 <Route exact path="/viewclasslab" element={<ViewClassLab />} />

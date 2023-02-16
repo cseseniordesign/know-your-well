@@ -45,8 +45,8 @@ export default function ViewLab() {
             alert("Succesfully submitted!");
         }
     }
-    const myFunction3 = () => {
-        window.location.href = "/editwell";
+    const backbutton = () => {
+        window.location.href = "/previousentries";
     }
 
     return (
@@ -183,6 +183,9 @@ export default function ViewLab() {
                         setDateentered(event.target.value);
                     }}
                 />
+            </div>
+            <div>
+                <button type="submit" onClick={backbutton} >Back</button>
             </div>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">

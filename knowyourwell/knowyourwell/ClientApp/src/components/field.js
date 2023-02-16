@@ -56,7 +56,7 @@ export default function Field() {
             alert("Succesfully submitted Field Form!");
         }
     }
-    const myFunction3 = () => {
+    const backbutton = () => {
         window.location.href = "/editwell";
     }
 
@@ -219,7 +219,7 @@ export default function Field() {
                 />
             </div>
             <button type="submit" onClick={myFunction2} >Submit</button>
-            <button type="submit" onClick={myFunction3} >Back</button>
+            <button type="submit" onClick={backbutton} >Back</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field

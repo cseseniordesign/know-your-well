@@ -139,7 +139,7 @@ export default function WellInfo() {
         }
     }
 
-    const myFunction3 = () => {
+    const backbutton = () => {
         window.location.href = "/editwell";
     }
 
@@ -701,7 +701,7 @@ export default function WellInfo() {
                 />
             </div>
             <button type="submit" onClick={myFunction2} >Save</button>
-            <button type="submit" onClick={myFunction3} >Back</button>
+            <button type="submit" onClick={backbutton} >Back</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field

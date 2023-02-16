@@ -122,6 +122,9 @@ export default function ViewWell() {
         }
     }
 
+    const backbutton = () => {
+        window.location.href = "/PreviousEntries";
+    }
 
     return (
         //<div className="form-container">
@@ -548,6 +551,9 @@ export default function ViewWell() {
                         setDateentered(event.target.value);
                     }}
                 />
+            </div>
+            <div>
+                <button type="submit" onClick={backbutton} >Back</button>
             </div>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">

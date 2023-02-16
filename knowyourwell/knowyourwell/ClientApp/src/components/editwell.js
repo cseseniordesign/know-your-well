@@ -8,7 +8,7 @@ export default function EditWell() {
     const wellName = searchParams.get("wellName")
     return (
         <List style={{ textAlign: 'center' }}>
-            <h2>{wellName}</h2>
+            <h2>{wellName} [Well Name/Id]</h2>
             <List.Item>
                 <List.Content>
                     <a href="/WellInfo" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>
@@ -29,7 +29,7 @@ export default function EditWell() {
             </List.Item>
             <List.Item>
                 <List.Content >
-                    <a href="/EditLog" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">View Previous Log</a>
+                    <a href="/PreviousEntries" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Previous Entries</a>
                 </List.Content>
                 <br />
             </List.Item>
