@@ -50,10 +50,6 @@ export default function ViewField() {
             })
     };
 
-    const backButton = () => {
-        window.location.href = "/PreviousEntries";
-    }
-
     return (
         //<div className="form-container"> 
         <form action="/editwell"  > {/*id="submissionAlert"*/}
@@ -212,7 +208,9 @@ export default function ViewField() {
                     }}
                 />
             </div>
-            <button type="submit" onClick={backButton} >Back</button>
+            <form action="/PreviousEntries">
+                <button type="submit">Back</button>
+            </form>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">
                     If any data is incorrect email us at waterinfo@unl.edu</a>
