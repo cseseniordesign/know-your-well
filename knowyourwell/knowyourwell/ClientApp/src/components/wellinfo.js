@@ -2,6 +2,10 @@
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
+//
+import DatePicker from 'react-datetime';
+import moment from 'moment';
+import 'react-datetime/css/react-datetime.css';
 
 export default function WellInfo() {
 
@@ -29,7 +33,12 @@ export default function WellInfo() {
     const datacollector = "John Smith"
     const [observation, setObservation] = useState("");
     const [comments, setComments] = useState("");
-    const [dateentered, setDateentered] = useState("");
+    const [dateentered, setDateentered] = useState(moment());
+
+    const date = new Date();
+    const futureDate = date.getDate();
+    date.setDate(futureDate);
+    const defaultValue = date.toLocaleDateString('en-CA');
 
     const [county, setCounty] = useState("");
     const handleChange_county = (event) => {
@@ -404,18 +413,21 @@ export default function WellInfo() {
                             <option value="Unknown" id="smelltaste" name="smelltaste" required >Unknown</option>
                         </select>
                     </div>
+                    {smelltaste ==="Yes" && (
+                        <div className="css">
+                            <label for="smelltaste_description">
+                                Smell or taste of water desciption:
+                            </label>
+                            <textarea
+                                type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => { // if 'yes'
+                                    setSmelltaste_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
+
                 </div>
-            </div>
-            <div className="css">
-                <label for="smelltaste_description">
-                    Smell or taste of water desciption:
-                </label>
-                <textarea
-                    type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
-                    onChange={(event) => { // if 'yes'
-                        setSmelltaste_description(event.target.value);
-                    }}
-                />
             </div>
             <div className="css">
                 <label for="welldry">
@@ -434,19 +446,20 @@ export default function WellInfo() {
                             <option value="Maybe" id="welldry" name="welldry" required >Maybe</option>
                         </select>
                     </div>
+                    {welldry === "Yes" && (
+                        <div className="css">
+                            <label for="welldry_description">
+                                If so, when?
+                            </label>
+                            <textarea
+                                type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => {
+                                    setWelldry_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
-            </div>
-            <div className="css">
-                <label for="welldry_description">
-                    If so, when?
-                </label>
-                <textarea
-                    type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
-                    onChange={(event) => {
-                        setWelldry_description(event.target.value);
-                    }}
-                />
-
             </div>
             <div className="css">
                 <label for="maintenance5yr">
@@ -693,12 +706,21 @@ export default function WellInfo() {
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
-                    onChange={(event) => {
-                        setDateentered(event.target.value);
-                    }}
-                />
+                <div id="dateentered">
+                    <DatePicker
+                        value={dateentered}
+                        dateFormat="DD-MM-YYYY"
+                        timeFormat="hh:mm A"
+                        onChange={(val) => setDateentered(val)}
+                        inputProps={{
+                            style: {
+                                width: 300,
+                                textAlign: 'center',
+                                border: '1px solid black'
+                            }
+                        }}
+                    /> {"  "}
+                </div>
             </div>
             <button type="submit" onClick={myFunction2} >Save</button>
             <button type="submit" onClick={backButton} >Back</button>

@@ -32,3 +32,10 @@ textarea {
 .requiredField{
     color: red;
 }
+
+#dateentered {
+    display: flex;
+    justify-content: center;
+}
+
+      

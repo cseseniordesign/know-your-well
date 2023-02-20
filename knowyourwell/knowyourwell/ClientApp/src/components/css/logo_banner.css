@@ -1,0 +1,25 @@
+﻿@media screen and (max-width: 575px) {
+
+    img {
+        width: 180px;
+        height: 40px;
+        object-fit: contain;
+        background-repeat: no-repeat;
+        background-image: url(../images/kywbanner-01.svg);
+        vertical-align:middle;
+    }
+}
+
+@media screen and (min-width: 576px) {
+
+    img {
+        width: 200px;
+        height: 50px;
+        object-fit: contain;
+        background-repeat: no-repeat;
+        background-image: url(../images/kywbanner-01.svg);
+        vertical-align: middle;
+    }
+}
+
+
