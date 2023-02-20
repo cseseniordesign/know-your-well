@@ -131,7 +131,7 @@ export default function Field() {
             </div>
             <div className="css">
                 <label for="pooling">
-                    Is there evidence of pooling or<br />Puddles within 12 ft of the well?
+                    Is there evidence of pooling or<br />puddles within 12 ft of the well?
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">

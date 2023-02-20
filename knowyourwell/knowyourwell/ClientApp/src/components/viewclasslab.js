@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css'
 
-
 export default function ViewLab() {
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
@@ -39,12 +38,6 @@ export default function ViewLab() {
             })
     };
 
-    var form = document.getElementById('submissionAlert');
-    const myFunction = () => {
-        if (form.checkValidity()) {
-            alert("Succesfully submitted!");
-        }
-    }
     const backButton = () => {
         window.location.href = "/previousentries";
     }
@@ -88,8 +81,7 @@ export default function ViewLab() {
             </div>
             <div className="css">
                 <label for="bacteria">
-                    Bacteria (Colilert) <br />
-                    [Positive if more than 1 MPN/100ml]
+                    Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -184,9 +176,7 @@ export default function ViewLab() {
                     }}
                 />
             </div>
-            <div>
-                <button type="submit" onClick={backButton} >Back</button>
-            </div>
+            <button type="submit" onClick={backButton} >Back</button>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">
                     If any data is incorrect email us at waterinfo@unl.edu</a>

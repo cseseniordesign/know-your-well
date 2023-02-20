@@ -11,7 +11,7 @@ export default function EditWell() {
             <h2>{wellName} [Well Name/Id]</h2>
             <List.Item>
                 <List.Content>
-                    <a href="/WellInfo" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>
+                    <a href="/WellInfo" /* change to "/ViewWell" */ style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>
                 </List.Content>
                 <br />
             </List.Item>

@@ -99,8 +99,7 @@ export default function ClassLab() {
             </div>
             <div className="css">
                 <label for="bacteria">
-                    Bacteria (Colilert) <br />
-                    [Positive if more than 1 MPN/100ml]
+                    Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
