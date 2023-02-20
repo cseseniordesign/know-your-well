@@ -50,7 +50,7 @@ export default function ViewField() {
             })
     };
 
-    const backbutton = () => {
+    const backButton = () => {
         window.location.href = "/PreviousEntries";
     }
 
@@ -212,7 +212,7 @@ export default function ViewField() {
                     }}
                 />
             </div>
-            <button type="submit" onClick={backbutton} >Back</button>
+            <button type="submit" onClick={backButton} >Back</button>
             <div className="css">
                 <a href="mailto:waterinfo@unl.edu">
                     If any data is incorrect email us at waterinfo@unl.edu</a>
