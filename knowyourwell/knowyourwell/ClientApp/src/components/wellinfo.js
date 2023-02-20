@@ -156,6 +156,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="wellname">
                     Well Name:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="wellname" name="wellname" required
@@ -213,7 +214,7 @@ export default function WellInfo() {
                     Zip code:
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="zipcode" name="zipcode" min="00001" max="99950" minlength="5" maxlength="5"
+                    type="text" className="textarea resize-ta" id="zipcode" name="zipcode" pattern="[0-9]{5}"
                     onChange={(event) => {
                         setZipcode(event.target.value);
                     }}
@@ -222,6 +223,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="county">
                     County:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div className="select-container">
                     <select
@@ -328,6 +330,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="nrd">
                     NRD:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div className="select-container">
                     <select
@@ -375,9 +378,10 @@ export default function WellInfo() {
             <div className="css">
                 <label for="installyear">
                     Well construction completion year:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="installyear" name="installyear" min="1000" max="3000" required
+                    type="text" className="textarea resize-ta" id="installyear" name="installyear" pattern="[0-9]{4}" required
                     onChange={(event) => {
                         setInstallyear(event.target.value);
                     }}
@@ -386,6 +390,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="smelltaste">
                     Any complaints about <br /> smell or taste of water?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -418,6 +423,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="welldry">
                     Does the well ever go dry?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -448,8 +454,8 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="maintenance5yr">
-                    Any maintenance done to the well<br /> itself
-                    within the last five years?
+                    Any maintenance done to the well<br /> itself within the last five years?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -467,9 +473,8 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="landuse5yr">
-                    Any major land use / development
-                    changes<br /> around the well within the
-                    last five years?
+                    Any major land use / development changes<br /> around the well within the last five years?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -490,7 +495,7 @@ export default function WellInfo() {
                     How many people use this well?
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser"
+                    type="text" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" pattern="[0-9]+"
                     onChange={(event) => {
                         setNumberwelluser(event.target.value);
                     }}
@@ -498,9 +503,8 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="pestmanure">
-                    Has any manure or pesticides been
-                    applied<br /> near the well within the last
-                    five years?
+                    Has any manure or pesticides been applied<br /> near the well within the last five years?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -519,9 +523,11 @@ export default function WellInfo() {
             <div className="css">
                 <label for="estlatitude">
                     Estimated Latitude (in decimal degrees):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                    <br /> [40 - 43]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="estlatitude" name="estlatitude" min="40" max="43" step=".00001" required
+                    type="text" className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
                     onChange={(event) => {
                         setEstlatitude(event.target.value);
                     }}
@@ -530,9 +536,11 @@ export default function WellInfo() {
             <div className="css">
                 <label for="estlongitude">
                     Estimated Longitude (in decimal degrees):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                    <br /> [-104 - -95.417]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="estlongitude" name="estlongitude" min="-104" max="-95.417" step=".00001" required
+                    type="text" className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
                     onChange={(event) => {
                         setEstlongitude(event.target.value);
                     }}
@@ -543,7 +551,7 @@ export default function WellInfo() {
                     Bore hole diameter (inches):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setBoreholediameter(event.target.value);
                     }}
@@ -554,7 +562,7 @@ export default function WellInfo() {
                     Total depth of well (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                     }}
@@ -563,6 +571,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="topography">
                     Topography of the well location:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -584,7 +593,7 @@ export default function WellInfo() {
                     Water level (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setWell_waterleveldepth(event.target.value);
                     }}
@@ -593,6 +602,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="aquifertype">
                     Aquifer Type:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -611,6 +621,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="aquiferclass">
                     Aquifer Class:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -629,6 +640,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="welltype">
                     Well Type (Construction Method):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -683,6 +695,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="dateentered">
                     Date Entered:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
@@ -692,7 +705,11 @@ export default function WellInfo() {
                 />
             </div>
             <button type="submit" onClick={myFunction2} >Save</button>
-            <button type="submit" onClick={myFunction3}  >Back</button>
+            <button type="submit" onClick={myFunction3} >Back</button>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
         </form>
         //</div>
     );

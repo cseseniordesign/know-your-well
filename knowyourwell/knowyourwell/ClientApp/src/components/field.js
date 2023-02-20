@@ -73,9 +73,8 @@ export default function Field() {
             <h2>Field</h2>
             <div className="css">
                 <label for="conditions">
-                    Conditions: Describe weather,
-                    temperature,<br /> or anything
-                    note-worthy about your well
+                    Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <textarea
                     type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
@@ -87,6 +86,7 @@ export default function Field() {
             <div className="css">
                 <label for="wellcover">
                     Condition of the well cover
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -115,8 +115,8 @@ export default function Field() {
             </div>
             <div className="css">
                 <label for="evidence">
-                    Is there evidence of surface<br />
-                    run-off entry to the well?
+                    Is there evidence of surface<br />run-off entry to the well?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -134,8 +134,8 @@ export default function Field() {
             </div>
             <div className="css">
                 <label for="pooling">
-                    Is there evidence of pooling or<br />
-                    Puddles within 12 ft of the well?
+                    Is there evidence of pooling or<br />Puddles within 12 ft of the well?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -153,9 +153,10 @@ export default function Field() {
             <div className="css">
                 <label for="temp">
                     Groundwater Temperature<br /> [Degrees Celsius]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="temp" name="temp" required
+                    type="text" className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setTemp(event.target.value);
                     }}
@@ -164,9 +165,10 @@ export default function Field() {
             <div className="css">
                 <label for="ph">
                     pH<br /> [0-14]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" min="0" max="14" id="ph" name="ph" step=".01" required
+                    type="text" className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
                     onChange={(event) => {
                         setPh(event.target.value);
                     }}
@@ -175,9 +177,10 @@ export default function Field() {
             <div className="css">
                 <label for="conductivity">
                     Conductivity <br /> [uS/cm]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="conductivity" name="conductivity" required
+                    type="text" className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setConductivity(event.target.value);
                     }}
@@ -186,6 +189,7 @@ export default function Field() {
             <div className="css">
                 <label for="name">
                     Data Collector’s Name:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="name" name="name" required
@@ -208,6 +212,7 @@ export default function Field() {
             <div className="css">
                 <label for="dateentered">
                     Date Entered:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
@@ -216,8 +221,12 @@ export default function Field() {
                     }}
                 />
             </div>
-            <button type="submit" onClick={myFunction2}  >Submit</button>
-            <button type="submit" onClick={myFunction3}  >Back</button>
+            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="submit" onClick={myFunction3} >Back</button>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
         </form >
         //</div>
     );

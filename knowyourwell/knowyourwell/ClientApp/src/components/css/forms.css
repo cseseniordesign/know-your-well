@@ -28,3 +28,7 @@ textarea {
 .clicking{
     text-align:center
 }
+
+.requiredField{
+    color: red;
+}

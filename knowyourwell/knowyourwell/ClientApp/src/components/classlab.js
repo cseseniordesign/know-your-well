@@ -1,10 +1,10 @@
-import React from 'react'
+﻿import React from 'react'
 import { useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css'
 
 
-export default function ViewLab() {
+export default function ClassLab() {
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -20,8 +20,8 @@ export default function ViewLab() {
         setBacteria(event.target.value);
     };
 
-    const addLab = () => {
-        Axios.post('http://localhost:7193/createlab', {
+    function addClassLab() {   /*const addClassLab = () =>*/
+        Axios.post('http://localhost:7193/create', {
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
@@ -39,26 +39,35 @@ export default function ViewLab() {
             })
     };
 
+
     var form = document.getElementById('submissionAlert');
-    const myFunction = () => {
+    function myFunction() {
         if (form.checkValidity()) {
-            alert("Succesfully submitted!");
+            alert("Succesfully submitted Lab form!");
         }
     }
+
     const myFunction3 = () => {
         window.location.href = "/editwell";
     }
 
+    function myFunction2() {
+        addClassLab();
+        myFunction();
+    }
+
     return (
         //<div className="form-container" >
-        <form action="/editwell"> {/*id="submissionAlert"*/}
-            <h2>Lab</h2>
+        //action = "/editwell" id = "submissionAlert"
+        <form action="/editwell" id="submissionAlert">
+            <h2>Class Lab</h2>
             <div className="css">
                 <label for="ammonia">
-                    Ammonia <br /> [0-10 ppm(mg/L)]
+                    Ammonia - N<br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
@@ -67,9 +76,10 @@ export default function ViewLab() {
             <div className="css">
                 <label for="calcium">
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
                     onChange={(event) => {
                         setCalcium(event.target.value);
                     }}
@@ -78,9 +88,10 @@ export default function ViewLab() {
             <div className="css">
                 <label for="chloride">
                     Chloride <br /> [0-400 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
                     onChange={(event) => {
                         setChloride(event.target.value);
                     }}
@@ -90,13 +101,13 @@ export default function ViewLab() {
                 <label for="bacteria">
                     Bacteria (Colilert) <br />
                     [Positive if more than 1 MPN/100ml]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
                         <select
                             value={bacteria}
                             onChange={handleChange_Bacteria}
-                            disabled="disabled"
                         >
                             <option hidden selected>Select one...</option>
                             <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
@@ -109,9 +120,10 @@ export default function ViewLab() {
             <div className="css">
                 <label for="copper">
                     Copper <br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="copper" name="copper" min="0" max="10" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setCopper(event.target.value);
                     }}
@@ -120,10 +132,10 @@ export default function ViewLab() {
             <div className="css">
                 <label for="iron">
                     Iron<br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-
-                    type="number" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setIron(event.target.value);
                     }}
@@ -132,9 +144,10 @@ export default function ViewLab() {
             <div className="css">
                 <label for="manganese">
                     Manganese<br /> [0-50 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
                     onChange={(event) => {
                         setManganese(event.target.value);
                     }}
@@ -142,10 +155,11 @@ export default function ViewLab() {
             </div>
             <div className="css">
                 <label for="nitrate">
-                    Nitrate <br /> [0-45 ppm(mg/L)]
+                    Nitrate - N<br /> [0-45 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="45" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
                     onChange={(event) => {
                         setNitrate(event.target.value);
                     }}
@@ -154,35 +168,32 @@ export default function ViewLab() {
             <div className="css">
                 <label for="name">
                     Data Collector’s Name:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="name" name="name" disabled="disabled"
+                    type="text" className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="observations">
-                    Additional observations:
-                </label>
-                <textarea
-                    type="text" className="textarea resize-ta" maxLength="150" id="observations" name="observations" disabled="disabled"
-                    onChange={(event) => {
-                        setObservations(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
                 <label for="dateentered">
                     Date Entered:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" disabled="disabled"
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
                     onChange={(event) => {
                         setDateentered(event.target.value);
                     }}
                 />
+            </div>
+            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="submit" onClick={myFunction3} >Back</button>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
             </div>
         </form>
         //</div>
