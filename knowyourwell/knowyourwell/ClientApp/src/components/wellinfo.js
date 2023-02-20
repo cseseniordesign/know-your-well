@@ -2,6 +2,10 @@
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
+//
+import DatePicker from 'react-datetime';
+import moment from 'moment';
+import 'react-datetime/css/react-datetime.css';
 
 export default function WellInfo() {
 
@@ -29,7 +33,12 @@ export default function WellInfo() {
     const datacollector = "John Smith"
     const [observation, setObservation] = useState("");
     const [comments, setComments] = useState("");
-    const [dateentered, setDateentered] = useState("");
+    const [dateentered, setDateentered] = useState(moment());
+
+    const date = new Date();
+    const futureDate = date.getDate();
+    date.setDate(futureDate);
+    const defaultValue = date.toLocaleDateString('en-CA');
 
     const [county, setCounty] = useState("");
     const handleChange_county = (event) => {
@@ -680,12 +689,21 @@ export default function WellInfo() {
                 <label for="dateentered">
                     Date Entered:
                 </label>
-                <input
-                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
-                    onChange={(event) => {
-                        setDateentered(event.target.value);
-                    }}
-                />
+                <div id="dateentered">
+                    <DatePicker
+                        value={dateentered}
+                        dateFormat="DD-MM-YYYY"
+                        timeFormat="hh:mm A"
+                        onChange={(val) => setDateentered(val)}
+                        inputProps={{
+                            style: {
+                                width: 300,
+                                textAlign: 'center',
+                                border: '1px solid black'
+                            }
+                        }}
+                    /> {"  "}
+                </div>
             </div>
             <button type="submit" onClick={myFunction2} >Save</button>
             <button type="submit" onClick={myFunction3}  >Back</button>
