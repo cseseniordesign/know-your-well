@@ -23,13 +23,19 @@ export default function EditWell() {
             </List.Item>
             <List.Item >
                 <List.Content>
-                    <a href="/Lab" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Lab Test</a>
+                    <a href="/fieldselection" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Class Lab</a>
                 </List.Content>
                 <br />
             </List.Item>
             <List.Item>
                 <List.Content >
                     <a href="/EditLog" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">View Previous Log</a>
+                </List.Content>
+                <br />
+            </List.Item>
+            <List.Item>
+                <List.Content >
+                    <a href="/FormSubmission" style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Form Submission</a>
                 </List.Content>
                 <br />
             </List.Item>

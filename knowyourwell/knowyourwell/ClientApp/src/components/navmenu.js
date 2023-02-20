@@ -1,7 +1,9 @@
 import React from 'react'
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap'
 import { Link } from 'react-router-dom'
-import './css/NavMenu.css'
+import './css/NavMenu.css';
+import './css/logo_banner.css'
+
 
 
 export default class NavMenu extends React.Component {
@@ -25,8 +27,9 @@ export default class NavMenu extends React.Component {
         return (
             <header>
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-                    <NavbarBrand tag={Link} to="/">
-                        <img src={require('./images/kywlogo.png')} alt="app logo" className="logo"/>
+                    <NavbarBrand tag={Link} to="/" id="logo_banner">
+                        {/*<img src={require('./images/kywlogo.png')} alt="app logo" className="logo" />*/}
+                        <img class="logo" src="data:image/gif;base64,R0lGODlhAQABAPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAABAAEAAAgEAP8FBAA7" />
                     </NavbarBrand>
                     <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                     <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
@@ -44,18 +47,6 @@ export default class NavMenu extends React.Component {
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="EditWell">Well Name/ID</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="EditLog">Edit Log</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="WellInfo">Well Info</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="Field">Field</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="Lab">Lab</NavLink>
-                            </NavItem>
                         </ul>
                     </Collapse>
                 </Navbar>
@@ -63,5 +54,15 @@ export default class NavMenu extends React.Component {
         );
     }
 }
-
-
+/*<NavItem>
+                               <NavLink tag={Link} className="text-dark" to="EditLog">Edit Log</NavLink>
+                           </NavItem>
+                           <NavItem>
+                               <NavLink tag={Link} className="text-dark" to="WellInfo">Well Info</NavLink>
+                           </NavItem>
+                           <NavItem>
+                               <NavLink tag={Link} className="text-dark" to="Field">Field</NavLink>
+                           </NavItem>
+                           <NavItem>
+                               <NavLink tag={Link} className="text-dark" to="ClassLab">Class Lab</NavLink>
+                           </NavItem>*/

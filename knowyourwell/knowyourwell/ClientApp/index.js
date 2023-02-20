@@ -52,7 +52,7 @@ app.post('/api/insert', (req, res) => {
 });
 
 
-app.post('/createlab', (req, res) => {
+app.post('/createclasslab', (req, res) => {
     const ammonia = req.body.ammonia;
     const calcium = req.body.calcium;
     const chloride = req.body.chloride;

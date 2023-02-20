@@ -11,7 +11,7 @@ import 'react-datetime/css/react-datetime.css';
 
 
 
-export default function Lab() {
+export default function ClassLab() {
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -31,15 +31,15 @@ export default function Lab() {
         setBacteria(event.target.value);
     };
 
+
     const date = new Date();
     const futureDate = date.getDate();
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
-    
-
-    function addLab() {   /*const addLab = () =>*/
-        Axios.post('http://localhost:7193/createlab', {
+    function addClassLab() {   /*const addClassLab = () =>*/
+        Axios.post('http://localhost:7193/create', {
+        development:knowyourwell/knowyourwell/ClientApp/src/components/classlab.js
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
@@ -70,18 +70,19 @@ export default function Lab() {
     }
 
     function myFunction2() {
-        addLab();
+        addClassLab();
         myFunction();
     }
 
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
-        <form  >
-            <h2>Lab</h2>
+        <form action="/editwell" id="submissionAlert">
+            <h2>Class Lab</h2>
             <div className="css">
                 <label for="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
@@ -93,6 +94,7 @@ export default function Lab() {
             <div className="css">
                 <label for="calcium">
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
@@ -104,6 +106,7 @@ export default function Lab() {
             <div className="css">
                 <label for="chloride">
                     Chloride <br /> [0-400 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
@@ -116,6 +119,7 @@ export default function Lab() {
                 <label for="bacteria">
                     Bacteria (Colilert) <br />
                     [Positive if more than 1 MPN/100ml]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -134,6 +138,7 @@ export default function Lab() {
             <div className="css">
                 <label for="copper">
                     Copper <br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
@@ -145,6 +150,7 @@ export default function Lab() {
             <div className="css">
                 <label for="iron">
                     Iron<br /> [0-10 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
@@ -156,6 +162,7 @@ export default function Lab() {
             <div className="css">
                 <label for="manganese">
                     Manganese<br /> [0-50 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
@@ -167,6 +174,7 @@ export default function Lab() {
             <div className="css">
                 <label for="nitrate">
                     Nitrate - N<br /> [0-45 ppm(mg/L)]
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
@@ -178,6 +186,7 @@ export default function Lab() {
             <div className="css">
                 <label for="name">
                     Data Collector’s Name:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="name" name="name" required
@@ -189,6 +198,7 @@ export default function Lab() {
             <div className="css" >
                 <label for="dateentered">
                     Date Entered:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="dateentered">
                 <DatePicker 
@@ -206,8 +216,12 @@ export default function Lab() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2}  >Submit</button>
-            <button type="submit" onClick={myFunction3}  >Back</button>
+            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="submit" onClick={myFunction3} >Back</button>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
         </form>
         //</div>
     );
