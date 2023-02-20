@@ -39,7 +39,6 @@ export default function ClassLab() {
 
     function addClassLab() {   /*const addClassLab = () =>*/
         Axios.post('http://localhost:7193/create', {
-        development:knowyourwell/knowyourwell/ClientApp/src/components/classlab.js
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
