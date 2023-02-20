@@ -2,7 +2,7 @@ import React from 'react'
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import './css/NavMenu.css';
-import './css/logo_banner.css'
+import './css/logo_banner.css';
 
 
 
