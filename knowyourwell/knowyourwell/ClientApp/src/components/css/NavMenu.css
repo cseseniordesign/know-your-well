@@ -35,11 +35,37 @@
             color: white;
         }
 
+
         img{
            width:120px;
            height: 75px; 
            object-fit: contain;
         }
+
+@media screen and (max-width: 575px) {
+
+    .banner{
+        width: 180px;
+        height: 40px;
+        object-fit: contain;
+        background-repeat: no-repeat;
+        background-image: url(../images/kywbanner-01.svg);
+        vertical-align: middle;
+    }
+}
+
+@media screen and (min-width: 576px) {
+
+     .banner{
+        width: 200px;
+        height: 50px;
+        object-fit: contain;
+        background-repeat: no-repeat;
+        background-image: url(../images/kywbanner-01.svg);
+        vertical-align: middle;
+    }
+}
+
 /* Float the link section to the right */
 .header-right {
     float: right;
