@@ -11,7 +11,7 @@ export default function Well() {
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
     useEffect(() => {
         Axios
-            .get("http://localhost:7193/Wells", {
+            .get("/Wells", {
                 responseType: "json",
             })
             .then(function (response) {
