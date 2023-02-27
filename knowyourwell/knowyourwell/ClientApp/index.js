@@ -145,6 +145,11 @@ app.get('/Wells', async (req, res) => {
     })
 })
 
+// All other unmatched requests will return the React app
+app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
 });
