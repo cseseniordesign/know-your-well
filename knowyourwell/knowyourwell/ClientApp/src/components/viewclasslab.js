@@ -20,7 +20,7 @@ export default function ViewLab() {
     };
 
     const addLab = () => {
-        Axios.post('http://localhost:7193/createlab', {
+        Axios.post('/createlab', {
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
