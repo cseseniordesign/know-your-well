@@ -5,10 +5,16 @@ const mysql = require('mysql');
 const cors = require('cors');
 const { response } = require("express");
 
+const PORT = process.env.PORT || 7193
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
+
+app.listen(PORT, () => {
+    console.log(`Server listening on ${PORT}`);
+});
 
 const db = mysql.createPool({
     //user: "fnaif",
@@ -148,8 +154,4 @@ app.get('/Wells', async (req, res) => {
 // All other unmatched requests will return the React app
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-});
-
-app.listen(process.env.PORT || 7193, () => {
-    console.log("server is running");
 });
