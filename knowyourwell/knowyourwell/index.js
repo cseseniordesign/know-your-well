@@ -22,10 +22,10 @@ const db = mysql.createPool({
     //password: "d5suMv1a",
     //database: "fnaif",
 
-     user:"kywTeam@kyw",
-     host:"kyw.mysql.database.azure.com",
-     password:"NYWell2022",
-     database: "fnaif",
+     user:"kywAdmin@kyw",
+     host:"kyw.database.windows.net",
+     password:"KJ6vcCG2",
+     database: "kyw",
 });
 
 app.post('/api/insert', (req, res) => {
@@ -122,7 +122,7 @@ app.post('/createwellinfo', (req, res) => {
     const dateentered = req.body.dateentered;
 
     db.query(
-        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO tblWellInfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
             wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste,
             smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
@@ -141,7 +141,7 @@ app.post('/createwellinfo', (req, res) => {
 
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
-    db.query("SELECT id, wellname FROM wellinfo;", function (err, data, fields) {
+    db.query("SELECT id, wellname FROM tblWellInfo;", function (err, data, fields) {
         if (err) return (err)
         res.status(200).json({
             status: "success",
