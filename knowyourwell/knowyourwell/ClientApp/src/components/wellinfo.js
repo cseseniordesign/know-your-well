@@ -512,7 +512,7 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="pestmanure">
-                    Has any manure or pesticides been applied<br /> near the well within the last five years?
+                    Has any manure, fertilizer, or pesticides been applied<br /> near the well within the last five years?
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
