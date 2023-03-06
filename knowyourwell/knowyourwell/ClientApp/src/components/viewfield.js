@@ -50,24 +50,13 @@ export default function ViewField() {
             })
     };
 
-    var form = document.getElementById('submissionAlert');
-    const myFunction = () => {
-        if (form.checkValidity()) {
-            alert("Succesfully submitted!");
-        }
-    }
-    const myFunction3 = () => {
-        window.location.href = "/editwell";
-    }
     return (
         //<div className="form-container"> 
         <form action="/editwell"  > {/*id="submissionAlert"*/}
             <h2>Field</h2>
             <div className="css">
                 <label for="conditions">
-                    Conditions: Describe weather,
-                    temperature,{/*<br />*/} or anything
-                    note-worthy about your well
+                    Conditions: Describe weather, temperature,{/*<br />*/} or anything note-worthy about your well
                 </label>
                 <textarea
                     type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" disabled="disabled"
@@ -108,8 +97,7 @@ export default function ViewField() {
             </div>
             <div className="css">
                 <label for="evidence">
-                    Is there evidence of surface<br />
-                    run-off entry to the well?
+                    Is there evidence of surface<br /> run-off entry to the well?
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -127,8 +115,7 @@ export default function ViewField() {
             </div>
             <div className="css">
                 <label for="pooling">
-                    Is there evidence of pooling or<br />
-                    Puddles within 12 ft of the well?
+                    Is there evidence of pooling or<br /> puddles within 12 ft of the well?
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -220,6 +207,13 @@ export default function ViewField() {
                         setDateentered(event.target.value);
                     }}
                 />
+            </div>
+            <form action="/PreviousEntries">
+                <button type="submit">Back</button>
+            </form>
+            <div className="css">
+                <a href="mailto:waterinfo@unl.edu">
+                    If any data is incorrect email us at waterinfo@unl.edu</a>
             </div>
         </form >
         //</div>

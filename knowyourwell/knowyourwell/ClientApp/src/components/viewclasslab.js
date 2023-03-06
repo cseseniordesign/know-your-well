@@ -1,10 +1,9 @@
-﻿import React from 'react'
+import React from 'react'
 import { useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css'
 
-
-export default function Lab() {
+export default function ViewLab() {
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -20,7 +19,7 @@ export default function Lab() {
         setBacteria(event.target.value);
     };
 
-    function addLab() {   /*const addLab = () =>*/
+    const addLab = () => {
         Axios.post('http://localhost:7193/createlab', {
             ammonia: ammonia,
             calcium: calcium,
@@ -39,34 +38,16 @@ export default function Lab() {
             })
     };
 
-
-    var form = document.getElementById('submissionAlert');
-    function myFunction() {
-        if (form.checkValidity()) {
-            alert("Succesfully submitted Lab form!");
-        }
-    }
-
-    const myFunction3 = () => {
-        window.location.href = "/editwell";
-    }
-
-    function myFunction2() {
-        addLab();
-        /*myFunction();*/
-    }
-
     return (
         //<div className="form-container" >
-        //action = "/editwell" id = "submissionAlert"
-        <form >
+        <form action="/editwell"> {/*id="submissionAlert"*/}
             <h2>Lab</h2>
             <div className="css">
                 <label for="ammonia">
-                    Ammonia - N<br /> [0-10 ppm(mg/L)]
+                    Ammonia <br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" step="any"
+                    type="number" className="textarea resize-ta" id="ammonia" name="ammonia" min="0" max="10" disabled="disabled"
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
@@ -77,7 +58,7 @@ export default function Lab() {
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" step="any"
+                    type="number" className="textarea resize-ta" id="calcium" name="calcium" min="50" max="500" disabled="disabled"
                     onChange={(event) => {
                         setCalcium(event.target.value);
                     }}
@@ -88,7 +69,7 @@ export default function Lab() {
                     Chloride <br /> [0-400 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" step="any"
+                    type="number" className="textarea resize-ta" id="chloride" name="chloride" min="0" max="400" disabled="disabled"
                     onChange={(event) => {
                         setChloride(event.target.value);
                     }}
@@ -96,14 +77,14 @@ export default function Lab() {
             </div>
             <div className="css">
                 <label for="bacteria">
-                    Bacteria (Colilert) <br />
-                    [Positive if more than 1 MPN/100ml]
+                    Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
                 </label>
                 <div id="App">
                     <div className="select-container">
                         <select
                             value={bacteria}
                             onChange={handleChange_Bacteria}
+                            disabled="disabled"
                         >
                             <option hidden selected>Select one...</option>
                             <option value="Clear" id="bacteria" name="bacteria">Clear</option>
@@ -118,7 +99,7 @@ export default function Lab() {
                     Copper <br /> [0-10 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="copper" name="copper" min="0" max="12" step="any"
+                    type="number" className="textarea resize-ta" id="copper" name="copper" min="0" max="10" disabled="disabled"
                     onChange={(event) => {
                         setCopper(event.target.value);
                     }}
@@ -130,7 +111,7 @@ export default function Lab() {
                 </label>
                 <input
 
-                    type="number" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" step="any"
+                    type="number" className="textarea resize-ta" id="iron" name="iron" min="0" max="10" disabled="disabled"
                     onChange={(event) => {
                         setIron(event.target.value);
                     }}
@@ -141,7 +122,7 @@ export default function Lab() {
                     Manganese<br /> [0-50 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" step="any"
+                    type="number" className="textarea resize-ta" id="manganese" name="manganese" min="0" max="50" disabled="disabled"
                     onChange={(event) => {
                         setManganese(event.target.value);
                     }}
@@ -149,10 +130,10 @@ export default function Lab() {
             </div>
             <div className="css">
                 <label for="nitrate">
-                    Nitrate - N<br /> [0-45 ppm(mg/L)]
+                    Nitrate <br /> [0-45 ppm(mg/L)]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="50" step="any"
+                    type="number" className="textarea resize-ta" id="nitrate" name="nitrate" min="0" max="45" disabled="disabled"
                     onChange={(event) => {
                         setNitrate(event.target.value);
                     }}
@@ -163,20 +144,20 @@ export default function Lab() {
                     Data Collector’s Name:
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="name" name="name" required
+                    type="text" className="textarea resize-ta" id="name" name="name" disabled="disabled"
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="observation">
-                    Observations
+                <label for="observations">
+                    Additional observations:
                 </label>
                 <textarea
-                    type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation"
+                    type="text" className="textarea resize-ta" maxLength="150" id="observations" name="observations" disabled="disabled"
                     onChange={(event) => {
-                        setObservation(event.target.value);
+                        setObservations(event.target.value);
                     }}
                 />
             </div>
@@ -185,14 +166,19 @@ export default function Lab() {
                     Date Entered:
                 </label>
                 <input
-                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
+                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" disabled="disabled"
                     onChange={(event) => {
                         setDateentered(event.target.value);
                     }}
                 />
             </div>
-            <button type="submit" onClick={myFunction2}  >Submit</button>
-            <button type="submit" onClick={myFunction3}  >Back</button>
+            <form action="/PreviousEntries">
+                <button type="submit">Back</button>
+            </form>
+            <div className="css">
+                <a href="mailto:waterinfo@unl.edu">
+                    If any data is incorrect email us at waterinfo@unl.edu</a>
+            </div>
         </form>
         //</div>
     );

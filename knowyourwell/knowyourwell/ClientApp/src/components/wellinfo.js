@@ -2,6 +2,10 @@
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
+//
+import DatePicker from 'react-datetime';
+import moment from 'moment';
+import 'react-datetime/css/react-datetime.css';
 
 export default function WellInfo() {
 
@@ -15,8 +19,6 @@ export default function WellInfo() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
-    const [county, setCounty] = useState("");
-    const [nrd, setNrd] = useState("");
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState(0);
     const [numberwelluser, setNumberwelluser] = useState(0);
@@ -31,7 +33,22 @@ export default function WellInfo() {
     const datacollector = "John Smith"
     const [observation, setObservation] = useState("");
     const [comments, setComments] = useState("");
-    const [dateentered, setDateentered] = useState("");
+    const [dateentered, setDateentered] = useState(moment());
+
+    const date = new Date();
+    const futureDate = date.getDate();
+    date.setDate(futureDate);
+    const defaultValue = date.toLocaleDateString('en-CA');
+
+    const [county, setCounty] = useState("");
+    const handleChange_county = (event) => {
+        setCounty(event.target.value);
+    }
+
+    const [nrd, setNrd] = useState("");
+    const handleChange_nrd = (event) => {
+        setNrd(event.target.value);
+    }
 
     const [smelltaste, setSmelltaste] = useState("");
     const handleChange_smelltaste = (event) => {
@@ -131,23 +148,24 @@ export default function WellInfo() {
         }
     }
 
-    const myFunction3 = () => {
+    const backButton = () => {
         window.location.href = "/editwell";
     }
 
     function myFunction2() {
         addWellInfo();
-     /*   myFunction();*/
+        myFunction();
     }
 
     return (
         //<div className="form-container">
         /*action = "/editwell" id = "submissionAlert"*/
-        <form >
+        <form action="/editwell" id="submissionAlert" >
             <h2>Well Info</h2>
             <div className="css">
                 <label for="wellname">
                     Well Name:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="wellname" name="wellname" required
@@ -205,7 +223,7 @@ export default function WellInfo() {
                     Zip code:
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="zipcode" name="zipcode" min="00001" max="99950" minlength="5" maxlength="5"
+                    type="text" className="textarea resize-ta" id="zipcode" name="zipcode" pattern="[0-9]{5}"
                     onChange={(event) => {
                         setZipcode(event.target.value);
                     }}
@@ -214,24 +232,146 @@ export default function WellInfo() {
             <div className="css">
                 <label for="county">
                     County:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="number" className="textarea resize-ta" id="county" name="county" min="1"
-                    onChange={(event) => {
-                        setCounty(event.target.value);
-                    }}
-                />
+                <div className="select-container">
+                    <select
+                        value={county}
+                        onChange={handleChange_county}
+                    >
+                        <option hidden selected>Select one...</option>
+                        <option value="Adams" id="county" name="county" required >Adams</option>
+                        <option value="Antelope" id="county" name="county" required >Antelope</option>
+                        <option value="Arthur" id="county" name="county" required >Arthur</option>
+                        <option value="Banner" id="county" name="county" required >Banner</option>
+                        <option value="Blaine" id="county" name="county" required >Blaine</option>
+                        <option value="Boone" id="county" name="county" required >Boone</option>
+                        <option value="Box Butte" id="county" name="county" required >Box Butte</option>
+                        <option value="Boyd" id="county" name="county" required >Boyd</option>
+                        <option value="Brown" id="county" name="county" required >Brown</option>
+                        <option value="Buffalo" id="county" name="county" required >Buffalo</option>
+                        <option value="Burt" id="county" name="county" required >Burt</option>
+                        <option value="Butler" id="county" name="county" required >Butler</option>
+                        <option value="Cass" id="county" name="county" required >Cass</option>
+                        <option value="Cedar" id="county" name="county" required >Cedar</option>
+                        <option value="Chase" id="county" name="county" required >Chase</option>
+                        <option value="Cherry" id="county" name="county" required >Cherry</option>
+                        <option value="Cheyenne" id="county" name="county" required >Cheyenne</option>
+                        <option value="Clay" id="county" name="county" required >Clay</option>
+                        <option value="Colfax" id="county" name="county" required >Colfax</option>
+                        <option value="Cuming" id="county" name="county" required >Cuming</option>
+                        <option value="Custer" id="county" name="county" required >Custer</option>
+                        <option value="Dakota" id="county" name="county" required >Dakota</option>
+                        <option value="Dawes" id="county" name="county" required >Dawes</option>
+                        <option value="Dawson" id="county" name="county" required >Dawson</option>
+                        <option value="Dixon" id="county" name="county" required >Dixon</option>
+                        <option value="Dodge" id="county" name="county" required >Dodge</option>
+                        <option value="Douglas" id="county" name="county" required >Douglas</option>
+                        <option value="Deuel" id="county" name="county" required >Deuel</option>
+                        <option value="Dundy" id="county" name="county" required >Dundy</option>
+                        <option value="Fillmore" id="county" name="county" required >Fillmore</option>
+                        <option value="Franklin" id="county" name="county" required >Franklin</option>
+                        <option value="Frontier" id="county" name="county" required >Frontier</option>
+                        <option value="Furnas" id="county" name="county" required >Furnas</option>
+                        <option value="Gage" id="county" name="county" required >Gage</option>
+                        <option value="Garden" id="county" name="county" required >Garden</option>
+                        <option value="Garfield" id="county" name="county" required >Garfield</option>
+                        <option value="Gosper" id="county" name="county" required >Gosper</option>
+                        <option value="Grant" id="county" name="county" required >Grant</option>
+                        <option value="Greeley" id="county" name="county" required >Greeley</option>
+                        <option value="Hall" id="county" name="county" required >Hall</option>
+                        <option value="Hamilton" id="county" name="county" required >Hamilton</option>
+                        <option value="Harlan" id="county" name="county" required >Harlan</option>
+                        <option value="Hayes" id="county" name="county" required >Hayes</option>
+                        <option value="Hitchcock" id="county" name="county" required >Hitchcock</option>
+                        <option value="Holt" id="county" name="county" required >Holt</option>
+                        <option value="Hooker" id="county" name="county" required >Hooker</option>
+                        <option value="Howard" id="county" name="county" required >Howard</option>
+                        <option value="Jefferson" id="county" name="county" required >Jefferson</option>
+                        <option value="Johnson" id="county" name="county" required >Johnson</option>
+                        <option value="Kearney" id="county" name="county" required >Kearney</option>
+                        <option value="Keith" id="county" name="county" required >Keith</option>
+                        <option value="Keya Paha" id="county" name="county" required >Keya Paha</option>
+                        <option value="Kimball" id="county" name="county" required >Kimball</option>
+                        <option value="Knox" id="county" name="county" required >Knox</option>
+                        <option value="Lancaster" id="county" name="county" required >Lancaster</option>
+                        <option value="Lincoln" id="county" name="county" required >Lincoln</option>
+                        <option value="Logan" id="county" name="county" required >Logan</option>
+                        <option value="Loup" id="county" name="county" required >Loup</option>
+                        <option value="Madison" id="county" name="county" required >Madison</option>
+                        <option value="McPherson" id="county" name="county" required >McPherson</option>
+                        <option value="Merrick" id="county" name="county" required >Merrick</option>
+                        <option value="Morrill" id="county" name="county" required >Morrill</option>
+                        <option value="Nance" id="county" name="county" required >Nance</option>
+                        <option value="Nemaha" id="county" name="county" required >Nemaha</option>
+                        <option value="Nuckolls" id="county" name="county" required >Nuckolls</option>
+                        <option value="Otoe" id="county" name="county" required >Otoe</option>
+                        <option value="Pawnee" id="county" name="county" required >Pawnee</option>
+                        <option value="Perkins" id="county" name="county" required >Perkins</option>
+                        <option value="Phelps" id="county" name="county" required >Phelps</option>
+                        <option value="Pierce" id="county" name="county" required >Pierce</option>
+                        <option value="Platte" id="county" name="county" required >Platte</option>
+                        <option value="Polk" id="county" name="county" required >Polk</option>
+                        <option value="Red Willow" id="county" name="county" required >Red Willow</option>
+                        <option value="Richardson" id="county" name="county" required >Richardson</option>
+                        <option value="Rock" id="county" name="county" required >Rock</option>
+                        <option value="Saline" id="county" name="county" required >Saline</option>
+                        <option value="Sarpy" id="county" name="county" required >Sarpy</option>                        
+                        <option value="Saunders" id="county" name="county" required >Saunders</option>
+                        <option value="Scotts Bluff" id="county" name="county" required >Scotts Bluff</option>
+                        <option value="Seward" id="county" name="county" required >Seward</option>
+                        <option value="Sheridan" id="county" name="county" required >Sheridan</option>
+                        <option value="Sherman" id="county" name="county" required >Sherman</option>
+                        <option value="Sioux" id="county" name="county" required >Sioux</option>
+                        <option value="Stanton" id="county" name="county" required >Stanton</option>
+                        <option value="Thayer" id="county" name="county" required >Thayer</option>
+                        <option value="Thomas" id="county" name="county" required >Thomas</option>
+                        <option value="Thurston" id="county" name="county" required >Thurston</option>
+                        <option value="Valley" id="county" name="county" required >Valley</option>
+                        <option value="Washington" id="county" name="county" required >Washington</option>
+                        <option value="Wayne" id="county" name="county" required >Wayne</option>
+                        <option value="Webster" id="county" name="county" required >Webster</option>
+                        <option value="Wheeler" id="county" name="county" required >Wheeler</option>
+                        <option value="York" id="county" name="county" required >York</option>
+                    </select>
+                </div>
             </div>
             <div className="css">
                 <label for="nrd">
                     NRD:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="number" className="textarea resize-ta" id="nrd" name="nrd" min="1"
-                    onChange={(event) => {
-                        setNrd(event.target.value);
-                    }}
-                />
+                <div className="select-container">
+                    <select
+                        value={nrd}
+                        onChange={handleChange_nrd}
+                    >
+                        <option hidden selected>Select one...</option>
+                        <option value="Central Platte" id="nrd" name="nrd" required >Central Platte</option>
+                        <option value="Lewis and Clark" id="nrd" name="nrd" required >Lewis and Clark</option>
+                        <option value="Little Blue" id="nrd" name="nrd" required >Little Blue</option>
+                        <option value="Lower Big Blue" id="nrd" name="nrd" required >Lower Big Blue</option>
+                        <option value="Lower Elkhorn" id="nrd" name="nrd" required >Lower Elkhorn</option>
+                        <option value="Lower Loup" id="nrd" name="nrd" required >Lower Loup</option>
+                        <option value="Lower Niobrara" id="nrd" name="nrd" required >Lower Niobrara</option>
+                        <option value="Lower Platte North" id="nrd" name="nrd" required >Lower Platte North</option>
+                        <option value="Lower Platte South" id="nrd" name="nrd" required >Lower Platte South</option>
+                        <option value="Lower Republican" id="nrd" name="nrd" required >Lower Republican</option>
+                        <option value="Middle Niobrara" id="nrd" name="nrd" required >Middle Niobrara</option>
+                        <option value="Middle Republican" id="nrd" name="nrd" required >Middle Republican</option>
+                        <option value="Nemaha" id="nrd" name="nrd" required >Nemaha</option>
+                        <option value="North Platte" id="nrd" name="nrd" required >North Platte</option>
+                        <option value="Papio-Missouri River" id="nrd" name="nrd" required >Papio-Missouri River</option>
+                        <option value="South Platte" id="nrd" name="nrd" required >South Platte</option>
+                        <option value="Tri-Basin" id="nrd" name="nrd" required >Tri-Basin</option>
+                        <option value="Twin Platte" id="nrd" name="nrd" required >Twin Platte</option>
+                        <option value="Upper Big Blue" id="nrd" name="nrd" required >Upper Big Blue</option>
+                        <option value="Upper Elkhorn" id="nrd" name="nrd" required >Upper Elkhorn</option>
+                        <option value="Upper Loup" id="nrd" name="nrd" required >Upper Loup</option>
+                        <option value="Upper Niobrara-White" id="nrd" name="nrd" required >Upper Niobrara-White</option>
+                        <option value="Upper Republican" id="nrd" name="nrd" required >Upper Republican</option>
+                    </select>
+                </div>
             </div>
             <div className="css">
                 <label for="wellowner">
@@ -247,9 +387,10 @@ export default function WellInfo() {
             <div className="css">
                 <label for="installyear">
                     Well construction completion year:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="installyear" name="installyear" min="1000" max="3000" required
+                    type="text" className="textarea resize-ta" id="installyear" name="installyear" pattern="[0-9]{4}" required
                     onChange={(event) => {
                         setInstallyear(event.target.value);
                     }}
@@ -258,6 +399,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="smelltaste">
                     Any complaints about <br /> smell or taste of water?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -271,22 +413,26 @@ export default function WellInfo() {
                             <option value="Unknown" id="smelltaste" name="smelltaste" required >Unknown</option>
                         </select>
                     </div>
+                    {smelltaste ==="Yes" && (
+                        <div className="css">
+                            <label for="smelltaste_description">
+                                Smell or taste of water desciption:
+                            </label>
+                            <textarea
+                                type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => { // if 'yes'
+                                    setSmelltaste_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
+
                 </div>
-            </div>
-            <div className="css">
-                <label for="smelltaste_description">
-                    Smell or taste of water desciption:
-                </label>
-                <textarea
-                    type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
-                    onChange={(event) => { // if 'yes'
-                        setSmelltaste_description(event.target.value);
-                    }}
-                />
             </div>
             <div className="css">
                 <label for="welldry">
                     Does the well ever go dry?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -300,24 +446,25 @@ export default function WellInfo() {
                             <option value="Maybe" id="welldry" name="welldry" required >Maybe</option>
                         </select>
                     </div>
+                    {welldry === "Yes" && (
+                        <div className="css">
+                            <label for="welldry_description">
+                                If so, when?
+                            </label>
+                            <textarea
+                                type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => {
+                                    setWelldry_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="css">
-                <label for="welldry_description">
-                    If so, when?
-                </label>
-                <textarea
-                    type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
-                    onChange={(event) => {
-                        setWelldry_description(event.target.value);
-                    }}
-                />
-
-            </div>
-            <div className="css">
                 <label for="maintenance5yr">
-                    Any maintenance done to the well<br /> itself
-                    within the last five years?
+                    Any maintenance done to the well<br /> itself within the last five years?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -335,9 +482,8 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="landuse5yr">
-                    Any major land use / development
-                    changes<br /> around the well within the
-                    last five years?
+                    Any major land use / development changes<br /> around the well within the last five years?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -358,7 +504,7 @@ export default function WellInfo() {
                     How many people use this well?
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="numberwelluser" name="numberwelluser"
+                    type="text" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" pattern="[0-9]+"
                     onChange={(event) => {
                         setNumberwelluser(event.target.value);
                     }}
@@ -366,9 +512,8 @@ export default function WellInfo() {
             </div>
             <div className="css">
                 <label for="pestmanure">
-                    Has any manure or pesticides been
-                    applied<br /> near the well within the last
-                    five years?
+                    Has any manure or pesticides been applied<br /> near the well within the last five years?
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -387,9 +532,11 @@ export default function WellInfo() {
             <div className="css">
                 <label for="estlatitude">
                     Estimated Latitude (in decimal degrees):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                    <br /> [40 - 43]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="estlatitude" name="estlatitude" min="40" max="43" step=".00001" required
+                    type="text" className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
                     onChange={(event) => {
                         setEstlatitude(event.target.value);
                     }}
@@ -398,9 +545,11 @@ export default function WellInfo() {
             <div className="css">
                 <label for="estlongitude">
                     Estimated Longitude (in decimal degrees):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                    <br /> [-104 - -95.417]
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="estlongitude" name="estlongitude" min="-104" max="-95.417" step=".00001" required
+                    type="text" className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
                     onChange={(event) => {
                         setEstlongitude(event.target.value);
                     }}
@@ -411,7 +560,7 @@ export default function WellInfo() {
                     Bore hole diameter (inches):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setBoreholediameter(event.target.value);
                     }}
@@ -422,7 +571,7 @@ export default function WellInfo() {
                     Total depth of well (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="totaldepth" name="totaldepth" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                     }}
@@ -431,6 +580,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="topography">
                     Topography of the well location:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -452,7 +602,7 @@ export default function WellInfo() {
                     Water level (feet):
                 </label>
                 <input
-                    type="number" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" min="0" step=".00001"
+                    type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setWell_waterleveldepth(event.target.value);
                     }}
@@ -461,6 +611,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="aquifertype">
                     Aquifer Type:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -479,6 +630,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="aquiferclass">
                     Aquifer Class:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -497,6 +649,7 @@ export default function WellInfo() {
             <div className="css">
                 <label for="welltype">
                     Well Type (Construction Method):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -551,16 +704,30 @@ export default function WellInfo() {
             <div className="css">
                 <label for="dateentered">
                     Date Entered:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="date" className="textarea resize-ta" id="dateentered" name="dateentered" required
-                    onChange={(event) => {
-                        setDateentered(event.target.value);
-                    }}
-                />
+                <div id="dateentered">
+                    <DatePicker
+                        value={dateentered}
+                        dateFormat="DD-MM-YYYY"
+                        timeFormat="hh:mm A"
+                        onChange={(val) => setDateentered(val)}
+                        inputProps={{
+                            style: {
+                                width: 300,
+                                textAlign: 'center',
+                                border: '1px solid black'
+                            }
+                        }}
+                    /> {"  "}
+                </div>
             </div>
             <button type="submit" onClick={myFunction2} >Save</button>
-            <button type="submit" onClick={myFunction3}  >Back</button>
+            <button type="submit" onClick={backButton} >Back</button>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
         </form>
         //</div>
     );

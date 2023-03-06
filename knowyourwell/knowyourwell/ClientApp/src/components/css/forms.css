@@ -28,3 +28,14 @@ textarea {
 .clicking{
     text-align:center
 }
+
+.requiredField{
+    color: red;
+}
+
+#dateentered {
+    display: flex;
+    justify-content: center;
+}
+
+      

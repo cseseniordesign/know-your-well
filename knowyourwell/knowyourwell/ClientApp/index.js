@@ -52,7 +52,7 @@ app.post('/api/insert', (req, res) => {
 });
 
 
-app.post('/createlab', (req, res) => {
+app.post('/createclasslab', (req, res) => {
     const ammonia = req.body.ammonia;
     const calcium = req.body.calcium;
     const chloride = req.body.chloride;
@@ -145,6 +145,6 @@ app.get('/Wells', async (req, res) => {
     })
 })
 
-app.listen(7193, () => {
+app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
 });

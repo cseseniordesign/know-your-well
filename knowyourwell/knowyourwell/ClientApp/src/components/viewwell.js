@@ -115,14 +115,6 @@ export default function ViewWell() {
             })
     };
 
-    var form = document.getElementById('submissionAlert');
-    const myFunction = () => {
-        if (form.checkValidity()) {
-            alert("Succesfully submitted!");
-        }
-    }
-
-
     return (
         //<div className="form-container">
         <form >
@@ -321,9 +313,7 @@ export default function ViewWell() {
             </div>
             <div className="css">
                 <label for="landuse5yr">
-                    Any major land use / development
-                    changes<br /> around the well within the
-                    last five years?
+                    Any major land use / development changes<br /> around the well within the last five years?
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -353,9 +343,7 @@ export default function ViewWell() {
             </div>
             <div className="css">
                 <label for="pestmanure">
-                    Has any manure or pesticides been
-                    applied<br /> near the well within the last
-                    five years?
+                    Has any manure or pesticides been applied<br /> near the well within the last five years?
                 </label>
                 <div id="App">
                     <div className="select-container">
@@ -548,6 +536,13 @@ export default function ViewWell() {
                         setDateentered(event.target.value);
                     }}
                 />
+            </div>
+            <form action="/EditWell">
+                <button type="submit">Back</button>
+            </form>
+            <div className="css">
+                <a href="mailto:waterinfo@unl.edu">
+                    If any data is incorrect email us at waterinfo@unl.edu</a>
             </div>
         </form>
         //</div>
