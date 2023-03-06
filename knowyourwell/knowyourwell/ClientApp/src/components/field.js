@@ -40,7 +40,7 @@ export default function Field() {
 
 
     function addField () {   /*const addField = () => */
-        Axios.post('http://localhost:7193/api/insert', {
+        Axios.post('/api/insert', {
             conditions: conditions,
             wellcover: wellcover,
             wellcoverdescription: wellcoverdescription,
