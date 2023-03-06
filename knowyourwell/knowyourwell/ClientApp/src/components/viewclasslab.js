@@ -12,7 +12,7 @@ export default function ViewLab() {
     const [manganese, setManganese] = useState(0);
     const [nitrate, setNitrate] = useState(0);
     const [name, setName] = useState("");
-    const [observation, setObservation] = useState("");
+    const [observations, setObservations] = useState("");
     const [bacteria, setBacteria] = useState("");
     const [dateentered, setDateentered] = useState("");
     const handleChange_Bacteria = (event) => {
@@ -30,7 +30,7 @@ export default function ViewLab() {
             manganese: manganese,
             nitrate: nitrate,
             name: name,
-            observation: observation,
+            observations: observations,
             dateentered: dateentered,
         })
             .then(() => {
