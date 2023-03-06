@@ -12,7 +12,7 @@ export default function ViewLab() {
     const [manganese, setManganese] = useState(0);
     const [nitrate, setNitrate] = useState(0);
     const [name, setName] = useState("");
-    const [observations, setObservations] = useState("");
+    const [observation, setObservation] = useState("");
     const [bacteria, setBacteria] = useState("");
     const [dateentered, setDateentered] = useState("");
     const handleChange_Bacteria = (event) => {
@@ -30,7 +30,7 @@ export default function ViewLab() {
             manganese: manganese,
             nitrate: nitrate,
             name: name,
-            observations: observations,
+            observation: observation,
             dateentered: dateentered,
         })
             .then(() => {
@@ -87,9 +87,9 @@ export default function ViewLab() {
                             disabled="disabled"
                         >
                             <option hidden selected>Select one...</option>
-                            <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
-                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria" required>Yellow with fluorescent rim </option>
-                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria" required >Yellow without fluorescent rim</option>
+                            <option value="Clear" id="bacteria" name="bacteria">Clear</option>
+                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria">Yellow with fluorescent rim </option>
+                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria">Yellow without fluorescent rim</option>
                         </select>
                     </div>
                 </div>
