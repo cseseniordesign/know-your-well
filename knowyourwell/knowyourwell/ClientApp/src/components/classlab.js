@@ -7,8 +7,7 @@ import './css/forms.css'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-
-
+import { useSearchParams } from "react-router-dom";
 
 
 export default function ClassLab() {
@@ -73,11 +72,14 @@ export default function ClassLab() {
         myFunction();
     }
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const wellName = searchParams.get("wellName");
+
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
         <form action="/editwell" id="submissionAlert">
-            <h2>Class Lab</h2>
+            <h2>{wellName}: Class Lab</h2>
             <div className="css">
                 <label for="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]

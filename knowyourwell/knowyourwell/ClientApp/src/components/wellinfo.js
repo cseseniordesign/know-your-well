@@ -6,6 +6,7 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
+import { useSearchParams } from "react-router-dom";
 
 export default function WellInfo() {
 
@@ -157,11 +158,14 @@ export default function WellInfo() {
         myFunction();
     }
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const wellName = searchParams.get("wellName");
+
     return (
         //<div className="form-container">
         /*action = "/editwell" id = "submissionAlert"*/
         <form action="/editwell" id="submissionAlert" >
-            <h2>Well Info</h2>
+            <h2>{wellName}: Well Info</h2>
             <div className="css">
                 <label for="wellname">
                     Well Name:
