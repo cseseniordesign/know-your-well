@@ -80,7 +80,7 @@ export default function Field() {
         <form action="/editwell" id="submissionAlert" >  
             <h2>Field</h2>
             <div className="css">
-                <label for="conditions">
+                <label htmlFor="conditions">
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -92,7 +92,7 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="wellcover">
+                <label htmlFor="wellcover">
                     Condition of the well cover
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -102,7 +102,7 @@ export default function Field() {
                             value={wellcover}
                             onChange={handleChange_wellcover}
                         >
-                            <option hidden selected>Select one...</option>
+                            <option hidden defaultValue>Select one...</option>
                             <option value="Intact" id="wellcover" name="wellcover" required >Intact</option>
                             <option value="Observable_Opening" id="wellcover" name="wellcover" required>Observable Opening</option>
                             <option value="Damaged" id="wellcover" name="wellcover" required >Damaged</option>
@@ -111,7 +111,7 @@ export default function Field() {
                 </div>
             </div>
             <div className="css">
-                <label for="wellcoverdescription">
+                <label htmlFor="wellcoverdescription">
                     Well Cover Description:
                 </label>
                 <textarea
@@ -122,7 +122,7 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="evidence">
+                <label htmlFor="evidence">
                     Is there evidence of surface<br />run-off entry to the well?
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -141,7 +141,7 @@ export default function Field() {
                 </div>
             </div>
             <div className="css">
-                <label for="pooling">
+                <label htmlFor="pooling">
                     Is there evidence of pooling or<br />puddles within 12 ft of the well?
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -159,7 +159,7 @@ export default function Field() {
                 </div>
             </div>
             <div className="css">
-                <label for="temp">
+                <label htmlFor="temp">
                     Groundwater Temperature<br /> [Degrees Celsius]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -171,7 +171,7 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="ph">
+                <label htmlFor="ph">
                     pH<br /> [0-14]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -183,7 +183,7 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="conductivity">
+                <label htmlFor="conductivity">
                     Conductivity <br /> [uS/cm]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -195,7 +195,7 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="name">
+                <label htmlFor="name">
                     Data Collector’s Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -207,7 +207,7 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="observation">
+                <label htmlFor="observation">
                     Observations
                 </label>
                 <textarea
@@ -218,7 +218,7 @@ export default function Field() {
                 />
             </div>
             <div className="css">
-                <label for="dateentered">
+                <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>

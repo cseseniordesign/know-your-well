@@ -9,7 +9,7 @@ import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 
 
-
+import wrapper from 'axios-cache-plugin'
 
 export default function ClassLab() {
     const [ammonia, setAmmonia] = useState(0);
@@ -20,10 +20,7 @@ export default function ClassLab() {
     const [manganese, setManganese] = useState(0);
     const [nitrate, setNitrate] = useState(0);
     const [name, setName] = useState("");
-    const [observations, setObservations] = useState("");
     const [bacteria, setBacteria] = useState("");
-
-    //const [dateentered, setDateentered] = useState(new Date().toISOString().substr(0, 10));
     const [dateentered, setDateentered] = useState(moment());
 
 
@@ -38,7 +35,7 @@ export default function ClassLab() {
     const defaultValue = date.toLocaleDateString('en-CA');
 
     function addClassLab() {   /*const addClassLab = () =>*/
-        Axios.post('http://localhost:7193/create', {
+        Axios.post('http://localhost:7193/createclasslab', {
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
@@ -48,13 +45,34 @@ export default function ClassLab() {
             manganese: manganese,
             nitrate: nitrate,
             name: name,
-            observations: observations,
             dateentered: dateentered,
         })
             .then(() => {
                 console.log("success");
             })
     };
+
+
+
+    let http = wrapper(Axios, {
+        maxCacheSize: 15
+    })
+    http.__addFilter(/createclasslab/)
+
+    http({
+        url: 'http://localhost:7193/createclasslab',
+        method: 'post',
+        params: {
+            param: JSON.stringify({
+                debug_port: 'sandbox1'
+            })
+        }
+    })
+
+
+
+
+
 
 
     var form = document.getElementById('submissionAlert');
@@ -70,16 +88,16 @@ export default function ClassLab() {
 
     function myFunction2() {
         addClassLab();
-        myFunction();
+       // myFunction();
     }
 
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
-        <form action="/editwell" id="submissionAlert">
+        <form  >
             <h2>Class Lab</h2>
             <div className="css">
-                <label for="ammonia">
+                <label htmlFor="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -91,7 +109,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css">
-                <label for="calcium">
+                <label htmlFor="calcium">
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -103,7 +121,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css">
-                <label for="chloride">
+                <label htmlFor="chloride">
                     Chloride <br /> [0-400 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -115,7 +133,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css">
-                <label for="bacteria">
+                <label htmlFor="bacteria">
                     Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -125,7 +143,7 @@ export default function ClassLab() {
                             value={bacteria}
                             onChange={handleChange_Bacteria}
                         >
-                            <option hidden selected>Select one...</option>
+                            <option hidden defaultValue>Select one...</option>
                             <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
                             <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria" required>Yellow with fluorescent rim </option>
                             <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria" required >Yellow without fluorescent rim</option>
@@ -134,7 +152,7 @@ export default function ClassLab() {
                 </div>
             </div>
             <div className="css">
-                <label for="copper">
+                <label htmlFor="copper">
                     Copper <br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -146,7 +164,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css">
-                <label for="iron">
+                <label htmlFor="iron">
                     Iron<br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -158,7 +176,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css">
-                <label for="manganese">
+                <label htmlFor="manganese">
                     Manganese<br /> [0-50 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -170,7 +188,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css">
-                <label for="nitrate">
+                <label htmlFor="nitrate">
                     Nitrate - N<br /> [0-45 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -182,7 +200,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css">
-                <label for="name">
+                <label htmlFor="name">
                     Data Collector’s Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -194,7 +212,7 @@ export default function ClassLab() {
                 />
             </div>
             <div className="css" >
-                <label for="dateentered">
+                <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -224,3 +242,5 @@ export default function ClassLab() {
         //</div>
     );
 }
+
+//npm install axios-cache-plugin --save

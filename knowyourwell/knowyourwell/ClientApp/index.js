@@ -16,10 +16,10 @@ const db = mysql.createPool({
     password: "d5suMv1a",
     database: "fnaif",
 
-     //user:"kywTeam@kyw",
-     //host:"kyw.mysql.database.azure.com",
-     //password:"NYWell2022",
-     //database: "fnaif",
+    //user:"kywTeam@kyw",
+    //host:"kyw.mysql.database.azure.com",
+    //password:"NYWell2022",
+    //database: "fnaif",
 });
 
 app.post('/api/insert', (req, res) => {
@@ -62,18 +62,17 @@ app.post('/createclasslab', (req, res) => {
     const manganese = req.body.manganese;
     const nitrate = req.body.nitrate;
     const name = req.body.name;
-    const observations = req.body.observations;
     const dateentered = req.body.dateentered;
 
 
     db.query(
-        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered],
+        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, dateentered],
         (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                res.send("Values Inserted");
+                result.send("Values Inserted");
             }
         }
     );
