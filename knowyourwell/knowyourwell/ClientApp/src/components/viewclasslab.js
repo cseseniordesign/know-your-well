@@ -176,8 +176,8 @@ export default function ViewLab() {
                 <button type="submit">Back</button>
             </form>
             <div className="css">
-                <a href="mailto:waterinfo@unl.edu">
-                    If any data is incorrect email us at waterinfo@unl.edu</a>
+            <a href="mailto:knowyourwell@unl.edu">
+                    If any data is incorrect email us at knowyourwell@unl.edu</a>
             </div>
         </form>
         //</div>
