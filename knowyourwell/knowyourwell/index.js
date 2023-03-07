@@ -17,15 +17,15 @@ app.listen(PORT, () => {
 });
 
 const db = mysql.createPool({
-    //user: "fnaif",
-    //host: "cse.unl.edu",
-    //password: "d5suMv1a",
-    //database: "fnaif",
+    user: "fnaif",
+    host: "cse.unl.edu",
+    password: "d5suMv1a",
+    database: "fnaif",
 
-     user:"kywAdmin@kyw",
-     host:"kyw.database.windows.net",
-     password:"KJ6vcCG2",
-     database: "kyw",
+     //user:"kywAdmin@kyw",
+     //host:"kyw.database.windows.net",
+     //password:"KJ6vcCG2",
+     //database: "kyw",
 });
 
 app.post('/api/insert', (req, res) => {
