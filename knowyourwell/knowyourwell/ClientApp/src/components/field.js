@@ -42,18 +42,17 @@ export default function Field() {
 
     function addField () {   /*const addField = () => */
         Axios.post('/api/insert', {
-            conditions: conditions,
-            wellcover: wellcover,
-            wellcoverdescription: wellcoverdescription,
-            evidence: evidence,
-            pooling: pooling,
-            temp: temp,
-            ph: ph,
-            conductivity: conductivity,
-            name: name,
-            observation: observation,
-            comments: comments,
-            dateentered: dateentered,
+            fa_weather: conditions,
+            fa_wellcovercondition: wellcover,
+            fa_wellcoverdescription: wellcoverdescription,
+            fa_surfacerunoff: evidence,
+            fa_pooling: pooling,
+            fa_groundwatertemp: temp,
+            fa_ph: ph,
+            fa_conductivity: conductivity,
+            fa_datacollector: name,
+            fa_observations: observation,
+            fa_datecollected: dateentered,
         })
 
             .then(() => {

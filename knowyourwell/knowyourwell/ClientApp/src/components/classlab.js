@@ -38,17 +38,17 @@ export default function ClassLab() {
 
     function addClassLab() {   /*const addClassLab = () =>*/
         Axios.post('/create', {
-            ammonia: ammonia,
-            calcium: calcium,
-            chloride: chloride,
-            copper: copper,
-            bacteria: bacteria,
-            iron: iron,
-            manganese: manganese,
-            nitrate: nitrate,
-            name: name,
-            observations: observations,
-            dateentered: dateentered,
+            cl_ammonia: ammonia,
+            cl_calciumhardness: calcium,
+            cl_chloride: chloride,
+            cl_bacteria: bacteria,
+            cl_copper: copper,
+            cl_iron: iron,
+            cl_manganese: manganese,
+            cl_nitrate: nitrate,
+            cl_observation: observations,
+            cl_datacollector: name,
+            cl_datecollected: dateentered,
         })
             .then(() => {
                 console.log("success");
