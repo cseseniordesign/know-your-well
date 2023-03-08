@@ -77,7 +77,7 @@ export default function ViewWell() {
     };
 
     const addWellInfo = () => {
-        Axios.post('http://localhost:7193/createwellinfo', {
+        Axios.post('/createwellinfo', {
             wellcode: wellcode,
             wellname: wellname,
             school_id: school_id,
