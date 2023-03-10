@@ -48,7 +48,7 @@ export default function Well() {
                 wellList = responseDataToHTMLList(wellData.data);
             }
             catch (e) {
-                console.log("wellData is Invalid JSON.")
+                console.log("wellData is Invalid JSON")
             }
         }
         if (wellList.length > 0) {
