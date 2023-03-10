@@ -30,7 +30,7 @@ export default function ViewField() {
     };
 
     const addField = () => {
-        Axios.post('/api/insert', {
+        Axios.post('http://localhost:7193/api/insert', {
             conditions: conditions,
             wellcover: wellcover,
             wellcoverdescription: wellcoverdescription,

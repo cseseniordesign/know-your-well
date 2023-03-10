@@ -37,7 +37,7 @@ export default function ClassLab() {
     const defaultValue = date.toLocaleDateString('en-CA');
 
     function addClassLab() {   /*const addClassLab = () =>*/
-        Axios.post('/create', {
+        Axios.post('http://localhost:7193/create', {
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
