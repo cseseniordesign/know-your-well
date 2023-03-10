@@ -1,8 +1,9 @@
 {
   "dependencies": {
+    "@types/webpack": "^5.28.0",
     "@userfront/core": "^0.4.6",
     "axios": "^1.2.0",
-    "axios-cache-plugin": "^0.1.0",
+    "axios-cache-adapter": "^2.7.3",
     "body-parser": "^1.20.1",
     "components": "^0.1.0",
     "cors": "^2.8.5",

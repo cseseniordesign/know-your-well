@@ -9,7 +9,8 @@ import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 
 
-import wrapper from 'axios-cache-plugin'
+
+ 
 
 export default function ClassLab() {
     const [ammonia, setAmmonia] = useState(0);
@@ -34,8 +35,10 @@ export default function ClassLab() {
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
-    function addClassLab() {   /*const addClassLab = () =>*/
-        Axios.post('http://localhost:7193/createclasslab', {
+
+    function addClassLab() {  
+
+        let classLabData = JSON.stringify({
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
@@ -47,34 +50,37 @@ export default function ClassLab() {
             name: name,
             dateentered: dateentered,
         })
-            .then(() => {
-                console.log("success");
+
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                
+            }
+        };
+
+        Axios.post('http://localhost:7193/createclasslab', classLabData, axiosConfig)
+            
+            .then((res) => {
+            console.log("RESPONSE RECEIVED: ", res);
+           })
+            .catch((err) => {
+                console.log("AXIOS ERROR: ", err);
             })
-    };
+
+        
 
 
 
-    let http = wrapper(Axios, {
-        maxCacheSize: 15
-    })
-    http.__addFilter(/createclasslab/)
+    }
 
-    http({
-        url: 'http://localhost:7193/createclasslab',
-        method: 'post',
-        params: {
-            param: JSON.stringify({
-                debug_port: 'sandbox1'
-            })
-        }
-    })
+
+ 
+    
 
 
 
 
-
-
-
+    //////////////////////////////////////////////////
     var form = document.getElementById('submissionAlert');
     function myFunction() {
         if (form.checkValidity()) {
@@ -243,4 +249,11 @@ export default function ClassLab() {
     );
 }
 
-//npm install axios-cache-plugin --save
+/**
+
+ /*const addClassLab = () =>*/
+
+
+
+
+  */
