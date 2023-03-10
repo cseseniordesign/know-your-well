@@ -6,25 +6,21 @@ var wellList = [];
 
 function responseDataToHTMLList(responseData) {
     let HTMLList = []
-    try {
-        for (const element of responseData) {
-            HTMLList.push(
-                <List.Item key={element.id}>
-                    <List.Content>
-                        <a href={`/EditWell?id=${element.id}&wellName=${element.wellname}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{element.wellname} </a>
-                    </List.Content>
-                    <br />
-                </List.Item>
-            );
-        }
-    }
-    catch (e) {
-        console.log("Error Parsing Response Data into HTML List.")
+    for (const element of responseData) {
+        HTMLList.push(
+            <List.Item key={element.id}>
+                <List.Content>
+                    <a href={`/EditWell?id=${element.id}&wellName=${element.wellname}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{element.wellname} </a>
+                </List.Content>
+                <br />
+            </List.Item>
+        );
     }
     return HTMLList
 }
 
 export default function Well() {
+    var example = [< h1 > test1</h1>, <h1>test2</h1>];
     const [isLoading, setLoading] = useState(true);
 
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
@@ -34,6 +30,7 @@ export default function Well() {
                 responseType: "json",
             })
             .then(function (response) {
+                console.log(response)
                 localStorage.setItem("wellData", JSON.stringify(response.data))
                 wellList = responseDataToHTMLList(response.data.data)
                 setLoading(false);
@@ -43,13 +40,8 @@ export default function Well() {
     if (isLoading) {
         const wellCookie = localStorage.getItem("wellData");
         if (wellCookie) {
-            try {
-                const wellData = JSON.parse(wellCookie)
-                wellList = responseDataToHTMLList(wellData.data);
-            }
-            catch (e) {
-                console.log("wellData is Invalid JSON.")
-            }
+            const wellData = JSON.parse(wellCookie)
+            wellList = responseDataToHTMLList(wellData.data);
         }
         if (wellList.length > 0) {
             return (
