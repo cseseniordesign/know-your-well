@@ -60,7 +60,17 @@ export default function Well() {
             );
         }
         else {
-            return <h1>Loading</h1>
+            return (
+                <List style={{ textAlign: 'center' }}>
+                    <h2> <strong> Well Selection </strong></h2>
+                    <List.Item key={-1}>
+                        <List.Content>
+                            <a href={`/WellInfo`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Create New Well </a>
+                        </List.Content>
+                        <br />
+                    </List.Item>
+                </List>
+            );
         }
 
     }
@@ -68,6 +78,12 @@ export default function Well() {
     return (
         <List style={{ textAlign: 'center' }}>
             <h2> <strong> Well Selection </strong></h2>
+            <List.Item key={-1}>
+                <List.Content>
+                    <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well </a>
+                </List.Content>
+                <br />
+            </List.Item>
             {wellList}
         </List>
     );
