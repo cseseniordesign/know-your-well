@@ -18,7 +18,7 @@ const db = mysql.createPool({
 
      user:"kywTeam@kyw",
      host:"kyw.mysql.database.azure.com",
-     password:"NYWell2022",
+     password:"KJ6vcCG2",
      database: "fnaif",
 });
 
@@ -39,7 +39,7 @@ app.post('/api/insert', (req, res) => {
     /**  field */
     db.query(
 
-        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO dbo.tblFieldActivity(fieldactivity_id, well_id, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_comments, fa_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?)",
         [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
         (err, result) => {
             if (err) {
@@ -67,7 +67,7 @@ app.post('/createclasslab', (req, res) => {
 
 
     db.query(
-        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO dbo.tblClassroomLab(classlab_id, fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_nitrite, cl_pest_atrazine, cl_datacollector, cl_comments, cl_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
         [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered],
         (err, result) => {
             if (err) {
@@ -116,7 +116,7 @@ app.post('/createwellinfo', (req, res) => {
     const dateentered = req.body.dateentered;
 
     db.query(
-        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO dbo.tblWellInfo(well_id, wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_latitude, wi_longitude, wi_genlatitude, wi_genlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_commonid, wi_comments, wi_dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
             wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste,
             smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
@@ -135,7 +135,7 @@ app.post('/createwellinfo', (req, res) => {
 
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
-    db.query("SELECT id, wellname FROM wellinfo;", function (err, data, fields) {
+    db.query("SELECT well_id, wi_wellname FROM dbo.tblWellInfo;", function (err, data, fields) {
         if (err) return (err)
         res.status(200).json({
             status: "success",
