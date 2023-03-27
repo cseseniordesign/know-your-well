@@ -72,7 +72,7 @@ app.post('/createclasslab', (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                result.send("Values Inserted");
+                console.log("success");
             }
         }
     );

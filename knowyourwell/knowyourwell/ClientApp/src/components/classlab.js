@@ -1,5 +1,5 @@
-﻿import React from 'react'
-import { useState } from 'react';
+﻿
+import { useEffect, React, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
 
@@ -7,24 +7,33 @@ import './css/forms.css'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
+//
+import useLocalStorage from 'react-use-localstorage';
+import { Offline, Online } from "react-detect-offline";
+<div>
+    <Online>
+        Only shown when you're online
+    </Online>
+    <Offline>Only shown offline (surprise!)</Offline>
+</div>
 
-
-
+const initilizationState = () => {
+    const Cachedammonia = localStorage.getItem("Ammonia");
+    return Cachedammonia ? JSON.parse(Cachedammonia) : 0;
+}
  
 
 export default function ClassLab() {
-    const [ammonia, setAmmonia] = useState(0);
+    const [ammonia, setAmmonia] = useState(initilizationState);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
     const [copper, setCopper] = useState(0);
     const [iron, setIron] = useState(0);
     const [manganese, setManganese] = useState(0);
     const [nitrate, setNitrate] = useState(0);
-    const [name, setName] = useState("");
     const [bacteria, setBacteria] = useState("");
+    const [name, setName] = useState("");
     const [dateentered, setDateentered] = useState(moment());
-
-
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
@@ -36,48 +45,39 @@ export default function ClassLab() {
     const defaultValue = date.toLocaleDateString('en-CA');
 
 
-    function addClassLab() {  
-
-        let classLabData = JSON.stringify({
+    function addClassLab() {    
+        Axios.post('http://localhost:7193/createclasslab', {
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
             copper: copper,
-            bacteria: bacteria,
+            bacteria: bacteria, 
             iron: iron,
             manganese: manganese,
             nitrate: nitrate,
             name: name,
             dateentered: dateentered,
-        })
-
-        let axiosConfig = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                
-            }
-        };
-
-        Axios.post('http://localhost:7193/createclasslab', classLabData, axiosConfig)
-            
-            .then((res) => {
-            console.log("RESPONSE RECEIVED: ", res);
-           })
-            .catch((err) => {
-                console.log("AXIOS ERROR: ", err);
+        } )
+            .then(() => {
+                console.log("success");
             })
-
-        
-
+    };
 
 
-    }
-
-
- 
-    
-
-
+    ///caching
+    useEffect(() => {
+            localStorage.setItem("Ammonia", JSON.stringify(ammonia));
+            localStorage.setItem("Calcium", JSON.stringify(calcium));
+            localStorage.setItem("Chloride", JSON.stringify(chloride));
+            localStorage.setItem("Copper", JSON.stringify(copper));
+            localStorage.setItem("Iron", JSON.stringify(iron));
+            localStorage.setItem("Manganese", JSON.stringify(manganese));
+            localStorage.setItem("Nitrate", JSON.stringify(nitrate));
+            localStorage.setItem("Name", JSON.stringify(name));
+            localStorage.setItem("Bacteria", JSON.stringify(bacteria));
+            localStorage.setItem("Dateentered", JSON.stringify(dateentered));
+       
+    }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
 
 
     //////////////////////////////////////////////////
@@ -94,13 +94,21 @@ export default function ClassLab() {
 
     function myFunction2() {
         addClassLab();
+        /*handleSubmit();*/
        // myFunction();
     }
 
+
+    
+
+
+    //
+
     return (
         //<div className="form-container" >
-        //action = "/editwell" id = "submissionAlert"
-        <form  >
+        //action = "/editwell" id = "submissionAlert"   onSubmit = {(e) => e.preventDefault()}
+
+        <form    >
             <h2>Class Lab</h2>
             <div className="css">
                 <label htmlFor="ammonia">
@@ -108,10 +116,11 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
+                    type="text" value={ammonia} className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
+                     
                 />
             </div>
             <div className="css">
@@ -238,8 +247,13 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
+
+
             <button type="submit" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
+
+
+
             <div className="requiredField">
                 <br></br>
                 * = Required Field
@@ -249,11 +263,8 @@ export default function ClassLab() {
     );
 }
 
-/**
+ 
 
  /*const addClassLab = () =>*/
 
 
-
-
-  */
