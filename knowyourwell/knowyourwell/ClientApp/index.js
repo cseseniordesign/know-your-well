@@ -184,9 +184,13 @@ app.listen(process.env.PORT || 7193, () => {
 });
 */
 
+app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+
 appPool.connect().then(function (pool) {
     app.locals.db = pool;
-    const server = app.listen(3000, function () {
+    const server = app.listen(7193, function () {
         const host = server.address().address
         const port = server.address().port
         console.log('Example app listening at http://%s:%s', host, port)
