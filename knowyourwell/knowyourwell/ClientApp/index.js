@@ -1,6 +1,7 @@
 ﻿const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
+const sql = require('mssql')
 const mysql = require('mysql');
 const cors = require('cors');
 const { response } = require("express");
@@ -9,6 +10,24 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
+
+const config = {
+    user: "kywAdmin",
+    password: "KJ6vcCG2",
+    database: "kyw",
+    server: 'kyw.database.windows.net',
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    options: {
+        encrypt: true, // for azure
+        trustServerCertificate: false // change to true for local dev / self-signed certs
+    }
+}
+
+const appPool = new sql.ConnectionPool(config)
 
 const db = mysql.createPool({
     //user: "fnaif",
@@ -133,8 +152,21 @@ app.post('/createwellinfo', (req, res) => {
     );
 });
 
+
+
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
+    console.log("hit")
+    app.locals.db.query('SELECT well_id, wi_wellname FROM dbo.tblWellInfo;', function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return
+        }
+        console.log(recordset)
+        res.status(200).json({ Wells: recordset.recordset })
+    })
+    /*
     db.query("SELECT id, wellname FROM wellinfo;", function (err, data, fields) {
         if (err) return (err)
         res.status(200).json({
@@ -143,8 +175,22 @@ app.get('/Wells', async (req, res) => {
             data: data,
         });
     })
+    */
 })
 
+/*
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
+});
+*/
+
+appPool.connect().then(function (pool) {
+    app.locals.db = pool;
+    const server = app.listen(3000, function () {
+        const host = server.address().address
+        const port = server.address().port
+        console.log('Example app listening at http://%s:%s', host, port)
+    })
+}).catch(function (err) {
+    console.error('Error creating connection pool', err)
 });
