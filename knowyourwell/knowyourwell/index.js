@@ -178,11 +178,11 @@ app.get('/Wells', async (req, res) => {
     */
 })
 
-/*
+
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
 });
-*/
+
 
 app.get("/", (req, res) => {
     console.log("hit")
