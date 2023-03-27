@@ -34,7 +34,6 @@ export default function Well() {
                 responseType: "json",
             })
             .then(function (response) {
-                console.log(response.data.Wells)
                 localStorage.setItem("wellData", JSON.stringify(response.data))
                 wellList = responseDataToHTMLList(response.data.Wells)
                 setLoading(false);
