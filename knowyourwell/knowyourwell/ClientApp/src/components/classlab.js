@@ -2,8 +2,6 @@
 import { useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
-
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
@@ -11,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function ClassLab() {
+    const fa_id = 1;
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -38,17 +37,18 @@ export default function ClassLab() {
 
     function addClassLab() {   /*const addClassLab = () =>*/
         Axios.post('/create', {
-            cl_ammonia: ammonia,
-            cl_calciumhardness: calcium,
-            cl_chloride: chloride,
-            cl_bacteria: bacteria,
-            cl_copper: copper,
-            cl_iron: iron,
-            cl_manganese: manganese,
-            cl_nitrate: nitrate,
-            cl_observation: observations,
-            cl_datacollector: name,
-            cl_datecollected: dateentered,
+            fa_id: fa_id,
+            ammonia: ammonia,
+            calciumhardness: calcium,
+            chloride: chloride,
+            bacteria: bacteria,
+            copper: copper,
+            iron: iron,
+            manganese: manganese,
+            nitrate: nitrate,
+            observation: observations,
+            datacollector: name,
+            datecollected: dateentered,
         })
             .then(() => {
                 console.log("success");

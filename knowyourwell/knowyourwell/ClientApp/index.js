@@ -16,14 +16,20 @@ const db = mysql.createPool({
     //password: "d5suMv1a",
     //database: "fnaif",
 
-     user:"kywTeam@kyw",
-     host:"kyw.mysql.database.azure.com",
-     password:"KJ6vcCG2",
-     database: "fnaif",
+    //  user:"kywTeam@kyw",
+    //  host:"kyw.mysql.database.azure.com",
+    //  password:"NYWell2022",
+    //  database: "fnaif",
+
+    user: "kywTeam@kyw",
+    host: "kyw.database.windows.net",
+    password: "KJ6vcCG2",
+    database: "kywAdmin",
 });
 
 app.post('/api/insert', (req, res) => {
     /**  field */
+    const well_id = req.body.well_id;
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
     const evidence = req.body.evidence;
@@ -39,8 +45,8 @@ app.post('/api/insert', (req, res) => {
     /**  field */
     db.query(
 
-        "INSERT INTO dbo.tblFieldActivity(well_id, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_comments, fa_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?)",
-        [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
+        "INSERT INTO dbo.tblFieldActivity(well_id, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+        [well_id, conditions, wellcover, wellcoverdescription, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -53,6 +59,7 @@ app.post('/api/insert', (req, res) => {
 
 
 app.post('/createclasslab', (req, res) => {
+    const fa_id = req.body.fa_id;
     const ammonia = req.body.ammonia;
     const calcium = req.body.calcium;
     const chloride = req.body.chloride;
@@ -67,8 +74,8 @@ app.post('/createclasslab', (req, res) => {
 
 
     db.query(
-        "INSERT INTO dbo.tblClassroomLab(fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_nitrite, cl_pest_atrazine, cl_datacollector, cl_comments, cl_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered],
+        "INSERT INTO dbo.tblClassroomLab(fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+        [fa_id, ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, observations, name, dateentered],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -112,16 +119,16 @@ app.post('/createwellinfo', (req, res) => {
     const wellcasematerial = req.body.wellcasematerial;
     const datacollector = req.body.datacollector;
     const observation = req.body.observation;
-    const comments = req.body.comments;
+    const topography = req.body.topography;
     const dateentered = req.body.dateentered;
 
     db.query(
-        "INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_latitude, wi_longitude, wi_genlatitude, wi_genlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_commonid, wi_comments, wi_dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
             wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste,
             smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
             estlatitude, estlongitude, boreholediameter, totaldepth, well_waterleveldepth, aquifertype, aquiferclass, welltype,
-            wellcasematerial, datacollector, observation, comments, dateentered
+            wellcasematerial, datacollector, observation, topography, dateentered
         ],
         (err, result) => {
             if (err) {

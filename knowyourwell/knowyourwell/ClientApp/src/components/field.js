@@ -2,7 +2,6 @@
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
@@ -10,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function Field() {
+    const well_id = 1;
     const [conditions, setConditions] = useState("");
     const [temp, setTemp] = useState(0);
     const [ph, setPh] = useState(0);
@@ -42,17 +42,18 @@ export default function Field() {
 
     function addField () {   /*const addField = () => */
         Axios.post('/api/insert', {
-            fa_weather: conditions,
-            fa_wellcovercondition: wellcover,
-            fa_wellcoverdescription: wellcoverdescription,
-            fa_surfacerunoff: evidence,
-            fa_pooling: pooling,
-            fa_groundwatertemp: temp,
-            fa_ph: ph,
-            fa_conductivity: conductivity,
-            fa_datacollector: name,
-            fa_observations: observation,
-            fa_datecollected: dateentered,
+            well_id: well_id,
+            weather: conditions,
+            wellcovercondition: wellcover,
+            wellcoverdescription: wellcoverdescription,
+            surfacerunoff: evidence,
+            pooling: pooling,
+            groundwatertemp: temp,
+            ph: ph,
+            conductivity: conductivity,
+            datacollector: name,
+            observations: observation,
+            datecollected: dateentered,
         })
 
             .then(() => {
