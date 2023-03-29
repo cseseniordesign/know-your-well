@@ -66,16 +66,16 @@ export default function ClassLab() {
 
     ///caching
     useEffect(() => {
-        useLocalStorage.setItem("Ammonia", JSON.stringify(ammonia));
-        useLocalStorage.setItem("Calcium", JSON.stringify(calcium));
-        useLocalStorage.setItem("Chloride", JSON.stringify(chloride));
-        useLocalStorage.setItem("Copper", JSON.stringify(copper));
-        useLocalStorage.setItem("Iron", JSON.stringify(iron));
-        useLocalStorage.setItem("Manganese", JSON.stringify(manganese));
-        useLocalStorage.setItem("Nitrate", JSON.stringify(nitrate));
-        useLocalStorage.setItem("Name", JSON.stringify(name));
-        useLocalStorage.setItem("Bacteria", JSON.stringify(bacteria));
-        useLocalStorage.setItem("Dateentered", JSON.stringify(dateentered));
+            localStorage.setItem("Ammonia", JSON.stringify(ammonia));
+            localStorage.setItem("Calcium", JSON.stringify(calcium));
+            localStorage.setItem("Chloride", JSON.stringify(chloride));
+            localStorage.setItem("Copper", JSON.stringify(copper));
+            localStorage.setItem("Iron", JSON.stringify(iron));
+            localStorage.setItem("Manganese", JSON.stringify(manganese));
+            localStorage.setItem("Nitrate", JSON.stringify(nitrate));
+            localStorage.setItem("Name", JSON.stringify(name));
+            localStorage.setItem("Bacteria", JSON.stringify(bacteria));
+            localStorage.setItem("Dateentered", JSON.stringify(dateentered));
        
     }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
 
