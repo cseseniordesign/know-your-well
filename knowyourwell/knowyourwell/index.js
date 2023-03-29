@@ -189,6 +189,7 @@ app.get("/", (req, res) => {
     //res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
+/*
 appPool.connect().then(function (pool) {
     app.locals.db = pool;
     const server = app.listen(7193, function () {
@@ -199,3 +200,4 @@ appPool.connect().then(function (pool) {
 }).catch(function (err) {
     console.error('Error creating connection pool', err)
 });
+*/
