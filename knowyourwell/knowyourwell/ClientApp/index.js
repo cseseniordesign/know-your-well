@@ -27,8 +27,8 @@ const db = mysql.createPool({
     database: "kywAdmin",
 });
 
+// field
 app.post('/api/insert', (req, res) => {
-    /**  field */
     const well_id = req.body.well_id;
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
@@ -41,8 +41,6 @@ app.post('/api/insert', (req, res) => {
     const observation = req.body.observation;
     const dateentered = req.body.dateentered;
 
-
-    /**  field */
     db.query(
 
         "INSERT INTO dbo.tblFieldActivity(well_id, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -57,7 +55,7 @@ app.post('/api/insert', (req, res) => {
     );
 });
 
-
+// class lab
 app.post('/createclasslab', (req, res) => {
     const fa_id = req.body.fa_id;
     const ammonia = req.body.ammonia;
@@ -86,6 +84,7 @@ app.post('/createclasslab', (req, res) => {
     );
 });
 
+// well info
 app.post('/createwellinfo', (req, res) => {
 
     const wellcode = req.body.wellcode;
