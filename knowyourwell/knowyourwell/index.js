@@ -192,7 +192,7 @@ app.get("/", (req, res) => {
     if(relativePath.length==0)
         relativePath += "index.html"
     
-    res.sendFile(path.resolve(__dirname, "wwwroot", req.route.path.substring(1)));
+    res.sendFile(path.resolve(__dirname, "wwwroot", relativePath));
 });
 
 /*
