@@ -7,7 +7,7 @@
     "start": "concurrently \"cd ClientApp && npm run start\" \"node index.js\"",
     "build": "cd ClientApp && npm install && npm run build && cd .. && npm install",
     "server": "nodemon index.js",
-    "client": "cd client && npm start && cd ..",
+    "client": "cd ClientApp && npm start && cd ..",
     "dev": "concurrently \"npm run client\" \"npm run server\""
   },
   "keywords": [],
