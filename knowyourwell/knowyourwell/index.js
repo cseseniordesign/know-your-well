@@ -187,7 +187,7 @@ app.listen(process.env.PORT || 7193, () => {
 });
 
 app.get("/static/js/main.2145b198.js", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "wwwroot", "static", "js", "main.2145b198.js));
+    res.sendFile(path.resolve(__dirname, "wwwroot", "static", "js", "main.2145b198.js"));
 });
 
 app.get("/", (req, res) => {
