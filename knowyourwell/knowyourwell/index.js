@@ -192,6 +192,10 @@ app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
 
+app.get("/static/js/main.2145b198.js", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "wwwroot", "static", "js", "main.2145b198.js));
+});
+
 /*
 appPool.connect().then(function (pool) {
     app.locals.db = pool;
