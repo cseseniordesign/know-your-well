@@ -186,7 +186,7 @@ app.listen(process.env.PORT || 7193, () => {
 
 app.get("/", (req, res) => {
     console.log("hit")
-    //res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
 /*
