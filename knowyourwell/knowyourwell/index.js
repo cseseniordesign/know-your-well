@@ -5,6 +5,7 @@ const sql = require('mssql')
 const mysql = require('mysql');
 const cors = require('cors');
 const { response } = require("express");
+const path = require("path")
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -188,7 +189,7 @@ app.listen(process.env.PORT || 7193, () => {
 
 app.get("/", (req, res) => {
     console.log("hit")
-    res.sendFile(path.resolve(__dirname, "home", "site", "wwwroot", "wwwroot", "index.html"));
+    res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
 
 /*
