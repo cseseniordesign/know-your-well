@@ -23,10 +23,10 @@
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<Content Remove="package-lock.json" />
 		<Content Remove="package.json" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup>
 		<None Update="index.js">
