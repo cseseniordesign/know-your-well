@@ -188,11 +188,7 @@ app.listen(process.env.PORT || 7193, () => {
 
 app.get("/", (req, res) => {
     console.log("hit")
-    let relativePath = req.route.path.substring(1)
-    if(relativePath.length==0)
-        relativePath += "index.html"
-    
-    res.sendFile(path.resolve(__dirname, "wwwroot", relativePath));
+    res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
 
 /*
