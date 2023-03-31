@@ -99,11 +99,6 @@ export default function ClassLab() {
     }
 
 
-    
-
-
-    //
-
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"   onSubmit = {(e) => e.preventDefault()}
@@ -251,6 +246,9 @@ export default function ClassLab() {
 
             <button type="submit" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
+            <button type="submit">
+                Save
+            </button>
 
 
 
