@@ -26,6 +26,11 @@
   <ItemGroup>
     <Content Remove="package-lock.json" />
     <Content Remove="package.json" />
+    <Content Remove="ServerApp\public\manifest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ServerApp\public\manifest.json" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
