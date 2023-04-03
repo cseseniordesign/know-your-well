@@ -6,7 +6,7 @@ const cors = require('cors');
 const { response } = require("express");
 
 const path = require('path');
-app.use(express.static(path.join(__dirname + "public")));
+app.use(express.static(path.join(__dirname + "public_b")));
 
 
 app.use(cors());
