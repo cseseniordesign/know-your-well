@@ -31,6 +31,12 @@ const config = {
 }
 
 const appPool = new sql.ConnectionPool(config)
+try {
+    appPool.connect()
+}
+catch (error) {
+    console.error(error)
+}
 
 const db = mysql.createPool({
     //user: "fnaif",
@@ -160,7 +166,7 @@ app.post('/createwellinfo', (req, res) => {
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
     console.log("hit")
-    app.locals.db.query('SELECT well_id, wi_wellname FROM dbo.tblWellInfo;', function (err, recordset) {
+    appPool.query('SELECT well_id, wi_wellname FROM dbo.tblWellInfo;', function (err, recordset) {
         if (err) {
             console.log(err)
             res.status(500).send('SERVER ERROR')
@@ -190,16 +196,3 @@ app.get("/", (req, res) => {
     console.log("hit")
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
-
-/*
-appPool.connect().then(function (pool) {
-    app.locals.db = pool;
-    const server = app.listen(7193, function () {
-        const host = server.address().address
-        const port = server.address().port
-        console.log('Example app listening at http://%s:%s', host, port)
-    })
-}).catch(function (err) {
-    console.error('Error creating connection pool', err)
-});
-*/
