@@ -19,7 +19,7 @@ import { Offline, Online } from "react-detect-offline";
 
 const initilizationState = () => {
     const Cachedammonia = localStorage.getItem("Ammonia");
-    return Cachedammonia ? JSON.parse(Cachedammonia) : 0;
+    return Cachedammonia ? JSON.parse(Cachedammonia) : 0; 
 }
  
 
@@ -46,7 +46,7 @@ export default function ClassLab() {
 
 
     function addClassLab() {    
-        Axios.post('http://localhost:7193/createclasslab', {
+        Axios.post('http://localhost:7193/createclasslab', { 
             ammonia: ammonia,
             calcium: calcium,
             chloride: chloride,
@@ -261,8 +261,4 @@ export default function ClassLab() {
     );
 }
 
- 
-
  /*const addClassLab = () =>*/
-
-

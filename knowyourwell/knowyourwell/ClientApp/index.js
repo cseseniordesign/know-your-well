@@ -5,6 +5,10 @@ const mysql = require('mysql');
 const cors = require('cors');
 const { response } = require("express");
 
+const path = require('path');
+app.use(express.static(path.join(__dirname + "public")));
+
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -16,10 +20,10 @@ const db = mysql.createPool({
     password: "d5suMv1a",
     database: "fnaif",
 
-    //user:"kywTeam@kyw",
-    //host:"kyw.mysql.database.azure.com",
-    //password:"NYWell2022",
-    //database: "fnaif",
+    //user: "kywAdmin",
+    //password: "KJ6vcCG2",
+    //database: "kyw",
+    //server: 'kyw.database.windows.net',
 });
 
 app.post('/api/insert', (req, res) => {
@@ -34,7 +38,6 @@ app.post('/api/insert', (req, res) => {
     const name = req.body.name;
     const observation = req.body.observation;
     const dateentered = req.body.dateentered;
-
 
     /**  field */
     db.query(
@@ -63,7 +66,6 @@ app.post('/createclasslab', (req, res) => {
     const nitrate = req.body.nitrate;
     const name = req.body.name;
     const dateentered = req.body.dateentered;
-
 
     db.query(
         "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)",
