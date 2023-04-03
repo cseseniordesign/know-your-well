@@ -5,24 +5,28 @@ const mysql = require('mysql');
 const cors = require('cors');
 const { response } = require("express");
 
+const path = require('path');
+app.use(express.static(path.join(__dirname + "public")));
+
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); 
-app.use(bodyParser.json());  
+app.use(express.json());
+app.use(bodyParser.json());
 
 const db = mysql.createPool({
-    //user: "fnaif",
-    //host: "cse.unl.edu",
-    //password: "d5suMv1a",
-    //database: "fnaif",
-
-    user: "kywTeam@kyw",
-    host: "kyw.mysql.database.azure.com",
-    password: "NYWell2022",
+    user: "fnaif",
+    host: "cse.unl.edu",
+    password: "d5suMv1a",
     database: "fnaif",
+
+    //user: "kywAdmin",
+    //password: "KJ6vcCG2",
+    //database: "kyw",
+    //server: 'kyw.database.windows.net',
 });
 
-app.post('/api/insert', (req, res) => { 
+app.post('/api/insert', (req, res) => {
     /**  field */
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
@@ -35,11 +39,10 @@ app.post('/api/insert', (req, res) => {
     const observation = req.body.observation;
     const dateentered = req.body.dateentered;
 
-
     /**  field */
-    db.query(   
-        
-        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)", 
+    db.query(
+
+        "INSERT INTO field (conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)",
         [conditions, wellcover, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
         (err, result) => {
             if (err) {
@@ -62,18 +65,16 @@ app.post('/createclasslab', (req, res) => {
     const manganese = req.body.manganese;
     const nitrate = req.body.nitrate;
     const name = req.body.name;
-    const observations = req.body.observations;
     const dateentered = req.body.dateentered;
 
-
     db.query(
-        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, observations, dateentered],
+        "INSERT INTO lab (ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, dateentered) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        [ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, name, dateentered],
         (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                res.send("Values Inserted");
+                console.log("success");
             }
         }
     );
@@ -116,7 +117,7 @@ app.post('/createwellinfo', (req, res) => {
     const dateentered = req.body.dateentered;
 
     db.query(
-        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, setlatitude, setlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO wellinfo ( wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, boreholediameter, totaldepth,  well_waterleveldepth, aquifertype, aquiferclass, welltype, wellcasematerial, datacollector, observation, comments, dateentered ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
             wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd, wellowner, installyear, smelltaste,
             smelltaste_description, welldry, welldry_description, maintenance5yr, landuse5yr, numberwelluser, pestmanure,
@@ -145,6 +146,6 @@ app.get('/Wells', async (req, res) => {
     })
 })
 
-app.listen(7193, () => {  
+app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
 });
