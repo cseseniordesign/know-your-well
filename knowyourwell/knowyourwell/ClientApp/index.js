@@ -6,7 +6,11 @@ const cors = require('cors');
 const { response } = require("express");
 
 const path = require('path');
-app.use(express.static(path.join(__dirname + "public_b")));
+//app.use(express.static(path.join(__dirname + "public_b")));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'ClientApp', 'build', 'index.html'));
+});
 
 
 app.use(cors());
