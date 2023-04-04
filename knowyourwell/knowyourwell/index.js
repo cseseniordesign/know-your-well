@@ -137,10 +137,10 @@ app.post('/createwellinfo', (req, res) => {
     const pestmanure = req.body.pestmanure;
     const estlatitude = req.body.estlatitude;
     const estlongitude = req.body.estlongitude;
-    //const latitude = req.body.latitude;
-    //const longitude = req.body.longitude;
-    //const genlatitude = req.body.genlatitude;
-    //const genlongitude = req.body.genlongitude;
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
+    const genlatitude = req.body.genlatitude;
+    const genlongitude = req.body.genlongitude;
     const boreholediameter = req.body.boreholediameter;
     const totaldepth = req.body.totaldepth;
     const well_waterleveldepth = req.body.well_waterleveldepth;
@@ -159,7 +159,7 @@ app.post('/createwellinfo', (req, res) => {
         [
             well_id, wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd,
             wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr,
-            landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, latitude, longitude, genlongitude,
+            landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, latitude, longitude, genlatitude,
             genlongitude, boreholediameter, totaldepth, well_waterleveldepth, aquifertype, aquiferclass, welltype,
             wellcasematerial, datacollector, observation, topography, dateentered
         ],

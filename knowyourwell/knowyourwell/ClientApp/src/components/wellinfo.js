@@ -24,10 +24,10 @@ export default function WellInfo() {
     const [numberwelluser, setNumberwelluser] = useState(0);
     const [estlatitude, setEstlatitude] = useState(0);
     const [estlongitude, setEstlongitude] = useState(0);
-    //const latitude
-    //const longitude
-    //const genlatitude
-    //const genlongitude
+    const latitude = -97.62812; // todo
+    const longitude = 40.85788; // todo
+    const genlatitude = -97.628; // todo
+    const genlongitude = 40.857; // todo
     const [boreholediameter, setBoreholediameter] = useState(0);
     const [totaldepth, setTotaldepth] = useState(0);
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
@@ -128,10 +128,10 @@ export default function WellInfo() {
             pestmanure: pestmanure,
             estlatitude: estlatitude,
             estlongitude: estlongitude,
-            //latitude
-            //longitude
-            //genlatitude
-            //genlongitude
+            latitude: latitude,
+            longitude: longitude,
+            genlatitude: genlatitude,
+            genlongitude: genlongitude,
             boreholediameter: boreholediameter,
             totaldepth: totaldepth,
             topography: topography,
