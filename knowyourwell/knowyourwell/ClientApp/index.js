@@ -8,8 +8,8 @@ const { response } = require("express");
 const path = require('path');
 //app.use(express.static(path.join(__dirname + "public_b")));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'ClientApp', 'build', 'index.html'));
+app.get('/', function (req, res) {
+    res.sendFile('build/index.html', { root: __dirname });
 });
 
 
