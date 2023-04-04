@@ -5,12 +5,18 @@ const mysql = require('mysql');
 const cors = require('cors');
 const { response } = require("express");
 
+
+
+
 const path = require('path');
-//app.use(express.static(path.join(__dirname + "public_b")));
+app.use(  express.static(path.join(__dirname + "/build")));
 
 app.get('/', function (req, res) {
-    res.sendFile('build/index.html', { root: __dirname });
+    res.sendFile(path.join(__dirname, '/build', 'index.html'));
 });
+
+
+
 
 
 app.use(cors());
