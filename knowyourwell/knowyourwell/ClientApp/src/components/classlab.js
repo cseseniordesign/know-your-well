@@ -9,7 +9,7 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function ClassLab() {
-    const fa_id = 3; // todo
+    const fa_id = 1;
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
