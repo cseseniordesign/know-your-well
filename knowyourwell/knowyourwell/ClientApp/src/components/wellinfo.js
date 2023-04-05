@@ -8,12 +8,12 @@ import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from "react-router-dom";
 
 export default function WellInfo() {
-
+    const well_id = 2; // todo
     //const [wellcode, setWellcode] = useState("");
-    const wellcode = "abc123"
+    const wellcode = 13 // todo
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
-    const school_id = 17;
+    const school_id = 17; // todo
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -24,6 +24,10 @@ export default function WellInfo() {
     const [numberwelluser, setNumberwelluser] = useState(0);
     const [estlatitude, setEstlatitude] = useState(0);
     const [estlongitude, setEstlongitude] = useState(0);
+    const latitude = -97.62812; // todo
+    const longitude = 40.85788; // todo
+    const genlatitude = -97.628; // todo
+    const genlongitude = 40.857; // todo
     const [boreholediameter, setBoreholediameter] = useState(0);
     const [totaldepth, setTotaldepth] = useState(0);
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
@@ -101,6 +105,7 @@ export default function WellInfo() {
 
     function addWellInfo() {  /*const addWellInfo = () =>*/
         Axios.post('/createwellinfo', {
+            well_id: well_id,
             wellcode: wellcode,
             wellname: wellname,
             school_id: school_id,
@@ -109,9 +114,8 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
-            //TODO: Fix the dropdown tables to automatically populate this with the appropriate value.
-            countyid: 1,
-            nrdid: 1,
+            countyid: county,
+            nrdid: nrd,
             wellowner: wellowner,
             installyear: installyear,
             smelltaste: smelltaste,
@@ -124,10 +128,14 @@ export default function WellInfo() {
             pestmanure: pestmanure,
             estlatitude: estlatitude,
             estlongitude: estlongitude,
+            latitude: latitude,
+            longitude: longitude,
+            genlatitude: genlatitude,
+            genlongitude: genlongitude,
             boreholediameter: boreholediameter,
             totaldepth: totaldepth,
             topography: topography,
-            waterleveldepth: waterleveldepth,
+            waterleveldepth: well_waterleveldepth,
             aquifertype: aquifertype,
             aquiferclass: aquiferclass,
             welltype: welltype,

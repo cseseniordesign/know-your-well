@@ -9,7 +9,8 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function Field() {
-    const well_id = 1;
+    const fa_id = 3; // todo
+    const well_id = 1; // todo
     const [conditions, setConditions] = useState("");
     const [temp, setTemp] = useState(0);
     const [ph, setPh] = useState(0);
@@ -42,6 +43,7 @@ export default function Field() {
 
     function addField () {   /*const addField = () => */
         Axios.post('/api/insert', {
+            fa_id: fa_id,
             well_id: well_id,
             weather: conditions,
             wellcovercondition: wellcover,
