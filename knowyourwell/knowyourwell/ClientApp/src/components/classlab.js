@@ -17,23 +17,61 @@ import { Offline, Online } from "react-detect-offline";
     <Offline>Only shown offline (surprise!)</Offline>
 </div>
 
-const initilizationState = () => {
+const ammoniaInitilization = () => {
     const Cachedammonia = localStorage.getItem("Ammonia");
     return Cachedammonia ? JSON.parse(Cachedammonia) : 0; 
 }
+const calciumInitilization = () => {
+    const Cachedcalcium = localStorage.getItem("Calcium");
+    return Cachedcalcium ? JSON.parse(Cachedcalcium) : 0;
+}
+const chlorideInitilization = () => {
+    const Cachedchloride = localStorage.getItem("Chloride");
+    return Cachedchloride ? JSON.parse(Cachedchloride) : 0;
+}
+const copperInitilization = () => {
+    const Cachedcopper = localStorage.getItem("Copper");
+    return Cachedcopper ? JSON.parse(Cachedcopper) : 0;
+}
+const ironInitilization = () => {
+    const Cachediron = localStorage.getItem("Iron");
+    return Cachediron ? JSON.parse(Cachediron) : 0;
+}
+const manganeseInitilization = () => {
+    const Cachedmanganese = localStorage.getItem("Manganese");
+    return Cachedmanganese ? JSON.parse(Cachedmanganese) : 0;
+}
+const nitrateInitilization = () => {
+    const Cachednitrate = localStorage.getItem("Nitrate");
+    return Cachednitrate ? JSON.parse(Cachednitrate) : 0;
+}
+const bacteriaInitilization = () => {
+    const Cachedbacteria = localStorage.getItem("Bacteria");
+    return Cachedbacteria ? JSON.parse(Cachedbacteria) : 0;
+}
+const nameInitilization = () => {
+    const Cachedname = localStorage.getItem("Name");
+    return Cachedname ? JSON.parse(Cachedname) : "";
+}
+//const dateenteredInitilization = () => {
+//    const Cacheddateentered = localStorage.getItem("Dateentered");
+//    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
+//}
  
 
+
 export default function ClassLab() {
-    const [ammonia, setAmmonia] = useState(initilizationState);
-    const [calcium, setCalcium] = useState(0);
-    const [chloride, setChloride] = useState(0);
-    const [copper, setCopper] = useState(0);
-    const [iron, setIron] = useState(0);
-    const [manganese, setManganese] = useState(0);
-    const [nitrate, setNitrate] = useState(0);
-    const [bacteria, setBacteria] = useState("");
-    const [name, setName] = useState("");
+    const [ammonia, setAmmonia] = useState(ammoniaInitilization);
+    const [calcium, setCalcium] = useState(calciumInitilization);
+    const [chloride, setChloride] = useState(chlorideInitilization);
+    const [copper, setCopper] = useState(copperInitilization);
+    const [iron, setIron] = useState(ironInitilization);
+    const [manganese, setManganese] = useState(manganeseInitilization);
+    const [nitrate, setNitrate] = useState(nitrateInitilization);
+    const [bacteria, setBacteria] = useState(bacteriaInitilization);
+    const [name, setName] = useState(nameInitilization);
     const [dateentered, setDateentered] = useState(moment());
+
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
@@ -124,7 +162,7 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
+                    type="text" value={calcium} className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
                     onChange={(event) => {
                         setCalcium(event.target.value);
                     }}
@@ -136,7 +174,7 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
+                    type="text" value={chloride} className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
                     onChange={(event) => {
                         setChloride(event.target.value);
                     }}
@@ -167,7 +205,7 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
+                    type="text" value={copper} className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setCopper(event.target.value);
                     }}
@@ -179,7 +217,7 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
+                    type="text" value={iron} className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setIron(event.target.value);
                     }}
@@ -191,7 +229,7 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
+                    type="text" value={manganese } className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
                     onChange={(event) => {
                         setManganese(event.target.value);
                     }}
@@ -203,7 +241,7 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
+                    type="text" value={nitrate } className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
                     onChange={(event) => {
                         setNitrate(event.target.value);
                     }}
@@ -215,7 +253,7 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="name" name="name" required
+                    type="text" value={name} className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
