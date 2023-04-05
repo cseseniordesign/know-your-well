@@ -114,63 +114,56 @@ app.post('/createclasslab', (req, res) => {
 
 // well info
 app.post('/createwellinfo', (req, res) => {
-    const well_id = req.body.well_id;
-    const wellcode = req.body.wellcode;
-    const wellname = req.body.wellname;
-    const school_id = req.body.school_id;
-    const welluser = req.body.welluser;
-    const address = req.body.address;
-    const city = req.body.city;
-    const state = req.body.state;
-    const zipcode = req.body.zipcode;
-    const county = req.body.county;
-    const nrd = req.body.nrd;
-    const wellowner = req.body.wellowner;
-    const installyear = req.body.installyear;
-    const smelltaste = req.body.smelltaste;
-    const smelltaste_description = req.body.smelltaste_description;
-    const welldry = req.body.welldry;
-    const welldry_description = req.body.welldry_description;
-    const maintenance5yr = req.body.maintenance5yr;
-    const landuse5yr = req.body.landuse5yr;
-    const numberwelluser = req.body.numberwelluser;
-    const pestmanure = req.body.pestmanure;
-    const estlatitude = req.body.estlatitude;
-    const estlongitude = req.body.estlongitude;
-    const latitude = req.body.latitude;
-    const longitude = req.body.longitude;
-    const genlatitude = req.body.genlatitude;
-    const genlongitude = req.body.genlongitude;
-    const boreholediameter = req.body.boreholediameter;
-    const totaldepth = req.body.totaldepth;
-    const well_waterleveldepth = req.body.well_waterleveldepth;
-    const aquifertype = req.body.aquifertype;
-    const aquiferclass = req.body.aquiferclass;
-    const welltype = req.body.welltype;
-    const wellcasematerial = req.body.wellcasematerial;
-    const datacollector = req.body.datacollector;
-    const observation = req.body.observation;
-    const topography = req.body.topography;
-    const dateentered = req.body.dateentered;
+    const request = appPool.request()
+    request.input('wellcode', sql.VarChar, req.body.wellcode);
+    request.input('welluser', sql.VarChar, req.body.welluser);
+    request.input('wellname', sql.VarChar, req.body.wellname);
+    request.input('school_id', sql.Int, req.body.school_id);
+    request.input('address', sql.VarChar, req.body.address);
+    request.input('city', sql.VarChar, req.body.city);
+    request.input('state', sql.VarChar, req.body.state);
+    request.input('zipcode', sql.VarChar, req.body.zipcode);
+    request.input('county_id', sql.Int, req.body.countyid);
+    request.input('nrd_id', sql.Int, req.body.nrdid);
+    request.input('wellowner', sql.VarChar, req.body.wellowner);
+    request.input('installyear', sql.VarChar, req.body.installyear);
+    request.input('smelltaste', sql.VarChar, req.body.smelltaste);
+    request.input('smelltaste_description', sql.VarChar, req.body.smelltaste_description);
+    request.input('welldry', sql.VarChar, req.body.welldry);
+    request.input('welldry_description', sql.VarChar, req.body.welldry_description);
+    request.input('maintenance5yr', sql.VarChar, req.body.maintenance5yr);
+    request.input('landuse5yr', sql.VarChar, req.body.landuse5yr);
+    request.input('numberwelluser', sql.VarChar, req.body.numberwelluser);
+    request.input('pestmanure', sql.VarChar, req.body.pestmanure);
+    request.input('estlatitude', sql.VarChar, req.body.estlatitude);
+    request.input('estlongitude', sql.VarChar, req.body.estlongitude);
+    //TODO: update DB based on what Mark did as of 3/21.
+    request.input('latitude', sql.Decimal, req.body.estlatitude);
+    request.input('longitude', sql.Decimal, req.body.estlongitude);
+    request.input('genlatitude', sql.Decimal, req.body.estlatitude);
+    request.input('genlongitude', sql.Decimal, req.body.estlongitude);
 
-    db.query(
+    request.input('boreholediameter', sql.VarChar, req.body.boreholediameter);
+    request.input('totaldepth', sql.Decimal, req.body.totaldepth);
+    request.input('well_waterleveldepth', sql.Decimal, req.body.well_waterleveldepth);
+    request.input('aquifertype', sql.VarChar, req.body.aquifertype);
+    request.input('aquiferclass', sql.VarChar, req.body.aquiferclass);
+    request.input('welltype', sql.VarChar, req.body.welltype);
+    request.input('wellcasematerial', sql.VarChar, req.body.wellcasematerial);
+    request.input('datacollector', sql.VarChar, req.body.datacollector);
+    request.input('observation', sql.VarChar, req.body.observation);
+    request.input('topography', sql.VarChar, req.body.topography);
+    request.input('dateentered', sql.VarChar, req.body.dateentered);
 
-        "INSERT INTO dbo.tblWellInfo(well_id, wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_latitude, wi_longitude, wi_genlatitude, wi_genlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CONVERT(VARCHAR, ?, 103))",
-        [
-            well_id, wellcode, wellname, school_id, welluser, address, city, state, zipcode, county, nrd,
-            wellowner, installyear, smelltaste, smelltaste_description, welldry, welldry_description, maintenance5yr,
-            landuse5yr, numberwelluser, pestmanure, estlatitude, estlongitude, latitude, longitude, genlatitude,
-            genlongitude, boreholediameter, totaldepth, well_waterleveldepth, aquifertype, aquiferclass, welltype,
-            wellcasematerial, datacollector, observation, topography, dateentered
-        ],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values Inserted");
-            }
+    request.query.('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_latitude, wi_longitude, wi_genlatitude, wi_genlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @latitude, @longitude, @genlatitude, @genlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return
         }
-    );
+        console.log(request.rowsAffected)
+        res.status(200).send('Values Succesfully Inserted.')
+    })
 });
 
 //credit to https://arctype.com/blog/rest-api-tutorial/
