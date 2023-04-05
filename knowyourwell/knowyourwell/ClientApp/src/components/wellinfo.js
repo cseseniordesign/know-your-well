@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 export default function WellInfo() {
 
     //const [wellcode, setWellcode] = useState("");
-    const wellcode = 13
+    const wellcode = "abc123"
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
     const school_id = 17;
@@ -109,8 +109,9 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
-            countyid: county,
-            nrdid: nrd,
+            //TODO: Fix the dropdown tables to automatically populate this with the appropriate value.
+            countyid: 1,
+            nrdid: 1,
             wellowner: wellowner,
             installyear: installyear,
             smelltaste: smelltaste,
@@ -126,7 +127,7 @@ export default function WellInfo() {
             boreholediameter: boreholediameter,
             totaldepth: totaldepth,
             topography: topography,
-            waterleveldepth: well_waterleveldepth,
+            waterleveldepth: waterleveldepth,
             aquifertype: aquifertype,
             aquiferclass: aquiferclass,
             welltype: welltype,
