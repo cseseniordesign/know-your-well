@@ -14,12 +14,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@authenio/samlify-node-xmllint": "^2.0.0",
     "body-parser": "^1.20.2",
     "concurrently": "^8.0.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mssql": "^9.1.1",
     "mysql": "^2.18.1",
-    "react-datetime": "^3.2.0"
+    "react-datetime": "^3.2.0",
+    "samlify": "^2.8.10"
   }
 }

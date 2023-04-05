@@ -1,4 +1,6 @@
-﻿const express = require("express");
+﻿const assignEntity = require('./middleware/saml.js');
+
+const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -13,6 +15,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
+
+app.use(assignEntity);
 
 const config = {
     user: "kywAdmin",
@@ -44,10 +48,10 @@ const db = mysql.createPool({
     //password: "d5suMv1a",
     //database: "fnaif",
 
-     user:"kywTeam@kyw",
-     host:"kyw.mysql.database.azure.com",
-     password:"NYWell2022",
-     database: "fnaif",
+    user: "kywTeam@kyw",
+    host: "kyw.mysql.database.azure.com",
+    password: "NYWell2022",
+    database: "fnaif",
 });
 
 app.post('/api/insert', (req, res) => {
@@ -187,6 +191,9 @@ app.get('/Wells', async (req, res) => {
     */
 })
 
+app.get('/idp/metadata', (req, res) => {
+    res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
+});
 
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
@@ -196,3 +203,4 @@ app.get("*", (req, res) => {
     console.log("hit")
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
+

@@ -36,7 +36,9 @@ export default function Login() {
                     </label>
                 </div>
             </div>
-            <div className="d-grid" >
+            <div className="d-grid">
+                <a href="/Well" className="btn btn-primary">test</a>
+                <p></p>
                 <a href="/Well" className="btn btn-primary">Log in</a>
                 <p></p>
                 <a href="/Signup" className="btn btn-primary">Sign Up</a>
