@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 export default function WellInfo() {
     const well_id = 2; // todo
     //const [wellcode, setWellcode] = useState("");
-    const wellcode = 13 // todo
+    const wellcode = "abc123" // todo
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
     const school_id = 17; // todo
@@ -114,8 +114,8 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
-            countyid: county,
-            nrdid: nrd,
+            countyid: 1,
+            nrdid: 1,
             wellowner: wellowner,
             installyear: installyear,
             smelltaste: smelltaste,
