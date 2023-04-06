@@ -13,7 +13,7 @@ export default function WellInfo() {
     const wellcode = "abc123" // todo
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
-    const school_id = 17; // todo
+    const school_id = 0; // todo
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -135,7 +135,7 @@ export default function WellInfo() {
             boreholediameter: boreholediameter,
             totaldepth: totaldepth,
             topography: topography,
-            waterleveldepth: well_waterleveldepth,
+            well_waterleveldepth: well_waterleveldepth,
             aquifertype: aquifertype,
             aquiferclass: aquiferclass,
             welltype: welltype,
