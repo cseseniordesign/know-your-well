@@ -99,6 +99,54 @@ app.post('/createclasslab', (req, res) => {
     const observations = req.body.observations;
     const dateentered = req.body.dateentered;
 
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('classlab_id', sql.Int, 0);
+        request.input('fa_id', sql.Int, req.body.fa_id);
+        request.input('ammonia', sql.Decimal, req.body.ammonia);
+        request.input('calcium', sql.Decimal, req.body.calcium);
+        request.input('chloride', sql.Decimal, req.body.chloride);
+        request.input('bacteria', sql.NVarChar, req.body.bacteria);
+        request.input('copper', sql.Decimal, req.body.copper);
+        request.input('iron', sql.Decimal, req.body.iron);
+        request.input('manganese', sql.Decimal, req.body.manganese);
+        request.input('nitrate', sql.Decimal, req.body.nitrate);
+        request.input('name', sql.NVarChar, req.body.name);
+        request.input('observations', sql.NVarChar, req.body.observations);
+        request.input('dateentered', sql.DateTime, req.body.dateentered);
+
+        request
+            .query('INSERT INTO dbo.tblClassroomLab(classlab_id, fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(@classlab_id, @fa_id, @ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @name, @observations, @dateentered))', function (err, recordset) {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send('Query does not execute.')
+                    if (!rolledBack) {
+                        transaction.rollback(err => {
+                            // ... error checks
+                        })
+                    }
+                } else {
+                    transaction.commit(err => {
+                        if (err) {
+                            console.log(err)
+                            res.status(500).send('500: Server Error.')
+                        }
+                        else
+                            res.status(500).send('Values Inserted')
+                    })
+                }
+            })
+    })
+
+    /*
     db.query(
         "INSERT INTO dbo.tblClassroomLab(classlab_id, fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,CONVERT(VARCHAR, '?', 103))",
         [0, fa_id, ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, observations, name, dateentered],
@@ -110,6 +158,7 @@ app.post('/createclasslab', (req, res) => {
             }
         }
     );
+    */
 });
 
 // well info
@@ -125,53 +174,53 @@ app.post('/createwellinfo', (req, res) => {
             rolledBack = true
         })
 
-        request.input('well_id', sql.Int, 4);
-        request.input('wellcode', sql.VarChar, req.body.wellcode);
-        request.input('welluser', sql.VarChar, req.body.welluser);
-        request.input('wellname', sql.VarChar, req.body.wellname);
+        request.input('well_id', sql.Int, 5);
+        request.input('wellcode', sql.NVarChar, req.body.wellcode);
+        request.input('welluser', sql.NVarChar, req.body.welluser);
+        request.input('wellname', sql.NVarChar, req.body.wellname);
         request.input('school_id', sql.Int, req.body.school_id);
-        request.input('address', sql.VarChar, req.body.address);
-        request.input('city', sql.VarChar, req.body.city);
-        request.input('state', sql.VarChar, req.body.state);
-        request.input('zipcode', sql.VarChar, req.body.zipcode);
+        request.input('address', sql.NVarChar, req.body.address);
+        request.input('city', sql.NVarChar, req.body.city);
+        request.input('state', sql.NVarChar, req.body.state);
+        request.input('zipcode', sql.NVarChar, req.body.zipcode);
         request.input('county_id', sql.Int, req.body.countyid);
         request.input('nrd_id', sql.Int, req.body.nrdid);
-        request.input('wellowner', sql.VarChar, req.body.wellowner);
-        request.input('installyear', sql.VarChar, req.body.installyear);
-        request.input('smelltaste', sql.VarChar, req.body.smelltaste);
-        request.input('smelltaste_description', sql.VarChar, req.body.smelltaste_description);
-        request.input('welldry', sql.VarChar, req.body.welldry);
-        request.input('welldry_description', sql.VarChar, req.body.welldry_description);
-        request.input('maintenance5yr', sql.VarChar, req.body.maintenance5yr);
-        request.input('landuse5yr', sql.VarChar, req.body.landuse5yr);
-        request.input('numberwelluser', sql.VarChar, req.body.numberwelluser);
-        request.input('pestmanure', sql.VarChar, req.body.pestmanure);
-        request.input('estlatitude', sql.VarChar, req.body.estlatitude);
-        request.input('estlongitude', sql.VarChar, req.body.estlongitude);
+        request.input('wellowner', sql.NVarChar, req.body.wellowner);
+        request.input('installyear', sql.NVarChar, req.body.installyear);
+        request.input('smelltaste', sql.NVarChar, req.body.smelltaste);
+        request.input('smelltaste_description', sql.NVarChar, req.body.smelltaste_description);
+        request.input('welldry', sql.NVarChar, req.body.welldry);
+        request.input('welldry_description', sql.NVarChar, req.body.welldry_description);
+        request.input('maintenance5yr', sql.NVarChar, req.body.maintenance5yr);
+        request.input('landuse5yr', sql.NVarChar, req.body.landuse5yr);
+        request.input('numberwelluser', sql.Int, req.body.numberwelluser);
+        request.input('pestmanure', sql.NVarChar, req.body.pestmanure);
+        request.input('estlatitude', sql.Decimal, req.body.estlatitude);
+        request.input('estlongitude', sql.Decimal, req.body.estlongitude);
         //TODO: update DB based on what Mark did as of 3/21.
         request.input('latitude', sql.Decimal, req.body.estlatitude);
         request.input('longitude', sql.Decimal, req.body.estlongitude);
         request.input('genlatitude', sql.Decimal, req.body.estlatitude);
         request.input('genlongitude', sql.Decimal, req.body.estlongitude);
 
-        request.input('boreholediameter', sql.VarChar, req.body.boreholediameter);
+        request.input('boreholediameter', sql.Decimal, req.body.boreholediameter);
         request.input('totaldepth', sql.Decimal, req.body.totaldepth);
         request.input('well_waterleveldepth', sql.Decimal, req.body.well_waterleveldepth);
-        request.input('aquifertype', sql.VarChar, req.body.aquifertype);
-        request.input('aquiferclass', sql.VarChar, req.body.aquiferclass);
-        request.input('welltype', sql.VarChar, req.body.welltype);
-        request.input('wellcasematerial', sql.VarChar, req.body.wellcasematerial);
-        request.input('datacollector', sql.VarChar, req.body.datacollector);
-        request.input('observation', sql.VarChar, req.body.observation);
-        request.input('topography', sql.VarChar, req.body.topography);
-        request.input('dateentered', sql.VarChar, req.body.dateentered);
+        request.input('aquifertype', sql.NVarChar, req.body.aquifertype);
+        request.input('aquiferclass', sql.NVarChar, req.body.aquiferclass);
+        request.input('welltype', sql.NVarChar, req.body.welltype);
+        request.input('wellcasematerial', sql.NVarChar, req.body.wellcasematerial);
+        request.input('datacollector', sql.NVarChar, req.body.datacollector);
+        request.input('observation', sql.NVarChar, req.body.observation);
+        request.input('topography', sql.NVarChar, req.body.topography);
+        request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
             //TODO? Modify DB tables so that PKs are auto-incrementing.
             .query('INSERT INTO dbo.tblWellInfo(well_id, wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_latitude, wi_longitude, wi_genlatitude, wi_genlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@well_id, @wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @latitude, @longitude, @genlatitude, @genlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
-                    res.status(500).send('SERVER ERROR')
+                    res.status(500).send('Query does not execute.')
                     if (!rolledBack) {
                         transaction.rollback(err => {
                             // ... error checks
@@ -179,22 +228,16 @@ app.post('/createwellinfo', (req, res) => {
                     }
                 } else {
                     transaction.commit(err => {
-                        // ... error checks
+                        if (err) {
+                            console.log(err)
+                            res.status(500).send('500: Server Error.')
+                        }
+                        else
+                            res.status(500).send('Values Inserted')
                     })
                 }
             })
     })
-    /*
-    request.query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_latitude, wi_longitude, wi_genlatitude, wi_genlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @latitude, @longitude, @genlatitude, @genlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
-        if (err) {
-            console.log(err)
-            res.status(500).send('SERVER ERROR')
-            return
-        }
-        console.log(request.rowsAffected)
-        res.status(200).send('Values Succesfully Inserted.')
-    })
-    */
 });
 
 //credit to https://arctype.com/blog/rest-api-tutorial/
@@ -209,16 +252,6 @@ app.get('/Wells', async (req, res) => {
         console.log(recordset)
         res.status(200).json({ Wells: recordset.recordset })
     })
-    /*
-    db.query("SELECT id, wellname FROM wellinfo;", function (err, data, fields) {
-        if (err) return (err)
-        res.status(200).json({
-            status: "success",
-            length: data?.length,
-            data: data,
-        });
-    })
-    */
 })
 
 
