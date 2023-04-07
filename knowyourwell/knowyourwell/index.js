@@ -86,19 +86,6 @@ app.post('/api/insert', (req, res) => {
 
 // class lab
 app.post('/createclasslab', (req, res) => {
-    const fa_id = req.body.fa_id;
-    const ammonia = req.body.ammonia;
-    const calcium = req.body.calcium;
-    const chloride = req.body.chloride;
-    const bacteria = req.body.bacteria;
-    const copper = req.body.copper;
-    const iron = req.body.iron;
-    const manganese = req.body.manganese;
-    const nitrate = req.body.nitrate;
-    const name = req.body.name;
-    const observations = req.body.observations;
-    const dateentered = req.body.dateentered;
-
     transaction.begin(err => {
         if (err)
             console.error("Transaction Failed")
@@ -174,7 +161,6 @@ app.post('/createwellinfo', (req, res) => {
             rolledBack = true
         })
 
-        request.input('well_id', sql.Int, 5);
         request.input('wellcode', sql.NVarChar, req.body.wellcode);
         request.input('welluser', sql.NVarChar, req.body.welluser);
         request.input('wellname', sql.NVarChar, req.body.wellname);
@@ -197,12 +183,6 @@ app.post('/createwellinfo', (req, res) => {
         request.input('pestmanure', sql.NVarChar, req.body.pestmanure);
         request.input('estlatitude', sql.Decimal, req.body.estlatitude);
         request.input('estlongitude', sql.Decimal, req.body.estlongitude);
-        //TODO: update DB based on what Mark did as of 3/21.
-        request.input('latitude', sql.Decimal, req.body.estlatitude);
-        request.input('longitude', sql.Decimal, req.body.estlongitude);
-        request.input('genlatitude', sql.Decimal, req.body.estlatitude);
-        request.input('genlongitude', sql.Decimal, req.body.estlongitude);
-
         request.input('boreholediameter', sql.Decimal, req.body.boreholediameter);
         request.input('totaldepth', sql.Decimal, req.body.totaldepth);
         request.input('well_waterleveldepth', sql.Decimal, req.body.well_waterleveldepth);
@@ -216,8 +196,7 @@ app.post('/createwellinfo', (req, res) => {
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            //TODO? Modify DB tables so that PKs are auto-incrementing.
-            .query('INSERT INTO dbo.tblWellInfo(well_id, wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_latitude, wi_longitude, wi_genlatitude, wi_genlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@well_id, @wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @latitude, @longitude, @genlatitude, @genlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
+            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
