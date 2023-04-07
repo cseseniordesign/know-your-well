@@ -9,8 +9,13 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function Field() {
-    const fa_id = 3; // todo
-    const well_id = 1; // todo
+    const [searchParams, setSearchParams] = useSearchParams();
+    const well_id = parseInt(searchParams.get("id"));
+    const fa_latitude = 40.8;   //TODO: match this up with actual value.
+    const fa_longitude = -97.5; //TODO: match this up with actual value.
+    const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
+    const fa_genlongitude = -97.5; //TODO: match this up with actual value.
+    const wellName = searchParams.get("wellName");
     const [conditions, setConditions] = useState("");
     const [temp, setTemp] = useState(0);
     const [ph, setPh] = useState(0);
@@ -43,8 +48,11 @@ export default function Field() {
 
     function addField () {   /*const addField = () => */
         Axios.post('/api/insert', {
-            fa_id: fa_id,
             well_id: well_id,
+            fa_latitude: fa_latitude,
+            fa_longitude: fa_longitude,
+            fa_genlatitude: fa_genlatitude,
+            fa_genlongitude: fa_genlongitude,
             weather: conditions,
             wellcovercondition: wellcover,
             wellcoverdescription: wellcoverdescription,
@@ -53,7 +61,7 @@ export default function Field() {
             groundwatertemp: temp,
             ph: ph,
             conductivity: conductivity,
-            datacollector: name,
+            name: name,
             observations: observation,
             datecollected: dateentered,
         })
@@ -77,9 +85,6 @@ export default function Field() {
         addField();
         myFunction();
     }
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const wellName = searchParams.get("wellName")
 
     return (
         //<div className="form-container">

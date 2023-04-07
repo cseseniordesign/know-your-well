@@ -57,8 +57,12 @@ const db = mysql.createPool({
 
 // field
 app.post('/api/insert', (req, res) => {
-    const fa_id = req.body.fa_id;
+    /*
     const well_id = req.body.well_id;
+    const fa_latitude = req.body.fa_latitude;
+    const fa_longitude = req.body.fa_longitude;
+    const fa_genlatitude = req.body.fa_genlatitude;
+    const fa_genlongitude = req.body.fa_genlongitude;
     const conditions = req.body.conditions;
     const wellcover = req.body.wellcover;
     const evidence = req.body.evidence;
@@ -72,7 +76,7 @@ app.post('/api/insert', (req, res) => {
 
     db.query(
 
-       "INSERT INTO dbo.tblFieldActivity(fieldactivity_id, well_id, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,CONVERT(VARCHAR, ?, 103))",
+       "INSERT INTO dbo.tblFieldActivity(well_id, wi_latitude, wi_longitude, wi_genlatitude, wi_longitude, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,CONVERT(VARCHAR, ?, 103))",
         [fa_id, well_id, conditions, wellcover, wellcoverdescription, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
         (err, result) => {
             if (err) {
@@ -82,6 +86,58 @@ app.post('/api/insert', (req, res) => {
             }
         }
     );
+    */
+
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        request.input('well_id', sql.Int, req.body.well_id);
+        request.input('fa_latitude', sql.Decimal, req.body.fa_latitude);
+        request.input('fa_longitude', sql.Decimal, req.body.fa_longitude);
+        request.input('fa_genlatitude', sql.Decimal, req.body.fa_genlatitude);
+        request.input('fa_genlongitude', sql.Decimal, req.body.fa_genlongitude);
+        request.input('weather', sql.NVarChar, req.body.weather);
+        request.input('wellcovercondition', sql.NVarChar, req.body.wellcovercondition);
+        request.input('wellcoverdescription', sql.NVarChar, req.body.wellcoverdescription);
+        request.input('runOff', sql.NVarChar, req.body.surfacerunoff);
+        request.input('pooling', sql.NVarChar, req.body.pooling);
+        request.input('temp', sql.Decimal, req.body.groundwatertemp);
+        request.input('ph', sql.Decimal, req.body.ph);
+        request.input('conductivity', sql.Decimal, req.body.conductivity);
+        request.input('name', sql.NVarChar, req.body.name);
+        request.input('observation', sql.NVarChar, req.body.observations);
+        request.input('dateentered', sql.DateTime, req.body.datecollected);
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request
+            .query('INSERT INTO dbo.tblFieldActivity(well_id, fa_latitude, fa_longitude, fa_genlatitude, fa_genlongitude, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(@well_id, @fa_latitude, @fa_longitude, @fa_genlatitude, @fa_genlongitude, @weather, @wellcovercondition, @wellcoverdescription, @runOff, @pooling, @temp, @ph, @conductivity, @name, @observation, @dateentered)', function (err, recordset) {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send('Query does not execute.')
+                    if (!rolledBack) {
+                        transaction.rollback(err => {
+                            // ... error checks
+                        })
+                    }
+                } else {
+                    transaction.commit(err => {
+                        if (err) {
+                            console.log(err)
+                            res.status(500).send('500: Server Error.')
+                        }
+                        else
+                            res.status(500).send('Values Inserted')
+                    })
+                }
+            })
+    })
 });
 
 // class lab
