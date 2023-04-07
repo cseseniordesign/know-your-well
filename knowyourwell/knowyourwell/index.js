@@ -258,6 +258,54 @@ app.get('/Wells', async (req, res) => {
     })
 })
 
+app.get('/FieldList', async (req, res) => {
+    console.log(req.query.well_id)
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE well_id = @well_id;', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else {
+                        console.log(recordset)
+                        res.status(200).json({ FieldList: recordset.recordset })
+                    }
+                })
+            }
+        })
+    })
+    /*
+    appPool.query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE well_id=@well_id;', function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return
+        }
+        console.log(recordset)
+        res.status(200).json({ Wells: recordset.recordset })
+    })
+    */
+})
 
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
