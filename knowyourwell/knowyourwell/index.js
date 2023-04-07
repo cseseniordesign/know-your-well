@@ -57,37 +57,6 @@ const db = mysql.createPool({
 
 // field
 app.post('/api/insert', (req, res) => {
-    /*
-    const well_id = req.body.well_id;
-    const fa_latitude = req.body.fa_latitude;
-    const fa_longitude = req.body.fa_longitude;
-    const fa_genlatitude = req.body.fa_genlatitude;
-    const fa_genlongitude = req.body.fa_genlongitude;
-    const conditions = req.body.conditions;
-    const wellcover = req.body.wellcover;
-    const evidence = req.body.evidence;
-    const pooling = req.body.pooling;
-    const temp = req.body.temp;
-    const ph = req.body.ph;
-    const conductivity = req.body.conductivity;
-    const name = req.body.name;
-    const observation = req.body.observation;
-    const dateentered = req.body.dateentered;
-
-    db.query(
-
-       "INSERT INTO dbo.tblFieldActivity(well_id, wi_latitude, wi_longitude, wi_genlatitude, wi_longitude, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,CONVERT(VARCHAR, ?, 103))",
-        [fa_id, well_id, conditions, wellcover, wellcoverdescription, evidence, pooling, temp, ph, conductivity, name, observation, dateentered],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values Inserted");
-            }
-        }
-    );
-    */
-
     const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)
