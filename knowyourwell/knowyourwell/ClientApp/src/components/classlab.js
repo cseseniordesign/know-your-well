@@ -9,7 +9,9 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function ClassLab() {
-    const fa_id = 3; // todo
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const fa_id = parseInt(searchParams.get("field_id"));
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -36,7 +38,7 @@ export default function ClassLab() {
     const defaultValue = date.toLocaleDateString('en-CA');
 
     function addClassLab() {   /*const addClassLab = () =>*/
-        Axios.post('/create', {
+        Axios.post('/createclasslab', {
             fa_id: fa_id,
             ammonia: ammonia,
             calciumhardness: calcium,
@@ -46,9 +48,9 @@ export default function ClassLab() {
             iron: iron,
             manganese: manganese,
             nitrate: nitrate,
-            observation: observations,
+            observations: observations,
             datacollector: name,
-            datecollected: dateentered,
+            dateentered: dateentered,
         })
             .then(() => {
                 console.log("success");
@@ -72,7 +74,6 @@ export default function ClassLab() {
         myFunction();
     }
 
-    const [searchParams, setSearchParams] = useSearchParams();
     const wellName = searchParams.get("wellName");
 
     return (

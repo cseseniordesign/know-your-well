@@ -14,7 +14,7 @@ function responseDataToHTMLList(responseData) {
             HTMLList.push(
                 <List.Item key={element.fieldactivity_id}>
                     <List.Content>
-                        <a href={`/classlab?id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} </a>
+                        <a href={`/classlab?field_id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} </a>
                     </List.Content>
                     <br />
                 </List.Item>

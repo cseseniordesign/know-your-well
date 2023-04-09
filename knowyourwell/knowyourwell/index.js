@@ -2,7 +2,6 @@
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
-const mysql = require('mysql');
 const cors = require('cors');
 const { response } = require("express");
 const path = require("path")
@@ -37,23 +36,6 @@ try {
 catch (error) {
     console.error(error)
 }
-
-const db = mysql.createPool({
-    //user: "fnaif",
-    //host: "cse.unl.edu",
-    //password: "d5suMv1a",
-    //database: "fnaif",
-
-    //  user:"kywTeam@kyw",
-    //  host:"kyw.mysql.database.azure.com",
-    //  password:"NYWell2022",
-    //  database: "fnaif",
-
-    user: "kywTeam@kyw",
-    host: "kyw.database.windows.net",
-    password: "KJ6vcCG2",
-    database: "kywAdmin",
-});
 
 // field
 app.post('/api/insert', (req, res) => {
@@ -111,6 +93,7 @@ app.post('/api/insert', (req, res) => {
 
 // class lab
 app.post('/createclasslab', (req, res) => {
+    const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)
             console.error("Transaction Failed")
@@ -121,22 +104,21 @@ app.post('/createclasslab', (req, res) => {
             rolledBack = true
         })
 
-        request.input('classlab_id', sql.Int, 0);
         request.input('fa_id', sql.Int, req.body.fa_id);
         request.input('ammonia', sql.Decimal, req.body.ammonia);
-        request.input('calcium', sql.Decimal, req.body.calcium);
+        request.input('calcium', sql.Decimal, req.body.calciumhardness);
         request.input('chloride', sql.Decimal, req.body.chloride);
         request.input('bacteria', sql.NVarChar, req.body.bacteria);
         request.input('copper', sql.Decimal, req.body.copper);
         request.input('iron', sql.Decimal, req.body.iron);
         request.input('manganese', sql.Decimal, req.body.manganese);
         request.input('nitrate', sql.Decimal, req.body.nitrate);
-        request.input('name', sql.NVarChar, req.body.name);
+        request.input('name', sql.NVarChar, req.body.datacollector);
         request.input('observations', sql.NVarChar, req.body.observations);
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblClassroomLab(classlab_id, fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(@classlab_id, @fa_id, @ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @name, @observations, @dateentered))', function (err, recordset) {
+            .query('INSERT INTO dbo.tblClassroomLab(fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(@fa_id, @ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @observations, @name, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -157,20 +139,6 @@ app.post('/createclasslab', (req, res) => {
                 }
             })
     })
-
-    /*
-    db.query(
-        "INSERT INTO dbo.tblClassroomLab(classlab_id, fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(?,?,?,?,?,?,?,?,?,?,?,CONVERT(VARCHAR, '?', 103))",
-        [0, fa_id, ammonia, calcium, chloride, bacteria, copper, iron, manganese, nitrate, observations, name, dateentered],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values Inserted");
-            }
-        }
-    );
-    */
 });
 
 // well info
