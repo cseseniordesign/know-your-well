@@ -167,9 +167,9 @@ app.post('/createwellinfo', (req, res) => {
         request.input('wellowner', sql.NVarChar, req.body.wellowner);
         request.input('installyear', sql.NVarChar, req.body.installyear);
         request.input('smelltaste', sql.NVarChar, req.body.smelltaste);
-        request.input('smelltaste_description', sql.NVarChar, req.body.smelltaste_description);
+        request.input('smelltaste_description', sql.NVarChar, req.body.smelltastedescription);
         request.input('welldry', sql.NVarChar, req.body.welldry);
-        request.input('welldry_description', sql.NVarChar, req.body.welldry_description);
+        request.input('welldry_description', sql.NVarChar, req.body.welldrydescription);
         request.input('maintenance5yr', sql.NVarChar, req.body.maintenance5yr);
         request.input('landuse5yr', sql.NVarChar, req.body.landuse5yr);
         request.input('numberwelluser', sql.Int, req.body.numberwelluser);
