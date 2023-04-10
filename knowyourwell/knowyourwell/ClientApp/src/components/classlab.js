@@ -75,6 +75,7 @@ export default function ClassLab() {
         setBacteria(event.target.value);
     };
 
+    //const continue_session = window.confirm("Continue last session?");
 
     const date = new Date();
     const futureDate = date.getDate();
