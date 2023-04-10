@@ -12,6 +12,8 @@ export default function ClassLab() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const fa_id = parseInt(searchParams.get("field_id"));
+    const wellName = searchParams.get("wellName");
+    const well_id = searchParams.get("well_id")
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -66,15 +68,13 @@ export default function ClassLab() {
     }
 
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
     }
 
     function myFunction2() {
         addClassLab();
         myFunction();
     }
-
-    const wellName = searchParams.get("wellName");
 
     return (
         //<div className="form-container" >

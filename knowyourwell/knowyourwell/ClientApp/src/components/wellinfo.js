@@ -147,7 +147,7 @@ export default function WellInfo() {
     }
 
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/well`;
     }
 
     function myFunction2() {

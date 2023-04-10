@@ -3,10 +3,11 @@ import { List } from 'semantic-ui-react'
 import { useSearchParams } from "react-router-dom";
 import Axios from 'axios'
 import moment from 'moment'
+import Well from './well';
 
 var fieldList = [];
 
-function responseDataToHTMLList(responseData) {
+function responseDataToHTMLList(responseData, well_id, wellName) {
     let HTMLList = []
     try {
         for (const element of responseData) {
@@ -14,7 +15,7 @@ function responseDataToHTMLList(responseData) {
             HTMLList.push(
                 <List.Item key={element.fieldactivity_id}>
                     <List.Content>
-                        <a href={`/classlab?field_id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} </a>
+                        <a href={`/classlab?field_id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}&well_id=${well_id}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} </a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -22,7 +23,7 @@ function responseDataToHTMLList(responseData) {
         }
     }
     catch (e) {
-        console.log("Error Parsing Data into HTML List.")
+        console.log(e)
     }
     return HTMLList
 }
@@ -31,9 +32,10 @@ export default function FieldSelection() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
+    const wellName = searchParams.get("wellName")
 
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
     }
 
     const [isLoading, setLoading] = useState(true);
@@ -50,7 +52,7 @@ export default function FieldSelection() {
             .then(function (response) {
                 console.log(response)
                 localStorage.setItem("fieldListData" + well_id, JSON.stringify(response.data))
-                fieldList = responseDataToHTMLList(response.data.FieldList)
+                fieldList = responseDataToHTMLList(response.data.FieldList, well_id, wellName)
                 setLoading(false);
             });
     }, []);
@@ -60,7 +62,7 @@ export default function FieldSelection() {
         if (fieldCookie) {
             try {
                 const fieldData = JSON.parse(fieldCookie)
-                fieldList = responseDataToHTMLList(fieldData.FieldList);
+                fieldList = responseDataToHTMLList(fieldData.FieldList, well_id, wellName);
             }
             catch (e) {
                 console.log("fieldData is Invalid JSON")
@@ -103,6 +105,5 @@ export default function FieldSelection() {
                 </List.Content>
             </List.Item>
         </List>
-
     );
 }

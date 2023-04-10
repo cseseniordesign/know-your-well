@@ -11,11 +11,11 @@ import { useSearchParams } from "react-router-dom";
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
+    const wellName = searchParams.get("wellName");
     const fa_latitude = 40.8;   //TODO: match this up with actual value.
     const fa_longitude = -97.5; //TODO: match this up with actual value.
     const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
-    const wellName = searchParams.get("wellName");
     const [conditions, setConditions] = useState("");
     const [temp, setTemp] = useState(0);
     const [ph, setPh] = useState(0);
@@ -78,7 +78,7 @@ export default function Field() {
         }
     }
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
     }
 
     function myFunction2() {
