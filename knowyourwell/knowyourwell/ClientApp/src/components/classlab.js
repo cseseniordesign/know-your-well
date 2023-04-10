@@ -59,7 +59,6 @@ const nameInitilization = () => {
 //}
  
 
-
 export default function ClassLab() {
     const [ammonia, setAmmonia] = useState(ammoniaInitilization);
     const [calcium, setCalcium] = useState(calciumInitilization);
@@ -139,9 +138,8 @@ export default function ClassLab() {
 
     return (
         //<div className="form-container" >
-        //action = "/editwell" id = "submissionAlert"   onSubmit = {(e) => e.preventDefault()}
-
-        <form    >
+        //action = "/editwell" id = "submissionAlert"
+        <form action="/editwell" id="submissionAlert">
             <h2>Class Lab</h2>
             <div className="css">
                 <label htmlFor="ammonia">

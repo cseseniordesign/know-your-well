@@ -1,0 +1,25 @@
+{
+  "name": "knowyourwell",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd ClientApp && npm run start\" \"node index.js\"",
+    "build": "cd ClientApp && npm install && npm run build && cd .. && npm install",
+    "server": "nodemon index.js",
+    "client": "cd ClientApp && npm start && cd ..",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "concurrently": "^8.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mssql": "^9.1.1",
+    "mysql": "^2.18.1",
+    "react-datetime": "^3.2.0"
+  }
+}

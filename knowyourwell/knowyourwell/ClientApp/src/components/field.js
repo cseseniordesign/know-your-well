@@ -6,6 +6,7 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
+import { useSearchParams } from "react-router-dom";
 
 
 export default function Field() {
@@ -74,11 +75,15 @@ export default function Field() {
         addField();
         myFunction();
     }
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const wellName = searchParams.get("wellName")
+
     return (
         //<div className="form-container">
         // action="/editwell"
         <form action="/editwell" id="submissionAlert" >  
-            <h2>Field</h2>
+            <h2>{wellName}: Field</h2>
             <div className="css">
                 <label htmlFor="conditions">
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
