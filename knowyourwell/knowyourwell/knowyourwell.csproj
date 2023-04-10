@@ -19,18 +19,20 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ServerApp\public\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ServerApp\public\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ServerApp\public\**" />
+    <None Remove="ServerApp\public\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="package-lock.json" />
     <Content Remove="package.json" />
-    <Content Remove="ServerApp\public\manifest.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="ServerApp\public\manifest.json" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
