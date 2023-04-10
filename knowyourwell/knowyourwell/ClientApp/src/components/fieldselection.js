@@ -49,14 +49,14 @@ export default function FieldSelection() {
             })
             .then(function (response) {
                 console.log(response)
-                localStorage.setItem("fieldListData", JSON.stringify(response.data))
+                localStorage.setItem("fieldListData" + well_id, JSON.stringify(response.data))
                 fieldList = responseDataToHTMLList(response.data.FieldList)
                 setLoading(false);
             });
     }, []);
 
     if (isLoading) {
-        const fieldCookie = localStorage.getItem("fieldListData");
+        const fieldCookie = localStorage.getItem("fieldListData"+well_id);
         if (fieldCookie) {
             try {
                 const fieldData = JSON.parse(fieldCookie)
