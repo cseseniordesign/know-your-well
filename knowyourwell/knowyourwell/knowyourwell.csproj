@@ -19,8 +19,15 @@
 
 	<ItemGroup>
 		<!-- Don't publish the SPA source files, but do show them in the project files list -->
+		<Compile Remove="ServerApp\public\**" />
 		<Content Remove="$(SpaRoot)**" />
+		<Content Remove="ServerApp\public\**" />
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="ServerApp\public\**" />
+	  <None Remove="ServerApp\public\**" />
 	</ItemGroup>
 
 	<!--<ItemGroup>
@@ -33,7 +40,6 @@
 		<None Update="index.js">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Include="ServerApp\public\manifest.json" />
 	</ItemGroup>
 
 	<ItemGroup>
