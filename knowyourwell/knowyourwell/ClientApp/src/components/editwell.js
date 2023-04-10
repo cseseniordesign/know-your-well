@@ -5,10 +5,10 @@ import { useSearchParams } from "react-router-dom";
 export default function EditWell() {
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const wellName = searchParams.get("wellName")
+    const wellName = searchParams.get("wellName");
     return (
         <List style={{ textAlign: 'center' }}>
-            <h2>{wellName} [Well Name/Id]</h2>
+            <h2>{wellName}</h2>
             <List.Item>
                 <List.Content>
                     <a href="/WellInfo" /* change to "/ViewWell" */ style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>

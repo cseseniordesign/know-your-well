@@ -29,8 +29,8 @@ textarea {
     text-align:center
 }
 
-.requiredField{
-    color: red;
+.requiredField {
+    color: #AD5248;
 }
 
 #dateentered {

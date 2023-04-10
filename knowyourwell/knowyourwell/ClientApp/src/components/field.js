@@ -144,6 +144,10 @@ export default function Field() {
         addField();
         myFunction();
     }
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const wellName = searchParams.get("wellName")
+
     return (
         //<div className="form-container">
         // action="/editwell" id="submissionAlert"
