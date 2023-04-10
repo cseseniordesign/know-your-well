@@ -430,7 +430,6 @@ export default function WellInfo() {
                             />
                         </div>
                     )}
-
                 </div>
             </div>
             <div className="css">

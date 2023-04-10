@@ -113,18 +113,33 @@ export default function Field() {
                             <option value="Damaged" id="wellcover" name="wellcover" required >Damaged</option>
                         </select>
                     </div>
+                    {wellcover === "Observable_Opening" && (
+                        <div className="css">
+                            <label for="wellcoverdescription">
+                                Well Cover Description:
+                            </label>
+                            <textarea
+                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                onChange={(event) => {
+                                    setWellcoverDescription(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
+                    {wellcover === "Damaged" && (
+                        <div className="css">
+                            <label for="wellcoverdescription">
+                                Well Cover Description:
+                            </label>
+                            <textarea
+                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                onChange={(event) => {
+                                    setWellcoverDescription(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
-            </div>
-            <div className="css">
-                <label for="wellcoverdescription">
-                    Well Cover Description:
-                </label>
-                <textarea
-                    type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
-                    onChange={(event) => {
-                        setWellcoverDescription(event.target.value);
-                    }}
-                />
             </div>
             <div className="css">
                 <label for="evidence">
