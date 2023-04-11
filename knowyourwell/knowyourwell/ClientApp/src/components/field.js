@@ -40,15 +40,11 @@ const wellcoverdescriptionInitilization = () => {
     const Cachedwellcoverdescription = localStorage.getItem("Wellcoverdescription");
     return Cachedwellcoverdescription ? JSON.parse(Cachedwellcoverdescription) : "";
 }
-const commentsInitilization = () => {
-    const Cachedcomments = localStorage.getItem("Comments");
-    return Cachedcomments ? JSON.parse(Cachedcomments) : "";
-}
 //const dateenteredInitilization = () => {
 //    const Cacheddateentered = localStorage.getItem("Dateentered");
 //    return Cacheddateentered ? JSON.parse(Cacheddateentered) : ""; 
 //}
-const evidencInitilization = () => {
+const evidenceInitilization = () => {
     const Cachedevidence = localStorage.getItem("Evidence");
     return Cachedevidence ? JSON.parse(Cachedevidence) : "";
 }
@@ -64,15 +60,14 @@ export default function Field() {
     const fa_longitude = -97.5; //TODO: match this up with actual value.
     const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
-    const [conditions, setConditions] = useState("");
-    const [temp, setTemp] = useState(0);
-    const [ph, setPh] = useState(0);
-    const [conductivity, setConductivity] = useState(0);
-    const [name, setName] = useState("");
-    const [observation, setObservation] = useState("");
-    const [wellcover, setWellcover] = useState("");
-    const [wellcoverdescription, setWellcoverDescription] = useState("");
-    const [comments, setComments] = useState("");
+    const [conditions, setConditions] = useState(conditionsInitilization);
+    const [temp, setTemp] = useState(tempInitilization);
+    const [ph, setPh] = useState(phInitilization);
+    const [conductivity, setConductivity] = useState(conductivityInitilization);
+    const [name, setName] = useState(nameInitilization);
+    const [observation, setObservation] = useState(observationInitilization);
+    const [wellcover, setWellcover] = useState(wellcoverInitilization);
+    const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
     const [dateentered, setDateentered] = useState(moment());
 
     const handleChange_wellcover = (event) => {
@@ -84,7 +79,7 @@ export default function Field() {
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
-    const [evidence, setEvidence] = useState(evidencInitilization);
+    const [evidence, setEvidence] = useState(evidenceInitilization);
 
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);
@@ -133,11 +128,10 @@ export default function Field() {
         localStorage.setItem("Observation", JSON.stringify(observation));
         localStorage.setItem("Wellcover", JSON.stringify(wellcover));
         localStorage.setItem("Wellcoverdescription", JSON.stringify(wellcoverdescription));
-        localStorage.setItem("Comments", JSON.stringify(comments));
         localStorage.setItem("Dateentered", JSON.stringify(dateentered));
         localStorage.setItem("Evidence", JSON.stringify(evidence));
         localStorage.setItem("Pooling", JSON.stringify(pooling));
-    }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, comments, dateentered, evidence, pooling]);
+    }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, dateentered, evidence, pooling]);
 
 
 
