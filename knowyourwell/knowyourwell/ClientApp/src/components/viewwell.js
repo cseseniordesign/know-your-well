@@ -1,11 +1,92 @@
-﻿import React from 'react'
+﻿import React, { useEffect, useState } from 'react';
+import { List } from 'semantic-ui-react'
 import './css/forms.css'
-import { useState } from 'react';
 import Axios from 'axios'
+import { useSearchParams } from "react-router-dom";
+
+var formElements = null
 
 export default function ViewWell() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const well_id = parseInt(searchParams.get("id"));
+    const wellName = searchParams.get("wellName")
 
-    const [wellcode, setWellcode] = useState("");
+    const [isLoading, setLoading] = useState(true);
+    useEffect(() => {
+        Axios
+            .get("/GetWellInfo", {
+                responseType: "json",
+                params: {
+                    well_id: well_id
+                }
+            })
+            .then(function (response) {
+                //console.log(response)
+                formElements = response.data.WellInfo[0]
+                console.log(formElements.wi_wellcode)
+                setLoading(false);
+            });
+    }, []);
+
+    if (formElements === null) {
+        const wellCookie = localStorage.getItem("wellData" + well_id);        if (wellCookie) {
+            try {
+                formElements = JSON.parse(wellCookie)
+            }
+            catch (e) {
+                console.log("wellData is Invalid JSON")
+            }
+            console.log(formElements)
+        }
+    }
+
+    console.log(formElements)
+    if (formElements != null) {
+        return (
+            <div className="css">
+                <h2>Well Info</h2>
+                <p><b>Well Code:</b> {formElements.wi_wellcode}</p>
+                <p><b>Well Name:</b> {formElements.wi_wellname}</p>
+                <p><b>Name of Resident User:</b> {formElements.wi_well_user}</p>
+                <p><b>Adress:</b> {formElements.wi_adress}</p>
+                <p><b>Village, Town, or City:</b> {formElements.wi_city}</p>
+                <p><b>State:</b> {formElements.wi_state}</p>
+                <p><b>Zip code:</b> {formElements.wi_zipcode}</p>
+                <p><b>County:</b> {formElements.county_id}</p>
+                <p><b>NRD District:</b> {formElements.nrd_id}</p>
+                <p><b>Well owner (if different from resident):</b> {formElements.wi_well_owner}</p>
+                <p><b>Well construction completion year:</b> {formElements.wi_installyear}</p>
+                <p><b>Complaints about smell or taste of water?:</b> {formElements.wi_smelltaste}</p>
+                <p><b>Smell or taste of water desciption:</b> {formElements.wi_smelltaste_description}</p>
+                <p><b>Does the well ever go dry?:</b> {formElements.wi_welldry}</p>
+                <p><b>When well goes dry:</b> {formElements.wi_welldry_description}</p>
+                <p><b>Maintenance done to the well itself within the last five years:</b> {formElements.wi_maintenance5yr}</p>
+                <p><b>major land use / development changes around the well within the last five years?:</b> {formElements.wi_landuse5yr}</p>
+                <p><b>Number of Well Users:</b> {formElements.wi_numberwelluser}</p>
+                <p><b>manure, fertilizer, or pesticides been applied the well within the last five years:</b> {formElements.wi_pestmanure}</p>
+                <p><b>Estimated Latitude:</b> {formElements.wi_estlatitude}</p>
+                <p><b>Estimated Longitude:</b> {formElements.wi_estlongitude}</p>
+                <p><b>Bore hole diameter (inches)::</b> {formElements.wi_boreholediameter}</p>
+                <p><b>Total depth of well (feet):</b> {formElements.wi_totaldepth}</p>
+                <p><b>Topography of the well location:</b> {formElements.wi_topography}</p>
+                <p><b>Water level (feet):</b> {formElements.wi_waterleveldepth}</p>
+                <p><b>Aquifer Type:</b> {formElements.wi_aquifertype}</p>
+                <p><b>Aquifer Class:</b> {formElements.wi_aquiferclass}</p>
+                <p><b>Well Type (Construction Method):</b> {formElements.wi_welltype}</p>
+                <p><b>Well Casing Material:</b> {formElements.wi_wellcasematerial}</p>
+                <p><b>Observations:</b> {formElements.wi_observation}</p>
+                <p><b>Date Entered:</b> {formElements.wi_dateentered}</p>
+            </div>
+        );
+    }
+    else {
+        return <h1>Loading</h1>
+    }
+    
+    
+    /*
+    console.log(formElements)
+    const [wellcode, setWellcode] = useState(formElements.wi_wellcode);
     const [wellname, setWellname] = useState("");
     const [school_id, setSchool_id] = useState(0);
     const [welluser, setWelluser] = useState("");
@@ -77,7 +158,7 @@ export default function ViewWell() {
     };
 
     const addWellInfo = () => {
-        Axios.post('http://localhost:7193/createwellinfo', {
+        Axios.post('/createwellinfo', {
             wellcode: wellcode,
             wellname: wellname,
             school_id: school_id,
@@ -547,4 +628,5 @@ export default function ViewWell() {
         </form>
         //</div>
     );
+    */
 }
