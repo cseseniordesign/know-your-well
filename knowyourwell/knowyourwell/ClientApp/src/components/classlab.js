@@ -2,14 +2,14 @@
 import { useEffect, React, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
-
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 //
 import useLocalStorage from 'react-use-localstorage';
 import { Offline, Online } from "react-detect-offline";
+import { useSearchParams } from 'react-router-dom'
+
 <div>
     <Online>
         Only shown when you're online
@@ -19,35 +19,39 @@ import { Offline, Online } from "react-detect-offline";
 
 const ammoniaInitilization = () => {
     const Cachedammonia = localStorage.getItem("Ammonia");
-    return Cachedammonia ? JSON.parse(Cachedammonia) : 0; 
+    return Cachedammonia ? JSON.parse(Cachedammonia) : ""; 
 }
 const calciumInitilization = () => {
     const Cachedcalcium = localStorage.getItem("Calcium");
-    return Cachedcalcium ? JSON.parse(Cachedcalcium) : 0;
+    return Cachedcalcium ? JSON.parse(Cachedcalcium) : "";
 }
 const chlorideInitilization = () => {
     const Cachedchloride = localStorage.getItem("Chloride");
-    return Cachedchloride ? JSON.parse(Cachedchloride) : 0;
+    return Cachedchloride ? JSON.parse(Cachedchloride) : "";
 }
 const copperInitilization = () => {
     const Cachedcopper = localStorage.getItem("Copper");
-    return Cachedcopper ? JSON.parse(Cachedcopper) : 0;
+    return Cachedcopper ? JSON.parse(Cachedcopper) : "";
 }
 const ironInitilization = () => {
     const Cachediron = localStorage.getItem("Iron");
-    return Cachediron ? JSON.parse(Cachediron) : 0;
+    return Cachediron ? JSON.parse(Cachediron) : "";
 }
 const manganeseInitilization = () => {
     const Cachedmanganese = localStorage.getItem("Manganese");
-    return Cachedmanganese ? JSON.parse(Cachedmanganese) : 0;
+    return Cachedmanganese ? JSON.parse(Cachedmanganese) : "";
 }
 const nitrateInitilization = () => {
     const Cachednitrate = localStorage.getItem("Nitrate");
-    return Cachednitrate ? JSON.parse(Cachednitrate) : 0;
+    return Cachednitrate ? JSON.parse(Cachednitrate) : "";
 }
 const bacteriaInitilization = () => {
     const Cachedbacteria = localStorage.getItem("Bacteria");
-    return Cachedbacteria ? JSON.parse(Cachedbacteria) : 0;
+    return Cachedbacteria ? JSON.parse(Cachedbacteria) : "";
+}
+const observationsInitilization = () => {
+    const Cachedname = localStorage.getItem("Observations");
+    return Cachedname ? JSON.parse(Cachedname) : "";
 }
 const nameInitilization = () => {
     const Cachedname = localStorage.getItem("Name");
@@ -60,6 +64,9 @@ const nameInitilization = () => {
  
 
 export default function ClassLab() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const fa_id = parseInt(searchParams.get("field_id"));
+    const well_id = searchParams.get("well_id");
     const [ammonia, setAmmonia] = useState(ammoniaInitilization);
     const [calcium, setCalcium] = useState(calciumInitilization);
     const [chloride, setChloride] = useState(chlorideInitilization);
@@ -68,6 +75,7 @@ export default function ClassLab() {
     const [manganese, setManganese] = useState(manganeseInitilization);
     const [nitrate, setNitrate] = useState(nitrateInitilization);
     const [bacteria, setBacteria] = useState(bacteriaInitilization);
+    const [observations, setObservations] = useState(observationsInitilization);
     const [name, setName] = useState(nameInitilization);
     const [dateentered, setDateentered] = useState(moment());
 
@@ -82,18 +90,20 @@ export default function ClassLab() {
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
-
-    function addClassLab() {    
-        Axios.post('http://localhost:7193/createclasslab', { 
+    function addClassLab() {   /*const addClassLab = () =>*/
+        Axios.post('/createclasslab', {
+            fa_id: fa_id,
             ammonia: ammonia,
-            calcium: calcium,
+            calciumhardness: calcium,
             chloride: chloride,
+            bacteria: bacteria,
             copper: copper,
-            bacteria: bacteria, 
+            bacteria: bacteria,
             iron: iron,
             manganese: manganese,
             nitrate: nitrate,
-            name: name,
+            observations: observations,
+            datacollector: name,
             dateentered: dateentered,
         } )
             .then(() => {
@@ -127,7 +137,7 @@ export default function ClassLab() {
     }
 
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
     }
 
     function myFunction2() {
@@ -136,6 +146,7 @@ export default function ClassLab() {
        // myFunction();
     }
 
+    const wellName = searchParams.get("wellName");
 
     return (
         //<div className="form-container" >
