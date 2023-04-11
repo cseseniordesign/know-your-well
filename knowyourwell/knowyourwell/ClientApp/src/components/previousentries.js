@@ -2,20 +2,28 @@
 import { List } from 'semantic-ui-react'
 import { useSearchParams } from "react-router-dom";
 import Axios from 'axios'
+import moment from 'moment'
 import FieldSelection from './fieldselection';
 
 var previousEntries = []
 var listElements = []
 
 function generatelistElements(previousEntries) {
-    for (const entry in PreviousEntries) {
+    //console.log(previousEntries[0].date)
+    for (var entry of previousEntries) {
         let key = 0
+
+        //console.log(entry)
+        const buttonClass = entry.labID == null ? "btn btn-primary btn-lg disabled" : "btn btn-primary btn-lg"
         listElements.push(
             <>
+                < List.Item >
+                    <h4>Field Activity Date: {moment(entry.date).format("MMMM DD, YYYY")}</h4>
+                </List.Item >
                 <List.Item key={key}>
                     <List.Content>
-                        <a href={'/ViewField?fieldactivity_id=${entry[0]}'} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field</a>
-                        <a href={'/ViewClassLab?classlab_id=${entry[1]}'} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Class Lab</a>
+                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}`} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field</a>
+                        <a href={`/ViewClassLab?classlab_id=${entry.labID}`} style={{ width: "22.5%", height: "17%" }} class={buttonClass} aria-disabled={entry.labID == null}>Class Lab</a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -47,9 +55,10 @@ export default function PreviousEntries() {
                 }
             })
             .then(function (response) {
-                console.log(response)
                 const fieldList = response.data.FieldList;
-                for (const fieldEntry of fieldList) {
+                var i
+                for (i = 0; i < fieldList.length; i++) {
+                    const fieldEntry = fieldList[i]
                     Axios
                         .get("/LabID", {
                             responseType: "json",
@@ -58,12 +67,24 @@ export default function PreviousEntries() {
                             }
                         })
                         .then(function (response) {
-                            previousEntries.push(parseInt(fieldEntry.fieldactivity_id), parseInt(response.data.LabID))
+                            //console.log(response)
+                            var entry
+                            if (response.data.LabID.length == 0) {
+                                entry = { date: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: null }
+                            }
+                            else {
+                                entry = { date: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: parseInt(response.data.LabID[0].classlab_id) }
+                            }
+                            //console.log(entry)
+                            previousEntries.push(entry)
+                            if (previousEntries.length == fieldList.length) {
+                                //console.log(previousEntries)
+                                listElements = generatelistElements(previousEntries);
+                                if(listElements.length == fieldList.length)
+                                    setLoading(false);
+                            }
                         });
                 }
-                listElements = generatelistElements(previousEntries)
-                console.log(listElements.length)
-                setLoading(false);
             });
     }, []);
 
@@ -74,12 +95,8 @@ export default function PreviousEntries() {
     return (
         <List style={{ textAlign: 'center' }}>
             <br />
-            <h2>Previous Entries: [Well ID]</h2>
+            <h2>Previous Entries: {wellName}</h2>
             <br />
-
-            <List.Item>
-                <h4>[Field Date]</h4>
-            </List.Item>
             {listElements}
 
             <List.Item>
