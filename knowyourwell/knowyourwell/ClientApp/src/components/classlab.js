@@ -8,7 +8,6 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 //
-import useLocalStorage from 'react-use-localstorage';
 import { Offline, Online } from "react-detect-offline";
 <div>
     <Online>
