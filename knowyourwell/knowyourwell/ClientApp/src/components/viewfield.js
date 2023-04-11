@@ -2,8 +2,12 @@ import React from 'react'
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
+import { useSearchParams } from "react-router-dom";
 
 export default function ViewField() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const wellName = searchParams.get("wellName")
+    const well_id = searchParams.get("well_id")
     const [conditions, setConditions] = useState("");
     const [temp, setTemp] = useState(0);
     const [ph, setPh] = useState(0);
@@ -49,6 +53,10 @@ export default function ViewField() {
                 console.log("success");
             })
     };
+
+    const backButton = () => {
+        window.location.href =`/PreviousEntries?id=${well_id}&wellName=${wellName}`;
+    }
 
     return (
         //<div className="form-container"> 
@@ -208,9 +216,7 @@ export default function ViewField() {
                     }}
                 />
             </div>
-            <form action="/PreviousEntries">
-                <button type="submit">Back</button>
-            </form>
+            <button type="button" onClick={backButton} >Back</button>
             <div className="css">
             <a href="mailto:knowyourwell@unl.edu">
                     If any data is incorrect email us at knowyourwell@unl.edu</a>
