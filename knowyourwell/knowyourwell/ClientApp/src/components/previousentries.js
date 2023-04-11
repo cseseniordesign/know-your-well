@@ -8,7 +8,7 @@ import FieldSelection from './fieldselection';
 var previousEntries = []
 var listElements = []
 
-function generatelistElements(previousEntries) {
+function generatelistElements(previousEntries, well_id, name) {
     //console.log(previousEntries[0].date)
     for (var entry of previousEntries) {
         let key = 0
@@ -22,8 +22,8 @@ function generatelistElements(previousEntries) {
                 </List.Item >
                 <List.Item key={key}>
                     <List.Content>
-                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}`} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field</a>
-                        <a href={`/ViewClassLab?classlab_id=${entry.labID}`} style={{ width: "22.5%", height: "17%" }} class={buttonClass} aria-disabled={entry.labID == null}>Class Lab</a>
+                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field</a>
+                        <a href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class={buttonClass} aria-disabled={entry.labID == null}>Class Lab</a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -56,6 +56,7 @@ export default function PreviousEntries() {
             })
             .then(function (response) {
                 const fieldList = response.data.FieldList;
+                setLoading(fieldList.length>0)
                 var i
                 for (i = 0; i < fieldList.length; i++) {
                     const fieldEntry = fieldList[i]
@@ -79,7 +80,7 @@ export default function PreviousEntries() {
                             previousEntries.push(entry)
                             if (previousEntries.length == fieldList.length) {
                                 //console.log(previousEntries)
-                                listElements = generatelistElements(previousEntries);
+                                listElements = generatelistElements(previousEntries, well_id, wellName);
                                 if(listElements.length == fieldList.length)
                                     setLoading(false);
                             }
