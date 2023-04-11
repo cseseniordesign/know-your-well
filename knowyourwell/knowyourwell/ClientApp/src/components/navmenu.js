@@ -39,9 +39,6 @@ export default class NavMenu extends React.Component {
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="AboutProject">About Project</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="EditWell">Well Name/ID</NavLink>
-                            </NavItem>
                         </ul>
                     </Collapse>
                 </Navbar>
@@ -49,15 +46,3 @@ export default class NavMenu extends React.Component {
         );
     }
 }
-/*                         <NavItem>
-                               <NavLink tag={Link} className="text-dark" to="EditLog">Edit Log</NavLink>
-                           </NavItem>
-                           <NavItem>
-                               <NavLink tag={Link} className="text-dark" to="WellInfo">Well Info</NavLink>
-                           </NavItem>
-                           <NavItem>
-                               <NavLink tag={Link} className="text-dark" to="Field">Field</NavLink>
-                           </NavItem>
-                           <NavItem>
-                               <NavLink tag={Link} className="text-dark" to="ClassLab">Class Lab</NavLink>
-                           </NavItem>*/
