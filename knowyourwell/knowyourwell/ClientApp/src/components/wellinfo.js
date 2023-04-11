@@ -722,7 +722,7 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Save</button>
+            <button type="submit" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
             <div className="requiredField">
                 <br></br>
