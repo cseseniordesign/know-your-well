@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(express.static("wwwroot"));
 
 const config = {
-    user: "kywAdmi",
+    user: "kywAdmin",
     password: "KJ6vcCG2",
     database: "kyw",
     server: 'kyw.database.windows.net',
