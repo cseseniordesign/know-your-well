@@ -299,17 +299,44 @@ app.get('/FieldList', async (req, res) => {
             }
         })
     })
-    /*
-    appPool.query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE well_id=@well_id;', function (err, recordset) {
-        if (err) {
-            console.log(err)
-            res.status(500).send('SERVER ERROR')
-            return
-        }
-        console.log(recordset)
-        res.status(200).json({ Wells: recordset.recordset })
+})
+
+app.get('/LabID', async (req, res) => {
+    console.log(req.query.well_id)
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('fieldactivity_id', sql.Int, req.query.fieldactivity_id).query('SELECT classlab_id FROM dbo.tblClassroomLab WHERE fieldactivity_id = @fieldactivity_id;', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else {
+                        console.log(recordset)
+                        res.status(200).json({ LabID: recordset.recordset })
+                    }
+                })
+            }
+        })
     })
-    */
 })
 
 app.listen(process.env.PORT || 7193, () => {
