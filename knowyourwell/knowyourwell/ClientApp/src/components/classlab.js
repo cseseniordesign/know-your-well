@@ -2,8 +2,6 @@
 import { useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
-
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
@@ -11,6 +9,11 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function ClassLab() {
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const fa_id = parseInt(searchParams.get("field_id"));
+    const wellName = searchParams.get("wellName");
+    const well_id = searchParams.get("well_id")
     const [ammonia, setAmmonia] = useState(0);
     const [calcium, setCalcium] = useState(0);
     const [chloride, setChloride] = useState(0);
@@ -37,17 +40,18 @@ export default function ClassLab() {
     const defaultValue = date.toLocaleDateString('en-CA');
 
     function addClassLab() {   /*const addClassLab = () =>*/
-        Axios.post('http://localhost:7193/create', {
+        Axios.post('/createclasslab', {
+            fa_id: fa_id,
             ammonia: ammonia,
-            calcium: calcium,
+            calciumhardness: calcium,
             chloride: chloride,
-            copper: copper,
             bacteria: bacteria,
+            copper: copper,
             iron: iron,
             manganese: manganese,
             nitrate: nitrate,
-            name: name,
             observations: observations,
+            datacollector: name,
             dateentered: dateentered,
         })
             .then(() => {
@@ -64,16 +68,13 @@ export default function ClassLab() {
     }
 
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
     }
 
     function myFunction2() {
         addClassLab();
         myFunction();
     }
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const wellName = searchParams.get("wellName");
 
     return (
         //<div className="form-container" >
