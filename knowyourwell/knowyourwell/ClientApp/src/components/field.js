@@ -26,7 +26,7 @@ const conductivityInitilization = () => {
     return Cachedconductivity ? JSON.parse(Cachedconductivity) : "";
 }
 const nameInitilization = () => {
-    const Cachedname = localStorage.getItem("Name");
+    const Cachedname = localStorage.getItem("NameField");
     return Cachedname ? JSON.parse(Cachedname) : "";
 }
 const observationInitilization = () => {
@@ -119,7 +119,7 @@ export default function Field() {
         localStorage.setItem("Temp", JSON.stringify(temp));
         localStorage.setItem("Ph", JSON.stringify(ph));
         localStorage.setItem("Conductivity", JSON.stringify(conductivity));
-        localStorage.setItem("Name", JSON.stringify(name));
+        localStorage.setItem("NameField", JSON.stringify(name));
         localStorage.setItem("Observation", JSON.stringify(observation));
         localStorage.setItem("Wellcover", JSON.stringify(wellcover));
         localStorage.setItem("Wellcoverdescription", JSON.stringify(wellcoverdescription));

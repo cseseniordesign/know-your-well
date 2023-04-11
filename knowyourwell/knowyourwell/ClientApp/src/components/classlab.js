@@ -19,35 +19,35 @@ import { Offline, Online } from "react-detect-offline";
 
 const ammoniaInitilization = () => {
     const Cachedammonia = localStorage.getItem("Ammonia");
-    return Cachedammonia ? JSON.parse(Cachedammonia) : 0; 
+    return Cachedammonia ? JSON.parse(Cachedammonia) : ""; 
 }
 const calciumInitilization = () => {
     const Cachedcalcium = localStorage.getItem("Calcium");
-    return Cachedcalcium ? JSON.parse(Cachedcalcium) : 0;
+    return Cachedcalcium ? JSON.parse(Cachedcalcium) : "";
 }
 const chlorideInitilization = () => {
     const Cachedchloride = localStorage.getItem("Chloride");
-    return Cachedchloride ? JSON.parse(Cachedchloride) : 0;
+    return Cachedchloride ? JSON.parse(Cachedchloride) : "";
 }
 const copperInitilization = () => {
     const Cachedcopper = localStorage.getItem("Copper");
-    return Cachedcopper ? JSON.parse(Cachedcopper) : 0;
+    return Cachedcopper ? JSON.parse(Cachedcopper) : "";
 }
 const ironInitilization = () => {
     const Cachediron = localStorage.getItem("Iron");
-    return Cachediron ? JSON.parse(Cachediron) : 0;
+    return Cachediron ? JSON.parse(Cachediron) : "";
 }
 const manganeseInitilization = () => {
     const Cachedmanganese = localStorage.getItem("Manganese");
-    return Cachedmanganese ? JSON.parse(Cachedmanganese) : 0;
+    return Cachedmanganese ? JSON.parse(Cachedmanganese) : "";
 }
 const nitrateInitilization = () => {
     const Cachednitrate = localStorage.getItem("Nitrate");
-    return Cachednitrate ? JSON.parse(Cachednitrate) : 0;
+    return Cachednitrate ? JSON.parse(Cachednitrate) : "";
 }
 const bacteriaInitilization = () => {
     const Cachedbacteria = localStorage.getItem("Bacteria");
-    return Cachedbacteria ? JSON.parse(Cachedbacteria) : 0;
+    return Cachedbacteria ? JSON.parse(Cachedbacteria) : "";
 }
 const nameInitilization = () => {
     const Cachedname = localStorage.getItem("Name");
