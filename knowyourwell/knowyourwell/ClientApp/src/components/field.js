@@ -2,7 +2,6 @@
 import './css/forms.css'
 import { useState, useEffect } from 'react';
 import Axios from 'axios'
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
@@ -25,7 +24,7 @@ const conductivityInitilization = () => {
     return Cachedconductivity ? JSON.parse(Cachedconductivity) : "";
 }
 const nameInitilization = () => {
-    const Cachedname = localStorage.getItem("Name");
+    const Cachedname = localStorage.getItem("NameField");
     return Cachedname ? JSON.parse(Cachedname) : "";
 }
 const observationInitilization = () => {
@@ -40,15 +39,11 @@ const wellcoverdescriptionInitilization = () => {
     const Cachedwellcoverdescription = localStorage.getItem("Wellcoverdescription");
     return Cachedwellcoverdescription ? JSON.parse(Cachedwellcoverdescription) : "";
 }
-const commentsInitilization = () => {
-    const Cachedcomments = localStorage.getItem("Comments");
-    return Cachedcomments ? JSON.parse(Cachedcomments) : "";
-}
 //const dateenteredInitilization = () => {
 //    const Cacheddateentered = localStorage.getItem("Dateentered");
 //    return Cacheddateentered ? JSON.parse(Cacheddateentered) : ""; 
 //}
-const evidencInitilization = () => {
+const evidenceInitilization = () => {
     const Cachedevidence = localStorage.getItem("Evidence");
     return Cachedevidence ? JSON.parse(Cachedevidence) : "";
 }
@@ -57,6 +52,13 @@ const poolingInitilization = () => {
     return Cachedpooling ? JSON.parse(Cachedpooling) : "";
 }
 export default function Field() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const well_id = parseInt(searchParams.get("id"));
+    const wellName = searchParams.get("wellName");
+    const fa_latitude = 40.8;   //TODO: match this up with actual value.
+    const fa_longitude = -97.5; //TODO: match this up with actual value.
+    const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
+    const fa_genlongitude = -97.5; //TODO: match this up with actual value.
     const [conditions, setConditions] = useState(conditionsInitilization);
     const [temp, setTemp] = useState(tempInitilization);
     const [ph, setPh] = useState(phInitilization);
@@ -65,7 +67,6 @@ export default function Field() {
     const [observation, setObservation] = useState(observationInitilization);
     const [wellcover, setWellcover] = useState(wellcoverInitilization);
     const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
-    const [comments, setComments] = useState(commentsInitilization);
     const [dateentered, setDateentered] = useState(moment());
 
     const handleChange_wellcover = (event) => {
@@ -77,7 +78,7 @@ export default function Field() {
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
-    const [evidence, setEvidence] = useState(evidencInitilization);
+    const [evidence, setEvidence] = useState(evidenceInitilization);
 
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);
@@ -91,19 +92,23 @@ export default function Field() {
 
 
     function addField () {   /*const addField = () => */
-        Axios.post('http://localhost:7193/api/insert', {
-            conditions: conditions,
-            wellcover: wellcover,
+        Axios.post('/api/insert', {
+            well_id: well_id,
+            fa_latitude: fa_latitude,
+            fa_longitude: fa_longitude,
+            fa_genlatitude: fa_genlatitude,
+            fa_genlongitude: fa_genlongitude,
+            weather: conditions,
+            wellcovercondition: wellcover,
             wellcoverdescription: wellcoverdescription,
-            evidence: evidence,
+            surfacerunoff: evidence,
             pooling: pooling,
-            temp: temp,
+            groundwatertemp: temp,
             ph: ph,
             conductivity: conductivity,
             name: name,
-            observation: observation,
-            comments: comments,
-            dateentered: dateentered,
+            observations: observation,
+            datecollected: dateentered,
         })
 
             .then(() => {
@@ -118,15 +123,14 @@ export default function Field() {
         localStorage.setItem("Temp", JSON.stringify(temp));
         localStorage.setItem("Ph", JSON.stringify(ph));
         localStorage.setItem("Conductivity", JSON.stringify(conductivity));
-        localStorage.setItem("Name", JSON.stringify(name));
+        localStorage.setItem("NameField", JSON.stringify(name));
         localStorage.setItem("Observation", JSON.stringify(observation));
         localStorage.setItem("Wellcover", JSON.stringify(wellcover));
         localStorage.setItem("Wellcoverdescription", JSON.stringify(wellcoverdescription));
-        localStorage.setItem("Comments", JSON.stringify(comments));
         localStorage.setItem("Dateentered", JSON.stringify(dateentered));
         localStorage.setItem("Evidence", JSON.stringify(evidence));
         localStorage.setItem("Pooling", JSON.stringify(pooling));
-    }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, comments, dateentered, evidence, pooling]);
+    }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, dateentered, evidence, pooling]);
 
 
 
@@ -137,16 +141,13 @@ export default function Field() {
         }
     }
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
     }
 
     function myFunction2() {
         addField();
         myFunction();
     }
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const wellName = searchParams.get("wellName")
 
     return (
         //<div className="form-container">
@@ -182,18 +183,33 @@ export default function Field() {
                             <option value="Damaged" id="wellcover" name="wellcover" required >Damaged</option>
                         </select>
                     </div>
+                    {wellcover === "Observable_Opening" && (
+                        <div className="css">
+                            <label for="wellcoverdescription">
+                                Well Cover Description:
+                            </label>
+                            <textarea
+                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                onChange={(event) => {
+                                    setWellcoverDescription(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
+                    {wellcover === "Damaged" && (
+                        <div className="css">
+                            <label for="wellcoverdescription">
+                                Well Cover Description:
+                            </label>
+                            <textarea
+                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                onChange={(event) => {
+                                    setWellcoverDescription(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
-            </div>
-            <div className="css">
-                <label htmlFor="wellcoverdescription">
-                    Well Cover Description:
-                </label>
-                <textarea
-                    type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
-                    onChange={(event) => {
-                        setWellcoverDescription(event.target.value);
-                    }}
-                />
             </div>
             <div className="css">
                 <label htmlFor="evidence">
