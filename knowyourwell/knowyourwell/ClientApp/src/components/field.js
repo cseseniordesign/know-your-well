@@ -1,6 +1,5 @@
-﻿import React from 'react'
-import './css/forms.css'
-import { useState, useEffect } from 'react';
+﻿import './css/forms.css'
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
@@ -132,8 +131,28 @@ export default function Field() {
         localStorage.setItem("Pooling", JSON.stringify(pooling));
     }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, dateentered, evidence, pooling]);
 
+    const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+    useEffect(() => {
+        function handleOnlineStatus() {
+            setIsOnline(navigator.onLine);
+        }
+
+        window.addEventListener('online', handleOnlineStatus);
+        window.addEventListener('offline', handleOnlineStatus);
+
+        return () => {
+            window.removeEventListener('online', handleOnlineStatus);
+            window.removeEventListener('offline', handleOnlineStatus);
+        };
+    }, []);
 
 
+    function handleClearLocalStorage() {
+        localStorage.clear();
+    };
+
+    /////////////
     var form = document.getElementById('submissionAlert');
     const myFunction = () => {
         if (form.checkValidity()) {
@@ -146,6 +165,7 @@ export default function Field() {
 
     function myFunction2() {
         addField();
+        handleClearLocalStorage();
         myFunction();
     }
 

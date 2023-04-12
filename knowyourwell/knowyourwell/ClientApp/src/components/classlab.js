@@ -140,7 +140,7 @@ export default function ClassLab() {
     }, []);
  
 
-    const handleClearLocalStorage = () => {
+    function handleClearLocalStorage() {
         localStorage.clear();
     };
 
@@ -158,6 +158,7 @@ export default function ClassLab() {
 
     function myFunction2() {
         addClassLab();
+        handleClearLocalStorage();
         /*handleSubmit();*/
        // myFunction();
     }
@@ -319,10 +320,6 @@ export default function ClassLab() {
             <button type="submit">
                 Save
             </button>
-            <button onClick={handleClearLocalStorage}>
-                Clear Caching
-            </button>
-
             <div className="requiredField">
                 <br></br>
                 * = Required Field
