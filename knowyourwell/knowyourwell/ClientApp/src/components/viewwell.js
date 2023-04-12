@@ -8,7 +8,7 @@ import { useSearchParams } from 'react-router-dom'
 export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const wellName = searchParams.get("wellName")
-    const well_id = searchParams.get("well_id")
+    const well_id = searchParams.get("id")
     const [wellcode, setWellcode] = useState("");
     const [wellname, setWellname] = useState("");
     const [school_id, setSchool_id] = useState(0);
