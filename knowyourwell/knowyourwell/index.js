@@ -303,6 +303,11 @@ app.get('/LabID', async (req, res) => {
     })
 })
 
+app.get("*", (req, res) => {
+    console.log("hit")
+    res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
+});
+
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
 });
