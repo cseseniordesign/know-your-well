@@ -147,13 +147,15 @@ export default function Field() {
     function myFunction2() {
         addField();
         myFunction();
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        return false
     }
 
     return (
         //<div className="form-container">
-        // action="/editwell" id="submissionAlert"
-        <form  >  
-            <h2>Field</h2>
+        // action="/editwell"
+        <form id="submissionAlert" >  
+            <h2>{wellName}: Field</h2>
             <div className="css">
                 <label htmlFor="conditions">
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
@@ -328,7 +330,7 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="button" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
             <button type="submit">
                 Save

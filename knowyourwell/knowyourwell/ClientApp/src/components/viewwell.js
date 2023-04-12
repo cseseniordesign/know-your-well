@@ -2,9 +2,13 @@
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
+import { useSearchParams } from 'react-router-dom'
+
 
 export default function ViewWell() {
-
+    const [searchParams, setSearchParams] = useSearchParams();
+    const wellName = searchParams.get("wellName")
+    const well_id = searchParams.get("well_id")
     const [wellcode, setWellcode] = useState("");
     const [wellname, setWellname] = useState("");
     const [school_id, setSchool_id] = useState(0);
@@ -75,6 +79,10 @@ export default function ViewWell() {
     const handleChange_welltype = (event) => {
         setWelltype(event.target.value);
     };
+
+    const backButton = () => {
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+    }
 
     const addWellInfo = () => {
         Axios.post('http://localhost:7193/createwellinfo', {
@@ -537,9 +545,7 @@ export default function ViewWell() {
                     }}
                 />
             </div>
-            <form action="/EditWell">
-                <button type="submit">Back</button>
-            </form>
+            <button type="button" onClick={backButton} >Back</button>
             <div className="css">
                 <a href="mailto:knowyourwell@unl.edu">
                     If any data is incorrect email us at knowyourwell@unl.edu</a>
