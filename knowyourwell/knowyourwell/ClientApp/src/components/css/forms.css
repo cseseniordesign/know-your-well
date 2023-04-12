@@ -38,4 +38,19 @@ textarea {
     justify-content: center;
 }
 
-      
+/*offline bar styling*/
+
+    .styling_offline_bar .status_online {
+        border-block: 1px solid black;
+        background-color: blue
+    }
+.styling_offline_bar .status_offline {
+    border-block: 1px solid black;
+    background-color: black
+}
+
+
+.styling_offline_bar > p {
+    text-align: center;
+    color: white
+}

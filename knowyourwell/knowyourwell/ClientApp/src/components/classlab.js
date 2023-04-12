@@ -1,8 +1,7 @@
 ﻿
-import { useEffect, React, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
-
 //
 import DatePicker from 'react-datetime';
 import moment from 'moment';
@@ -10,12 +9,9 @@ import 'react-datetime/css/react-datetime.css';
 //
 import useLocalStorage from 'react-use-localstorage';
 import { Offline, Online } from "react-detect-offline";
-<div>
-    <Online>
-        Only shown when you're online
-    </Online>
-    <Offline>Only shown offline (surprise!)</Offline>
-</div>
+
+
+ 
 
 const ammoniaInitilization = () => {
     const Cachedammonia = localStorage.getItem("Ammonia");
@@ -118,6 +114,27 @@ export default function ClassLab() {
     }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
 
 
+    const [isOnline, setIsOnline] =  useState(navigator.onLine);
+
+     useEffect(() => {
+        function handleOnlineStatus() {
+            setIsOnline(navigator.onLine);
+        }
+
+        window.addEventListener('online', handleOnlineStatus);
+        window.addEventListener('offline', handleOnlineStatus);
+
+        return () => {
+            window.removeEventListener('online', handleOnlineStatus);
+            window.removeEventListener('offline', handleOnlineStatus);
+        };
+    }, []);
+ 
+
+    const handleClearLocalStorage = () => {
+        localStorage.clear();
+    };
+
     //////////////////////////////////////////////////
     var form = document.getElementById('submissionAlert');
     function myFunction() {
@@ -141,6 +158,14 @@ export default function ClassLab() {
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
         <form action="/editwell" id="submissionAlert">
+            <div className="styling_offline_bar">
+                {isOnline ? (
+                    <p className="status_online" >Online mode!</p>
+                ) : (
+                        <p className="status_offfline">Offline mode</p>
+                )}
+            </div>
+             
             <h2>Class Lab</h2>
             <div className="css">
                 <label htmlFor="ammonia">
@@ -279,15 +304,14 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
-
-
             <button type="submit" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
             <button type="submit">
                 Save
             </button>
-
-
+            <button onClick={handleClearLocalStorage}>
+                Clear Caching
+            </button>
 
             <div className="requiredField">
                 <br></br>
