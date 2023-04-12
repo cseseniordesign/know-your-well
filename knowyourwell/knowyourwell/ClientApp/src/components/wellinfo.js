@@ -534,7 +534,7 @@ export default function WellInfo() {
                 <label for="estlatitude">
                     Estimated Latitude (in decimal degrees):
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                    <br /> [40 - 43] (Please round to the nearest tenth.)
+                    <br /> [40 - 43]
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
@@ -547,7 +547,7 @@ export default function WellInfo() {
                 <label for="estlongitude">
                     Estimated Longitude (in decimal degrees):
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                    <br /> [-104 - -95.417] (Please round to the nearest tenth.)
+                    <br /> [-104 - -95.417]
                 </label>
                 <input
                     type="text" className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required

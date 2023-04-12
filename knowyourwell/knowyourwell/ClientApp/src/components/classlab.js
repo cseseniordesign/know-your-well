@@ -1,38 +1,88 @@
-﻿import React from 'react'
-import { useState } from 'react';
+﻿
+import { useEffect, React, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import { useSearchParams } from "react-router-dom";
+//
+import { Offline, Online } from "react-detect-offline";
+import { useSearchParams } from 'react-router-dom'
 
+<div>
+    <Online>
+        Only shown when you're online
+    </Online>
+    <Offline>Only shown offline (surprise!)</Offline>
+</div>
+
+const ammoniaInitilization = () => {
+    const Cachedammonia = localStorage.getItem("Ammonia");
+    return Cachedammonia ? JSON.parse(Cachedammonia) : ""; 
+}
+const calciumInitilization = () => {
+    const Cachedcalcium = localStorage.getItem("Calcium");
+    return Cachedcalcium ? JSON.parse(Cachedcalcium) : "";
+}
+const chlorideInitilization = () => {
+    const Cachedchloride = localStorage.getItem("Chloride");
+    return Cachedchloride ? JSON.parse(Cachedchloride) : "";
+}
+const copperInitilization = () => {
+    const Cachedcopper = localStorage.getItem("Copper");
+    return Cachedcopper ? JSON.parse(Cachedcopper) : "";
+}
+const ironInitilization = () => {
+    const Cachediron = localStorage.getItem("Iron");
+    return Cachediron ? JSON.parse(Cachediron) : "";
+}
+const manganeseInitilization = () => {
+    const Cachedmanganese = localStorage.getItem("Manganese");
+    return Cachedmanganese ? JSON.parse(Cachedmanganese) : "";
+}
+const nitrateInitilization = () => {
+    const Cachednitrate = localStorage.getItem("Nitrate");
+    return Cachednitrate ? JSON.parse(Cachednitrate) : "";
+}
+const bacteriaInitilization = () => {
+    const Cachedbacteria = localStorage.getItem("Bacteria");
+    return Cachedbacteria ? JSON.parse(Cachedbacteria) : "";
+}
+const observationsInitilization = () => {
+    const Cachedname = localStorage.getItem("Observations");
+    return Cachedname ? JSON.parse(Cachedname) : "";
+}
+const nameInitilization = () => {
+    const Cachedname = localStorage.getItem("Name");
+    return Cachedname ? JSON.parse(Cachedname) : "";
+}
+//const dateenteredInitilization = () => {
+//    const Cacheddateentered = localStorage.getItem("Dateentered");
+//    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
+//}
+ 
 
 export default function ClassLab() {
     const [searchParams, setSearchParams] = useSearchParams();
-
     const fa_id = parseInt(searchParams.get("field_id"));
-    const wellName = searchParams.get("wellName");
-    const well_id = searchParams.get("well_id")
-    const [ammonia, setAmmonia] = useState(0);
-    const [calcium, setCalcium] = useState(0);
-    const [chloride, setChloride] = useState(0);
-    const [copper, setCopper] = useState(0);
-    const [iron, setIron] = useState(0);
-    const [manganese, setManganese] = useState(0);
-    const [nitrate, setNitrate] = useState(0);
-    const [name, setName] = useState("");
-    const [observations, setObservations] = useState("");
-    const [bacteria, setBacteria] = useState("");
-
-    //const [dateentered, setDateentered] = useState(new Date().toISOString().substr(0, 10));
+    const well_id = searchParams.get("well_id");
+    const [ammonia, setAmmonia] = useState(ammoniaInitilization);
+    const [calcium, setCalcium] = useState(calciumInitilization);
+    const [chloride, setChloride] = useState(chlorideInitilization);
+    const [copper, setCopper] = useState(copperInitilization);
+    const [iron, setIron] = useState(ironInitilization);
+    const [manganese, setManganese] = useState(manganeseInitilization);
+    const [nitrate, setNitrate] = useState(nitrateInitilization);
+    const [bacteria, setBacteria] = useState(bacteriaInitilization);
+    const [observations, setObservations] = useState(observationsInitilization);
+    const [name, setName] = useState(nameInitilization);
     const [dateentered, setDateentered] = useState(moment());
-
 
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
 
+    //const continue_session = window.confirm("Continue last session?");
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -47,19 +97,37 @@ export default function ClassLab() {
             chloride: chloride,
             bacteria: bacteria,
             copper: copper,
+            bacteria: bacteria,
             iron: iron,
             manganese: manganese,
             nitrate: nitrate,
             observations: observations,
             datacollector: name,
             dateentered: dateentered,
-        })
+        } )
             .then(() => {
                 console.log("success");
             })
     };
 
 
+    ///caching
+    useEffect(() => {
+            localStorage.setItem("Ammonia", JSON.stringify(ammonia));
+            localStorage.setItem("Calcium", JSON.stringify(calcium));
+            localStorage.setItem("Chloride", JSON.stringify(chloride));
+            localStorage.setItem("Copper", JSON.stringify(copper));
+            localStorage.setItem("Iron", JSON.stringify(iron));
+            localStorage.setItem("Manganese", JSON.stringify(manganese));
+            localStorage.setItem("Nitrate", JSON.stringify(nitrate));
+            localStorage.setItem("Name", JSON.stringify(name));
+            localStorage.setItem("Bacteria", JSON.stringify(bacteria));
+            localStorage.setItem("Dateentered", JSON.stringify(dateentered));
+       
+    }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
+
+
+    //////////////////////////////////////////////////
     var form = document.getElementById('submissionAlert');
     function myFunction() {
         if (form.checkValidity()) {
@@ -77,49 +145,52 @@ export default function ClassLab() {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
     }
 
+    const wellName = searchParams.get("wellName");
+
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
         <form id="submissionAlert">
             <h2>{wellName}: Class Lab</h2>
             <div className="css">
-                <label for="ammonia">
+                <label htmlFor="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
+                    type="text" value={ammonia} className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
+                     
                 />
             </div>
             <div className="css">
-                <label for="calcium">
+                <label htmlFor="calcium">
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
+                    type="text" value={calcium} className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
                     onChange={(event) => {
                         setCalcium(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="chloride">
+                <label htmlFor="chloride">
                     Chloride <br /> [0-400 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
+                    type="text" value={chloride} className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
                     onChange={(event) => {
                         setChloride(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="bacteria">
+                <label htmlFor="bacteria">
                     Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -129,7 +200,7 @@ export default function ClassLab() {
                             value={bacteria}
                             onChange={handleChange_Bacteria}
                         >
-                            <option hidden selected>Select one...</option>
+                            <option hidden defaultValue>Select one...</option>
                             <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
                             <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria" required>Yellow with fluorescent rim </option>
                             <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria" required >Yellow without fluorescent rim</option>
@@ -138,67 +209,67 @@ export default function ClassLab() {
                 </div>
             </div>
             <div className="css">
-                <label for="copper">
+                <label htmlFor="copper">
                     Copper <br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
+                    type="text" value={copper} className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setCopper(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="iron">
+                <label htmlFor="iron">
                     Iron<br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
+                    type="text" value={iron} className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setIron(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="manganese">
+                <label htmlFor="manganese">
                     Manganese<br /> [0-50 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
+                    type="text" value={manganese } className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
                     onChange={(event) => {
                         setManganese(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="nitrate">
+                <label htmlFor="nitrate">
                     Nitrate - N<br /> [0-45 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
+                    type="text" value={nitrate } className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
                     onChange={(event) => {
                         setNitrate(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="name">
+                <label htmlFor="name">
                     Data Collector’s Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="name" name="name" required
+                    type="text" value={name} className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
                 />
             </div>
             <div className="css" >
-                <label for="dateentered">
+                <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -220,6 +291,12 @@ export default function ClassLab() {
             </div>
             <button type="button" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
+            <button type="submit">
+                Save
+            </button>
+
+
+
             <div className="requiredField">
                 <br></br>
                 * = Required Field
@@ -228,3 +305,5 @@ export default function ClassLab() {
         //</div>
     );
 }
+
+ /*const addClassLab = () =>*/

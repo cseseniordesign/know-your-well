@@ -74,7 +74,6 @@ export default function Well() {
         }
 
     }
-
     return (
         <List style={{ textAlign: 'center' }}>
             <h2> <strong> Well Selection </strong></h2>
@@ -87,4 +86,6 @@ export default function Well() {
             {wellList}
         </List>
     );
+
+
 }
