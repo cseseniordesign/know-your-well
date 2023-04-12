@@ -9,7 +9,7 @@ import 'react-datetime/css/react-datetime.css';
 //
 import { Offline, Online } from "react-detect-offline";
 
-
+import { useSearchParams } from 'react-router-dom'
  
 
 const ammoniaInitilization = () => {
