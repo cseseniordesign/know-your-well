@@ -153,6 +153,7 @@ export default function WellInfo() {
     function myFunction2() {
         addWellInfo();
         myFunction();
+        window.location.href = `/well`
     }
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -161,7 +162,7 @@ export default function WellInfo() {
     return (
         //<div className="form-container">
         /*action = "/editwell" id = "submissionAlert"*/
-        <form action="/editwell" id="submissionAlert" >
+        <form id="submissionAlert" >
             <h2>{wellName}: Well Info</h2>
             <div className="css">
                 <label for="wellname">
@@ -722,7 +723,7 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Save</button>
+            <button type="button" onClick={myFunction2} >Save</button>
             <button type="submit" onClick={backButton} >Back</button>
             <div className="requiredField">
                 <br></br>

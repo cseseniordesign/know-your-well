@@ -84,12 +84,14 @@ export default function Field() {
     function myFunction2() {
         addField();
         myFunction();
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        return false
     }
 
     return (
         //<div className="form-container">
         // action="/editwell"
-        <form action="/editwell" id="submissionAlert" >  
+        <form id="submissionAlert" >  
             <h2>{wellName}: Field</h2>
             <div className="css">
                 <label for="conditions">
@@ -265,7 +267,7 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="button" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
             <div className="requiredField">
                 <br></br>

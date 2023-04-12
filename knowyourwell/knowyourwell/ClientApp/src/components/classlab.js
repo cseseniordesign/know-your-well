@@ -74,12 +74,13 @@ export default function ClassLab() {
     function myFunction2() {
         addClassLab();
         myFunction();
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
     }
 
     return (
         //<div className="form-container" >
         //action = "/editwell" id = "submissionAlert"
-        <form action="/editwell" id="submissionAlert">
+        <form id="submissionAlert">
             <h2>{wellName}: Class Lab</h2>
             <div className="css">
                 <label for="ammonia">
@@ -217,7 +218,7 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="button" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
             <div className="requiredField">
                 <br></br>
