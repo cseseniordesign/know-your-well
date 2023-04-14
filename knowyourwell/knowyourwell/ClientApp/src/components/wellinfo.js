@@ -143,6 +143,11 @@ export default function WellInfo() {
     const myFunction = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Well Info Form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
 
@@ -151,9 +156,10 @@ export default function WellInfo() {
     }
 
     function myFunction2() {
-        addWellInfo();
-        myFunction();
-        window.location.href = `/well`
+        if (myFunction()) {
+            addWellInfo();
+            window.location.href = `/well`
+        }
     }
 
     const [searchParams, setSearchParams] = useSearchParams();

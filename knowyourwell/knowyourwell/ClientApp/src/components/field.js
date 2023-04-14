@@ -138,6 +138,11 @@ export default function Field() {
     const myFunction = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Field Form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
     const backButton = () => {
@@ -145,10 +150,10 @@ export default function Field() {
     }
 
     function myFunction2() {
-        addField();
-        myFunction();
-        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
-        return false
+        if (myFunction()) {
+            addField();
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        }
     }
 
     return (
