@@ -132,6 +132,11 @@ export default function ClassLab() {
     function myFunction() {
         if (form.checkValidity()) {
             alert("Succesfully submitted Lab form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
 
@@ -140,9 +145,10 @@ export default function ClassLab() {
     }
 
     function myFunction2() {
-        addClassLab();
-        myFunction();
-        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        if (myFunction()) {
+            addClassLab();
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        }
     }
 
     const wellName = searchParams.get("wellName");
