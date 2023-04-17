@@ -46,6 +46,17 @@ export default function ViewWell() {
         return (
             <div className="css">
                 <h2>Well Info</h2>
+                <div class="container" style={{textAlign: "center"}}>
+                    <div class="row">
+                        <div class="col">
+                            <p style={{ textAlign: "center" }}><b>Well Code:</b> {formElements.wi_wellcode}</p>
+                        </div>
+                        <div class="col">
+                            <p style={{ textAlign: "center" }}><b>Well Name:</b> {formElements.wi_wellname}</p>
+                        </div>
+                    </div>
+                </div>
+                { /*}
                 <p style={{textAlign: "center"}}><b>Well Code:</b> {formElements.wi_wellcode}</p>
                 <p style={{textAlign: "center"}}><b>Well Name:</b> {formElements.wi_wellname}</p>
                 <p style={{textAlign: "center"}}><b>Name of Resident User:</b> {formElements.wi_well_user}</p>
@@ -77,6 +88,7 @@ export default function ViewWell() {
                 <p style={{textAlign: "center"}}><b>Well Casing Material:</b> {formElements.wi_wellcasematerial}</p>
                 <p style={{textAlign: "center"}}><b>Observations:</b> {formElements.wi_observation}</p>
                 <p style={{textAlign: "center"}}><b>Date Entered:</b> {moment(formElements.wi_dateentered).format("MMMM DD, YYYY")}</p>
+                {*/}
             </div>
         );
     }
