@@ -5,6 +5,8 @@ import Axios from 'axios'
 import moment from 'moment'
 import { useSearchParams } from "react-router-dom";
 
+let formElements = []
+
 export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
