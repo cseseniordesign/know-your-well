@@ -5,8 +5,6 @@ import Axios from 'axios'
 import moment from 'moment'
 import { useSearchParams } from "react-router-dom";
 
-var formElements = null
-
 export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
@@ -157,6 +155,10 @@ export default function ViewWell() {
     const handleChange_welltype = (event) => {
         setWelltype(event.target.value);
     };
+
+    const backButton = () => {
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+    }
 
     const addWellInfo = () => {
         Axios.post('/createwellinfo', {
@@ -619,9 +621,7 @@ export default function ViewWell() {
                     }}
                 />
             </div>
-            <form action="/EditWell">
-                <button type="submit">Back</button>
-            </form>
+            <button type="button" onClick={backButton} >Back</button>
             <div className="css">
                 <a href="mailto:knowyourwell@unl.edu">
                     If any data is incorrect email us at knowyourwell@unl.edu</a>

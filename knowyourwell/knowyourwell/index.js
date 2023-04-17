@@ -6,6 +6,7 @@ const cors = require('cors');
 const { response } = require("express");
 const path = require("path")
 
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
