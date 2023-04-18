@@ -6,6 +6,23 @@ import moment from 'moment'
 import { useSearchParams } from "react-router-dom";
 
 let formElements = []
+let columnList = []
+const labelList = [
+    "Well Code:", "Well Name:", "Name of Resident User:", "Adress:", "Village, Town, or City:", "State:", "Zip code:",
+    "County:", "NRD District:", "Well owner (if different from resident):", "Well construction completion year:", "Complaints about smell or taste of water?:", "Smell or taste of water desciption:",
+    "Does the well ever go dry?:", "When well goes dry:", "Maintenance done to the well itself within the last five years:", "major land use / development changes around the well within the last five years?:", "Number of Well Users:",
+    "manure, fertilizer, or pesticides been applied the well within the last five years:", "Estimated Latitude:", "Estimated Longitude:", "Bore hole diameter (inches):", "Total depth of well (feet):", "Topography of the well location:",
+    "Water level (feet):", "Aquifer Type:", "Aquifer Class:", "Well Type (Construction Method):", "Well Casing Material:", "Observations:",
+    "Date Entered:"
+]
+
+const keyList = [
+    "wi_wellcode", "wi_wellname", "wi_well_user", "wi_adress", "wi_city", "wi_state",
+    "wi_zipcode", "county_id", "nrd_id", "wi_well_owner", "wi_installyear", "wi_smelltaste",
+    "wi_smelltaste_description", "wi_welldry", "wi_welldry_description", "wi_maintenance5yr", "wi_landuse5yr", "wi_numberwelluser",
+    "wi_pestmanure", "wi_estlatitude", "wi_estlongitude", "wi_boreholediameter", "wi_totaldepth", "wi_topography", "wi_waterleveldepth",
+    "wi_aquifertype", "wi_aquiferclass", "wi_welltype", "wi_wellcasematerial", "wi_observation", "wi_dateentered"
+];
 
 export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -24,7 +41,7 @@ export default function ViewWell() {
             .then(function (response) {
                 //console.log(response)
                 formElements = response.data.WellInfo[0]
-                console.log(formElements.wi_wellcode)
+                //console.log(formElements.wi_wellcode)
                 setLoading(false);
             });
     }, []);
@@ -37,58 +54,41 @@ export default function ViewWell() {
             catch (e) {
                 console.log("wellData is Invalid JSON")
             }
-            console.log(formElements)
+            //console.log(formElements)
         }
     }
 
-    console.log(formElements)
-    if (formElements != null) {
+    //console.log(formElements)
+    if (formElements.length!=0) {
+        for (let i = 0; i < labelList.length; i += 2) {
+            const firstColumnName = labelList[i]
+            let firstColumnValue = formElements[keyList[i]];
+            if (firstColumnName == "Date Entered:")
+                firstColumnValue = moment(firstColumnValue).format("MMMM DD, YYYY")
+            let secondColumnValue = ""
+            let secondColumnName = ""
+            if (i < labelList.length + 2) {
+                secondColumnName = labelList[i + 1]
+                secondColumnValue = formElements[keyList[i+1]]
+            }
+            columnList.push(
+                <div class="row">
+                    <div class="col">
+                        <p style={{ textAlign: "center" }}><b>{firstColumnName}</b> {firstColumnValue}</p>
+                    </div>
+                    <div class="col">
+                        <p style={{ textAlign: "center" }}><b>{secondColumnName}</b> {secondColumnValue}</p>
+                    </div>
+                </div>
+            );
+                
+        }
         return (
             <div className="css">
                 <h2>Well Info</h2>
                 <div class="container" style={{textAlign: "center"}}>
-                    <div class="row">
-                        <div class="col">
-                            <p style={{ textAlign: "center" }}><b>Well Code:</b> {formElements.wi_wellcode}</p>
-                        </div>
-                        <div class="col">
-                            <p style={{ textAlign: "center" }}><b>Well Name:</b> {formElements.wi_wellname}</p>
-                        </div>
-                    </div>
+                    {columnList}
                 </div>
-                { /*}
-                <p style={{textAlign: "center"}}><b>Well Code:</b> {formElements.wi_wellcode}</p>
-                <p style={{textAlign: "center"}}><b>Well Name:</b> {formElements.wi_wellname}</p>
-                <p style={{textAlign: "center"}}><b>Name of Resident User:</b> {formElements.wi_well_user}</p>
-                <p style={{textAlign: "center"}}><b>Adress:</b> {formElements.wi_adress}</p>
-                <p style={{textAlign: "center"}}><b>Village, Town, or City:</b> {formElements.wi_city}</p>
-                <p style={{textAlign: "center"}}><b>State:</b> {formElements.wi_state}</p>
-                <p style={{textAlign: "center"}}><b>Zip code:</b> {formElements.wi_zipcode}</p>
-                <p style={{textAlign: "center"}}><b>County:</b> {formElements.county_id}</p>
-                <p style={{textAlign: "center"}}><b>NRD District:</b> {formElements.nrd_id}</p>
-                <p style={{textAlign: "center"}}><b>Well owner (if different from resident):</b> {formElements.wi_well_owner}</p>
-                <p style={{textAlign: "center"}}><b>Well construction completion year:</b> {formElements.wi_installyear}</p>
-                <p style={{textAlign: "center"}}><b>Complaints about smell or taste of water?:</b> {formElements.wi_smelltaste}</p>
-                <p style={{textAlign: "center"}}><b>Smell or taste of water desciption:</b> {formElements.wi_smelltaste_description}</p>
-                <p style={{textAlign: "center"}}><b>Does the well ever go dry?:</b> {formElements.wi_welldry}</p>
-                <p style={{textAlign: "center"}}><b>When well goes dry:</b> {formElements.wi_welldry_description}</p>
-                <p style={{textAlign: "center"}}><b>Maintenance done to the well itself within the last five years:</b> {formElements.wi_maintenance5yr}</p>
-                <p style={{textAlign: "center"}}><b>major land use / development changes around the well within the last five years?:</b> {formElements.wi_landuse5yr}</p>
-                <p style={{textAlign: "center"}}><b>Number of Well Users:</b> {formElements.wi_numberwelluser}</p>
-                <p style={{textAlign: "center"}}><b>manure, fertilizer, or pesticides been applied the well within the last five years:</b> {formElements.wi_pestmanure}</p>
-                <p style={{textAlign: "center"}}><b>Estimated Latitude:</b> {formElements.wi_estlatitude}</p>
-                <p style={{textAlign: "center"}}><b>Estimated Longitude:</b> {formElements.wi_estlongitude}</p>
-                <p style={{textAlign: "center"}}><b>Bore hole diameter (inches)::</b> {formElements.wi_boreholediameter}</p>
-                <p style={{textAlign: "center"}}><b>Total depth of well (feet):</b> {formElements.wi_totaldepth}</p>
-                <p style={{textAlign: "center"}}><b>Topography of the well location:</b> {formElements.wi_topography}</p>
-                <p style={{textAlign: "center"}}><b>Water level (feet):</b> {formElements.wi_waterleveldepth}</p>
-                <p style={{textAlign: "center"}}><b>Aquifer Type:</b> {formElements.wi_aquifertype}</p>
-                <p style={{textAlign: "center"}}><b>Aquifer Class:</b> {formElements.wi_aquiferclass}</p>
-                <p style={{textAlign: "center"}}><b>Well Type (Construction Method):</b> {formElements.wi_welltype}</p>
-                <p style={{textAlign: "center"}}><b>Well Casing Material:</b> {formElements.wi_wellcasematerial}</p>
-                <p style={{textAlign: "center"}}><b>Observations:</b> {formElements.wi_observation}</p>
-                <p style={{textAlign: "center"}}><b>Date Entered:</b> {moment(formElements.wi_dateentered).format("MMMM DD, YYYY")}</p>
-                {*/}
             </div>
         );
     }
