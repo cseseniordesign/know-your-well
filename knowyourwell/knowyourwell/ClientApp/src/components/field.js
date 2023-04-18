@@ -337,9 +337,7 @@ export default function Field() {
             </div>
             <button type="button" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
-            <button type="submit">
-                Save
-            </button>
+            <button type="button" onClick={backButton}>Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field

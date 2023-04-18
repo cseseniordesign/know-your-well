@@ -297,9 +297,7 @@ export default function ClassLab() {
             </div>
             <button type="button" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
-            <button type="submit">
-                Save
-            </button>
+            <button type="button" onClick={backButton}>Save</button>
 
 
 
