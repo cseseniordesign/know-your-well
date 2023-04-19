@@ -8,21 +8,17 @@ import { useSearchParams } from "react-router-dom";
 let formElements = []
 let columnList = []
 const labelList = [
-    "Well Code:", "Well Name:", "Name of Resident User:", "Adress:", "Village, Town, or City:", "State:", "Zip code:",
-    "County:", "NRD District:", "Well owner (if different from resident):", "Well construction completion year:", "Complaints about smell or taste of water?:", "Smell or taste of water desciption:",
-    "Does the well ever go dry?:", "When well goes dry:", "Maintenance done to the well itself within the last five years:", "major land use / development changes around the well within the last five years?:", "Number of Well Users:",
-    "manure, fertilizer, or pesticides been applied the well within the last five years:", "Estimated Latitude:", "Estimated Longitude:", "Bore hole diameter (inches):", "Total depth of well (feet):", "Topography of the well location:",
-    "Water level (feet):", "Aquifer Type:", "Aquifer Class:", "Well Type (Construction Method):", "Well Casing Material:", "Observations:",
-    "Date Entered:"
+    "Conditions: Weather, temperature, or anything note-worthy the well:", "Condition of the well cover:", "Well Cover Description:",
+    "Evidence of surface run-off entry to the well:", "Evidence of pooling or puddles within 12 ft of the well:", "Groundwater Temperature [Degrees Celsius]:",
+    "pH [0-14]:", "Conductivity [uS/cm]:", "Data Collector’s Name:",
+    "Observations:", "Comments:", "Date Entered:"
 ]
 
 const keyList = [
-    "wi_wellcode", "wi_wellname", "wi_well_user", "wi_adress", "wi_city", "wi_state",
-    "wi_zipcode", "county_id", "nrd_id", "wi_well_owner", "wi_installyear", "wi_smelltaste",
-    "wi_smelltaste_description", "wi_welldry", "wi_welldry_description", "wi_maintenance5yr", "wi_landuse5yr", "wi_numberwelluser",
-    "wi_pestmanure", "wi_estlatitude", "wi_estlongitude", "wi_boreholediameter", "wi_totaldepth", "wi_topography", "wi_waterleveldepth",
-    "wi_aquifertype", "wi_aquiferclass", "wi_welltype", "wi_wellcasematerial", "wi_observation", "wi_dateentered"
-];
+    "fa_weather", "fa_wellcovercondition", "fa_wellcoverdescription", "fa_surfacerunoff",
+    "fa_pooling", "fa_groundwatertemp", "fa_ph", "fa_conductivity",
+    "fa_datacollector", "fa_observation", "fa_comments", "fa_datecollected"
+]
 
 export default function ViewField() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -32,7 +28,7 @@ export default function ViewField() {
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         Axios
-            .get("/GetFieldActivity", {
+            .get("/GetFieldEntry", {
                 responseType: "json",
                 params: {
                     fieldactivity_id: fieldactivity_id
@@ -62,8 +58,7 @@ export default function ViewField() {
 
     //console.log(formElements)
     if (formElements.length != 0) {
-        console.log(formElements)
-        /*
+        //console.log(formElements)
         for (let i = 0; i < labelList.length; i += 2) {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
@@ -71,10 +66,13 @@ export default function ViewField() {
                 firstColumnValue = moment(firstColumnValue).format("MMMM DD, YYYY")
             let secondColumnValue = ""
             let secondColumnName = ""
-            if (i < labelList.length + 2) {
+            if (i < labelList.length + 1) {
                 secondColumnName = labelList[i + 1]
                 secondColumnValue = formElements[keyList[i + 1]]
             }
+            if (secondColumnName == "Date Entered:")
+                secondColumnValue = moment(secondColumnValue).format("MMMM DD, YYYY")
+
             columnList.push(
                 <div class="row">
                     <div class="col">
@@ -85,11 +83,11 @@ export default function ViewField() {
                     </div>
                 </div>
             );
-            */
+        }
 
         return (
             <div className="css">
-                <h2>Well Info</h2>
+                <h2>Field Activity</h2>
                 <br />
                 <div class="container" style={{ textAlign: "center" }}>
                     {columnList}
