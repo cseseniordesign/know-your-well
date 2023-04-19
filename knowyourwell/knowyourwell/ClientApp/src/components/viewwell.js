@@ -86,6 +86,7 @@ export default function ViewWell() {
         return (
             <div className="css">
                 <h2>Well Info</h2>
+                <br />
                 <div class="container" style={{textAlign: "center"}}>
                     {columnList}
                 </div>
