@@ -27,7 +27,11 @@ const keyList = [
 export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
-    const wellName = searchParams.get("wellName")
+    const wellName = searchParams.get("wellName");
+
+    const backButton = () => {
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+    }
 
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
@@ -89,6 +93,7 @@ export default function ViewWell() {
                 <br />
                 <div class="container" style={{textAlign: "center"}}>
                     {columnList}
+                    <button type="button" onClick={backButton} >Back</button>
                 </div>
             </div>
         );

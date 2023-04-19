@@ -24,6 +24,11 @@ export default function ViewField() {
     const [searchParams, setSearchParams] = useSearchParams();
     const fieldactivity_id = parseInt(searchParams.get("fieldactivity_id"));
     const wellName = searchParams.get("wellName")
+    const well_id = searchParams.get("well_id")
+
+    const backButton = () => {
+        window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}`;
+    }
 
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
@@ -91,6 +96,7 @@ export default function ViewField() {
                 <br />
                 <div class="container" style={{ textAlign: "center" }}>
                     {columnList}
+                    <button type="button" onClick={backButton} >Back</button>
                 </div>
             </div>
         );
