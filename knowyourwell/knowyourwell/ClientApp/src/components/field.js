@@ -53,7 +53,19 @@ const poolingInitilization = () => {
 
 
 export default function Field() {
-    const continue_session = window.confirm("Continue last saved session?");
+    const [sessionContinued, setSessionContinued] = useState(false);
+    // should never pop up if there is nothing saved
+    if (!sessionContinued) {
+        const continue_session = window.confirm("Continue last saved session?");
+        if (continue_session) {
+            setSessionContinued(true);
+        } else {
+            handleClearLocalStorage();
+            setSessionContinued(true); // ends forever pop-up loop
+            /* will need to be changed if sessionContinued is ever used elsewhere,
+            potenitally add another var to set to true / false if question has been asked ? */
+        }
+    }
 
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
@@ -151,11 +163,9 @@ export default function Field() {
         };
     }, []);
 
-
     function handleClearLocalStorage() {
         localStorage.clear();
     };
-
 
     var form = document.getElementById('submissionAlert');
     const myFunction = () => {
@@ -164,7 +174,11 @@ export default function Field() {
         }
     }
     const backButton = () => {
-        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        if (well_id != null) {
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        } else {
+            window.location.href = `/Well`;
+        }
     }
 
     function myFunction2() {
