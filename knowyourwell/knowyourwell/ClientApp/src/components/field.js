@@ -50,7 +50,11 @@ const poolingInitilization = () => {
     const Cachedpooling = localStorage.getItem("Pooling");
     return Cachedpooling ? JSON.parse(Cachedpooling) : "";
 }
+
+
 export default function Field() {
+    const continue_session = window.confirm("Continue last saved session?");
+
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
     const wellName = searchParams.get("wellName");
@@ -116,7 +120,7 @@ export default function Field() {
     };
 
 
-    ///caching
+    // caching - local storage
     useEffect(() => {
         localStorage.setItem("Conditions", JSON.stringify(conditions));
         localStorage.setItem("Temp", JSON.stringify(temp));
@@ -152,7 +156,7 @@ export default function Field() {
         localStorage.clear();
     };
 
-    /////////////
+
     var form = document.getElementById('submissionAlert');
     const myFunction = () => {
         if (form.checkValidity()) {
