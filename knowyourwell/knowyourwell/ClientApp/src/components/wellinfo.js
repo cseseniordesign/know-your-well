@@ -155,6 +155,11 @@ export default function WellInfo() {
     const myFunction = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Well Info Form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
 
@@ -163,8 +168,10 @@ export default function WellInfo() {
     }
 
     function myFunction2() {
-        addWellInfo();
-        myFunction();
+        if (myFunction()) {
+            addWellInfo();
+            window.location.href = `/well`
+        }
     }
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -733,7 +740,7 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2}>Submit</button>
+            <button type="button" onClick={myFunction2}>Save</button>
             <button type="submit" onClick={backButton}>Back</button>
             <div className="requiredField">
                 <br></br>

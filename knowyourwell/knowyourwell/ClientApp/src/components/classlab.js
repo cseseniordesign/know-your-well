@@ -142,6 +142,11 @@ export default function ClassLab() {
     function myFunction() {
         if (form.checkValidity()) {
             alert("Succesfully submitted Lab form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
 
@@ -150,10 +155,10 @@ export default function ClassLab() {
     }
 
     function myFunction2() {
-        addClassLab();
-        handleClearLocalStorage();
-        /*handleSubmit();*/
-       // myFunction();
+        if (myFunction()) {
+            addClassLab();
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        }
     }
 
     const wellName = searchParams.get("wellName");
@@ -168,7 +173,7 @@ export default function ClassLab() {
                 )*/}
             </div>
              
-            <h2>Class Lab</h2>
+            <h2>{wellName}: Class Lab</h2>
             <div className="css">
                 <label htmlFor="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
@@ -305,7 +310,7 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2}>Submit</button>
+            <button type="button" onClick={myFunction2}>Submit</button>
             <button type="submit" onClick={backButton}>Back</button>
             <button type="submit">Save</button>
             <div className="requiredField">

@@ -172,6 +172,11 @@ export default function Field() {
     const myFunction = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Field Form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
     const backButton = () => {
@@ -183,9 +188,10 @@ export default function Field() {
     }
 
     function myFunction2() {
-        addField();
-        handleClearLocalStorage();
-        myFunction();
+        if (myFunction()) {
+            addField();
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        }
     }
 
     return (
@@ -365,7 +371,7 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2}>Submit</button>
+            <button type="button" onClick={myFunction2}>Submit</button>
             <button type="submit" onClick={backButton}>Back</button>
             <button type="submit">Save</button>
             <div className="requiredField">

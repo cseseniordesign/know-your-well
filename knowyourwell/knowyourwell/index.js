@@ -216,7 +216,7 @@ app.post('/createwellinfo', (req, res) => {
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
     console.log("hit")
-    appPool.query('SELECT well_id, wi_wellname FROM dbo.tblWellInfo;', function (err, recordset) {
+    appPool.query('SELECT * FROM dbo.tblWellInfo;', function (err, recordset) {
         if (err) {
             console.log(err)
             res.status(500).send('SERVER ERROR')
@@ -224,6 +224,43 @@ app.get('/Wells', async (req, res) => {
         }
         console.log(recordset)
         res.status(200).json({ Wells: recordset.recordset })
+    })
+})
+
+app.get('/GetWellInfo', async (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT * FROM dbo.tblWellInfo WHERE well_id = @well_id;', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else {
+                        console.log(recordset)
+                        res.status(200).json({ WellInfo: recordset.recordset })
+                    }
+                })
+            }
+        })
     })
 })
 
@@ -302,6 +339,11 @@ app.get('/LabID', async (req, res) => {
         })
     })
 })
+
+app.get("*", (req, res) => {
+    console.log("hit")
+    res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
+});
 
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
