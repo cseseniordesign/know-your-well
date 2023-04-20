@@ -377,6 +377,43 @@ app.get('/GetFieldEntry', async (req, res) => {
     })
 })
 
+app.get('/GetLabEntry', async (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('classlab_id', sql.Int, req.query.classlab_id).query('SELECT * FROM dbo.tblClassRoomLab WHERE classlab_id = @classlab_id;', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else {
+                        console.log(recordset)
+                        res.status(200).json({ ClassLabEntry: recordset.recordset })
+                    }
+                })
+            }
+        })
+    })
+})
+
 app.get("*", (req, res) => {
     console.log("hit")
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
