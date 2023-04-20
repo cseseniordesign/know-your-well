@@ -2,13 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-//
-import { Offline, Online } from "react-detect-offline";
-
+//import { Offline, Online } from "react-detect-offline";
 import { useSearchParams } from 'react-router-dom'
  
 
@@ -78,14 +75,12 @@ export default function ClassLab() {
         setBacteria(event.target.value);
     };
 
-    //const continue_session = window.confirm("Continue last session?");
-
     const date = new Date();
     const futureDate = date.getDate();
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
-    function addClassLab() {   /*const addClassLab = () =>*/
+    function addClassLab() {
         Axios.post('/createclasslab', {
             fa_id: fa_id,
             ammonia: ammonia,
@@ -107,7 +102,7 @@ export default function ClassLab() {
     };
 
 
-    ///caching
+    // caching
     useEffect(() => {
             localStorage.setItem("Ammonia", JSON.stringify(ammonia));
             localStorage.setItem("Calcium", JSON.stringify(calcium));
@@ -139,12 +134,10 @@ export default function ClassLab() {
         };
     }, []);
  
-
     function handleClearLocalStorage() {
         localStorage.clear();
     };
 
-    //////////////////////////////////////////////////
     var form = document.getElementById('submissionAlert');
     function myFunction() {
         if (form.checkValidity()) {
@@ -166,15 +159,13 @@ export default function ClassLab() {
     const wellName = searchParams.get("wellName");
 
     return (
-        //<div className="form-container" >
-        //action = "/editwell" id = "submissionAlert"
         <form action="/editwell" id="submissionAlert">
             <div className="styling_offline_bar">
-                {isOnline ? (
+                {/*isOnline ? (
                     <p className="status_online" >Online mode!</p>
                 ) : (
                         <p className="status_offfline">Offline mode</p>
-                )}
+                )*/}
             </div>
              
             <h2>Class Lab</h2>
@@ -188,7 +179,6 @@ export default function ClassLab() {
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
-                     
                 />
             </div>
             <div className="css">
@@ -315,18 +305,13 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
-            <button type="submit" onClick={backButton} >Back</button>
-            <button type="submit">
-                Save
-            </button>
+            <button type="submit" onClick={myFunction2}>Submit</button>
+            <button type="submit" onClick={backButton}>Back</button>
+            <button type="submit">Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
             </div>
         </form>
-        //</div>
     );
 }
-
- /*const addClassLab = () =>*/

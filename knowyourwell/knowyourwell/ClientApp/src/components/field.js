@@ -63,7 +63,7 @@ export default function Field() {
                 handleClearLocalStorage();
                 setSessionContinued(true); // ends forever pop-up loop
                 /* will need to be changed if sessionContinued is ever used elsewhere,
-                potenitally add another var to set to true / false if question has been asked ? */
+                potenitally add another var to set to true / false if question has already been asked? */
             }
         }
     }
@@ -107,7 +107,7 @@ export default function Field() {
     };
 
 
-    function addField () {   /*const addField = () => */
+    function addField () {
         Axios.post('/api/insert', {
             well_id: well_id,
             fa_latitude: fa_latitude,
@@ -189,8 +189,6 @@ export default function Field() {
     }
 
     return (
-        //<div className="form-container">
-        // action="/editwell" id="submissionAlert"
         <form  >  
             <h2>Field</h2>
             <div className="css">
@@ -367,16 +365,13 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
-            <button type="submit" onClick={backButton} >Back</button>
-            <button type="submit">
-                Save
-            </button>
+            <button type="submit" onClick={myFunction2}>Submit</button>
+            <button type="submit" onClick={backButton}>Back</button>
+            <button type="submit">Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
             </div>
         </form >
-        //</div>
     );
 }

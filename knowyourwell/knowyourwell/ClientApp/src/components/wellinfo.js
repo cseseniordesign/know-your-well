@@ -9,10 +9,10 @@ import { useSearchParams } from "react-router-dom";
 
 export default function WellInfo() {
     //const [wellcode, setWellcode] = useState("");
-    const wellcode = "abc123" // todo
+    const wellcode = "abc123" // TODO
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
-    const school_id = 3; // todo
+    const school_id = 3; // TODO
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -98,7 +98,7 @@ export default function WellInfo() {
         setWelltype(event.target.value);
     };
 
-    //geolocation 
+    // geolocation 
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((pos) => {
@@ -110,7 +110,7 @@ export default function WellInfo() {
         }
     }, []);
 
-    function addWellInfo() {  /*const addWellInfo = () =>*/
+    function addWellInfo() {
         Axios.post('/createwellinfo', {
             wellcode: wellcode,
             wellname: wellname,
@@ -171,8 +171,6 @@ export default function WellInfo() {
     const wellName = searchParams.get("wellName");
 
     return (
-        //<div className="form-container">
-        /*action = "/editwell" id = "submissionAlert"*/
         <form action="/editwell" id="submissionAlert" >
             <h2>{wellName}: Well Info</h2>
             <div className="css">
@@ -735,14 +733,12 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
-            <button type="submit" onClick={backButton} >Back</button>
+            <button type="submit" onClick={myFunction2}>Submit</button>
+            <button type="submit" onClick={backButton}>Back</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
             </div>
         </form>
-        //</div>
     );
 }
-
