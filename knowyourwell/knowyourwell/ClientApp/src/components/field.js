@@ -54,16 +54,17 @@ const poolingInitilization = () => {
 
 export default function Field() {
     const [sessionContinued, setSessionContinued] = useState(false);
-    // should never pop up if there is nothing saved
-    if (!sessionContinued) {
-        const continue_session = window.confirm("Continue last saved session?");
-        if (continue_session) {
-            setSessionContinued(true);
-        } else {
-            handleClearLocalStorage();
-            setSessionContinued(true); // ends forever pop-up loop
-            /* will need to be changed if sessionContinued is ever used elsewhere,
-            potenitally add another var to set to true / false if question has been asked ? */
+    if (true) { // TODO: check if anything is saved, if not, no message pop-up
+        if (!sessionContinued) {
+            const continue_session = window.confirm("Continue last saved session?");
+            if (continue_session) {
+                setSessionContinued(true);
+            } else {
+                handleClearLocalStorage();
+                setSessionContinued(true); // ends forever pop-up loop
+                /* will need to be changed if sessionContinued is ever used elsewhere,
+                potenitally add another var to set to true / false if question has been asked ? */
+            }
         }
     }
 
