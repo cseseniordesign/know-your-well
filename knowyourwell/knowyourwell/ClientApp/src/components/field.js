@@ -83,7 +83,6 @@ export default function Field() {
     const [observation, setObservation] = useState(observationInitilization);
     const [wellcover, setWellcover] = useState(wellcoverInitilization);
     const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
-    //const [dateentered, setDateentered] = useState(moment());
     const [dateentered, setDateentered] = useState(dateenteredInitilization);
 
     const handleChange_wellcover = (event) => {

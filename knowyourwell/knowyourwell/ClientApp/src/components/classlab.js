@@ -69,7 +69,7 @@ export default function ClassLab() {
     const [bacteria, setBacteria] = useState(bacteriaInitilization);
     const [observations, setObservations] = useState(observationsInitilization);
     const [name, setName] = useState(nameInitilization);
-    const [dateentered, setDateentered] = useState(moment());
+    const [dateentered, setDateentered] = useState(dateenteredInitilization);
 
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
