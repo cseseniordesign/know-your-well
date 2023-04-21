@@ -232,7 +232,7 @@ export default function Field() {
                                 Well Cover Description:
                             </label>
                             <textarea
-                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
                                 onChange={(event) => {
                                     setWellcoverDescription(event.target.value);
                                 }}
@@ -245,7 +245,7 @@ export default function Field() {
                                 Well Cover Description:
                             </label>
                             <textarea
-                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
                                 onChange={(event) => {
                                     setWellcoverDescription(event.target.value);
                                 }}
