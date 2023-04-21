@@ -49,10 +49,10 @@ const nameInitilization = () => {
     const Cachedname = localStorage.getItem("Name");
     return Cachedname ? JSON.parse(Cachedname) : "";
 }
-//const dateenteredInitilization = () => {
-//    const Cacheddateentered = localStorage.getItem("Dateentered");
-//    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
-//}
+const dateenteredInitilization = () => {
+    const Cacheddateentered = localStorage.getItem("Dateentered");
+    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
+}
  
 
 export default function ClassLab() {
@@ -113,7 +113,7 @@ export default function ClassLab() {
             localStorage.setItem("Nitrate", JSON.stringify(nitrate));
             localStorage.setItem("Name", JSON.stringify(name));
             localStorage.setItem("Bacteria", JSON.stringify(bacteria));
-            localStorage.setItem("Dateentered", JSON.stringify(dateentered));
+            localStorage.setItem("Dateentered", JSON.stringify(dateentered).replace("T", " ").replace("Z", ""));
        
     }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
 

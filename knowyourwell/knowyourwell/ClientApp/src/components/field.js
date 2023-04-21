@@ -38,10 +38,10 @@ const wellcoverdescriptionInitilization = () => {
     const Cachedwellcoverdescription = localStorage.getItem("Wellcoverdescription");
     return Cachedwellcoverdescription ? JSON.parse(Cachedwellcoverdescription) : "";
 }
-//const dateenteredInitilization = () => {
-//    const Cacheddateentered = localStorage.getItem("Dateentered");
-//    return Cacheddateentered ? JSON.parse(Cacheddateentered) : ""; 
-//}
+const dateenteredInitilization = () => {
+    const Cacheddateentered = localStorage.getItem("Dateentered");
+    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment(); 
+}
 const evidenceInitilization = () => {
     const Cachedevidence = localStorage.getItem("Evidence");
     return Cachedevidence ? JSON.parse(Cachedevidence) : "";
@@ -83,7 +83,8 @@ export default function Field() {
     const [observation, setObservation] = useState(observationInitilization);
     const [wellcover, setWellcover] = useState(wellcoverInitilization);
     const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
-    const [dateentered, setDateentered] = useState(moment());
+    //const [dateentered, setDateentered] = useState(moment());
+    const [dateentered, setDateentered] = useState(dateenteredInitilization);
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
@@ -143,7 +144,7 @@ export default function Field() {
         localStorage.setItem("Observation", JSON.stringify(observation));
         localStorage.setItem("Wellcover", JSON.stringify(wellcover));
         localStorage.setItem("Wellcoverdescription", JSON.stringify(wellcoverdescription));
-        localStorage.setItem("Dateentered", JSON.stringify(dateentered));
+        localStorage.setItem("Dateentered", JSON.stringify(dateentered).replace("T", " ").replace("Z", ""));
         localStorage.setItem("Evidence", JSON.stringify(evidence));
         localStorage.setItem("Pooling", JSON.stringify(pooling));
     }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, dateentered, evidence, pooling]);
@@ -195,8 +196,8 @@ export default function Field() {
     }
 
     return (
-        <form  >  
-            <h2>Field</h2>
+        <form>  
+            <h2>{wellName}: Field</h2>
             <div className="css">
                 <label htmlFor="conditions">
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well

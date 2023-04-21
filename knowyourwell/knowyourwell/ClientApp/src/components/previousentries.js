@@ -3,7 +3,7 @@ import { List } from 'semantic-ui-react'
 import { useSearchParams } from "react-router-dom";
 import Axios from 'axios'
 import moment from 'moment'
-import FieldSelection from './fieldselection';
+//import FieldSelection from './fieldselection';
 
 var previousEntries = []
 var listElements = []
@@ -99,10 +99,9 @@ export default function PreviousEntries() {
             <h2>Previous Entries: {wellName}</h2>
             <br />
             {listElements}
-
             <List.Item>
                 <List.Content>
-                    <button type="submit" onClick={backbutton} >Back</button>
+                    <button type="submit" onClick={backbutton}>Back</button>
                 </List.Content>
             </List.Item>
         </List>
