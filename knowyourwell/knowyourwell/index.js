@@ -265,7 +265,6 @@ app.get('/GetWellInfo', async (req, res) => {
 })
 
 app.get('/FieldList', async (req, res) => {
-    console.log(req.query.well_id)
     const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)
@@ -303,7 +302,6 @@ app.get('/FieldList', async (req, res) => {
 })
 
 app.get('/LabID', async (req, res) => {
-    console.log(req.query.well_id)
     const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)
