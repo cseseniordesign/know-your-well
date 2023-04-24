@@ -16,7 +16,6 @@ export default function WellInfo() {
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
-    const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState(0);
@@ -26,7 +25,6 @@ export default function WellInfo() {
     const [boreholediameter, setBoreholediameter] = useState(0);
     const [totaldepth, setTotaldepth] = useState(0);
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
-
     const [wellcasematerial, setWellcasematerial] = useState("");
     //const [datacollector, setDatacollector] = useState("");
     const datacollector = "John Smith"
@@ -37,6 +35,11 @@ export default function WellInfo() {
     const futureDate = date.getDate();
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
+
+    const [state, setState] = useState("");
+    const handleChange_state = (event) => {
+        setState(event.target.value);
+    }
 
     const [county, setCounty] = useState("");
     const handleChange_county = (event) => {
@@ -228,12 +231,64 @@ export default function WellInfo() {
                 <label for="state">
                     State:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="state" name="state"
-                    onChange={(event) => {
-                        setState(event.target.value);
-                    }}
-                />
+                <div className="select-container">
+                    <select
+                        value={state}
+                        onChange={handleChange_state}
+                    >
+                        <option hidden selected>Select one...</option>
+                        <option value="Alabama" id="state" name="state">Alabama</option>
+                        <option value="Alaska" id="state" name="state">Alaska</option>
+                        <option value="Arizona" id="state" name="state">Arizona</option>
+                        <option value="Arkansas" id="state" name="state">Arkansas</option>
+                        <option value="California" id="state" name="state">California</option>
+                        <option value="Colorado" id="state" name="state">Colorado</option>
+                        <option value="Connecticut" id="state" name="state">Connecticut</option>
+                        <option value="Delaware" id="state" name="state">Delaware</option>
+                        <option value="Florida" id="state" name="state">Florida</option>
+                        <option value="Georgia" id="state" name="state">Georgia</option>
+                        <option value="Hawaii" id="state" name="state">Hawaii</option>
+                        <option value="Idaho" id="state" name="state">Idaho</option>
+                        <option value="Illinois" id="state" name="state">Illinois</option>
+                        <option value="Indiana" id="state" name="state">Indiana</option>
+                        <option value="Iowa" id="state" name="state">Iowa</option>
+                        <option value="Kansas" id="state" name="state">Kansas</option>
+                        <option value="Kentucky" id="state" name="state">Kentucky</option>
+                        <option value="Louisiana" id="state" name="state">Louisiana</option>
+                        <option value="Maine" id="state" name="state">Maine</option>
+                        <option value="Maryland" id="state" name="state">Maryland</option>
+                        <option value="Massachusetts" id="state" name="state">Massachusetts</option>
+                        <option value="Michigan" id="state" name="state">Michigan</option>
+                        <option value="Minnesota" id="state" name="state">Minnesota</option>
+                        <option value="Mississippi" id="state" name="state">Mississippi</option>
+                        <option value="Missouri" id="state" name="state">Missouri</option>
+                        <option value="Montana" id="state" name="state">Montana</option>
+                        <option value="Nebraska" id="state" name="state">Nebraska</option>
+                        <option value="Nevada" id="state" name="state">Nevada</option>
+                        <option value="New Hampshire" id="state" name="state">New Hampshire</option>
+                        <option value="New Jersey" id="state" name="state">New Jersey</option>
+                        <option value="New Mexico" id="state" name="state">New Mexico</option>
+                        <option value="New York" id="state" name="state">New York</option>
+                        <option value="North Carolina" id="state" name="state">North Carolina</option>
+                        <option value="North Dakota" id="state" name="state">North Dakota</option>
+                        <option value="Ohio" id="state" name="state">Ohio</option>
+                        <option value="Oklahoma" id="state" name="state">Oklahoma</option>
+                        <option value="Oregon" id="state" name="state">Oregon</option>
+                        <option value="Pennsylvania" id="state" name="state">Pennsylvania</option>
+                        <option value="Rhode Island" id="state" name="state">Rhode Island</option>
+                        <option value="South Carolina" id="state" name="state">South Carolina</option>
+                        <option value="South Dakota" id="state" name="state">South Dakota</option>
+                        <option value="Tennessee" id="state" name="state">Tennessee</option>
+                        <option value="Texas" id="state" name="state">Texas</option>
+                        <option value="Utah" id="state" name="state">Utah</option>
+                        <option value="Vermont" id="state" name="state">Vermont</option>
+                        <option value="Virginia" id="state" name="state">Virginia</option>
+                        <option value="Washington" id="state" name="state">Washington</option>
+                        <option value="West Virginia" id="state" name="state">West Virginia</option>
+                        <option value="Wisconsin" id="state" name="state">Wisconsin</option>
+                        <option value="Wyoming" id="state" name="state">Wyoming</option>
+                    </select>
+                </div>
             </div>
             <div className="css">
                 <label for="zipcode">
