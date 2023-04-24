@@ -56,36 +56,17 @@ export default function PreviousEntries() {
             })
             .then(function (response) {
                 const fieldList = response.data.FieldList;
-                setLoading(fieldList.length>0)
+                console.log(fieldList)
+                //setLoading(fieldList.length>0)
+                console.log(response)
                 var i
                 for (i = 0; i < fieldList.length; i++) {
                     const fieldEntry = fieldList[i]
-                    Axios
-                        .get("/LabID", {
-                            responseType: "json",
-                            params: {
-                                fieldactivity_id: parseInt(fieldEntry.fieldactivity_id)
-                            }
-                        })
-                        .then(function (response) {
-                            //console.log(response)
-                            var entry
-                            if (response.data.LabID.length == 0) {
-                                entry = { date: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: null }
-                            }
-                            else {
-                                entry = { date: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: parseInt(response.data.LabID[0].classlab_id) }
-                            }
-                            //console.log(entry)
-                            previousEntries.push(entry)
-                            if (previousEntries.length == fieldList.length) {
-                                //console.log(previousEntries)
-                                listElements = generatelistElements(previousEntries, well_id, wellName);
-                                if(listElements.length == fieldList.length)
-                                    setLoading(false);
-                            }
-                        });
+                    const entry = { date: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: fieldEntry.classlab_id }
+                    previousEntries.push(entry);
                 }
+                listElements = generatelistElements(previousEntries, well_id, wellName);
+                setLoading(false);
             });
     }, []);
 
