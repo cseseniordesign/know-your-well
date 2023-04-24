@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" cacheDuration="PT604800S" entityID="https://knowyourwell.azurewebsites.net/">
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2023-04-26T22:08:29Z" cacheDuration="PT604800S" entityID="https://knowyourwell.azurewebsites.net/">
   <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
     <md:KeyDescriptor use="signing">
       <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
@@ -20,7 +20,7 @@
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://knowyourwell.azurewebsites.net/saml/acs" index="1"/>
   </md:SPSSODescriptor>
   <md:ContactPerson contactType="technical">
-    <md:GivenName>Know Your Well</md:GivenName>
-    <md:EmailAddress>knowyourwell@unl.edu</md:EmailAddress>
+    <md:GivenName>Mark Mesarch</md:GivenName>
+    <md:EmailAddress>mmesarch1@unl.edu</md:EmailAddress>
   </md:ContactPerson>
 </md:EntityDescriptor>
