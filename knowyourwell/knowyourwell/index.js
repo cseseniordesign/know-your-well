@@ -266,7 +266,6 @@ app.get('/GetWellInfo', async (req, res) => {
 })
 
 app.get('/FieldList', async (req, res) => {
-    console.log(req.query.well_id)
     const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)
@@ -298,6 +297,80 @@ app.get('/FieldList', async (req, res) => {
                     else {
                         console.log(recordset)
                         res.status(200).json({ FieldList: recordset.recordset })
+                    }
+                })
+            }
+        })
+    })
+})
+
+app.get('/GetFieldEntry', async (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('fieldactivity_id', sql.Int, req.query.fieldactivity_id).query('SELECT * FROM dbo.tblFieldActivity WHERE fieldactivity_id = @fieldactivity_id;', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else {
+                        console.log(recordset)
+                        res.status(200).json({ FieldActivity: recordset.recordset })
+                    }
+                })
+            }
+        })
+    })
+})
+
+app.get('/GetLabEntry', async (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('classlab_id', sql.Int, req.query.classlab_id).query('SELECT * FROM dbo.tblClassRoomLab WHERE classlab_id = @classlab_id;', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else {
+                        console.log(recordset)
+                        res.status(200).json({ ClassLabEntry: recordset.recordset })
                     }
                 })
             }
