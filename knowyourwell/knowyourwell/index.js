@@ -278,7 +278,7 @@ app.get('/FieldList', async (req, res) => {
             rolledBack = true
         })
 
-        const secondFilter = req.query.newLab ? " AND classlab_id IS NULL" : "";
+        const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
         request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, classlab_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id'+secondFilter+');', function (err, recordset) {
             if (err) {
