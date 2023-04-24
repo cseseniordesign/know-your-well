@@ -97,6 +97,10 @@ export default function ViewField() {
                 <div class="container" style={{ textAlign: "center" }}>
                     {columnList}
                     <button type="button" onClick={backButton} >Back</button>
+                    <br/>
+                    <br/>
+                    <a href="mailto:knowyourwell@unl.edu" style={{ textAlign: "center" }}>
+                    If any data is incorrect email us at knowyourwell@unl.edu</a>
                 </div>
             </div>
         );
