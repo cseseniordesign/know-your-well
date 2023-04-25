@@ -79,6 +79,7 @@ export default function Field() {
     const fa_longitude = -97.5; //TODO: match this up with actual value.
     const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
+    
     const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
     const [temp, setTemp] = useState(pullCachedData ? cachedData.Temp : "");
     const [ph, setPh] = useState(pullCachedData ? cachedData.Ph : "");
@@ -88,6 +89,18 @@ export default function Field() {
     const [wellcover, setWellcover] = useState(pullCachedData ? cachedData.Wellcover : "");
     const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
     const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : "");
+
+    useEffect(() => {
+        setConditions(sessionContinued ? cachedData.Conditions : "");
+        setTemp(sessionContinued ? cachedData.Temp : "");
+        setPh(sessionContinued ? cachedData.Ph : "");
+        setConductivity(sessionContinued ? cachedData.Conductivity : "");
+        setName(sessionContinued ? cachedData.NameField : "");
+        setObservation(sessionContinued ? cachedData.Observation : "");
+        setWellcover(sessionContinued ? cachedData.Wellcover : "");
+        setWellcoverDescription(sessionContinued ? cachedData.Wellcoverdescription : "");
+        setDateentered(sessionContinued ? cachedData.Dateentered : "");
+    }, [sessionContinued]);
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
@@ -196,6 +209,7 @@ export default function Field() {
     function myFunction2() {
         if (myFunction()) {
             addField();
+            handleClearLocalStorage();
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
