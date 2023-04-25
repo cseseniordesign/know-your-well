@@ -81,6 +81,7 @@ export default function Field() {
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
     
     const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
+    const [evidence, setEvidence] = useState(pullCachedData ? cachedData.Evidence : "");
     const [temp, setTemp] = useState(pullCachedData ? cachedData.Temp : "");
     const [ph, setPh] = useState(pullCachedData ? cachedData.Ph : "");
     const [conductivity, setConductivity] = useState(pullCachedData ? cachedData.Conductivity : "");
@@ -88,7 +89,7 @@ export default function Field() {
     const [observation, setObservation] = useState(pullCachedData ? cachedData.Observation : "");
     const [wellcover, setWellcover] = useState(pullCachedData ? cachedData.Wellcover : "");
     const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
-    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : "");
+    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment());
 
     useEffect(() => {
         setConditions(sessionContinued ? cachedData.Conditions : "");
@@ -110,8 +111,6 @@ export default function Field() {
     const futureDate = date.getDate();
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
-
-    const [evidence, setEvidence] = useState(evidenceInitilization);
 
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);
@@ -391,7 +390,7 @@ export default function Field() {
                 </div>
             </div>
             <button type="button" onClick={myFunction2}>Submit</button>
-            <button type="submit" onClick={backButton}>Back</button>
+            <button type="button" onClick={backButton}>Back</button>
             <button type="button" onClick={cacheFieldForm}>Save</button>
             <div className="requiredField">
                 <br></br>
