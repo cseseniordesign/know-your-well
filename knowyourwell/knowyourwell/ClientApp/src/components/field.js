@@ -53,37 +53,54 @@ const poolingInitilization = () => {
 
 
 export default function Field() {
-    const [sessionContinued, setSessionContinued] = useState(false);
-    if (true) { // TODO: check if anything is saved, if not, no message pop-up
-        if (!sessionContinued) {
-            const continue_session = window.confirm("Continue last saved session?");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const well_id = parseInt(searchParams.get("id"));
+
+    const [sessionContinued, setSessionContinued] = useState(null);
+    if (localStorage.getItem("fieldData"+well_id)) { // TODO: check if anything is saved, if not, no message pop-up
+        if (sessionContinued === null) {
+            const continue_session= window.confirm("Continue last saved session?");
+            //pullCachedData = continue_session;
             if (continue_session) {
                 setSessionContinued(true);
             } else {
                 handleClearLocalStorage();
-                setSessionContinued(true); // ends forever pop-up loop
+                setSessionContinued(false); // ends forever pop-up loop
                 /* will need to be changed if sessionContinued is ever used elsewhere,
                 potenitally add another var to set to true / false if question has already been asked? */
             }
         }
     }
+    let pullCachedData = sessionContinued;
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const well_id = parseInt(searchParams.get("id"));
+    const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData"+well_id)) : null;
     const wellName = searchParams.get("wellName");
     const fa_latitude = 40.8;   //TODO: match this up with actual value.
     const fa_longitude = -97.5; //TODO: match this up with actual value.
     const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
-    const [conditions, setConditions] = useState(conditionsInitilization);
-    const [temp, setTemp] = useState(tempInitilization);
-    const [ph, setPh] = useState(phInitilization);
-    const [conductivity, setConductivity] = useState(conductivityInitilization);
-    const [name, setName] = useState(nameInitilization);
-    const [observation, setObservation] = useState(observationInitilization);
-    const [wellcover, setWellcover] = useState(wellcoverInitilization);
-    const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
-    const [dateentered, setDateentered] = useState(dateenteredInitilization);
+    
+    const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
+    const [temp, setTemp] = useState(pullCachedData ? cachedData.Temp : "");
+    const [ph, setPh] = useState(pullCachedData ? cachedData.Ph : "");
+    const [conductivity, setConductivity] = useState(pullCachedData ? cachedData.Conductivity : "");
+    const [name, setName] = useState(pullCachedData ? cachedData.NameField : "");
+    const [observation, setObservation] = useState(pullCachedData ? cachedData.Observation : "");
+    const [wellcover, setWellcover] = useState(pullCachedData ? cachedData.Wellcover : "");
+    const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
+    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : "");
+
+    useEffect(() => {
+        setConditions(sessionContinued ? cachedData.Conditions : "");
+        setTemp(sessionContinued ? cachedData.Temp : "");
+        setPh(sessionContinued ? cachedData.Ph : "");
+        setConductivity(sessionContinued ? cachedData.Conductivity : "");
+        setName(sessionContinued ? cachedData.NameField : "");
+        setObservation(sessionContinued ? cachedData.Observation : "");
+        setWellcover(sessionContinued ? cachedData.Wellcover : "");
+        setWellcoverDescription(sessionContinued ? cachedData.Wellcoverdescription : "");
+        setDateentered(sessionContinued ? cachedData.Dateentered : "");
+    }, [sessionContinued]);
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
@@ -133,19 +150,21 @@ export default function Field() {
 
 
     // caching - local storage
-    useEffect(() => {
-        localStorage.setItem("Conditions", JSON.stringify(conditions));
-        localStorage.setItem("Temp", JSON.stringify(temp));
-        localStorage.setItem("Ph", JSON.stringify(ph));
-        localStorage.setItem("Conductivity", JSON.stringify(conductivity));
-        localStorage.setItem("NameField", JSON.stringify(name));
-        localStorage.setItem("Observation", JSON.stringify(observation));
-        localStorage.setItem("Wellcover", JSON.stringify(wellcover));
-        localStorage.setItem("Wellcoverdescription", JSON.stringify(wellcoverdescription));
-        localStorage.setItem("Dateentered", JSON.stringify(dateentered).replace("T", " ").replace("Z", ""));
-        localStorage.setItem("Evidence", JSON.stringify(evidence));
-        localStorage.setItem("Pooling", JSON.stringify(pooling));
-    }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, dateentered, evidence, pooling]);
+   function cacheFieldForm(){
+        const fieldData = {Conditions : conditions,
+            Temp : temp,
+            Ph : ph,
+            Conductivity : conductivity,
+            NameField : name,
+            Observation : observation,
+            Wellcover : wellcover,
+            Wellcoverdescription : wellcoverdescription,
+            Dateentered : dateentered,
+            Evidence : evidence,
+            Pooling : pooling
+        };
+        localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
+    };
 
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -164,7 +183,7 @@ export default function Field() {
     }, []);
 
     function handleClearLocalStorage() {
-        localStorage.clear();
+        localStorage.removeItem("fieldData"+well_id);
     };
 
     var form = document.getElementById('submissionAlert');
@@ -189,6 +208,7 @@ export default function Field() {
     function myFunction2() {
         if (myFunction()) {
             addField();
+            handleClearLocalStorage();
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
@@ -372,7 +392,7 @@ export default function Field() {
             </div>
             <button type="button" onClick={myFunction2}>Submit</button>
             <button type="submit" onClick={backButton}>Back</button>
-            <button type="submit">Save</button>
+            <button type="button" onClick={cacheFieldForm}>Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field

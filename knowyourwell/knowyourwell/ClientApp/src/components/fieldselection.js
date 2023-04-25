@@ -46,7 +46,8 @@ export default function FieldSelection() {
             .get("/FieldList", {
                 responseType: "json",
                 params: {
-                    well_id: well_id
+                    well_id: well_id,
+                    newLab: "True"
                 }
             })
             .then(function (response) {

@@ -12,7 +12,7 @@ export default function WellInfo() {
     const wellcode = "abc123" // TODO
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
-    const school_id = 3; // TODO
+    const school_id = 1; // todo
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
