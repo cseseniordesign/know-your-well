@@ -48,7 +48,6 @@ export default function ViewField() {
             comments: comments,
             dateentered: dateentered,
         })
-
             .then(() => {
                 console.log("success");
             })

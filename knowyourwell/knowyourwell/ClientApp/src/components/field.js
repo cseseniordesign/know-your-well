@@ -126,7 +126,6 @@ export default function Field() {
             observations: observation,
             datecollected: dateentered,
         })
-
             .then(() => {
                 console.log("success");
             })
