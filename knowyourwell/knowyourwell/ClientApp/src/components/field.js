@@ -56,24 +56,24 @@ export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
 
-    const [sessionContinued, setSessionContinued] = useState(false);
-    let pullCachedData = false;
-    if (true/*localStorage.getItem("fieldData"+well_id)*/) { // TODO: check if anything is saved, if not, no message pop-up
-        if (!sessionContinued) {
+    const [sessionContinued, setSessionContinued] = useState(null);
+    if (localStorage.getItem("fieldData"+well_id)) { // TODO: check if anything is saved, if not, no message pop-up
+        if (sessionContinued === null) {
             const continue_session= window.confirm("Continue last saved session?");
             //pullCachedData = continue_session;
             if (continue_session) {
                 setSessionContinued(true);
             } else {
                 handleClearLocalStorage();
-                setSessionContinued(true); // ends forever pop-up loop
+                setSessionContinued(false); // ends forever pop-up loop
                 /* will need to be changed if sessionContinued is ever used elsewhere,
                 potenitally add another var to set to true / false if question has already been asked? */
             }
         }
     }
+    let pullCachedData = sessionContinued;
 
-    const cachedData = pullCachedData ? localStorage.getItem("fieldData"+well_id) : null;
+    const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData"+well_id)) : null;
     const wellName = searchParams.get("wellName");
     const fa_latitude = 40.8;   //TODO: match this up with actual value.
     const fa_longitude = -97.5; //TODO: match this up with actual value.
