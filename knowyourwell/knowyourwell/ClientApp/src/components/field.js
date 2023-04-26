@@ -35,7 +35,7 @@ export default function Field() {
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
     
     const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
-    const [pooling, setPooling] = useState(pullCachedData ? cachedData.Conditions : "");
+    const [pooling, setPooling] = useState(pullCachedData ? cachedData.Pooling : "");
     const [evidence, setEvidence] = useState(pullCachedData ? cachedData.Evidence : "");
     const [temp, setTemp] = useState(pullCachedData ? cachedData.Temp : "");
     const [ph, setPh] = useState(pullCachedData ? cachedData.Ph : "");
@@ -48,6 +48,8 @@ export default function Field() {
 
     useEffect(() => {
         setConditions(sessionContinued ? cachedData.Conditions : "");
+        setPooling(sessionContinued ? cachedData.Pooling : "");
+        setEvidence(sessionContinued ? cachedData.Evidence : "");
         setTemp(sessionContinued ? cachedData.Temp : "");
         setPh(sessionContinued ? cachedData.Ph : "");
         setConductivity(sessionContinued ? cachedData.Conductivity : "");
