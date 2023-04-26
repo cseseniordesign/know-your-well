@@ -97,22 +97,34 @@ export default function Field() {
             })
     };
 
-    const idList = [""];
+    const idList = ["conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation", "dateentered"];
     // caching - local storage
    function cacheFieldForm(){
-        const fieldData = {Conditions : conditions,
-            Temp : temp,
-            Ph : ph,
-            Conductivity : conductivity,
-            NameField : name,
-            Observation : observation,
-            Wellcover : wellcover,
-            Wellcoverdescription : wellcoverdescription,
-            Dateentered : dateentered,
-            Evidence : evidence,
-            Pooling : pooling
-        };
-        localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
+        let elementsValid = true;
+        for(let i = 0; i<idList.length && elementsValid; i++){
+            const id = idList[i];
+            const element = document.getElementById(id);
+            elementsValid = element.value==="" || element.checkValidity();
+            if(!elementsValid){
+                element.reportValidity();
+            }
+        }
+        if(elementsValid){
+            const fieldData = {Conditions : conditions,
+                Temp : temp,
+                Ph : ph,
+                Conductivity : conductivity,
+                NameField : name,
+                Observation : observation,
+                Wellcover : wellcover,
+                Wellcoverdescription : wellcoverdescription,
+                Dateentered : dateentered,
+                Evidence : evidence,
+                Pooling : pooling
+            };
+            localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        }
     };
 
     const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -229,7 +241,7 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
+                        <select id = "evidence"
                             value={evidence}
                             onChange={handleChange_evidence}
                         >
@@ -248,7 +260,7 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
+                        <select id ="pooling"
                             value={pooling}
                             onChange={handleChange_pooling}
                         >
