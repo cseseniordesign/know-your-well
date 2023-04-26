@@ -62,8 +62,6 @@ export default function Field() {
         setWellcover(event.target.value);
     };
 
-    const [evidence, setEvidence] = useState(evidenceInitilization);
-
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);
     };
