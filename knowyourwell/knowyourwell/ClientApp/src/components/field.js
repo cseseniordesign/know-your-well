@@ -110,7 +110,8 @@ export default function Field() {
             }
         }
         if(elementsValid){
-            const fieldData = {Conditions : conditions,
+            const fieldData = {
+                Conditions : conditions,
                 Temp : temp,
                 Ph : ph,
                 Conductivity : conductivity,

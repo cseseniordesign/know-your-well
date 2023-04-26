@@ -50,24 +50,27 @@ export default function ViewWell() {
             });
     }, []);
 
-    if (formElements === null) {
-        const wellCookie = localStorage.getItem("wellData" + well_id);        if (wellCookie) {
+    if (formElements.length === 0) {
+        const wellCookie = localStorage.getItem("wellData");
+        let wells = null;
+        if (wellCookie) {
             try {
-                formElements = JSON.parse(wellCookie)
+                wells = JSON.parse(wellCookie).Wells
+                formElements = wells.filter(well => well.well_id === well_id)[0]
             }
             catch (e) {
-                console.log("wellData is Invalid JSON")
+                console.log(e)
             }
-            //console.log(formElements)
+            
         }
     }
 
     //console.log(formElements)
-    if (formElements.length!=0) {
+    if (formElements.length!==0) {
         for (let i = 0; i < labelList.length; i += 2) {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
-            if (firstColumnName == "Date Entered:")
+            if (firstColumnName === "Date Entered:")
                 firstColumnValue = moment(firstColumnValue).format("MMMM DD, YYYY")
             let secondColumnValue = ""
             let secondColumnName = ""
