@@ -4,7 +4,8 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom';
+moment().format('MMMM Do YYYY, h:mm:ss a');
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -43,7 +44,7 @@ export default function Field() {
     const [observation, setObservation] = useState(pullCachedData ? cachedData.Observation : "");
     const [wellcover, setWellcover] = useState(pullCachedData ? cachedData.Wellcover : "");
     const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
-    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment());
+    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
 
     useEffect(() => {
         setConditions(sessionContinued ? cachedData.Conditions : "");
@@ -61,10 +62,7 @@ export default function Field() {
         setWellcover(event.target.value);
     };
 
-    const date = new Date();
-    const futureDate = date.getDate();
-    date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
+    const [evidence, setEvidence] = useState(evidenceInitilization);
 
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);

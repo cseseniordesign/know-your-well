@@ -51,7 +51,7 @@ const nameInitilization = () => {
 }
 const dateenteredInitilization = () => {
     const Cacheddateentered = localStorage.getItem("Dateentered");
-    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
+    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment().format('L, h:mm a');
 }
  
 
@@ -75,12 +75,9 @@ export default function ClassLab() {
         setBacteria(event.target.value);
     };
 
-    const date = new Date();
-    const futureDate = date.getDate();
-    date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
+    //const continue_session = window.confirm("Continue last session?");
 
-    function addClassLab() {
+    function addClassLab() {   /*const addClassLab = () =>*/
         Axios.post('/createclasslab', {
             fa_id: fa_id,
             ammonia: ammonia,
