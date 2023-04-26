@@ -6,61 +6,14 @@ import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom'
 
-const conditionsInitilization = () => {
-    const Cachedconditions = localStorage.getItem("Conditions");
-    return Cachedconditions ? JSON.parse(Cachedconditions) : "" ;
-}
-const tempInitilization = () => {
-    const Cachedtemp = localStorage.getItem("Temp");
-    return Cachedtemp ? JSON.parse(Cachedtemp) : "";
-}
-const phInitilization = () => {
-    const Cachedph = localStorage.getItem("Ph");
-    return Cachedph ? JSON.parse(Cachedph) : "";
-}
-const conductivityInitilization = () => {
-    const Cachedconductivity = localStorage.getItem("Conductivity");
-    return Cachedconductivity ? JSON.parse(Cachedconductivity) : "";
-}
-const nameInitilization = () => {
-    const Cachedname = localStorage.getItem("NameField");
-    return Cachedname ? JSON.parse(Cachedname) : "";
-}
-const observationInitilization = () => {
-    const Cachedobservation = localStorage.getItem("Observation");
-    return Cachedobservation ? JSON.parse(Cachedobservation) : "";
-}
-const wellcoverInitilization = () => {
-    const Cachedwellcover = localStorage.getItem("Wellcover");
-    return Cachedwellcover ? JSON.parse(Cachedwellcover) : "";
-}
-const wellcoverdescriptionInitilization = () => {
-    const Cachedwellcoverdescription = localStorage.getItem("Wellcoverdescription");
-    return Cachedwellcoverdescription ? JSON.parse(Cachedwellcoverdescription) : "";
-}
-const dateenteredInitilization = () => {
-    const Cacheddateentered = localStorage.getItem("Dateentered");
-    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment(); 
-}
-const evidenceInitilization = () => {
-    const Cachedevidence = localStorage.getItem("Evidence");
-    return Cachedevidence ? JSON.parse(Cachedevidence) : "";
-}
-const poolingInitilization = () => {
-    const Cachedpooling = localStorage.getItem("Pooling");
-    return Cachedpooling ? JSON.parse(Cachedpooling) : "";
-}
-
-
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
 
     const [sessionContinued, setSessionContinued] = useState(null);
-    if (localStorage.getItem("fieldData"+well_id)) { // TODO: check if anything is saved, if not, no message pop-up
+    if (localStorage.getItem("fieldData"+well_id)) {
         if (sessionContinued === null) {
             const continue_session= window.confirm("Continue last saved session?");
-            //pullCachedData = continue_session;
             if (continue_session) {
                 setSessionContinued(true);
             } else {
@@ -81,6 +34,7 @@ export default function Field() {
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
     
     const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
+    const [pooling, setPooling] = useState(pullCachedData ? cachedData.Conditions : "");
     const [evidence, setEvidence] = useState(pullCachedData ? cachedData.Evidence : "");
     const [temp, setTemp] = useState(pullCachedData ? cachedData.Temp : "");
     const [ph, setPh] = useState(pullCachedData ? cachedData.Ph : "");
@@ -100,7 +54,7 @@ export default function Field() {
         setObservation(sessionContinued ? cachedData.Observation : "");
         setWellcover(sessionContinued ? cachedData.Wellcover : "");
         setWellcoverDescription(sessionContinued ? cachedData.Wellcoverdescription : "");
-        setDateentered(sessionContinued ? cachedData.Dateentered : "");
+        setDateentered(sessionContinued ? cachedData.Dateentered : moment());
     }, [sessionContinued]);
 
     const handleChange_wellcover = (event) => {
@@ -115,8 +69,6 @@ export default function Field() {
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);
     };
-
-    const [pooling, setPooling] = useState(poolingInitilization);
 
     const handleChange_pooling = (event) => {
         setPooling(event.target.value);
@@ -147,7 +99,7 @@ export default function Field() {
             })
     };
 
-
+    const idList = [""];
     // caching - local storage
    function cacheFieldForm(){
         const fieldData = {Conditions : conditions,
