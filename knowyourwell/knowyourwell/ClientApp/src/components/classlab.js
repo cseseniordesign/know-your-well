@@ -2,13 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-//
-import { Offline, Online } from "react-detect-offline";
-
+//import { Offline, Online } from "react-detect-offline";
 import { useSearchParams } from 'react-router-dom'
  
 
@@ -52,10 +49,10 @@ const nameInitilization = () => {
     const Cachedname = localStorage.getItem("Name");
     return Cachedname ? JSON.parse(Cachedname) : "";
 }
-//const dateenteredInitilization = () => {
-//    const Cacheddateentered = localStorage.getItem("Dateentered");
-//    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
-//}
+const dateenteredInitilization = () => {
+    const Cacheddateentered = localStorage.getItem("Dateentered");
+    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
+}
  
 
 export default function ClassLab() {
@@ -102,7 +99,7 @@ export default function ClassLab() {
     };
 
 
-    ///caching
+    // caching
     useEffect(() => {
             localStorage.setItem("Ammonia", JSON.stringify(ammonia));
             localStorage.setItem("Calcium", JSON.stringify(calcium));
@@ -113,7 +110,7 @@ export default function ClassLab() {
             localStorage.setItem("Nitrate", JSON.stringify(nitrate));
             localStorage.setItem("Name", JSON.stringify(name));
             localStorage.setItem("Bacteria", JSON.stringify(bacteria));
-            localStorage.setItem("Dateentered", JSON.stringify(dateentered));
+            localStorage.setItem("Dateentered", JSON.stringify(dateentered).replace("T", " ").replace("Z", ""));
        
     }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
 
@@ -134,16 +131,19 @@ export default function ClassLab() {
         };
     }, []);
  
-
     function handleClearLocalStorage() {
         localStorage.clear();
     };
 
-    //////////////////////////////////////////////////
     var form = document.getElementById('submissionAlert');
     function myFunction() {
         if (form.checkValidity()) {
             alert("Succesfully submitted Lab form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
 
@@ -152,27 +152,25 @@ export default function ClassLab() {
     }
 
     function myFunction2() {
-        addClassLab();
-        handleClearLocalStorage();
-        /*handleSubmit();*/
-       // myFunction();
+        if (myFunction()) {
+            addClassLab();
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        }
     }
 
     const wellName = searchParams.get("wellName");
 
     return (
-        //<div className="form-container" >
-        //action = "/editwell" id = "submissionAlert"
         <form action="/editwell" id="submissionAlert">
             <div className="styling_offline_bar">
-                {isOnline ? (
+                {/*isOnline ? (
                     <p className="status_online" >Online mode!</p>
                 ) : (
                         <p className="status_offfline">Offline mode</p>
-                )}
+                )*/}
             </div>
              
-            <h2>Class Lab</h2>
+            <h2>{wellName}: Class Lab</h2>
             <div className="css">
                 <label htmlFor="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
@@ -183,7 +181,6 @@ export default function ClassLab() {
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
-                     
                 />
             </div>
             <div className="css">
@@ -310,18 +307,13 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
-            <button type="submit" onClick={backButton} >Back</button>
-            <button type="submit">
-                Save
-            </button>
+            <button type="button" onClick={myFunction2}>Submit</button>
+            <button type="submit" onClick={backButton}>Back</button>
+            <button type="submit">Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
             </div>
         </form>
-        //</div>
     );
 }
-
- /*const addClassLab = () =>*/
