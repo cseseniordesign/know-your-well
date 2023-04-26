@@ -11,6 +11,7 @@ export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
 
+    //Checking for saved sessions
     const [sessionContinued, setSessionContinued] = useState(null);
     if (localStorage.getItem("fieldData"+well_id)) {
         if (sessionContinued === null) {
@@ -46,6 +47,7 @@ export default function Field() {
     const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
     const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
 
+    //Updating if user decides to load session
     useEffect(() => {
         setConditions(sessionContinued ? cachedData.Conditions : "");
         setPooling(sessionContinued ? cachedData.Pooling : "");
@@ -101,6 +103,7 @@ export default function Field() {
     // caching - local storage
    function cacheFieldForm(){
         let elementsValid = true;
+        //Checking if entered elements are valid.
         for(let i = 0; i<idList.length && elementsValid; i++){
             const id = idList[i];
             const element = document.getElementById(id);
