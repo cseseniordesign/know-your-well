@@ -51,7 +51,7 @@ const nameInitilization = () => {
 }
 const dateenteredInitilization = () => {
     const Cacheddateentered = localStorage.getItem("Dateentered");
-    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment();
+    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment().format('L, h:mm a');
 }
  
 
@@ -69,7 +69,7 @@ export default function ClassLab() {
     const [bacteria, setBacteria] = useState(bacteriaInitilization);
     const [observations, setObservations] = useState(observationsInitilization);
     const [name, setName] = useState(nameInitilization);
-    const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
+    const [dateentered, setDateentered] = useState(dateenteredInitilization);
 
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);

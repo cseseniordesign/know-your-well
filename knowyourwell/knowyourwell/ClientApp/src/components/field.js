@@ -90,7 +90,7 @@ export default function Field() {
     const [observation, setObservation] = useState(pullCachedData ? cachedData.Observation : "");
     const [wellcover, setWellcover] = useState(pullCachedData ? cachedData.Wellcover : "");
     const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
-    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment());
+    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
 
     useEffect(() => {
         setConditions(sessionContinued ? cachedData.Conditions : "");
@@ -107,11 +107,6 @@ export default function Field() {
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
     };
-
-    const date = new Date();
-    const futureDate = date.getDate();
-    date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
 
     const [evidence, setEvidence] = useState(evidenceInitilization);
 
