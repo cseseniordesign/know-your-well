@@ -32,12 +32,7 @@ export default function WellInfo() {
     const datacollector = "John Smith"
     const [observation, setObservation] = useState("");
     const [comments, setComments] = useState("");
-    const [dateentered, setDateentered] = useState(moment());
-
-    const date = new Date();
-    const futureDate = date.getDate();
-    date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
+    const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
 
     const [county, setCounty] = useState("");
     const handleChange_county = (event) => {

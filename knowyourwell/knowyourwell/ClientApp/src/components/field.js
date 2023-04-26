@@ -4,7 +4,8 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom';
+moment().format('MMMM Do YYYY, h:mm:ss a');
 
 const conditionsInitilization = () => {
     const Cachedconditions = localStorage.getItem("Conditions");
@@ -66,16 +67,11 @@ export default function Field() {
     const [observation, setObservation] = useState(observationInitilization);
     const [wellcover, setWellcover] = useState(wellcoverInitilization);
     const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
-    const [dateentered, setDateentered] = useState(moment());
+    const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
     };
-
-    const date = new Date();
-    const futureDate = date.getDate();
-    date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
 
     const [evidence, setEvidence] = useState(evidenceInitilization);
 

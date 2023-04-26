@@ -72,18 +72,13 @@ export default function ClassLab() {
     const [bacteria, setBacteria] = useState(bacteriaInitilization);
     const [observations, setObservations] = useState(observationsInitilization);
     const [name, setName] = useState(nameInitilization);
-    const [dateentered, setDateentered] = useState(moment());
+    const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
 
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
 
     //const continue_session = window.confirm("Continue last session?");
-
-    const date = new Date();
-    const futureDate = date.getDate();
-    date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
 
     function addClassLab() {   /*const addClassLab = () =>*/
         Axios.post('/createclasslab', {
