@@ -20,8 +20,8 @@ export default function WellInfo() {
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState(0);
     const [numberwelluser, setNumberwelluser] = useState(0);
-    const [estlatitude, setEstlatitude] = useState(null );
-    const [estlongitude, setEstlongitude] = useState(null );
+    const [estlatitude, setEstlatitude] = useState(null);
+    const [estlongitude, setEstlongitude] = useState(null);
     const [boreholediameter, setBoreholediameter] = useState(0);
     const [totaldepth, setTotaldepth] = useState(0);
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
@@ -99,18 +99,6 @@ export default function WellInfo() {
     const handleChange_welltype = (event) => {
         setWelltype(event.target.value);
     };
-
-    // geolocation 
-    useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((pos) => {
-                setEstlatitude(pos.coords);
-                setEstlongitude(pos.coords);
-            });
-        } else {
-            console.log('Geolocation is not supported by this browser.');
-        }
-    }, []);
 
     function addWellInfo() {
         Axios.post('/createwellinfo', {
@@ -608,7 +596,7 @@ export default function WellInfo() {
                 </label>
                 <input
                     
-                    type="text" value={estlatitude ? estlatitude.latitude : "Loading..." } className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
+                    type="text" value={estlatitude ? estlatitude.latitude : "" } className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
                     onChange={(event) => {
                         setEstlatitude(event.target.value);
                     }}
@@ -621,7 +609,7 @@ export default function WellInfo() {
                     <br /> [-104 - -95.417]
                 </label>
                 <input
-                    type="text" value={estlongitude ? estlongitude.longitude : "Loading..."  } className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
+                    type="text" value={estlongitude ? estlongitude.longitude : ""  } className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
                     onChange={(event) => {
                         setEstlongitude(event.target.value);
                     }}

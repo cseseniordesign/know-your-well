@@ -30,8 +30,8 @@ export default function Field() {
 
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData"+well_id)) : null;
     const wellName = searchParams.get("wellName");
-    const fa_latitude = 40.8;   //TODO: match this up with actual value.
-    const fa_longitude = -97.5; //TODO: match this up with actual value.
+    const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : "");
+    const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : "");
     const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
     
@@ -49,6 +49,8 @@ export default function Field() {
 
     //Updating if user decides to load session
     useEffect(() => {
+        setFa_latitude(sessionContinued ? cachedData.fa_latitude : "");
+        setFa_longitude(sessionContinued ? cachedData.fa_longitude : "");
         setConditions(sessionContinued ? cachedData.Conditions : "");
         setPooling(sessionContinued ? cachedData.Pooling : "");
         setEvidence(sessionContinued ? cachedData.Evidence : "");
@@ -74,6 +76,19 @@ export default function Field() {
         setPooling(event.target.value);
     };
 
+    // geolocation 
+    useEffect(() => {
+        if (!sessionContinued) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    setFa_latitude(pos.coords);
+                    setFa_longitude(pos.coords);
+                });
+            } else {
+                console.log('Geolocation is not supported by this browser.');
+            }
+        }
+    }, []);
 
     function addField () {
         Axios.post('/api/insert', {
@@ -181,6 +196,33 @@ export default function Field() {
     return (
         <form>  
             <h2>{wellName}: Field</h2>
+            <div className="css">
+                <label for="fa_latitude">
+                    Latitude (in decimal degrees):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                    <br /> [40 - 43]
+                </label>
+                <input
+
+                    type="text" value={fa_latitude ? fa_latitude.latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
+                    onChange={(event) => {
+                        setFa_latitude(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="fa_longitude">
+                    Longitude (in decimal degrees):
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                    <br /> [-104 - -95.417]
+                </label>
+                <input
+                    type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{4,12})?|95([.][4-9][2-9][0-9]{4,12})?|95([.][4-9][1-9][7-9][0-9]{4,12})?)" required
+                    onChange={(event) => {
+                        setFa_longitude(event.target.value);
+                    }}
+                />
+            </div>
             <div className="css">
                 <label htmlFor="conditions">
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
