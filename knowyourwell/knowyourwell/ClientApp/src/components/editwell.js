@@ -9,6 +9,12 @@ export default function EditWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const wellName = searchParams.get("wellName");
     const id = searchParams.get("id");
+    if (localStorage.getItem("fieldData"+id)) {
+        const viewSavedForm = window.confirm("You have a saved field form.\n Would you like to view it?");
+        if (viewSavedForm) {
+            window.location.href = `/Field?id=${id}&wellName=${wellName}&sessionContinued=True`
+        }
+    }
     return (
         <List style={{ textAlign: 'center' }}>
             <h2>{wellName}</h2>
