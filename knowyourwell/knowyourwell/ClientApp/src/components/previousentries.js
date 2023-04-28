@@ -77,7 +77,7 @@ export default function PreviousEntries() {
     return (
         <List style={{ textAlign: 'center' }}>
             <br />
-            <h2>Previous Entries: {wellName}</h2>
+            <h2>{wellName}: Previous Entries</h2>
             <br />
             {listElements}
             <List.Item>

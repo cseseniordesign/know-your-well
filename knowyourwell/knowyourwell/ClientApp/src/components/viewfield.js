@@ -92,7 +92,7 @@ export default function ViewField() {
 
         return (
             <div className="css">
-                <h2>Field Activity</h2>
+                <h2>{wellName}: Field Activity</h2>
                 <br />
                 <div class="container" style={{ textAlign: "center" }}>
                     {columnList}

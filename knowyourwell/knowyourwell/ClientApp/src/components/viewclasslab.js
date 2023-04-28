@@ -81,7 +81,7 @@ export default function ViewLab() {
 
         return (
             <div className="css">
-                <h2>Field Activity</h2>
+                <h2>{wellName}: Class Lab</h2>
                 <br />
                 <div class="container" style={{ textAlign: "center" }}>
                     {columnList}
