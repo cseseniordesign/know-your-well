@@ -59,6 +59,7 @@ export default function ClassLab() {
     const [searchParams, setSearchParams] = useSearchParams();
     const fa_id = parseInt(searchParams.get("field_id"));
     const well_id = searchParams.get("well_id");
+    const wellName = searchParams.get("wellName");
     const [ammonia, setAmmonia] = useState(ammoniaInitilization);
     const [calcium, setCalcium] = useState(calciumInitilization);
     const [chloride, setChloride] = useState(chlorideInitilization);
@@ -139,7 +140,7 @@ export default function ClassLab() {
     var form = document.getElementById('submissionAlert');
     function validForm() {
         if (form.checkValidity()) {
-            alert("Succesfully submitted Lab form!");
+            alert("Succesfully submitted Class Lab form!");
             return true;
         }
         else {
@@ -155,11 +156,10 @@ export default function ClassLab() {
     function submitForm() {
         if (validForm()) {
             addClassLab();
+            handleClearLocalStorage();
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
         }
     }
-
-    const wellName = searchParams.get("wellName");
 
     return (
         <form action="/editwell" id="submissionAlert">

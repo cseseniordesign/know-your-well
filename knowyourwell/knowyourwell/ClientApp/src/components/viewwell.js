@@ -94,7 +94,8 @@ export default function ViewWell() {
                 <br />
                 <div class="container" style={{textAlign: "center"}}>
                     {columnList}
-                    <button type="button" onClick={backButton} >Back</button>
+                    <br/>
+                    <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
                     <br/><br/>
                     <a href="mailto:knowyourwell@unl.edu" style={{ textAlign: "center" }}>
                     If any data is incorrect email us at knowyourwell@unl.edu</a>
