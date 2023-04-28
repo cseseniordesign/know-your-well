@@ -114,7 +114,7 @@ export default function Field() {
             })
     };
 
-    const idList = ["conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation", "dateentered"];
+    const idList = ["conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
     // caching - local storage
    function cacheFieldForm(){
         let elementsValid = true;
@@ -142,6 +142,7 @@ export default function Field() {
                 Pooling : pooling
             };
             localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
+            alert("Information Saved!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
         }
     };
@@ -381,7 +382,7 @@ export default function Field() {
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <div id="dateentered">
+                <div id="dateentereddiv">
                     <DatePicker
                         value={dateentered}
                         dateFormat="MM-DD-YYYY"
