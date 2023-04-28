@@ -30,8 +30,8 @@ export default function Field() {
 
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData"+well_id)) : null;
     const wellName = searchParams.get("wellName");
-    const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : "");
-    const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : "");
+    const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : -181);
+    const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : -91);
     const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
     const fa_genlongitude = -97.5; //TODO: match this up with actual value.
     
@@ -81,8 +81,8 @@ export default function Field() {
         if (!sessionContinued) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
-                    setFa_latitude(pos.coords);
-                    setFa_longitude(pos.coords);
+                    setFa_latitude(pos.coords.latitude);
+                    setFa_longitude(pos.coords.longitude);
                 });
             } else {
                 console.log('Geolocation is not supported by this browser.');
@@ -129,6 +129,8 @@ export default function Field() {
         }
         if(elementsValid){
             const fieldData = {
+                fa_latitude: fa_latitude,
+                fa_longitude: fa_longitude,
                 Conditions : conditions,
                 Temp : temp,
                 Ph : ph,
@@ -205,7 +207,7 @@ export default function Field() {
                 </label>
                 <input
 
-                    type="text" value={fa_latitude ? fa_latitude.latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
+                    type="text" value={fa_latitude ? fa_latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
                     onChange={(event) => {
                         setFa_latitude(event.target.value);
                     }}
@@ -218,7 +220,7 @@ export default function Field() {
                     <br /> [-104 - -95.417]
                 </label>
                 <input
-                    type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
+                    type="text" value={fa_longitude ? fa_longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
                     onChange={(event) => {
                         setFa_longitude(event.target.value);
                     }}
