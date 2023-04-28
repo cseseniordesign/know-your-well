@@ -382,7 +382,7 @@ export default function Field() {
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <div id="dateentereddiv">
+                <div id="dateentered">
                     <DatePicker
                         value={dateentered}
                         dateFormat="MM-DD-YYYY"
