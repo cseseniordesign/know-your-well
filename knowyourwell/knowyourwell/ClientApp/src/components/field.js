@@ -11,7 +11,7 @@ export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
 
-    //Checking for saved sessions
+    // Checking for saved sessions
     const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
     if (localStorage.getItem("fieldData"+well_id)) {
         if (sessionContinued === null) {
@@ -47,7 +47,7 @@ export default function Field() {
     const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
     const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
 
-    //Updating if user decides to load session
+    // Updating if user decides to load session
     useEffect(() => {
         setFa_latitude(sessionContinued ? cachedData.fa_latitude : "");
         setFa_longitude(sessionContinued ? cachedData.fa_longitude : "");
@@ -118,7 +118,7 @@ export default function Field() {
     // caching - local storage
    function cacheFieldForm(){
         let elementsValid = true;
-        //Checking if entered elements are valid.
+        // Checking if entered elements are valid.
         for(let i = 0; i<idList.length && elementsValid; i++){
             const id = idList[i];
             const element = document.getElementById(id);
@@ -147,6 +147,7 @@ export default function Field() {
         }
     };
 
+    {/*}
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
     useEffect(() => {
@@ -162,6 +163,7 @@ export default function Field() {
             window.removeEventListener('offline', handleOnlineStatus);
         };
     }, []);
+    {*/}
 
     function handleClearLocalStorage() {
         localStorage.removeItem("fieldData"+well_id);
@@ -203,9 +205,7 @@ export default function Field() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                     <br /> [40 - 43]
                 </label>
-                <input
-
-                    type="text" value={fa_latitude ? fa_latitude.latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
+                <input type="text" value={fa_latitude ? fa_latitude.latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
                     onChange={(event) => {
                         setFa_latitude(event.target.value);
                     }}
@@ -217,8 +217,7 @@ export default function Field() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                     <br /> [-104 - -95.417]
                 </label>
-                <input
-                    type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
+                <input type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
                     onChange={(event) => {
                         setFa_longitude(event.target.value);
                     }}
@@ -229,8 +228,7 @@ export default function Field() {
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <textarea
-                    type="text" value={conditions} id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
+                <textarea type="text" value={conditions} id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
                     onChange={(event) => {
                         setConditions(event.target.value);
                     }}
@@ -243,10 +241,7 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select id="wellCover"
-                            value={wellcover}
-                            onChange={handleChange_wellcover}
-                        >
+                        <select id="wellCover" value={wellcover} onChange={handleChange_wellcover}>
                             <option hidden defaultValue>Select one...</option>
                             <option value="Intact" id="wellcover" name="wellcover" required >Intact</option>
                             <option value="Observable_Opening" id="wellcover" name="wellcover" required>Observable Opening</option>
@@ -258,8 +253,7 @@ export default function Field() {
                             <label for="wellcoverdescription">
                                 Well Cover Description:
                             </label>
-                            <textarea
-                                type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                            <textarea type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
                                 onChange={(event) => {
                                     setWellcoverDescription(event.target.value);
                                 }}
@@ -271,8 +265,7 @@ export default function Field() {
                             <label for="wellcoverdescription">
                                 Well Cover Description:
                             </label>
-                            <textarea
-                                type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                            <textarea type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
                                 onChange={(event) => {
                                     setWellcoverDescription(event.target.value);
                                 }}
@@ -288,10 +281,7 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select id = "evidence"
-                            value={evidence}
-                            onChange={handleChange_evidence}
-                        >
+                        <select id = "evidence" value={evidence} onChange={handleChange_evidence}>
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="evidence" name="evidence" required >Yes</option>
                             <option value="No" id="evidence" name="evidence" required >No</option>
@@ -307,10 +297,7 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select id ="pooling"
-                            value={pooling}
-                            onChange={handleChange_pooling}
-                        >
+                        <select id ="pooling" value={pooling} onChange={handleChange_pooling}>
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="pooling" name="pooling" required >Yes</option>
                             <option value="No" id="pooling" name="pooling" required >No</option>
@@ -323,8 +310,7 @@ export default function Field() {
                     Groundwater Temperature<br /> [Degrees Celsius]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={temp} className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
+                <input type="text" value={temp} className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setTemp(event.target.value);
                     }}
@@ -335,8 +321,7 @@ export default function Field() {
                     pH<br /> [0-14]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={ph} className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
+                <input type="text" value={ph} className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
                     onChange={(event) => {
                         setPh(event.target.value);
                     }}
@@ -347,8 +332,7 @@ export default function Field() {
                     Conductivity <br /> [uS/cm]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={conductivity} className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
+                <input type="text" value={conductivity} className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setConductivity(event.target.value);
                     }}
@@ -359,8 +343,7 @@ export default function Field() {
                     Data Collector’s Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={name} className="textarea resize-ta" id="name" name="name" required
+                <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
@@ -370,8 +353,7 @@ export default function Field() {
                 <label htmlFor="observation">
                     Observations
                 </label>
-                <textarea
-                    type="text" value={observation } className="textarea resize-ta" maxLength="150" id="observation" name="observation"
+                <textarea type="text" value={observation } className="textarea resize-ta" maxLength="150" id="observation" name="observation"
                     onChange={(event) => {
                         setObservation(event.target.value);
                     }}
@@ -399,9 +381,9 @@ export default function Field() {
                 </div>
             </div>
             <br/>
-            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="submit" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="submit" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field

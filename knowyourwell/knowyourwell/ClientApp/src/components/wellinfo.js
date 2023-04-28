@@ -5,7 +5,7 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import { useSearchParams } from "react-router-dom";
+
 
 export default function WellInfo() {
     //const [wellcode, setWellcode] = useState("");
@@ -109,8 +109,8 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
-            countyid: 1,
-            nrdid: 1,
+            countyid: 1, // TODO
+            nrdid: 1, // TODO
             wellowner: wellowner,
             installyear: installyear,
             smelltaste: smelltaste,
@@ -171,8 +171,7 @@ export default function WellInfo() {
                     Well Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="wellname" name="wellname" required
+                <input type="text" className="textarea resize-ta" id="wellname" name="wellname" required
                     onChange={(event) => {
                         setWellname(event.target.value);
                     }}
@@ -182,8 +181,7 @@ export default function WellInfo() {
                 <label for="welluser">
                     Name of the resident well user:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="welluser" name="welluser"
+                <input type="text" className="textarea resize-ta" id="welluser" name="welluser"
                     onChange={(event) => {
                         setWelluser(event.target.value);
                     }}
@@ -193,8 +191,7 @@ export default function WellInfo() {
                 <label for="address">
                     Address:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="address" name="address"
+                <input type="text" className="textarea resize-ta" id="address" name="address"
                     onChange={(event) => {
                         setAddress(event.target.value);
                     }}
@@ -204,8 +201,7 @@ export default function WellInfo() {
                 <label for="city">
                     Village, Town, or City:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="city" name="city"
+                <input type="text" className="textarea resize-ta" id="city" name="city"
                     onChange={(event) => {
                         setCity(event.target.value);
                     }}
@@ -216,10 +212,7 @@ export default function WellInfo() {
                     State:
                 </label>
                 <div className="select-container">
-                    <select
-                        value={state}
-                        onChange={handleChange_state}
-                    >
+                    <select value={state} onChange={handleChange_state}>
                         <option hidden selected>Select one...</option>
                         <option value="AL" id="state" name="state">Alabama</option>
                         <option value="AK" id="state" name="state">Alaska</option>
@@ -278,8 +271,7 @@ export default function WellInfo() {
                 <label for="zipcode">
                     Zip code:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="zipcode" name="zipcode" pattern="[0-9]{5}"
+                <input type="text" className="textarea resize-ta" id="zipcode" name="zipcode" pattern="[0-9]{5}"
                     onChange={(event) => {
                         setZipcode(event.target.value);
                     }}
@@ -291,10 +283,7 @@ export default function WellInfo() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span> 
                 </label>
                 <div className="select-container">
-                    <select
-                        value={county}
-                        onChange={handleChange_county}
-                    >
+                    <select value={county} onChange={handleChange_county}>
                         <option hidden selected>Select one...</option>
                         <option value="Adams" id="county" name="county" required >Adams</option>
                         <option value="Antelope" id="county" name="county" required >Antelope</option>
@@ -398,10 +387,7 @@ export default function WellInfo() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div className="select-container">
-                    <select
-                        value={nrd}
-                        onChange={handleChange_nrd}
-                    >
+                    <select value={nrd} onChange={handleChange_nrd}>
                         <option hidden selected>Select one...</option>
                         <option value="Central Platte" id="nrd" name="nrd" required >Central Platte</option>
                         <option value="Lewis and Clark" id="nrd" name="nrd" required >Lewis and Clark</option>
@@ -433,8 +419,7 @@ export default function WellInfo() {
                 <label for="wellowner">
                     Well owner (if different from resident):
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="wellowner" name="wellowner"
+                <input type="text" className="textarea resize-ta" id="wellowner" name="wellowner"
                     onChange={(event) => {
                         setWellowner(event.target.value);
                     }}
@@ -445,8 +430,7 @@ export default function WellInfo() {
                     Well construction completion year:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="installyear" name="installyear" pattern="[0-9]{4}" required
+                <input type="text" className="textarea resize-ta" id="installyear" name="installyear" pattern="[0-9]{4}" required
                     onChange={(event) => {
                         setInstallyear(event.target.value);
                     }}
@@ -459,10 +443,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={smelltaste}
-                            onChange={handleChange_smelltaste}
-                        >
+                        <select value={smelltaste} onChange={handleChange_smelltaste}>
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="smelltaste" name="smelltaste" required >Yes</option>
                             <option value="No" id="smelltaste" name="smelltaste" required >No</option>
@@ -474,8 +455,7 @@ export default function WellInfo() {
                             <label for="smelltaste_description">
                                 Smell or taste of water desciption:
                             </label>
-                            <textarea
-                                type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
+                            <textarea type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
                                 onChange={(event) => { // if 'yes'
                                     setSmelltaste_description(event.target.value);
                                 }}
@@ -491,10 +471,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={welldry}
-                            onChange={handleChange_welldry}
-                        >
+                        <select value={welldry} onChange={handleChange_welldry}>
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="welldry" name="welldry" required >Yes</option>
                             <option value="No" id="welldry" name="welldry" required >No</option>
@@ -506,8 +483,7 @@ export default function WellInfo() {
                             <label for="welldry_description">
                                 If so, when?
                             </label>
-                            <textarea
-                                type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
+                            <textarea type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
                                 onChange={(event) => {
                                     setWelldry_description(event.target.value);
                                 }}
@@ -523,10 +499,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={maintenance5yr}
-                            onChange={handleChange_maintenance5yr}
-                        >
+                        <select value={maintenance5yr} onChange={handleChange_maintenance5yr}>
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="maintenance5yr" name="maintenance5yr" required >Yes</option>
                             <option value="No" id="maintenance5yr" name="maintenance5yr" required >No</option>
@@ -542,10 +515,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={landuse5yr}
-                            onChange={handleChange_landuse5yr}
-                        >
+                        <select value={landuse5yr} onChange={handleChange_landuse5yr}>
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="landuse5yr" name="landuse5yr" required >Yes</option>
                             <option value="No" id="landuse5yr" name="landuse5yr" required >No</option>
@@ -558,8 +528,7 @@ export default function WellInfo() {
                 <label for="numberwelluser">
                     How many people use this well?
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" pattern="[0-9]+"
+                <input type="text" className="textarea resize-ta" id="numberwelluser" name="numberwelluser" pattern="[0-9]+"
                     onChange={(event) => {
                         setNumberwelluser(event.target.value);
                     }}
@@ -572,10 +541,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={pestmanure}
-                            onChange={handleChange_pestmanure}
-                        >
+                        <select value={pestmanure} onChange={handleChange_pestmanure}>
                             <option hidden selected>Select one...</option>
                             <option value="Yes" id="pestmanure" name="pestmanure" required >Yes</option>
                             <option value="No" id="pestmanure" name="pestmanure" required >No</option>
@@ -588,11 +554,9 @@ export default function WellInfo() {
                 <label for="estlatitude">
                     Estimated Latitude (in decimal degrees):
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                    <br /> [40 - 43]
+                    <br/> [40 - 43]
                 </label>
-                <input
-                    
-                    type="text" value={estlatitude ? estlatitude.latitude : "" } className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
+                <input type="text" value={estlatitude ? estlatitude.latitude : ""} className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
                     onChange={(event) => {
                         setEstlatitude(event.target.value);
                     }}
@@ -602,10 +566,9 @@ export default function WellInfo() {
                 <label for="estlongitude">
                     Estimated Longitude (in decimal degrees):
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                    <br /> [-104 - -95.417]
+                    <br/> [-104 - -95.417]
                 </label>
-                <input
-                    type="text" value={estlongitude ? estlongitude.longitude : ""  } className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
+                <input type="text" value={estlongitude ? estlongitude.longitude : ""  } className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
                     onChange={(event) => {
                         setEstlongitude(event.target.value);
                     }}
@@ -615,8 +578,7 @@ export default function WellInfo() {
                 <label for="boreholediameter">
                     Bore hole diameter (inches):
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" pattern="[0-9]+([.][0-9]{1,5})?"
+                <input type="text" className="textarea resize-ta" id="boreholediameter" name="boreholediameter" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setBoreholediameter(event.target.value);
                     }}
@@ -626,8 +588,7 @@ export default function WellInfo() {
                 <label for="totaldepth">
                     Total depth of well (feet):
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?"
+                <input type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                     }}
@@ -640,10 +601,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={topography}
-                            onChange={handleChange_topography}
-                        >
+                        <select value={topography} onChange={handleChange_topography}>
                             <option hidden selected>Select one...</option>
                             <option value="HillTop" id="topography" name="topography" required >Hill Top</option>
                             <option value="HillSlope" id="topography" name="topography" required >Hill Slope</option>
@@ -657,8 +615,7 @@ export default function WellInfo() {
                 <label for="well_waterleveldepth">
                     Water level (feet):
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?"
+                <input type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?"
                     onChange={(event) => {
                         setWell_waterleveldepth(event.target.value);
                     }}
@@ -671,10 +628,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={aquifertype}
-                            onChange={handleChange_aquifertype}
-                        >
+                        <select value={aquifertype} onChange={handleChange_aquifertype}>
                             <option hidden selected>Select one...</option>
                             <option value="Confined" id="aquifertype" name="aquifertype" required >Confined</option>
                             <option value="Unconfined" id="aquifertype" name="aquifertype" required >Unconfined</option>
@@ -690,10 +644,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={aquiferclass}
-                            onChange={handleChange_aquiferclass}
-                        >
+                        <select value={aquiferclass} onChange={handleChange_aquiferclass}>
                             <option hidden selected>Select one...</option>
                             <option value="Bedrock" id="aquiferclass" name="aquiferclass" required >Bedrock</option>
                             <option value="SandOrGravel" id="aquiferclass" name="aquiferclass" required >Sand or Gravel</option>
@@ -709,10 +660,7 @@ export default function WellInfo() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={welltype}
-                            onChange={handleChange_welltype}
-                        >
+                        <select value={welltype} onChange={handleChange_welltype}>
                             <option hidden selected>Select one...</option>
                             <option value="Drilled" id="welltype" name="welltype" required >Drilled</option>
                             <option value="Driven" id="welltype" name="welltype" required >Driven</option>
@@ -726,8 +674,7 @@ export default function WellInfo() {
                 <label for="wellcasematerial">
                     What is the well casing material made of?
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="wellcasematerial" name="wellcasematerial"
+                <input type="text" className="textarea resize-ta" id="wellcasematerial" name="wellcasematerial"
                     onChange={(event) => {
                         setWellcasematerial(event.target.value);
                     }}
@@ -737,8 +684,7 @@ export default function WellInfo() {
                 <label for="datacollector">
                     Data Collector’s Name:
                 </label>
-                <input
-                    type="text" className="textarea resize-ta" id="datacollector" name="datacollector" required
+                <input type="text" className="textarea resize-ta" id="datacollector" name="datacollector" required
                     onChange={(event) => {
                         setDatacollector(event.target.value);
                     }}
@@ -748,8 +694,7 @@ export default function WellInfo() {
                 <label for="observation">
                     Observations:
                 </label>
-                <textarea
-                    type="text" id="observation" name="observation" className="textarea resize-ta" maxLength="150"
+                <textarea type="text" id="observation" name="observation" className="textarea resize-ta" maxLength="150"
                     onChange={(event) => {
                         setObservation(event.target.value);
                     }}
@@ -777,8 +722,8 @@ export default function WellInfo() {
                 </div>
             </div>
             <br/>
-            <button type="button" style={{ width: "11%", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="submit" style={{ width: "11%", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="submit" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <div className="requiredField">
                 <br/>
                 * = Required Field

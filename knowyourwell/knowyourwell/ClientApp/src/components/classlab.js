@@ -77,7 +77,7 @@ export default function ClassLab() {
 
     //const continue_session = window.confirm("Continue last session?");
 
-    function addClassLab() {   /*const addClassLab = () =>*/
+    function addClassLab() {
         Axios.post('/createclasslab', {
             fa_id: fa_id,
             ammonia: ammonia,
@@ -114,7 +114,7 @@ export default function ClassLab() {
        
     }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
 
-
+    {/*}
     const [isOnline, setIsOnline] =  useState(navigator.onLine);
 
      useEffect(() => {
@@ -130,6 +130,7 @@ export default function ClassLab() {
             window.removeEventListener('offline', handleOnlineStatus);
         };
     }, []);
+    {*/}
  
     function handleClearLocalStorage() {
         localStorage.clear();
@@ -164,7 +165,7 @@ export default function ClassLab() {
         <form action="/editwell" id="submissionAlert">
             <div className="styling_offline_bar">
                 {/*isOnline ? (
-                    <p className="status_online" >Online mode!</p>
+                    <p className="status_online" >Online mode</p>
                 ) : (
                         <p className="status_offfline">Offline mode</p>
                 )*/}
@@ -176,8 +177,7 @@ export default function ClassLab() {
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={ammonia} className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
+                <input type="text" value={ammonia} className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
                     onChange={(event) => {
                         setAmmonia(event.target.value);
                     }}
@@ -188,8 +188,7 @@ export default function ClassLab() {
                     Calcium hardness <br /> [50-500 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={calcium} className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
+                <input type="text" value={calcium} className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
                     onChange={(event) => {
                         setCalcium(event.target.value);
                     }}
@@ -200,8 +199,7 @@ export default function ClassLab() {
                     Chloride <br /> [0-400 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={chloride} className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
+                <input type="text" value={chloride} className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
                     onChange={(event) => {
                         setChloride(event.target.value);
                     }}
@@ -214,10 +212,7 @@ export default function ClassLab() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={bacteria}
-                            onChange={handleChange_Bacteria}
-                        >
+                        <select value={bacteria} onChange={handleChange_Bacteria}>
                             <option hidden defaultValue>Select one...</option>
                             <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
                             <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria" required>Yellow with fluorescent rim </option>
@@ -231,8 +226,7 @@ export default function ClassLab() {
                     Copper <br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={copper} className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
+                <input type="text" value={copper} className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setCopper(event.target.value);
                     }}
@@ -243,8 +237,7 @@ export default function ClassLab() {
                     Iron<br /> [0-10 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={iron} className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
+                <input type="text" value={iron} className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
                     onChange={(event) => {
                         setIron(event.target.value);
                     }}
@@ -255,8 +248,7 @@ export default function ClassLab() {
                     Manganese<br /> [0-50 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={manganese } className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
+                <input type="text" value={manganese } className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
                     onChange={(event) => {
                         setManganese(event.target.value);
                     }}
@@ -267,8 +259,7 @@ export default function ClassLab() {
                     Nitrate - N<br /> [0-45 ppm(mg/L)]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={nitrate } className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
+                <input type="text" value={nitrate } className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
                     onChange={(event) => {
                         setNitrate(event.target.value);
                     }}
@@ -279,14 +270,13 @@ export default function ClassLab() {
                     Data Collector’s Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={name} className="textarea resize-ta" id="name" name="name" required
+                <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
                 />
             </div>
-            <div className="css" >
+            <div className="css">
                 <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
@@ -308,9 +298,9 @@ export default function ClassLab() {
                 </div>
             </div>
             <br/>
-            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="submit" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg">Save</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="submit" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg">Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
