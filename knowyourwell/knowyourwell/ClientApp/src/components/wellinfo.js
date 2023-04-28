@@ -556,7 +556,7 @@ export default function WellInfo() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                     <br/> [40 - 43]
                 </label>
-                <input type="text" value={estlatitude ? estlatitude.latitude : ""} className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
+                <input type="text" className="textarea resize-ta" id="estlatitude" name="estlatitude" pattern="4[0-2]+([.][0-9]{1,5})?|43" required
                     onChange={(event) => {
                         setEstlatitude(event.target.value);
                     }}
@@ -568,7 +568,7 @@ export default function WellInfo() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                     <br/> [-104 - -95.417]
                 </label>
-                <input type="text" value={estlongitude ? estlongitude.longitude : ""  } className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
+                <input type="text" className="textarea resize-ta" id="estlongitude" name="estlongitude" pattern="-(104|1[0-9][0-3]([.][0-9]{1,5})?|9[6-9]([.][0-9]{1,5})?|95([.][5-9][0-9]{0,4})?|95([.][4-9][2-9][0-9]{0,3})?|95([.][4-9][1-9][7-9][0-9]{0,2})?)" required
                     onChange={(event) => {
                         setEstlongitude(event.target.value);
                     }}
@@ -723,7 +723,7 @@ export default function WellInfo() {
             </div>
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="submit" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <div className="requiredField">
                 <br/>
                 * = Required Field

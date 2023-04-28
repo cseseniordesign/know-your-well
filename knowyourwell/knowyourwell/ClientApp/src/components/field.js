@@ -30,8 +30,8 @@ export default function Field() {
 
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData"+well_id)) : null;
     const wellName = searchParams.get("wellName");
-    const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : -181);
-    const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : -91);
+    const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : "");
+    const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : "");
     const fa_genlatitude = Math.round(fa_latitude * 100) / 100; // rounds to third decimal place
     const fa_genlongitude = Math.round(fa_longitude * 100) / 100; // rounds to third decimal place
     const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
@@ -85,6 +85,7 @@ export default function Field() {
                 });
             } else {
                 console.log('Geolocation is not supported by this browser.');
+                alert("Geolocation is not working right now, please fill it in manually.");
             }
         }
     }, []);
@@ -383,7 +384,7 @@ export default function Field() {
             </div>
             <br/>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="submit" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
             <div className="requiredField">
                 <br></br>
