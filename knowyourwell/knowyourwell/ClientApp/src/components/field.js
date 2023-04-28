@@ -12,7 +12,7 @@ export default function Field() {
     const well_id = parseInt(searchParams.get("id"));
 
     //Checking for saved sessions
-    const [sessionContinued, setSessionContinued] = useState(null);
+    const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
     if (localStorage.getItem("fieldData"+well_id)) {
         if (sessionContinued === null) {
             const continue_session= window.confirm("Continue last saved session?");
