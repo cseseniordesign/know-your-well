@@ -5,7 +5,7 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
-moment().format('MMMM Do YYYY, h:mm:ss a');
+
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -167,7 +167,7 @@ export default function Field() {
     };
 
     var form = document.getElementById('submissionAlert');
-    const myFunction = () => {
+    const validForm = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Field Form!");
             return true;
@@ -185,8 +185,8 @@ export default function Field() {
         }
     }
 
-    function myFunction2() {
-        if (myFunction()) {
+    function submitForm() {
+        if (validForm()) {
             addField();
             handleClearLocalStorage();
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
@@ -384,7 +384,7 @@ export default function Field() {
                 <div id="dateentered">
                     <DatePicker
                         value={dateentered}
-                        dateFormat="DD-MM-YYYY"
+                        dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
                         onChange={(val) => setDateentered(val)}
                         inputProps={{
@@ -397,7 +397,7 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="button" onClick={myFunction2}>Submit</button>
+            <button type="button" onClick={submitForm}>Submit</button>
             <button type="button" onClick={backButton}>Back</button>
             <button type="button" onClick={cacheFieldForm}>Save</button>
             <div className="requiredField">

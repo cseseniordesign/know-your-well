@@ -26,8 +26,7 @@ export default function WellInfo() {
     const [totaldepth, setTotaldepth] = useState(0);
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
     const [wellcasematerial, setWellcasematerial] = useState("");
-    //const [datacollector, setDatacollector] = useState("");
-    const datacollector = "John Smith"
+    const [datacollector, setDatacollector] = useState("");
     const [observation, setObservation] = useState("");
     const [dateentered, setDateentered] = useState(moment());
 
@@ -142,7 +141,7 @@ export default function WellInfo() {
     };
 
     var form = document.getElementById('submissionAlert');
-    const myFunction = () => {
+    const validForm = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Well Info Form!");
             return true;
@@ -157,8 +156,8 @@ export default function WellInfo() {
         window.location.href = `/well`;
     }
 
-    function myFunction2() {
-        if (myFunction()) {
+    function submitForm() {
+        if (validForm()) {
             addWellInfo();
             window.location.href = `/well`
         }
@@ -737,7 +736,6 @@ export default function WellInfo() {
                     }}
                 />
             </div>
-            {/* }
             <div className="css">
                 <label for="datacollector">
                     Data Collector’s Name:
@@ -749,7 +747,6 @@ export default function WellInfo() {
                     }}
                 />
             </div>
-            { */}
             <div className="css">
                 <label for="observation">
                     Observations:
@@ -769,7 +766,7 @@ export default function WellInfo() {
                 <div id="dateentered">
                     <DatePicker
                         value={dateentered}
-                        dateFormat="DD-MM-YYYY"
+                        dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
                         onChange={(val) => setDateentered(val)}
                         inputProps={{
@@ -782,7 +779,7 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="button" onClick={myFunction2}>Submit</button>
+            <button type="button" onClick={submitForm}>Submit</button>
             <button type="submit" onClick={backButton}>Back</button>
             <div className="requiredField">
                 <br></br>
