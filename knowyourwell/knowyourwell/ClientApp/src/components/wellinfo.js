@@ -163,12 +163,9 @@ export default function WellInfo() {
         }
     }
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const wellName = searchParams.get("wellName");
-
     return (
         <form action="/editwell" id="submissionAlert" >
-            <h2>{wellName}: Well Info</h2>
+            <h2>Well Info</h2>
             <div className="css">
                 <label for="wellname">
                     Well Name:
