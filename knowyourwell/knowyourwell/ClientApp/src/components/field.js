@@ -217,7 +217,7 @@ export default function Field() {
                     <br /> [-104 - -95.417]
                 </label>
                 <input
-                    type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{4,12})?|95([.][4-9][2-9][0-9]{4,12})?|95([.][4-9][1-9][7-9][0-9]{4,12})?)" required
+                    type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
                     onChange={(event) => {
                         setFa_longitude(event.target.value);
                     }}
