@@ -779,10 +779,11 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="button" onClick={submitForm}>Submit</button>
-            <button type="submit" onClick={backButton}>Back</button>
+            <br/>
+            <button type="button" style={{ width: "11%", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="submit" style={{ width: "11%", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <div className="requiredField">
-                <br></br>
+                <br/>
                 * = Required Field
             </div>
         </form>

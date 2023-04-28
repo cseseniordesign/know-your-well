@@ -307,9 +307,10 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="button" onClick={submitForm}>Submit</button>
-            <button type="submit" onClick={backButton}>Back</button>
-            <button type="submit">Save</button>
+            <br/>
+            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="submit" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg">Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
