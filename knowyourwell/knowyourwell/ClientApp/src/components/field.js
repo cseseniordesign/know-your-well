@@ -32,8 +32,8 @@ export default function Field() {
     const wellName = searchParams.get("wellName");
     const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : "");
     const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : "");
-    const fa_genlatitude = Math.round(fa_latitude * 100) / 100;
-    const fa_genlongitude = Math.round(fa_latitude * 100) / 100;
+    const fa_genlatitude = Math.round(fa_latitude * 100) / 100; // rounds to third decimal place
+    const fa_genlongitude = Math.round(fa_longitude * 100) / 100; // rounds to third decimal place
     
     const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
     const [pooling, setPooling] = useState(pullCachedData ? cachedData.Pooling : "");
