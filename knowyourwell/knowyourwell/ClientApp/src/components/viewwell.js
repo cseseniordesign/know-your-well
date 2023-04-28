@@ -1,5 +1,4 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { List } from 'semantic-ui-react'
 import './css/forms.css'
 import Axios from 'axios'
 import moment from 'moment'
@@ -91,13 +90,12 @@ export default function ViewWell() {
         }
         return (
             <div className="css">
-                <h2>Well Info</h2>
+                <h2>{wellName}: Well Info</h2>
                 <br />
                 <div class="container" style={{textAlign: "center"}}>
                     {columnList}
                     <button type="button" onClick={backButton} >Back</button>
-                    <br/>
-                    <br/>
+                    <br/><br/>
                     <a href="mailto:knowyourwell@unl.edu" style={{ textAlign: "center" }}>
                     If any data is incorrect email us at knowyourwell@unl.edu</a>
                 </div>

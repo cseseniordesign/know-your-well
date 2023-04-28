@@ -136,7 +136,7 @@ export default function ClassLab() {
     };
 
     var form = document.getElementById('submissionAlert');
-    function myFunction() {
+    function validForm() {
         if (form.checkValidity()) {
             alert("Succesfully submitted Lab form!");
             return true;
@@ -151,8 +151,8 @@ export default function ClassLab() {
         window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
     }
 
-    function myFunction2() {
-        if (myFunction()) {
+    function submitForm() {
+        if (validForm()) {
             addClassLab();
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
         }
@@ -292,24 +292,25 @@ export default function ClassLab() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="dateentered">
-                <DatePicker 
-                    value={dateentered}
-                    dateFormat="DD-MM-YYYY"
-                    timeFormat="hh:mm A"
-                    onChange={(val) => setDateentered(val)}
-                    inputProps={{
-                        style: {
-                            width: 300,
-                            textAlign: 'center',
-                            border:'1px solid black'
-                        }
+                    <DatePicker 
+                        value={dateentered}
+                        dateFormat="MM-DD-YYYY"
+                        timeFormat="hh:mm A"
+                        onChange={(val) => setDateentered(val)}
+                        inputProps={{
+                            style: {
+                                width: 300,
+                                textAlign: 'center',
+                                border: '1px solid black'
+                            }
                         }}
                     /> {"  "}
                 </div>
             </div>
-            <button type="button" onClick={myFunction2}>Submit</button>
-            <button type="submit" onClick={backButton}>Back</button>
-            <button type="submit">Save</button>
+            <br/>
+            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="submit" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "8%", height: "17%" }} className="btn btn-primary btn-lg">Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
