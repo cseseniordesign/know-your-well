@@ -5,6 +5,7 @@ const sql = require('mssql')
 const cors = require('cors');
 const { response } = require("express");
 const path = require("path")
+require('dotenv').config()
 
 
 app.use(cors());
@@ -16,7 +17,7 @@ app.use(express.static("wwwroot"));
 
 const config = {
     user: "kywAdmin",
-    password: "KJ6vcCG2",
+    password: process.env.MSSQL_PASSWORD,
     database: "kyw",
     server: 'kyw.database.windows.net',
     pool: {
