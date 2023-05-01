@@ -23,9 +23,11 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
+        working-directory: ./knowyourwell
         run: dotnet build --configuration Release
 
       - name: dotnet publish
+        working-directory: ./knowyourwell
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
@@ -37,9 +39,6 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
