@@ -29,7 +29,7 @@ export default function WellInfo() {
     //const [datacollector, setDatacollector] = useState("");
     const datacollector = "John Smith"
     const [observation, setObservation] = useState("");
-    const [dateentered, setDateentered] = useState(moment());
+    const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
 
     const date = new Date();
     const futureDate = date.getDate();
