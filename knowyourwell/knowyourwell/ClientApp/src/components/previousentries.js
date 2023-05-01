@@ -39,7 +39,7 @@ export default function PreviousEntries() {
     const well_id = parseInt(searchParams.get("id"));
     const wellName = searchParams.get("wellName")
 
-    const backbutton = () => {
+    const backButton = () => {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
     }
 
@@ -77,12 +77,13 @@ export default function PreviousEntries() {
     return (
         <List style={{ textAlign: 'center' }}>
             <br />
-            <h2>Previous Entries: {wellName}</h2>
+            <h2>{wellName}: Previous Entries</h2>
             <br />
             {listElements}
             <List.Item>
                 <List.Content>
-                    <button type="submit" onClick={backbutton}>Back</button>
+                    <br />
+                    <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
                 </List.Content>
             </List.Item>
         </List>

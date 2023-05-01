@@ -54,6 +54,7 @@ textarea {
     text-align: center;
     color: white
 }
+
 /*
     input field validation
     input:required:valid applies a success state only to required inputs. Because technically, optional inputs are always valid.

@@ -24,12 +24,6 @@ function responseDataToHTMLList(responseData) {
     return HTMLList
 }
 
-function cacheWellInfo(wellData) {
-    for (const element of wellData){
-        localStorage.setItem("wellData"+element.well_id, JSON.stringify(element))
-    }
-}
-
 export default function Well() {
     const [isLoading, setLoading] = useState(true);
 
@@ -41,7 +35,6 @@ export default function Well() {
             })
             .then(function (response) {
                 localStorage.setItem("wellData", JSON.stringify(response.data))
-                cacheWellInfo(response.data.Wells)
                 wellList = responseDataToHTMLList(response.data.Wells)
                 setLoading(false);
             });
@@ -93,6 +86,4 @@ export default function Well() {
             {wellList}
         </List>
     );
-
-
 }

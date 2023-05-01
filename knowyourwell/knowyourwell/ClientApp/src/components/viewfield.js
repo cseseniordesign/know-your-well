@@ -92,11 +92,12 @@ export default function ViewField() {
 
         return (
             <div className="css">
-                <h2>Field Activity</h2>
+                <h2>{wellName}: Field Activity</h2>
                 <br />
                 <div class="container" style={{ textAlign: "center" }}>
                     {columnList}
-                    <button type="button" onClick={backButton} >Back</button>
+                    <br/>
+                    <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
                     <br/>
                     <br/>
                     <a href="mailto:knowyourwell@unl.edu" style={{ textAlign: "center" }}>
