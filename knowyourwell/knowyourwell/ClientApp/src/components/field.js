@@ -127,6 +127,7 @@ export default function Field() {
                 element.reportValidity();
             }
         }
+
         if(elementsValid){
             const fieldData = {
                 fa_latitude: fa_latitude,
