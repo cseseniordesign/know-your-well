@@ -277,6 +277,14 @@ app.get('/GetWellInfo', async (req, res) => {
     })
 })
 
+
+// call to init a sso login with redirect binding
+app.get('/sso/redirect', async (req, res) => {
+    console.log("Server received redirect request");
+    const { id, context } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    return res.redirect(context);
+});
+
 app.get('/idp/metadata', (req, res) => {
     res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
 app.get('/FieldList', async (req, res) => {

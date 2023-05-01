@@ -8,8 +8,12 @@ samlify.setSchemaValidator(validator);
 
 // configure okta idp
 const idp = samlify.IdentityProvider({
-  metadata: fs.readFileSync(__dirname + '/../metadata/metadata.xml'),
-  wantLogoutRequestSigned: true
+    metadata: fs.readFileSync(__dirname + '/../metadata/idp.xml'),
+    wantLogoutRequestSigned: true
+});
+
+const sp = samlify.ServiceProvider({
+    metadata: fs.readFileSync(__dirname + '/../metadata/sp.xml')
 });
 
 // const oktaIdpEnc = samlify.IdentityProvider({
@@ -55,16 +59,12 @@ const idp = samlify.IdentityProvider({
 
 const assignEntity = (req, res, next) => {
 
-  req.idp = oktaIdp;
-  console.log("running");
-//   req.sp = sp;
+    req.idp = idp;
+    console.log("creating idp");
+    req.sp = sp;
+    console.log("creating sp");
 
-//   if (req.query && req.query.encrypted) {
-//     req.idp = oktaIdpEnc;
-//     req.sp = spEnc; 
-//   }
-
-  return next();
+    return next();
 };
 
 module.exports = assignEntity;
