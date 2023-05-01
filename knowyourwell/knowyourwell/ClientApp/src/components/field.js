@@ -5,7 +5,6 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
-moment().format('MMMM Do YYYY, h:mm:ss a');
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
