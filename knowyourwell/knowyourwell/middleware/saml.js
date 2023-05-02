@@ -60,9 +60,9 @@ const sp = samlify.ServiceProvider({
 const assignEntity = (req, res, next) => {
 
     req.idp = idp;
-    console.log("creating idp");
+    console.log("creating idp\n");
     req.sp = sp;
-    console.log("creating sp");
+    console.log("creating sp\n");
 
     return next();
 };

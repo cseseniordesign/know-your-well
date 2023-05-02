@@ -282,6 +282,7 @@ app.get('/GetWellInfo', async (req, res) => {
 app.get('/sso/redirect', async (req, res) => {
     console.log("Server received redirect request");
     const { id, context } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    console.log("Context returned: " + context + "\n");
     return res.redirect(context);
 });
 
