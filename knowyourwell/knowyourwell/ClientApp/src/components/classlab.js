@@ -140,7 +140,6 @@ export default function ClassLab() {
     var form = document.getElementById('submissionAlert');
     function validForm() {
         if (form.checkValidity()) {
-            alert("Succesfully submitted Class Lab form!");
             return true;
         }
         else {
@@ -150,13 +149,16 @@ export default function ClassLab() {
     }
 
     const backButton = () => {
-        window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
+        if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
+            window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
+        }
     }
 
     function submitForm() {
-        if (validForm()) {
+        if (validForm() && window.confirm("Submitted Data is Final and Can only be edited by Nebraska Water Center Staff.\n Do you want to continue?")) {
             addClassLab();
             handleClearLocalStorage();
+            alert("Succesfully submitted Class Lab form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
         }
     }

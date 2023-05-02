@@ -114,7 +114,7 @@ export default function Field() {
             })
     };
 
-    const idList = ["conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
+    const idList = ["fa_latitude", "fa_longitude", "conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
     // caching - local storage
    function cacheFieldForm(){
         let elementsValid = true;
@@ -128,7 +128,7 @@ export default function Field() {
             }
         }
 
-        if(elementsValid){
+        if(elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")){
             const fieldData = {
                 fa_latitude: fa_latitude,
                 fa_longitude: fa_longitude,
@@ -172,10 +172,9 @@ export default function Field() {
         localStorage.removeItem("fieldData"+well_id);
     };
 
-    var form = document.getElementById('submissionAlert');
     const validForm = () => {
+        var form = document.getElementById("submissionAlert");
         if (form.checkValidity()) {
-            alert("Succesfully submitted Field Form!");
             return true;
         }
         else {
@@ -184,23 +183,26 @@ export default function Field() {
         }
     }
     const backButton = () => {
-        if (well_id != null) {
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
-        } else {
-            window.location.href = `/Well`;
+        if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
+            if (well_id != null) {
+                window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+            } else {
+                window.location.href = `/Well`;
+            }
         }
     }
 
     function submitForm() {
-        if (validForm()) {
+        if (validForm() && window.confirm("Submitted Data is Final and Can only be edited by Nebraska Water Center Staff.\n Do you want to continue?")) {
             addField();
             handleClearLocalStorage();
+            alert("Succesfully submitted Field Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
 
     return (
-        <form>  
+        <form id = "submissionAlert">  
             <h2>{wellName}: Field</h2>
             <div className="css">
                 <label for="fa_latitude">
@@ -208,7 +210,7 @@ export default function Field() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                     <br /> [40 - 43]
                 </label>
-                <input type="text" value={fa_latitude ? fa_latitude.latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
+                <input type="text" value={fa_latitude ? fa_latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
                     onChange={(event) => {
                         setFa_latitude(event.target.value);
                     }}
@@ -220,7 +222,7 @@ export default function Field() {
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                     <br /> [-104 - -95.417]
                 </label>
-                <input type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
+                <input type="text" value={fa_longitude ? fa_longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
                     onChange={(event) => {
                         setFa_longitude(event.target.value);
                     }}
