@@ -29,6 +29,21 @@
 	</ItemGroup>-->
 
 	<ItemGroup>
+		<None Update=".\key\cert.pem">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update=".\key\rsaprivkey.pem">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update=".\metadata\idp.xml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update=".\metadata\sp.xml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update=".\middleware\saml.js">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="index.js">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
