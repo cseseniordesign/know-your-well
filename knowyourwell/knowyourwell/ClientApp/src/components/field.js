@@ -79,7 +79,7 @@ export default function Field() {
     const [location, setLocation] = useState(null);
 
     useEffect(() => {
-        if (sessionContinued || !sessionContinued) {
+        if (!sessionContinued) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -195,7 +195,7 @@ export default function Field() {
             <h2>{wellName}: Field</h2>
             
             <div>
-                {location ? (
+                {location || sessionContinued ? (
                     <div>
                         <div className="css">
                             <label for="fa_latitude">
