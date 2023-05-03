@@ -10,3 +10,21 @@ The long-term goal is to build a sustainable youth education well water program 
 * improve the website, strengthen links to NRD stakeholders, and develop an Android-based KYW-III App, 
 * involve and train NRD staff in KYW-III program materials, and 
 * recruit and engage up to 50 school groups in sampling and testing of local domestic wells, helping students relate results to land use, well construction, and hydrogeology.
+
+##Introduction
+
+There is a progressive web application (PWA) that is easy for faculty and students to use. This PWA will reduce paper copies and eliminate the need for Google Forms. Users will be able to input data online or offline. If data is entered offline, they will be able to save it to their device and then synchronize with the database once they are back online.
+
+###Operational Environment
+There are two operational environments that the app will be used in: in the classroom and at the well itself. In the classroom, students will have access to general information about the well and later, classroom lab test results. The most crucial difference between these two environments is that the classroom is likely to have a stable internet connection, whereas the well’s location may not have a stable connection, if at all, to the internet.
+
+###Intended Users and Uses
+High school students from participating Nebraska high schools will be the primary users of this application. Additional users include the UNL Water Sciences Lab and additional staff like Sara and Mark. We believe the main uses of this new application will be for students to input data about a specific well online and offline before submitting the information right away or the next time they are online. 
+
+###Assumptions and Limitations 
+The first assumption is that students will use any device they have access to, which may include a phone, tablet, or even a laptop. Another assumption is that every student will have access to a device whether their own or provided by the school. In addition, it is implied that the application that we build will incorporate GPS and will help ensure that the student is at the right well. A potential limitation is if the student is unable to gain access to a device at the time of data collection, they may not be able gather all the required data. Also, depending on the specific sign-on option chosen by the sponsor, the individual may need to sign-up for an account or deal with complicated double authentication rules. 
+
+###Ethical Considerations
+The largest ethical considerations we are aware of is the safety of personal information and logins of students, teachers, and staff. We have considered this as we built the application, making sure to protect that information from the public and those who may have access to the application. Privacy and safety of all involved is our highest priority. 
+
+An additional consideration we are aware of is tampering with the collected data. To limit the possibility of this happening, students are unable to edit previous entries. To fix mistakes, they must reach out to KYW directly (though an email provided in the PWA) to request an adjustment to the data. 
