@@ -214,11 +214,11 @@ export default function ClassLab() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select value={bacteria} onChange={handleChange_Bacteria}>
-                            <option hidden defaultValue>Select one...</option>
-                            <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
-                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria" required>Yellow with fluorescent rim </option>
-                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria" required >Yellow without fluorescent rim</option>
+                        <select value={bacteria} onChange={handleChange_Bacteria} required>
+                            <option value="" hidden defaultValue>Select one...</option>
+                            <option value="Clear" id="bacteria" name="bacteria">Clear</option>
+                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria">Yellow with fluorescent rim </option>
+                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria">Yellow without fluorescent rim</option>
                         </select>
                     </div>
                 </div>
