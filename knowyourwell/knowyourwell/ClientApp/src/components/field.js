@@ -75,14 +75,19 @@ export default function Field() {
         setPooling(event.target.value);
     };
 
-    // geolocation 
+    // geolocation  
+    const [location, setLocation] = useState(null);
+
     useEffect(() => {
-        if (!sessionContinued) {
+        if (sessionContinued || !sessionContinued) {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    setFa_latitude(pos.coords.latitude);
-                    setFa_longitude(pos.coords.longitude);
-                });
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        setLocation(position.coords);
+                        setFa_latitude(position.coords.latitude);
+                        setFa_longitude(position.coords.longitude);
+
+                    });
             } else {
                 console.log('Geolocation is not supported by this browser.');
                 alert("Geolocation is not working right now, please fill it in manually.");
@@ -149,24 +154,6 @@ export default function Field() {
         }
     };
 
-    {/*}
-    const [isOnline, setIsOnline] = useState(navigator.onLine);
-
-    useEffect(() => {
-        function handleOnlineStatus() {
-            setIsOnline(navigator.onLine);
-        }
-
-        window.addEventListener('online', handleOnlineStatus);
-        window.addEventListener('offline', handleOnlineStatus);
-
-        return () => {
-            window.removeEventListener('online', handleOnlineStatus);
-            window.removeEventListener('offline', handleOnlineStatus);
-        };
-    }, []);
-    {*/}
-
     function handleClearLocalStorage() {
         localStorage.removeItem("fieldData"+well_id);
     };
@@ -197,33 +184,47 @@ export default function Field() {
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
+    
 
+    
     return (
         <form>  
             <h2>{wellName}: Field</h2>
-            <div className="css">
-                <label for="fa_latitude">
-                    Latitude (in decimal degrees):
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                    <br /> [40 - 43]
-                </label>
-                <input type="text" value={fa_latitude ? fa_latitude.latitude : "Loading..."} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
-                    onChange={(event) => {
-                        setFa_latitude(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label for="fa_longitude">
-                    Longitude (in decimal degrees):
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                    <br /> [-104 - -95.417]
-                </label>
-                <input type="text" value={fa_longitude ? fa_longitude.longitude : "Loading..."} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
-                    onChange={(event) => {
-                        setFa_longitude(event.target.value);
-                    }}
-                />
+            
+            <div>
+                {location ? (
+                    <div>
+                        <div className="css">
+                            <label for="fa_latitude">
+                                Latitude (in decimal degrees):
+                                <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                                <br /> [40 - 43]
+                            </label>
+                            <input type="text" value={fa_latitude  } className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
+                                onChange={(event) => {
+                                    setFa_latitude(event.target.value);
+                                }}
+                            />
+                        </div>
+                        <div className="css">
+                            <label for="fa_longitude">
+                                Longitude (in decimal degrees):
+                                <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                                <br /> [-104 - -95.417]
+                            </label>
+                            <input type="text" value={fa_longitude } className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
+                                onChange={(event) => {
+                                    setFa_longitude(event.target.value);
+                                }}
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <div>
+                        <p>Please allow this site to access your location</p>
+                            <button onClick={() => window.location.reload()}>Reload</button>
+                    </div>
+                )}
             </div>
             <div className="css">
                 <label htmlFor="conditions">
