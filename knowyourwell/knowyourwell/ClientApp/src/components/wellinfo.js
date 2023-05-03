@@ -394,12 +394,29 @@ export default function WellInfo() {
                     Well construction completion year:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
+                {/* }
                 <input
                     type="text" className="textarea resize-ta" id="installyear" name="installyear" pattern="[0-9]{4}" required
                     onChange={(event) => {
                         setInstallyear(event.target.value);
                     }}
                 />
+                {*/}
+                <div id="installyear">
+                    <DatePicker
+                        value={installyear}
+                        dateFormat="YYYY"
+                        timeFormat=""
+                        onChange={(val) => setInstallyear(val)}
+                        inputProps={{
+                            style: {
+                                width: 300,
+                                textAlign: 'center',
+                                border: '1px solid black'
+                            }
+                        }}
+                    /> {"  "}
+                </div>
             </div>
             <div className="css">
                 <label for="smelltaste">
