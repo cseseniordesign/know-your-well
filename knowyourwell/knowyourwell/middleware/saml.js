@@ -8,7 +8,7 @@ samlify.setSchemaValidator(validator);
 
 // configure okta idp
 const idp = samlify.IdentityProvider({
-    metadata: fs.readFileSync(__dirname + '/../metadata/idp.xml'),
+    metadata: fs.readFileSync(__dirname + '/../metadata/testidp.xml'),
     wantLogoutRequestSigned: true
 });
 
