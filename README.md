@@ -7,6 +7,6 @@
 
 The long-term goal is to build a sustainable youth education well water program by extending the scope of previous KYW projects with an NRD-led program supported by the University of Nebraska Lincoln (UNL) and Kearney (UNK), involving up to 50 schools across Nebraska. Specific objectives are to:
 
-*improve the website, strengthen links to NRD stakeholders, and develop an Android-based KYW-III App, 
-*involve and train NRD staff in KYW-III program materials, and 
-*recruit and engage up to 50 school groups in sampling and testing of local domestic wells, helping students relate results to land use, well construction, and hydrogeology.
+* improve the website, strengthen links to NRD stakeholders, and develop an Android-based KYW-III App, 
+* involve and train NRD staff in KYW-III program materials, and 
+* recruit and engage up to 50 school groups in sampling and testing of local domestic wells, helping students relate results to land use, well construction, and hydrogeology.
