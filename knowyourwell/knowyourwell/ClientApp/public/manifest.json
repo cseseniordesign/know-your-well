@@ -4,21 +4,8 @@
   "icons": [
     {
       "purpose": "any maskable",
-      "sizes": "192x192",
-      "src": "/images/icon-192x192.png",
-      "type": "image/png"
-    },
-
-    {
-      "purpose": "any maskable",
-      "sizes": "128x128",
-      "src": "/images/browser-icon.png",
-      "type": "image/png"
-    },
-    {
-      "purpose": "any maskable",
       "sizes": "512x512",
-      "src": "/images/app-icon.png",
+      "src": "/images/kywlogo.png",
       "type": "image/png"
     }
   ],
@@ -27,5 +14,4 @@
   "display": "standalone",
   "theme-color": "#000000",
   "background_color": "#ffffff"
-
 }
