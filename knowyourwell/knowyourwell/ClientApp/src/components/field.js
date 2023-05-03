@@ -195,7 +195,7 @@ export default function Field() {
             <h2>{wellName}: Field</h2>
             
             <div>
-                {location ? (
+                {location  ? (
                     <div>
                         <div className="css">
                             <label for="fa_latitude">
