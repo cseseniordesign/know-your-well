@@ -151,7 +151,7 @@ export default function Field() {
             };
             localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
             alert("Information Saved!");
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
         }
     };
 
