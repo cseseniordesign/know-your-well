@@ -140,10 +140,9 @@ export default function WellInfo() {
             })
     };
 
-    var form = document.getElementById('submissionAlert');
     const validForm = () => {
+        var form = document.getElementById('submissionAlert');
         if (form.checkValidity()) {
-            alert("Succesfully submitted Well Info Form!");
             return true;
         }
         else {
@@ -153,12 +152,15 @@ export default function WellInfo() {
     }
 
     const backButton = () => {
-        window.location.href = `/well`;
+        if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
+            window.location.href = `/well`;
+        }
     }
 
     function submitForm() {
-        if (validForm()) {
+        if (validForm() && window.confirm("Submitted Data is Final and Can only be edited by Nebraska Water Center Staff.\n Do you want to continue?")) {
             addWellInfo();
+            alert("Succesfully submitted Well Info Form!");
             window.location.href = `/well`
         }
     }

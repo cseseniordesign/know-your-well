@@ -119,7 +119,7 @@ export default function Field() {
             })
     };
 
-    const idList = ["conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
+    const idList = ["fa_latitude", "fa_longitude", "conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
     // caching - local storage
    function cacheFieldForm(){
         let elementsValid = true;
@@ -132,7 +132,8 @@ export default function Field() {
                 element.reportValidity();
             }
         }
-        if(elementsValid){
+
+        if(elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")){
             const fieldData = {
                 fa_latitude: fa_latitude,
                 fa_longitude: fa_longitude,
@@ -158,10 +159,9 @@ export default function Field() {
         localStorage.removeItem("fieldData"+well_id);
     };
 
-    var form = document.getElementById('submissionAlert');
     const validForm = () => {
+        var form = document.getElementById("submissionAlert");
         if (form.checkValidity()) {
-            alert("Succesfully submitted Field Form!");
             return true;
         }
         else {
@@ -170,17 +170,20 @@ export default function Field() {
         }
     }
     const backButton = () => {
-        if (well_id != null) {
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
-        } else {
-            window.location.href = `/Well`;
+        if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
+            if (well_id != null) {
+                window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+            } else {
+                window.location.href = `/Well`;
+            }
         }
     }
 
     function submitForm() {
-        if (validForm()) {
+        if (validForm() && window.confirm("Submitted Data is Final and Can only be edited by Nebraska Water Center Staff.\n Do you want to continue?")) {
             addField();
             handleClearLocalStorage();
+            alert("Succesfully submitted Field Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
@@ -188,7 +191,7 @@ export default function Field() {
 
     
     return (
-        <form>  
+        <form id = "submissionAlert">  
             <h2>{wellName}: Field</h2>
             
             <div>
