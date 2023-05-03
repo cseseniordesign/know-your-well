@@ -31,3 +31,28 @@ The first assumption is that students will use any device they have access to, w
 The largest ethical considerations we are aware of is the safety of personal information and logins of students, teachers, and staff. We have considered this as we built the application, making sure to protect that information from the public and those who may have access to the application. Privacy and safety of all involved is our highest priority. 
 
 An additional consideration we are aware of is tampering with the collected data. To limit the possibility of this happening, students are unable to edit previous entries. To fix mistakes, they must reach out to KYW directly (though an email provided in the PWA) to request an adjustment to the data. 
+
+## Past Design 
+
+The previous iOS mobile app used by KYW is no longer functional. Currently students are filling out data using a Google Forms Survey or by hand on printed forms. This setup is time-consuming and not very efficient. We have been tasked with creating a new application in replacement of these systems. This application will interface with an existing secure online database for automated data collection and retrieval of domestic well water quality data collected by participating high schools and Nebraska Natural Resources Districts.  
+
+We inherited a former iOS application that was used but then became out of date and is no longer active. A training video for the former iOS app was also given to us. The sponsors also showed us the current Know Your well logo and website to help us design the new application. Hence, this project is not completely greenfield, but instead building from the examples of the old iOS application, and the old Google Forms that were used to input well data.  
+
+## Important Features
+
+### Geolocation 
+Geolocation was a feature that sponsors mentioned on day one of the project as one of an app's major benefits. The main way geolocation would be used in the finished product is by easily identifying the coordinates of the well as well as important features. We have succesfully implemented geolocation for locating the well using [navigator.geolocation.getCurrentPosition()](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition) in field.js and we anticipate that future implementation for well features.
+
+### Offline caching 
+Offline caching is the most important feature of the application. This is because as previously stated, the sponsors anticipate that many field locations won't have a stable internet connection. To counteract this the app must be able to save the information they need for their field activity, and also the data that users enter in the field, and then submit it when they have access to the internet. We have succesfully implemented this for the current pages where the sponsors have said it was needed, but as the app expands past its current state more pages will need to be cached. We have accomplished this by saving relevant data to localStorage either when the database returns it or when the user hits save.
+
+### Input validation 
+Input validation is currently handled by string patterns in the forms on the pages. One avenue for future development is also performing server side validation. The method that we were leaning towards when our work concluded was modifying the database to check constraints but more research is needed on whether this is a feasible solution for server-side validation.
+
+## Architecture
+
+### Data Base
+![Database ER Diagram](\DocumentationImages\KYW-DatabaseRelationships.jpg "Database ER Diagram")
+*ER Diagram was up to date before April update. The only major adjustment was making the relationship between the field, and lab tables 1-1.*
+
+The database that the PWA connects to is a SQL Database hosted on the sponsor's Azure account. It has a series of tables that correspond to user associated information, and tables associated with each of the three contexts that the app is used in (class room/home for well info, remote site for well, and classroom for the class lab.) The sponsors also included a Nebraska Water Center lab table which is for an anctipated expansion of the app to be used to enter data that comes from their experiments.
