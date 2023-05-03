@@ -8,8 +8,9 @@ export default function EditWell() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const wellName = searchParams.get("wellName");
+    const FieldRedirect  = searchParams.get("FieldRedirect")
     const id = searchParams.get("id");
-    if (localStorage.getItem("fieldData"+id)) {
+    if (localStorage.getItem("fieldData"+id) && !FieldRedirect) {
         const viewSavedForm = window.confirm("You have a saved field form.\n Would you like to view it?");
         if (viewSavedForm) {
             window.location.href = `/Field?id=${id}&wellName=${wellName}&sessionContinued=True`

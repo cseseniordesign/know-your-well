@@ -79,7 +79,7 @@ export default function Field() {
     const [location, setLocation] = useState(null);
 
     useEffect(() => {
-        if (sessionContinued || !sessionContinued) {
+        if (!sessionContinued) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -151,7 +151,7 @@ export default function Field() {
             };
             localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
             alert("Information Saved!");
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
         }
     };
 
@@ -195,7 +195,7 @@ export default function Field() {
             <h2>{wellName}: Field</h2>
             
             <div>
-                {location  ? (
+                {location || sessionContinued ? (
                     <div>
                         <div className="css">
                             <label for="fa_latitude">
@@ -203,7 +203,7 @@ export default function Field() {
                                 <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                                 <br /> [40 - 43]
                             </label>
-                            <input type="text" value={fa_latitude  } className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
+                            <input type="text" value={fa_latitude} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
                                 onChange={(event) => {
                                     setFa_latitude(event.target.value);
                                 }}
@@ -215,7 +215,7 @@ export default function Field() {
                                 <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                                 <br /> [-104 - -95.417]
                             </label>
-                            <input type="text" value={fa_longitude } className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
+                            <input type="text" value={fa_longitude} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
                                 onChange={(event) => {
                                     setFa_longitude(event.target.value);
                                 }}
