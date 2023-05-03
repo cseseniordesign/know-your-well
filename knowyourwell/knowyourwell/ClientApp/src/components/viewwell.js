@@ -50,7 +50,8 @@ export default function ViewWell() {
     }, []);
 
     if (formElements === null) {
-        const wellCookie = localStorage.getItem("wellData" + well_id);        if (wellCookie) {
+        const wellCookie = localStorage.getItem("wellData" + well_id);
+        if (wellCookie) {
             try {
                 formElements = JSON.parse(wellCookie)
             }
@@ -92,7 +93,7 @@ export default function ViewWell() {
                 <br />
                 <div class="container" style={{textAlign: "center"}}>
                     {columnList}
-                    <button type="button" onClick={backButton} >Back</button>
+                    <button type="button" onClick={backButton}>Back</button>
                     <br/><br/>
                     <a href="mailto:knowyourwell@unl.edu" style={{ textAlign: "center" }}>
                     If any data is incorrect email us at knowyourwell@unl.edu</a>

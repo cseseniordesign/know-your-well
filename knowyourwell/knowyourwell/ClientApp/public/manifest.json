@@ -1,12 +1,30 @@
 {
-  "short_name": "knowyourwell",
-  "name": "knowyourwell",
+  "short_name": "KYW",
+  "name": "Know Your Well",
   "icons": [
     {
       "purpose": "any maskable",
       "sizes": "512x512",
       "src": "/images/kywlogo.png",
       "type": "image/png"
+    },
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "/favicon.ico",
+      "type": "image/ico"
+    },
+    {
+      "purpose": "any maskable",
+      "sizes": "256x256",
+      "src": "/images/kywlogo.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any maskable",
+      "sizes": "256x256",
+      "src": "/favicon.ico",
+      "type": "image/ico"
     }
   ],
   "scope": "./",
