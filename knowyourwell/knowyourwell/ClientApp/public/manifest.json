@@ -4,25 +4,13 @@
   "icons": [
     {
       "purpose": "any maskable",
-      "sizes": "512x512",
+      "sizes": "2500x2500",
       "src": "/images/kywlogo.png",
       "type": "image/png"
     },
     {
       "purpose": "any maskable",
-      "sizes": "512x512",
-      "src": "/favicon.ico",
-      "type": "image/ico"
-    },
-    {
-      "purpose": "any maskable",
-      "sizes": "256x256",
-      "src": "/images/kywlogo.png",
-      "type": "image/png"
-    },
-    {
-      "purpose": "any maskable",
-      "sizes": "256x256",
+      "sizes": "16x16",
       "src": "/favicon.ico",
       "type": "image/ico"
     }
