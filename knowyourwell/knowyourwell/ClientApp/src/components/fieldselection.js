@@ -89,7 +89,8 @@ export default function FieldSelection() {
                     <h2> <strong>{wellName}: Field Selection</strong></h2>
                     <List.Item>
                         <List.Content>
-                            <button type="submit" onClick={backButton} >Back</button>
+                            <br />
+                            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
                         </List.Content>
                     </List.Item>
                 </List>

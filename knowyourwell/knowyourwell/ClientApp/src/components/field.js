@@ -246,11 +246,11 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select id="wellCover" value={wellcover} onChange={handleChange_wellcover}>
-                            <option hidden defaultValue>Select one...</option>
-                            <option value="Intact" id="wellcover" name="wellcover" required >Intact</option>
-                            <option value="Observable_Opening" id="wellcover" name="wellcover" required>Observable Opening</option>
-                            <option value="Damaged" id="wellcover" name="wellcover" required >Damaged</option>
+                        <select id="wellCover" value={wellcover} onChange={handleChange_wellcover} required>
+                            <option value="" hidden defaultValue>Select one...</option>
+                            <option value="Intact" id="wellcover" name="wellcover">Intact</option>
+                            <option value="Observable_Opening" id="wellcover" name="wellcover">Observable Opening</option>
+                            <option value="Damaged" id="wellcover" name="wellcover">Damaged</option>
                         </select>
                     </div>
                     {wellcover === "Observable_Opening" && (
@@ -286,10 +286,10 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select id = "evidence" value={evidence} onChange={handleChange_evidence}>
-                            <option hidden selected>Select one...</option>
-                            <option value="Yes" id="evidence" name="evidence" required >Yes</option>
-                            <option value="No" id="evidence" name="evidence" required >No</option>
+                        <select id = "evidence" value={evidence} onChange={handleChange_evidence} required>
+                            <option value="" hidden selected>Select one...</option>
+                            <option value="Yes" id="evidence" name="evidence">Yes</option>
+                            <option value="No" id="evidence" name="evidence">No</option>
 
                         </select>
                     </div>
@@ -302,10 +302,10 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select id ="pooling" value={pooling} onChange={handleChange_pooling}>
-                            <option hidden selected>Select one...</option>
-                            <option value="Yes" id="pooling" name="pooling" required >Yes</option>
-                            <option value="No" id="pooling" name="pooling" required >No</option>
+                        <select id ="pooling" value={pooling} onChange={handleChange_pooling} required>
+                            <option value="" hidden selected>Select one...</option>
+                            <option value="Yes" id="pooling" name="pooling">Yes</option>
+                            <option value="No" id="pooling" name="pooling">No</option>
                         </select>
                     </div>
                 </div>
@@ -371,6 +371,7 @@ export default function Field() {
                 </label>
                 <div id="dateentered">
                     <DatePicker
+                        required
                         value={dateentered}
                         dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
