@@ -1,7 +1,28 @@
 # know-your-well
 2022-2023 Nebraska Water Center Senior Design Capstone Project
 
-[Know Your Well YouTube Channel](https://www.youtube.com/@knowyourwell3985 "Know Your Well YouTube Channel")
+[Know Your Well YouTube Channel](https://www.youtube.com/@knowyourwell3985)
+
+### Table of Contents
+* [Executive Summary](#executive-summary)
+* [Introduction](#introduction)
+    * [Operational Environment](#operational-environment)
+    * [Intended Users and Uses](#intended-users-and-uses)
+    * [Assumptions and Limitations](#assumptions-and-limitations)
+    * [Ethical Considerations](#ethical-considerations)
+* [Past Design](#past-design)
+* [Important Features](#important-features)
+    * [Geolocation](#geolocation)
+    * [Offline Caching](#offline-caching)
+    * [Input Validation](#input-validation)
+    * [Authentication](#authentication)
+* [Architecture](#architecture)
+    * [Database](#data-base)
+    * [Node Backend](#node-backend)
+    * [React Frontend](#react-frontend)
+* [Next Steps](#next-steps)
+    * [Notable At Large Bugs](#notable-at-large-bugs)
+    * [Agile Epic Level Issues](#agile-epic-level-issues)
 
 
 ## Executive Summary 
@@ -69,7 +90,7 @@ The database that the PWA connects to is a SQL Database hosted on the sponsor's 
 * Connects to database using Express, and [Node MSSQL](https://www.npmjs.com/package/mssql). 
     * Handles requests from the client app to retrieve, or update information in the DB. 
 
-### React Front-End
+### React Frontend
 *More in-depth information can be found in Frontend.md*
 
 * Served by the Node Backend if the request doesn't match any of the DB API endpoints.
@@ -97,7 +118,7 @@ The database that the PWA connects to is a SQL Database hosted on the sponsor's 
 ### Agile Epic Level Issues
 Besides a few lingering bugs, we have implemented a large portion of the application. The largest outstanding categories are authentication and photo uploads.
 
-The state of authentication is as stated earlier that Currently, the application is configured to use https://samltest.id/ as the identity provider, though this should later be replaced by Nebraska Cloud. There is a button on the log in screen that creates a login request from the service provider to the identity provider. However, there is still signifigant progress to be made since the login request is not receiving the expected response, and causes an error. This might be related to samltest, but should be fixed before moving on or switching the identity provider to Nebraska Cloud. To make the switch to Nebraska Cloud, modify the saml middleware to use the Nebraska Cloud metadata, rather than samltest. We recommend creating a new X.509 certificate for our service provider metadata. Nebraska Cloud will also need a copy of that service provider metadata. Once this is done, you can test the same basic login request using Nebraska Cloud. Afterwards, you will need to add code to parse the response from Nebraska Cloud and use that information to control access to the rest of the application, as well as only query for wells relevant to the logged in user. Currently, our service provider metadata is configured so that logout requests are sent to "https://kywsso.azurewebsites.net/saml/logout" (SingleLogoutService) and the response from the identity provider is sent to "https://kywsso.azurewebsites.net/saml/acs" (AssertionConsumerService). Feel free to change these URLs, but you will need to set up endpoints to handle these requests.
+The state of authentication is as stated earlier that the application is configured to use https://samltest.id/ as the identity provider, though this should later be replaced by Nebraska Cloud. There is a button on the log in screen that creates a login request from the service provider to the identity provider. However, there is still signifigant progress to be made since the login request is not receiving the expected response, and causes an error. This might be related to samltest, but should be fixed before moving on or switching the identity provider to Nebraska Cloud. To make the switch to Nebraska Cloud, modify the saml middleware to use the Nebraska Cloud metadata, rather than samltest. We recommend creating a new X.509 certificate for our service provider metadata. Nebraska Cloud will also need a copy of that service provider metadata. Once this is done, you can test the same basic login request using Nebraska Cloud. Afterwards, you will need to add code to parse the response from Nebraska Cloud and use that information to control access to the rest of the application, as well as only query for wells relevant to the logged in user. Currently, our service provider metadata is configured so that logout requests are sent to "https://kywsso.azurewebsites.net/saml/logout" (SingleLogoutService) and the response from the identity provider is sent to "https://kywsso.azurewebsites.net/saml/acs" (AssertionConsumerService). Feel free to change these URLs, but you will need to set up endpoints to handle these requests.
 
 Because of multiple roadblocks that we experienced through the semester photo-upload capabilities were eventually side-lined in favor of strengthening the DB connection, caching data for offline use, and our progress on authentication. We've done very little research into this topic, and so it would require a signifigant ammount of research. One note would be that the DB only has a 32 GB capacity so it might be best to avoid storing images on it. A popular option in Express apps for handling and storing file uploads in the site's own file structure is [multer](https://www.npmjs.com/package/multer), but limitations on a Web App's deployed size may make storing them within the Web App's own structure unattractive in which case [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) may be a good option. Of course, you will have to be concious of security concerns when storing these files. It is our understanding that the next immediate step that the sponsor is planning on taking is performing limited user testing over the summer and hopefully the information they have gathered will be useful for further development. 
 
