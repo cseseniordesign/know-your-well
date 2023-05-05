@@ -1,76 +1,74 @@
-﻿
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-//import { Offline, Online } from "react-detect-offline";
 import { useSearchParams } from 'react-router-dom'
- 
-
-const ammoniaInitilization = () => {
-    const Cachedammonia = localStorage.getItem("Ammonia");
-    return Cachedammonia ? JSON.parse(Cachedammonia) : ""; 
-}
-const calciumInitilization = () => {
-    const Cachedcalcium = localStorage.getItem("Calcium");
-    return Cachedcalcium ? JSON.parse(Cachedcalcium) : "";
-}
-const chlorideInitilization = () => {
-    const Cachedchloride = localStorage.getItem("Chloride");
-    return Cachedchloride ? JSON.parse(Cachedchloride) : "";
-}
-const copperInitilization = () => {
-    const Cachedcopper = localStorage.getItem("Copper");
-    return Cachedcopper ? JSON.parse(Cachedcopper) : "";
-}
-const ironInitilization = () => {
-    const Cachediron = localStorage.getItem("Iron");
-    return Cachediron ? JSON.parse(Cachediron) : "";
-}
-const manganeseInitilization = () => {
-    const Cachedmanganese = localStorage.getItem("Manganese");
-    return Cachedmanganese ? JSON.parse(Cachedmanganese) : "";
-}
-const nitrateInitilization = () => {
-    const Cachednitrate = localStorage.getItem("Nitrate");
-    return Cachednitrate ? JSON.parse(Cachednitrate) : "";
-}
-const bacteriaInitilization = () => {
-    const Cachedbacteria = localStorage.getItem("Bacteria");
-    return Cachedbacteria ? JSON.parse(Cachedbacteria) : "";
-}
-const observationsInitilization = () => {
-    const Cachedname = localStorage.getItem("Observations");
-    return Cachedname ? JSON.parse(Cachedname) : "";
-}
-const nameInitilization = () => {
-    const Cachedname = localStorage.getItem("Name");
-    return Cachedname ? JSON.parse(Cachedname) : "";
-}
-const dateenteredInitilization = () => {
-    const Cacheddateentered = localStorage.getItem("Dateentered");
-    return Cacheddateentered ? JSON.parse(Cacheddateentered) : moment().format('L, h:mm a');
-}
- 
+  
 
 export default function ClassLab() {
+
     const [searchParams, setSearchParams] = useSearchParams();
-    const fa_id = parseInt(searchParams.get("field_id"));
+    const fa_id = parseInt(searchParams.get("id"));
+
+    // Checking for saved sessions
+    const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
+    if (localStorage.getItem("labData" + fa_id)) {
+        if (sessionContinued === null) {
+            const continue_session = window.confirm("Continue last saved session?");
+            if (continue_session) {
+                setSessionContinued(true);
+            } else {
+                handleClearLocalStorage();
+                setSessionContinued(false); // ends forever pop-up loop
+                /* will need to be changed if sessionContinued is ever used elsewhere,
+                potenitally add another var to set to true / false if question has already been asked? */
+            }
+        }
+    }
+    let pullCachedData = sessionContinued;
+
+    /////////////////////////////
+   
+    const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("labData" + fa_id)) : null;
+
+   // const fa_id = parseInt(searchParams.get("field_id"));
     const well_id = searchParams.get("well_id");
     const wellName = searchParams.get("wellName");
-    const [ammonia, setAmmonia] = useState(ammoniaInitilization);
-    const [calcium, setCalcium] = useState(calciumInitilization);
-    const [chloride, setChloride] = useState(chlorideInitilization);
-    const [copper, setCopper] = useState(copperInitilization);
-    const [iron, setIron] = useState(ironInitilization);
-    const [manganese, setManganese] = useState(manganeseInitilization);
-    const [nitrate, setNitrate] = useState(nitrateInitilization);
-    const [bacteria, setBacteria] = useState(bacteriaInitilization);
-    const [observations, setObservations] = useState(observationsInitilization);
-    const [name, setName] = useState(nameInitilization);
-    const [dateentered, setDateentered] = useState(dateenteredInitilization);
+
+
+    const [ammonia, setAmmonia] = useState(pullCachedData ? cachedData.Ammonia : "");
+    const [calcium, setCalcium] = useState(pullCachedData ? cachedData.Calcium : "");
+    const [chloride, setChloride] = useState(pullCachedData ? cachedData.Chloride : "");
+    const [copper, setCopper] = useState(pullCachedData ? cachedData.Copper : "");
+    const [iron, setIron] = useState(pullCachedData ? cachedData.Iron : "");
+    const [manganese, setManganese] = useState(pullCachedData ? cachedData.Manganese : "");
+    const [nitrate, setNitrate] = useState(pullCachedData ? cachedData.Nitrate : "");
+    const [bacteria, setBacteria] = useState(pullCachedData ? cachedData.Bacteria : "");
+    const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
+    const [name, setName] = useState(pullCachedData ? cachedData.Name : "");
+    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
+
+
+    // Updating if user decides to load session
+    useEffect(() => {
+        setAmmonia(sessionContinued ? cachedData.Ammonia : "");
+        setCalcium(sessionContinued ? cachedData.Calcium : "");
+        setChloride(sessionContinued ? cachedData.Chloride : "");
+        setCopper(sessionContinued ? cachedData.Copper : "");
+        setIron(sessionContinued ? cachedData.Iron : "");
+        setManganese(sessionContinued ? cachedData.Manganese : "");
+        setNitrate(sessionContinued ? cachedData.Nitrate : "");
+        setBacteria(sessionContinued ? cachedData.Bacteria : "");
+        setObservations(sessionContinued ? cachedData.Observations : "");
+        setName(sessionContinued ? cachedData.Name : "");
+        setDateentered(sessionContinued ? cachedData.Dateentered : moment());
+    }, [sessionContinued]);
+
+ 
+
+ 
 
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
@@ -99,47 +97,54 @@ export default function ClassLab() {
             })
     };
 
-
-    // caching
-    useEffect(() => {
-            localStorage.setItem("Ammonia", JSON.stringify(ammonia));
-            localStorage.setItem("Calcium", JSON.stringify(calcium));
-            localStorage.setItem("Chloride", JSON.stringify(chloride));
-            localStorage.setItem("Copper", JSON.stringify(copper));
-            localStorage.setItem("Iron", JSON.stringify(iron));
-            localStorage.setItem("Manganese", JSON.stringify(manganese));
-            localStorage.setItem("Nitrate", JSON.stringify(nitrate));
-            localStorage.setItem("Name", JSON.stringify(name));
-            localStorage.setItem("Bacteria", JSON.stringify(bacteria));
-            localStorage.setItem("Dateentered", JSON.stringify(dateentered).replace("T", " ").replace("Z", ""));
-       
-    }, [ammonia, calcium, chloride, copper, iron, manganese, nitrate, name, bacteria, dateentered]);
-
-    {/*}
-    const [isOnline, setIsOnline] =  useState(navigator.onLine);
-
-     useEffect(() => {
-        function handleOnlineStatus() {
-            setIsOnline(navigator.onLine);
+    const idList = ["ammonia", "calcium", "chloride", "bacteria", "nitrate", "name", "observations"];
+    // caching - local storage
+    function cacheLabForm() {
+        let elementsValid = true;
+        // Checking if entered elements are valid.
+        for (let i = 0; i < idList.length && elementsValid; i++) {
+            const id = idList[i];
+            const element = document.getElementById(id);
+            elementsValid = element.value === "" || element.checkValidity();
+            if (!elementsValid) {
+                element.reportValidity();
+            }
         }
 
-        window.addEventListener('online', handleOnlineStatus);
-        window.addEventListener('offline', handleOnlineStatus);
+        if (elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")) {
+            const labData = {
+                Ammonia: ammonia,
+                Calciumhardness: calcium,
+                Chloride: chloride,
+                Bacteria: bacteria,
+                Copper: copper,
+                Bacteria: bacteria,
+                Iron: iron,
+                Manganese: manganese,
+                Nitrate: nitrate,
+                Observations: observations,
+                Datacollector: name,
+                Dateentered: dateentered,
+            };
+            localStorage.setItem("labData" + fa_id, JSON.stringify(labData));
+            alert("Information Saved!");
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
+        }
+    };
 
-        return () => {
-            window.removeEventListener('online', handleOnlineStatus);
-            window.removeEventListener('offline', handleOnlineStatus);
-        };
-    }, []);
-    {*/}
- 
+
+
+
+
+    //check mark
     function handleClearLocalStorage() {
         localStorage.clear();
     };
 
-    var form = document.getElementById('submissionAlert');
-    function validForm() {
-        if (form.checkValidity()) {
+    //
+    const validForm = () => {
+        var form = document.getElementById("submissionAlert");
+        if (form.checkValidity() ) {
             return true;
         }
         else {
@@ -147,6 +152,8 @@ export default function ClassLab() {
             return false;
         }
     }
+
+    //
 
     const backButton = () => {
         if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
@@ -163,8 +170,9 @@ export default function ClassLab() {
         }
     }
 
+    //end of check mark
     return (
-        <form action="/editwell" id="submissionAlert">
+        <form id="submissionAlert">
             <div className="styling_offline_bar">
                 {/*isOnline ? (
                     <p className="status_online" >Online mode</p>
@@ -302,7 +310,7 @@ export default function ClassLab() {
             <br/>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg">Save</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheLabForm}>Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field

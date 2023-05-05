@@ -8,6 +8,7 @@ import { useSearchParams } from 'react-router-dom';
 
 
 export default function Field() {
+
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
 
@@ -18,13 +19,13 @@ export default function Field() {
             const continue_session= window.confirm("Continue last saved session?");
             if (continue_session) {
                 setSessionContinued(true);
-            } else {
+            } else { 
                 handleClearLocalStorage();
                 setSessionContinued(false); // ends forever pop-up loop
                 /* will need to be changed if sessionContinued is ever used elsewhere,
                 potenitally add another var to set to true / false if question has already been asked? */
             }
-        }
+        } 
     }
     let pullCachedData = sessionContinued;
 
@@ -187,8 +188,6 @@ export default function Field() {
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
-    
-
     
     return (
         <form id = "submissionAlert">  
