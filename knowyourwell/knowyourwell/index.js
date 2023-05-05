@@ -1,4 +1,5 @@
 ﻿const assignEntity = require('./middleware/saml.js');
+const { Constants } = require('samlify');
 
 const express = require("express");
 const bodyParser = require('body-parser');
@@ -165,8 +166,6 @@ app.post('/createwellinfo', (req, res) => {
     );
 });
 
-
-
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
     console.log("hit")
@@ -191,17 +190,12 @@ app.get('/Wells', async (req, res) => {
     */
 })
 
-
 // call to init a sso login with redirect binding
 app.get('/sso/redirect', async (req, res) => {
-    console.log("Server received redirect request");
-    const { id, context } = await req.sp.createLoginRequest(req.idp, 'redirect');
-    console.log("Context returned: " + context + "\n");
-    return res.redirect(context);
-});
-
-app.get('/idp/metadata', (req, res) => {
-    res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
+    // Should return string of redirect URL, is string parse is failing and is returning Object
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    console.log("Context returned: " + redirectUrl + "\n");
+    return res.redirect(redirectUrl);
 });
 
 app.listen(process.env.PORT || 7193, () => {
