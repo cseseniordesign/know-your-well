@@ -55,7 +55,7 @@ Input validation is currently handled by string patterns in the forms on the pag
 ![Database ER Diagram](DocumentationImages/KYW-DatabaseRelationships.jpg "Database ER Diagram")
 *ER Diagram was up to date before April update. The only major adjustment was making the relationship between the field, and lab tables 1-1.*
 
-The database that the PWA connects to is a SQL Database hosted on the sponsor's Azure account. It has a series of tables that correspond to user associated information, and tables associated with each of the three contexts that the app is used in (class room/home for well info, remote site for well, and classroom for the class lab.) The sponsor also included a Nebraska Water Center lab table which is for an anctipated expansion of the app to be used to enter data that comes from their experiments.
+The database that the PWA connects to is a SQL Database hosted on the sponsor's Azure account. It has a series of tables that correspond to user-associated information and tables associated with each of the three contexts where the app is used (classroom/home for well info, remote site for well, and classroom for the class lab.) The sponsor also included a Nebraska Water Center lab table which is for an anticipated expansion of the app to be used to enter data that will come from their experiments. 
 
 ### Node Backend
 *More in-depth information can be found in Backend.md*
