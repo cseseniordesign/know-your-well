@@ -29,8 +29,8 @@ textarea {
     text-align:center
 }
 
-.requiredField{
-    color: red;
+.requiredField {
+    color: #AD5248;
 }
 
 #dateentered {
@@ -38,4 +38,7 @@ textarea {
     justify-content: center;
 }
 
-      
+#installyear {
+    display: flex;
+    justify-content: center;
+}

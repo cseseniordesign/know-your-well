@@ -2,19 +2,17 @@
 import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from "react-router-dom";
 
 export default function WellInfo() {
-
     //const [wellcode, setWellcode] = useState("");
-    const wellcode = 13
+    const wellcode = "abc123" // todo
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
-    const school_id = 17;
+    const school_id = 1; // todo
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -101,7 +99,7 @@ export default function WellInfo() {
     };
 
     function addWellInfo() {  /*const addWellInfo = () =>*/
-        Axios.post('http://localhost:7193/createwellinfo', {
+        Axios.post('/createwellinfo', {
             wellcode: wellcode,
             wellname: wellname,
             school_id: school_id,
@@ -110,14 +108,14 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
-            county: county,
-            nrd: nrd,
+            countyid: 1,
+            nrdid: 1,
             wellowner: wellowner,
             installyear: installyear,
             smelltaste: smelltaste,
-            smelltaste_description: smelltaste_description,
+            smelltastedescription: smelltaste_description,
             welldry: welldry,
-            welldry_description: welldry_description,
+            welldrydescription: welldry_description,
             maintenance5yr: maintenance5yr,
             landuse5yr: landuse5yr,
             numberwelluser: numberwelluser,
@@ -134,7 +132,6 @@ export default function WellInfo() {
             wellcasematerial: wellcasematerial,
             datacollector: datacollector,
             observation: observation,
-            comments: comments,
             dateentered: dateentered,
         })
             .then(() => {
@@ -146,26 +143,30 @@ export default function WellInfo() {
     const myFunction = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Well Info Form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
 
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/well`;
     }
 
     function myFunction2() {
-        addWellInfo();
-        myFunction();
+        if (myFunction()) {
+            addWellInfo();
+            window.location.href = `/well`
+        }
     }
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const wellName = searchParams.get("wellName");
 
     return (
         //<div className="form-container">
         /*action = "/editwell" id = "submissionAlert"*/
-        <form action="/editwell" id="submissionAlert" >
-            <h2>{wellName}: Well Info</h2>
+        <form id="submissionAlert" >
+            <h2>Well Info</h2>
             <div className="css">
                 <label for="wellname">
                     Well Name:
@@ -393,12 +394,29 @@ export default function WellInfo() {
                     Well construction completion year:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
+                {/* }
                 <input
                     type="text" className="textarea resize-ta" id="installyear" name="installyear" pattern="[0-9]{4}" required
                     onChange={(event) => {
                         setInstallyear(event.target.value);
                     }}
                 />
+                {*/}
+                <div id="installyear">
+                    <DatePicker
+                        value={installyear}
+                        dateFormat="YYYY"
+                        timeFormat=""
+                        onChange={(val) => setInstallyear(val)}
+                        inputProps={{
+                            style: {
+                                width: 300,
+                                textAlign: 'center',
+                                border: '1px solid black'
+                            }
+                        }}
+                    /> {"  "}
+                </div>
             </div>
             <div className="css">
                 <label for="smelltaste">
@@ -430,7 +448,6 @@ export default function WellInfo() {
                             />
                         </div>
                     )}
-
                 </div>
             </div>
             <div className="css">
@@ -726,7 +743,7 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Save</button>
+            <button type="button" onClick={myFunction2} >Save</button>
             <button type="submit" onClick={backButton} >Back</button>
             <div className="requiredField">
                 <br></br>

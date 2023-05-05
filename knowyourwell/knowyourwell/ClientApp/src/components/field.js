@@ -1,25 +1,74 @@
 ﻿import React from 'react'
 import './css/forms.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Axios from 'axios'
-//
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from 'react-router-dom'
 
-
+const conditionsInitilization = () => {
+    const Cachedconditions = localStorage.getItem("Conditions");
+    return Cachedconditions ? JSON.parse(Cachedconditions) : "" ;
+}
+const tempInitilization = () => {
+    const Cachedtemp = localStorage.getItem("Temp");
+    return Cachedtemp ? JSON.parse(Cachedtemp) : "";
+}
+const phInitilization = () => {
+    const Cachedph = localStorage.getItem("Ph");
+    return Cachedph ? JSON.parse(Cachedph) : "";
+}
+const conductivityInitilization = () => {
+    const Cachedconductivity = localStorage.getItem("Conductivity");
+    return Cachedconductivity ? JSON.parse(Cachedconductivity) : "";
+}
+const nameInitilization = () => {
+    const Cachedname = localStorage.getItem("NameField");
+    return Cachedname ? JSON.parse(Cachedname) : "";
+}
+const observationInitilization = () => {
+    const Cachedobservation = localStorage.getItem("Observation");
+    return Cachedobservation ? JSON.parse(Cachedobservation) : "";
+}
+const wellcoverInitilization = () => {
+    const Cachedwellcover = localStorage.getItem("Wellcover");
+    return Cachedwellcover ? JSON.parse(Cachedwellcover) : "";
+}
+const wellcoverdescriptionInitilization = () => {
+    const Cachedwellcoverdescription = localStorage.getItem("Wellcoverdescription");
+    return Cachedwellcoverdescription ? JSON.parse(Cachedwellcoverdescription) : "";
+}
+//const dateenteredInitilization = () => {
+//    const Cacheddateentered = localStorage.getItem("Dateentered");
+//    return Cacheddateentered ? JSON.parse(Cacheddateentered) : ""; 
+//}
+const evidenceInitilization = () => {
+    const Cachedevidence = localStorage.getItem("Evidence");
+    return Cachedevidence ? JSON.parse(Cachedevidence) : "";
+}
+const poolingInitilization = () => {
+    const Cachedpooling = localStorage.getItem("Pooling");
+    return Cachedpooling ? JSON.parse(Cachedpooling) : "";
+}
 export default function Field() {
-    const [conditions, setConditions] = useState("");
-    const [temp, setTemp] = useState(0);
-    const [ph, setPh] = useState(0);
-    const [conductivity, setConductivity] = useState(0);
-    const [name, setName] = useState("");
-    const [observation, setObservation] = useState("");
-    const [wellcover, setWellcover] = useState("");
-    const [wellcoverdescription, setWellcoverDescription] = useState("");
-    const [comments, setComments] = useState("");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const well_id = parseInt(searchParams.get("id"));
+    const wellName = searchParams.get("wellName");
+    const fa_latitude = 40.8;   //TODO: match this up with actual value.
+    const fa_longitude = -97.5; //TODO: match this up with actual value.
+    const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
+    const fa_genlongitude = -97.5; //TODO: match this up with actual value.
+    const [conditions, setConditions] = useState(conditionsInitilization);
+    const [temp, setTemp] = useState(tempInitilization);
+    const [ph, setPh] = useState(phInitilization);
+    const [conductivity, setConductivity] = useState(conductivityInitilization);
+    const [name, setName] = useState(nameInitilization);
+    const [observation, setObservation] = useState(observationInitilization);
+    const [wellcover, setWellcover] = useState(wellcoverInitilization);
+    const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
     const [dateentered, setDateentered] = useState(moment());
+
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
     };
@@ -29,31 +78,37 @@ export default function Field() {
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
-    const [evidence, setEvidence] = useState("");
+    const [evidence, setEvidence] = useState(evidenceInitilization);
+
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);
     };
 
-    const [pooling, setPooling] = useState("");
+    const [pooling, setPooling] = useState(poolingInitilization);
+
     const handleChange_pooling = (event) => {
         setPooling(event.target.value);
     };
 
 
     function addField () {   /*const addField = () => */
-        Axios.post('http://localhost:7193/api/insert', {
-            conditions: conditions,
-            wellcover: wellcover,
+        Axios.post('/api/insert', {
+            well_id: well_id,
+            fa_latitude: fa_latitude,
+            fa_longitude: fa_longitude,
+            fa_genlatitude: fa_genlatitude,
+            fa_genlongitude: fa_genlongitude,
+            weather: conditions,
+            wellcovercondition: wellcover,
             wellcoverdescription: wellcoverdescription,
-            evidence: evidence,
+            surfacerunoff: evidence,
             pooling: pooling,
-            temp: temp,
+            groundwatertemp: temp,
             ph: ph,
             conductivity: conductivity,
             name: name,
-            observation: observation,
-            comments: comments,
-            dateentered: dateentered,
+            observations: observation,
+            datecollected: dateentered,
         })
 
             .then(() => {
@@ -61,43 +116,65 @@ export default function Field() {
             })
     };
 
+
+    ///caching
+    useEffect(() => {
+        localStorage.setItem("Conditions", JSON.stringify(conditions));
+        localStorage.setItem("Temp", JSON.stringify(temp));
+        localStorage.setItem("Ph", JSON.stringify(ph));
+        localStorage.setItem("Conductivity", JSON.stringify(conductivity));
+        localStorage.setItem("NameField", JSON.stringify(name));
+        localStorage.setItem("Observation", JSON.stringify(observation));
+        localStorage.setItem("Wellcover", JSON.stringify(wellcover));
+        localStorage.setItem("Wellcoverdescription", JSON.stringify(wellcoverdescription));
+        localStorage.setItem("Dateentered", JSON.stringify(dateentered));
+        localStorage.setItem("Evidence", JSON.stringify(evidence));
+        localStorage.setItem("Pooling", JSON.stringify(pooling));
+    }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, dateentered, evidence, pooling]);
+
+
+
     var form = document.getElementById('submissionAlert');
     const myFunction = () => {
         if (form.checkValidity()) {
             alert("Succesfully submitted Field Form!");
+            return true;
+        }
+        else {
+            form.reportValidity();
+            return false;
         }
     }
     const backButton = () => {
-        window.location.href = "/editwell";
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
     }
 
     function myFunction2() {
-        addField();
-        myFunction();
+        if (myFunction()) {
+            addField();
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        }
     }
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const wellName = searchParams.get("wellName")
 
     return (
         //<div className="form-container">
         // action="/editwell"
-        <form action="/editwell" id="submissionAlert" >  
+        <form id="submissionAlert" >  
             <h2>{wellName}: Field</h2>
             <div className="css">
-                <label for="conditions">
+                <label htmlFor="conditions">
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <textarea
-                    type="text" id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
+                    type="text" value={conditions} id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
                     onChange={(event) => {
                         setConditions(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="wellcover">
+                <label htmlFor="wellcover">
                     Condition of the well cover
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -107,27 +184,42 @@ export default function Field() {
                             value={wellcover}
                             onChange={handleChange_wellcover}
                         >
-                            <option hidden selected>Select one...</option>
+                            <option hidden defaultValue>Select one...</option>
                             <option value="Intact" id="wellcover" name="wellcover" required >Intact</option>
                             <option value="Observable_Opening" id="wellcover" name="wellcover" required>Observable Opening</option>
                             <option value="Damaged" id="wellcover" name="wellcover" required >Damaged</option>
                         </select>
                     </div>
+                    {wellcover === "Observable_Opening" && (
+                        <div className="css">
+                            <label for="wellcoverdescription">
+                                Well Cover Description:
+                            </label>
+                            <textarea
+                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                onChange={(event) => {
+                                    setWellcoverDescription(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
+                    {wellcover === "Damaged" && (
+                        <div className="css">
+                            <label for="wellcoverdescription">
+                                Well Cover Description:
+                            </label>
+                            <textarea
+                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                                onChange={(event) => {
+                                    setWellcoverDescription(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="css">
-                <label for="wellcoverdescription">
-                    Well Cover Description:
-                </label>
-                <textarea
-                    type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
-                    onChange={(event) => {
-                        setWellcoverDescription(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label for="evidence">
+                <label htmlFor="evidence">
                     Is there evidence of surface<br />run-off entry to the well?
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -146,7 +238,7 @@ export default function Field() {
                 </div>
             </div>
             <div className="css">
-                <label for="pooling">
+                <label htmlFor="pooling">
                     Is there evidence of pooling or<br />puddles within 12 ft of the well?
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -164,66 +256,66 @@ export default function Field() {
                 </div>
             </div>
             <div className="css">
-                <label for="temp">
+                <label htmlFor="temp">
                     Groundwater Temperature<br /> [Degrees Celsius]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
+                    type="text" value={temp} className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setTemp(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="ph">
+                <label htmlFor="ph">
                     pH<br /> [0-14]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
+                    type="text" value={ph} className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
                     onChange={(event) => {
                         setPh(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="conductivity">
+                <label htmlFor="conductivity">
                     Conductivity <br /> [uS/cm]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
+                    type="text" value={conductivity} className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setConductivity(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="name">
+                <label htmlFor="name">
                     Data Collector’s Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input
-                    type="text" className="textarea resize-ta" id="name" name="name" required
+                    type="text" value={name} className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="observation">
+                <label htmlFor="observation">
                     Observations
                 </label>
                 <textarea
-                    type="text" className="textarea resize-ta" maxLength="150" id="observation" name="observation"
+                    type="text" value={observation } className="textarea resize-ta" maxLength="150" id="observation" name="observation"
                     onChange={(event) => {
                         setObservation(event.target.value);
                     }}
                 />
             </div>
             <div className="css">
-                <label for="dateentered">
+                <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
@@ -243,8 +335,11 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="submit" onClick={myFunction2} >Submit</button>
+            <button type="button" onClick={myFunction2} >Submit</button>
             <button type="submit" onClick={backButton} >Back</button>
+            <button type="submit">
+                Save
+            </button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field

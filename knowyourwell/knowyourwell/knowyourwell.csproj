@@ -23,9 +23,15 @@
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove=".\ClientApp\public\images\kywlogo.svg" />
+	  <None Remove="ClientApp\public\images\kywlogo.svg" />
+	</ItemGroup>
+
 	<!--<ItemGroup>
 		<Content Remove="package-lock.json" />
 		<Content Remove="package.json" />
+	    <Content Remove="ServerApp\public\manifest.json" />
 	</ItemGroup>-->
 
 	<ItemGroup>

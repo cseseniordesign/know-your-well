@@ -24,6 +24,12 @@ function responseDataToHTMLList(responseData) {
     return HTMLList
 }
 
+function cacheWellInfo(wellData) {
+    for (const element of wellData){
+        localStorage.setItem("wellData"+element.well_id, JSON.stringify(element))
+    }
+}
+
 export default function Well() {
     const [isLoading, setLoading] = useState(true);
 
@@ -35,6 +41,7 @@ export default function Well() {
             })
             .then(function (response) {
                 localStorage.setItem("wellData", JSON.stringify(response.data))
+                cacheWellInfo(response.data.Wells)
                 wellList = responseDataToHTMLList(response.data.Wells)
                 setLoading(false);
             });
@@ -65,7 +72,7 @@ export default function Well() {
                     <h2> <strong> Well Selection </strong></h2>
                     <List.Item key={-1}>
                         <List.Content>
-                            <a href={`/WellInfo`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Create New Well </a>
+                            <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well </a>
                         </List.Content>
                         <br />
                     </List.Item>
@@ -74,7 +81,6 @@ export default function Well() {
         }
 
     }
-
     return (
         <List style={{ textAlign: 'center' }}>
             <h2> <strong> Well Selection </strong></h2>
@@ -87,4 +93,6 @@ export default function Well() {
             {wellList}
         </List>
     );
+
+
 }

@@ -18,4 +18,4 @@ export default function Login() {
             <button onClick={initRedirectRequest}>Log in to Nebraska Cloud</button>
         </div>
     )
-} 
+}

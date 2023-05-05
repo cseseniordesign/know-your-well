@@ -76,3 +76,32 @@ body, html, .App, #root, .auth-wrapper {
         color: #167bff;
     }
 
+.btn {
+    background-color: #2979A3;
+}
+
+    .btn:hover {
+        background-color: #206082;
+    }
+
+    .btn:active {
+        background-color: #206082 !important;
+    }
+
+.btn-light {
+    background-color: #f8f9fa !important;
+}
+
+    .btn-light:hover {
+        background-color: #c6c7c8 !important;
+    }
+
+    .btn-light:active {
+        background-color: #c6c7c8 !important;
+    }
+
+.disabled {
+    background-color: #686868 !important;
+    border: #686868;
+    cursor: not-allowed;
+}
