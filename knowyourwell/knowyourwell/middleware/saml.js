@@ -2,67 +2,23 @@ const samlify = require('samlify') ;
 const fs = require('fs');
 const validator = require('@authenio/samlify-node-xmllint');
 
-const binding = samlify.Constants.namespace.binding;
-
 samlify.setSchemaValidator(validator);
 
-// configure okta idp
+// Configure identity provider from metadata, currently using https://samltest.id/ as idp
 const idp = samlify.IdentityProvider({
     metadata: fs.readFileSync(__dirname + '/../metadata/testidp.xml'),
     wantLogoutRequestSigned: true
 });
 
+// Configure service provider from this app's metadata
 const sp = samlify.ServiceProvider({
     metadata: fs.readFileSync(__dirname + '/../metadata/sp.xml')
 });
 
-// const oktaIdpEnc = samlify.IdentityProvider({
-//   metadata: fs.readFileSync(__dirname + '/../metadata/okta-enc.xml'),
-//   isAssertionEncrypted: true,
-//   messageSigningOrder: 'encrypt-then-sign',
-//   wantLogoutRequestSigned: true,
-// });
-
-// configure our service provider (your application)
-// const sp = samlify.ServiceProvider({
-//   entityID: 'http://localhost:8080/metadata',
-//   authnRequestsSigned: false,
-//   wantAssertionsSigned: true,
-//   wantMessageSigned: true,
-//   wantLogoutResponseSigned: true,
-//   wantLogoutRequestSigned: true,
-//   privateKey: fs.readFileSync(__dirname + '/../key/sign/privkey.pem'),
-//   privateKeyPass: 'VHOSp5RUiBcrsjrcAuXFwU1NKCkGA8px',
-//   isAssertionEncrypted: false,
-//   assertionConsumerService: [{
-//     Binding: binding.post,
-//     Location: 'http://localhost:8080/sp/acs',
-//   }]
-// });
-
-// encrypted response
-// const spEnc = samlify.ServiceProvider({
-//   entityID: 'http://localhost:8080/metadata?encrypted=true',
-//   authnRequestsSigned: false,
-//   wantAssertionsSigned: true,
-//   wantMessageSigned: true,
-//   wantLogoutResponseSigned: true,
-//   wantLogoutRequestSigned: true,
-//   privateKey: fs.readFileSync(__dirname + '/../key/sign/privkey.pem'),
-//   privateKeyPass: 'VHOSp5RUiBcrsjrcAuXFwU1NKCkGA8px',
-//   encPrivateKey: fs.readFileSync(__dirname + '/../key/encrypt/privkey.pem'),
-//   assertionConsumerService: [{
-//     Binding: binding.post,
-//     Location: 'http://localhost:8080/sp/acs?encrypted=true',
-//   }]
-// });
-
+// Creates idp and sp objects
 const assignEntity = (req, res, next) => {
-
     req.idp = idp;
-    console.log("creating idp\n");
     req.sp = sp;
-    console.log("creating sp\n");
 
     return next();
 };

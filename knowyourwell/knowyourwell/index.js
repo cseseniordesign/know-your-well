@@ -1,4 +1,5 @@
 ﻿const assignEntity = require('./middleware/saml.js');
+const { Constants } = require('samlify');
 
 const express = require("express");
 const bodyParser = require('body-parser');
@@ -218,6 +219,7 @@ app.post('/createwellinfo', (req, res) => {
     })
 });
 
+//credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
 
@@ -276,7 +278,6 @@ app.get('/GetWellInfo', async (req, res) => {
         })
     })
 })
-
 
 // call to init a sso login with redirect binding
 app.get('/sso/redirect', async (req, res) => {
