@@ -47,7 +47,7 @@ export default function ClassLab() {
     const [nitrate, setNitrate] = useState(pullCachedData ? cachedData.Nitrate : "");
     const [bacteria, setBacteria] = useState(pullCachedData ? cachedData.Bacteria : "");
     const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
-    const [name, setName] = useState(pullCachedData ? cachedData.Name : "");
+    const [name, setName] = useState(pullCachedData ? cachedData.Datacollector : "");
     const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
 
 
@@ -62,7 +62,7 @@ export default function ClassLab() {
         setNitrate(sessionContinued ? cachedData.Nitrate : "");
         setBacteria(sessionContinued ? cachedData.Bacteria : "");
         setObservations(sessionContinued ? cachedData.Observations : "");
-        setName(sessionContinued ? cachedData.Name : "");
+        setName(sessionContinued ? cachedData.Datacollector : "");
         setDateentered(sessionContinued ? cachedData.Dateentered : moment());
     }, [sessionContinued]);
 
@@ -96,7 +96,7 @@ export default function ClassLab() {
             })
     };
 
-    const idList = ["ammonia", "calcium", "chloride"];
+    const idList = ["ammonia", "calcium", "chloride", "copper", "iron", "manganese", "nitrate"];
     // caching - local storage
     function cacheLabForm() {
         let elementsValid = true;
