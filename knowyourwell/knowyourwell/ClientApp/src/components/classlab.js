@@ -39,7 +39,7 @@ export default function ClassLab() {
 
 
     const [ammonia, setAmmonia] = useState(pullCachedData ? cachedData.Ammonia : "");
-    const [calcium, setCalcium] = useState(pullCachedData ? cachedData.Calcium : "");
+    const [calcium, setCalcium] = useState(pullCachedData ? cachedData.Calciumhardness : "");
     const [chloride, setChloride] = useState(pullCachedData ? cachedData.Chloride : "");
     const [copper, setCopper] = useState(pullCachedData ? cachedData.Copper : "");
     const [iron, setIron] = useState(pullCachedData ? cachedData.Iron : "");
@@ -54,7 +54,7 @@ export default function ClassLab() {
     // Updating if user decides to load session
     useEffect(() => {
         setAmmonia(sessionContinued ? cachedData.Ammonia : "");
-        setCalcium(sessionContinued ? cachedData.Calcium : "");
+        setCalcium(sessionContinued ? cachedData.Calciumhardness : "");
         setChloride(sessionContinued ? cachedData.Chloride : "");
         setCopper(sessionContinued ? cachedData.Copper : "");
         setIron(sessionContinued ? cachedData.Iron : "");
@@ -82,7 +82,6 @@ export default function ClassLab() {
             ammonia: ammonia,
             calciumhardness: calcium,
             chloride: chloride,
-            bacteria: bacteria,
             copper: copper,
             bacteria: bacteria,
             iron: iron,
@@ -97,7 +96,7 @@ export default function ClassLab() {
             })
     };
 
-    const idList = ["ammonia", "calcium", "chloride", "bacteria", "nitrate", "name", "observations"];
+    const idList = ["ammonia", "calcium", "chloride"];
     // caching - local storage
     function cacheLabForm() {
         let elementsValid = true;
@@ -116,7 +115,6 @@ export default function ClassLab() {
                 Ammonia: ammonia,
                 Calciumhardness: calcium,
                 Chloride: chloride,
-                Bacteria: bacteria,
                 Copper: copper,
                 Bacteria: bacteria,
                 Iron: iron,
