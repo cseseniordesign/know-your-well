@@ -210,6 +210,7 @@ export default function ClassLab() {
                             <option value="Clear" id="bacteria" name="bacteria" required >Clear</option>
                             <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria" required>Yellow with fluorescent rim </option>
                             <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria" required >Yellow without fluorescent rim</option>
+                            <option value="Test" id="bacteria" name="bacteria" required >Test</option>
                         </select>
                     </div>
                 </div>

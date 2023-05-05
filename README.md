@@ -85,6 +85,13 @@ The database that the PWA connects to is a SQL Database hosted on the sponsor's 
         * Associated with a Field entry
 
 ## Next Steps
-(Insert broad overview here)
+
+### Notable At Large Bugs
+* npm install not done automatically: Currently part of the process of adding a package or doing a clean install of the app is manually typing "npm intall" in the relevant directory on the Kudu console. This is very ineffecient and the process should be performed automatically.The typical way to do this is to have "npm install" be one of the steps in GitHub Actions and transfer the generated files over to the Azure app service along with all the other code. We ran into signifigant problems sending all the generated to the app service because of the large size of the files even with compression. There are two solutions to this problem that we can think of:
+    1. Overcome the size limitation for moving node modules over: This would revolve around either generating fewer files, or compressing them using a better method than we used.
+    1. Have the Web App automatically run a script on deployment: The main challenge of this solutions is time. Some Azure resource types have a post-deployment script as a default part of their structure but it seems that our resource type is not among them. More research is required for this option.
+
+### Agile Epic Level Issues
+Besides a few lingering bugs, we have implemented a large portion of the application. The largest outstanding categories are authentication and photo uploads. The state of authentication is (INSERT WILL'S EXPLANATION HERE.) Because of multiple roadblocks that we experienced through the semester photo-upload capabilities were eventually side-lined in favor of strengthening the DB connection, caching data for offline use, and our progress on authentication. We've done very little research into this topic, and so it would require a signifigant ammount of research. One note would be that the DB only has a 32 GB capacity so it might be best to avoid storing images on it. A popular option in Express apps for handling and storing file uploads in the site's own file structure is [multer](https://www.npmjs.com/package/multer), but limitations on a Web App's deployed size may make storing them within the Web App's own structure unattractive in which case [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) may be a good option. Of course, you will have to be concious of security concerns when storing these files. It is our understanding that the next immediate step that the sponsor is planning on taking is performing limited user testing over the summer and hopefully the information they have gathered will be useful for further development. 
 
 A large number of known bugs can be found in the repository's ZenHub board. Good luck!
