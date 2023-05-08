@@ -158,7 +158,7 @@ export default function WellInfo() {
     }
 
     function submitForm() {
-        if (validForm() && window.confirm("Submitted Data is Final and Can only be edited by Nebraska Water Center Staff.\n Do you want to continue?")) {
+        if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
             addWellInfo();
             alert("Succesfully submitted Well Info Form!");
             window.location.href = `/well`
