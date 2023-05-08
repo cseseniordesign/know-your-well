@@ -1,6 +1,28 @@
 # Common Tasks
 This section has an overview of several common tasks that might be peformed as part of routine maitenance/expansion of the app.
 
+## Connecting to the DB.
+The following information will be useful for accessing the DB.
+* User: kywAdmin
+* Server Name: kyw.database.windows.net
+* Database: kyw
+* MSSQL_PASSWORD: Can be found as an Application Setting under Configuration in the Web App's Azure page.
+There are two ways to connect to the DB.
+1. Using the Azure portal:
+    * In the [Azure portal](https://portal.azure.com/) go to the kyw SQL database.
+    * In the search bar on the left hand side of the screen type in "Query Editor."
+    * Use the User and MSSQL_PASSWORD values mentioned above to access the page.
+    * From here you can see or edit the data by right-clicking on the appropriate table and selecting the your preferred option.
+0. Using MSSQL Management Studio
+    * If applicable [download MSSQL Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+    * After opening MSSQL use the following values.
+        * Server Type: Database Engine
+        * Server Name: Server Name.
+        * Authentication: SQL Server Authentication
+        * Login: User
+        * Password: MSSQL_PASSWORD.
+    * To find the relevant DB expand the Databases folder in the panel on the left-hand side of the screen and then expand the kyw database section.
+
 ## Making Minor Adjustments to the Code
 This guide is for minor adjustments to the source code (1-20 lines.) Any adjustments larger than this or edits that adjust the larger structure of the website should be performed by people who have experience with web development, and the tools required to do it.
 1. If you don't have one, [Create a GitHub account](https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account). This is the account you will use to access and edit the code in you web browser.

@@ -114,6 +114,9 @@ The database that the PWA connects to is a SQL Database hosted on the sponsor's 
 * npm install not done automatically: Currently part of the process of adding a package or doing a clean install of the app is manually typing "npm intall" in the relevant directory on the Kudu console. This is very ineffecient and the process should be performed automatically.The typical way to do this is to have "npm install" be one of the steps in GitHub Actions and transfer the generated files over to the Azure app service along with all the other code. We ran into signifigant problems sending all the generated to the app service because of the large size of the files even with compression. There are two solutions to this problem that we can think of:
     1. Overcome the size limitation for moving node modules over: This would revolve around either generating fewer files, or compressing them using a better method than we used.
     1. Have the Web App automatically run a script on deployment: The main challenge of this solutions is time. Some Azure resource types have a post-deployment script as a default part of their structure but it seems that our resource type is not among them. More research is required for this option.
+* The data ocasionally doesn't load, for some reason opening the terminal fixes the problem.
+* The app loads slowly.
+    1. Could maybe be solved by adjusting how pooling works in the app.
 
 ### Agile Epic Level Issues
 Besides a few lingering bugs, we have implemented a large portion of the application. The largest outstanding categories are authentication and photo uploads.
