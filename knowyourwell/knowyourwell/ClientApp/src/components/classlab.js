@@ -29,15 +29,12 @@ export default function ClassLab() {
     }
     let pullCachedData = sessionContinued;
 
-    /////////////////////////////
-   
+
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("labData" + fa_id)) : null;
 
    // const fa_id = parseInt(searchParams.get("field_id"));
     const well_id = searchParams.get("well_id");
     const wellName = searchParams.get("wellName");
-
-
     const [ammonia, setAmmonia] = useState(pullCachedData ? cachedData.Ammonia : "");
     const [calcium, setCalcium] = useState(pullCachedData ? cachedData.Calciumhardness : "");
     const [chloride, setChloride] = useState(pullCachedData ? cachedData.Chloride : "");
@@ -46,8 +43,8 @@ export default function ClassLab() {
     const [manganese, setManganese] = useState(pullCachedData ? cachedData.Manganese : "");
     const [nitrate, setNitrate] = useState(pullCachedData ? cachedData.Nitrate : "");
     const [bacteria, setBacteria] = useState(pullCachedData ? cachedData.Bacteria : "");
-    const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
     const [name, setName] = useState(pullCachedData ? cachedData.Datacollector : "");
+    const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
     const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
 
 
@@ -63,6 +60,8 @@ export default function ClassLab() {
         setBacteria(sessionContinued ? cachedData.Bacteria : "");
         setObservations(sessionContinued ? cachedData.Observations : "");
         setName(sessionContinued ? cachedData.Datacollector : "");
+        setObservations(sessionContinued ? cachedData.Observations : "");
+
         setDateentered(sessionContinued ? cachedData.Dateentered : moment());
     }, [sessionContinued]);
  
@@ -127,8 +126,6 @@ export default function ClassLab() {
         }
     };
 
-
-    //check mark
     function handleClearLocalStorage() {
         localStorage.clear();
     };
@@ -160,7 +157,6 @@ export default function ClassLab() {
         }
     }
 
-    //end of check mark
     return (
         <form id="submissionAlert">
             <div className="styling_offline_bar">
@@ -273,6 +269,16 @@ export default function ClassLab() {
                 <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label htmlFor="observations">
+                    Observations
+                </label>
+                <textarea type="text" value={observations} className="textarea resize-ta" maxLength="150" id="observations" name="observations"
+                    onChange={(event) => {
+                        setObservations(event.target.value);
                     }}
                 />
             </div>
