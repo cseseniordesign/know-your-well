@@ -11,7 +11,7 @@ const labelList = [
     "Ammonia [0-10 ppm(mg/L)]:", "Calcium hardness [50-500 ppm(mg/L)]:", "Chloride [0-400 ppm(mg/L)]:",
     "Bacteria (Colilert) [Positive if more than 1 MPN/100ml]:", "Copper [0-10 ppm(mg/L)]:", "Iron [0-10 ppm(mg/L)]:",
     "Manganese [0-50 ppm(mg/L)]:", "Nitrate [0-45 ppm(mg/L)]:", "Data Collector’s Name:",
-    "Additional observations:", "Date Entered:"
+    "Observations:", "Date Entered:"
 ]
 
 const keyList = [
@@ -26,8 +26,6 @@ export default function ViewLab() {
     const wellName = searchParams.get("wellName")
     const classlab_id = searchParams.get("classlab_id")
     const well_id = searchParams.get("well_id");
-    const fieldactivity_id = searchParams.get("fiel")
-
 
     const backButton = () => {
         window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}`;
