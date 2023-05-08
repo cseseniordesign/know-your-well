@@ -1,6 +1,11 @@
 # Common Tasks
 This section has an overview of several common tasks that might be peformed as part of routine maitenance/expansion of the app.
 
+### Table of Contents
+* [Connecting to the DB](#connecting-to-the-db)
+* [Making Minor Adjustments to the Code](#making-minor-adjustments-to-the-code)
+* [Adding or Deleting Dropdown Items](#adding-or-deleting-drop-down-items)
+
 ## Connecting to the DB.
 The following information will be useful for accessing the DB.
 * User: kywAdmin
@@ -33,7 +38,7 @@ This guide is for minor adjustments to the source code (1-20 lines.) Any adjustm
 ## Adding or Deleting Drop-Down Items
 This process is quite trivial as long as you have access to the source code.
 1. Access the .js file in knowyourwell\knowyourwell\ClientApp\src\components that contains the dropdown you would like to edit. For the purposes of this demonstration I will be using the bacteria dropdown in classlab.js which looked like this before modification ![Drop-Down Before](DocumentationImages/dropDownBeforeLarge.png "Drop-Down Before").
-0. After finding the relevant file the next step is finding the relevant [HTML select element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select). This can be done by using (Ctrl/CMD+f)  and then typing in select into the relevant box. Press enter until you find the section of the .js file that has options that match up to  the existing drop-down elements. An example of what this section looks like for the bacteria drop-down is provided below. ![Finding Select Element](DocumentationImages/findSelectElement.png "Finding Select Element") *Notice how the various [option elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option) correspond to the menu choices shown in the previous screen-shot*
+0. After finding the relevant file the next step is finding the relevant [HTML select element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select). This can be done by using (Ctrl/CMD+f)  and then typing in select into the relevant box. Press enter until you find the section of the .js file that has options that match up to  the existing drop-down elements. An example of what this section looks like for the bacteria drop-down is provided below. ![Finding Select Element](DocumentationImages/findSelectElement.PNG "Finding Select Element") *Notice how the various [option elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option) correspond to the menu choices shown in the previous screen-shot*
 0. To add an additional option to the drop-down we follow the template followed by the other option elements that are valid choices in my case I selected the last option element: ```<option value="Yellow_without_fluorescent" id="bacteria" name="bacteria" required >Yellow without fluorescent rim</option>``` this can be done by copy and pasting the element on a new-line immediately beneath itself.
 0. We then adjust the [value attribute](https://www.w3schools.com/html/html_elements.asp), and the [content](https://www.w3schools.com/html/html_elements.asp) of the option element that we copied. In my example I have adjusted the value and content both to Test. My modifications can be seen below. ![Modified Select Element(DocumentationImages/modifiedSelect.png "Modified Select Element")
 0. The final result can be seen below ![Drop-Down Element After](DocumentationImages/dropDownAfter.png "Drop-Down Element After")
