@@ -380,7 +380,6 @@ app.get('/GetLabEntry', async (req, res) => {
 })
 
 app.get("*", (req, res) => {
-    console.log("hit")
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
 
