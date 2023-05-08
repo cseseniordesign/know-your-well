@@ -8,7 +8,14 @@ export default function EditWell() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const wellName = searchParams.get("wellName");
+    const FieldRedirect  = searchParams.get("FieldRedirect")
     const id = searchParams.get("id");
+    if (localStorage.getItem("fieldData"+id) && !FieldRedirect) {
+        const viewSavedForm = window.confirm("You have a saved field form.\n Would you like to view it?");
+        if (viewSavedForm) {
+            window.location.href = `/Field?id=${id}&wellName=${wellName}&sessionContinued=True`
+        }
+    }
     return (
         <List style={{ textAlign: 'center' }}>
             <h2>{wellName}</h2>
@@ -36,12 +43,14 @@ export default function EditWell() {
                 </List.Content>
                 <br />
             </List.Item>
+            {/*}
             <List.Item>
                 <List.Content >
                     <a href={`/FormSubmission?id=${id}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Form Submission</a>
                 </List.Content>
                 <br />
             </List.Item>
+            {*/}
         </List>
     );
 }

@@ -1,97 +1,102 @@
-﻿import React from 'react'
-import './css/forms.css'
-import { useState, useEffect } from 'react';
+﻿import './css/forms.css'
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom';
 
-const conditionsInitilization = () => {
-    const Cachedconditions = localStorage.getItem("Conditions");
-    return Cachedconditions ? JSON.parse(Cachedconditions) : "" ;
-}
-const tempInitilization = () => {
-    const Cachedtemp = localStorage.getItem("Temp");
-    return Cachedtemp ? JSON.parse(Cachedtemp) : "";
-}
-const phInitilization = () => {
-    const Cachedph = localStorage.getItem("Ph");
-    return Cachedph ? JSON.parse(Cachedph) : "";
-}
-const conductivityInitilization = () => {
-    const Cachedconductivity = localStorage.getItem("Conductivity");
-    return Cachedconductivity ? JSON.parse(Cachedconductivity) : "";
-}
-const nameInitilization = () => {
-    const Cachedname = localStorage.getItem("NameField");
-    return Cachedname ? JSON.parse(Cachedname) : "";
-}
-const observationInitilization = () => {
-    const Cachedobservation = localStorage.getItem("Observation");
-    return Cachedobservation ? JSON.parse(Cachedobservation) : "";
-}
-const wellcoverInitilization = () => {
-    const Cachedwellcover = localStorage.getItem("Wellcover");
-    return Cachedwellcover ? JSON.parse(Cachedwellcover) : "";
-}
-const wellcoverdescriptionInitilization = () => {
-    const Cachedwellcoverdescription = localStorage.getItem("Wellcoverdescription");
-    return Cachedwellcoverdescription ? JSON.parse(Cachedwellcoverdescription) : "";
-}
-//const dateenteredInitilization = () => {
-//    const Cacheddateentered = localStorage.getItem("Dateentered");
-//    return Cacheddateentered ? JSON.parse(Cacheddateentered) : ""; 
-//}
-const evidenceInitilization = () => {
-    const Cachedevidence = localStorage.getItem("Evidence");
-    return Cachedevidence ? JSON.parse(Cachedevidence) : "";
-}
-const poolingInitilization = () => {
-    const Cachedpooling = localStorage.getItem("Pooling");
-    return Cachedpooling ? JSON.parse(Cachedpooling) : "";
-}
+
 export default function Field() {
+
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
+
+    // Checking for saved sessions
+    const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
+    if (localStorage.getItem("fieldData"+well_id)) {
+        if (sessionContinued === null) {
+            const continue_session= window.confirm("Continue last saved session?");
+            if (continue_session) {
+                setSessionContinued(true);
+            } else { 
+                handleClearLocalStorage();
+                setSessionContinued(false); // ends forever pop-up loop
+                /* will need to be changed if sessionContinued is ever used elsewhere,
+                potenitally add another var to set to true / false if question has already been asked? */
+            }
+        } 
+    }
+    let pullCachedData = sessionContinued;
+
+    const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData"+well_id)) : null;
     const wellName = searchParams.get("wellName");
-    const fa_latitude = 40.8;   //TODO: match this up with actual value.
-    const fa_longitude = -97.5; //TODO: match this up with actual value.
-    const fa_genlatitude = 40.8;   //TODO: match this up with actual value.
-    const fa_genlongitude = -97.5; //TODO: match this up with actual value.
-    const [conditions, setConditions] = useState(conditionsInitilization);
-    const [temp, setTemp] = useState(tempInitilization);
-    const [ph, setPh] = useState(phInitilization);
-    const [conductivity, setConductivity] = useState(conductivityInitilization);
-    const [name, setName] = useState(nameInitilization);
-    const [observation, setObservation] = useState(observationInitilization);
-    const [wellcover, setWellcover] = useState(wellcoverInitilization);
-    const [wellcoverdescription, setWellcoverDescription] = useState(wellcoverdescriptionInitilization);
-    const [dateentered, setDateentered] = useState(moment());
+    const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : "");
+    const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : "");
+    const fa_genlatitude = Math.round(fa_latitude * 100) / 100; // rounds to third decimal place
+    const fa_genlongitude = Math.round(fa_longitude * 100) / 100; // rounds to third decimal place
+    const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
+    const [pooling, setPooling] = useState(pullCachedData ? cachedData.Pooling : "");
+    const [evidence, setEvidence] = useState(pullCachedData ? cachedData.Evidence : "");
+    const [temp, setTemp] = useState(pullCachedData ? cachedData.Temp : "");
+    const [ph, setPh] = useState(pullCachedData ? cachedData.Ph : "");
+    const [conductivity, setConductivity] = useState(pullCachedData ? cachedData.Conductivity : "");
+    const [name, setName] = useState(pullCachedData ? cachedData.NameField : "");
+    const [observation, setObservation] = useState(pullCachedData ? cachedData.Observation : "");
+    const [wellcover, setWellcover] = useState(pullCachedData ? cachedData.Wellcover : "");
+    const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
+    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
+
+    // Updating if user decides to load session
+    useEffect(() => {
+        setFa_latitude(sessionContinued ? cachedData.fa_latitude : "");
+        setFa_longitude(sessionContinued ? cachedData.fa_longitude : "");
+        setConditions(sessionContinued ? cachedData.Conditions : "");
+        setPooling(sessionContinued ? cachedData.Pooling : "");
+        setEvidence(sessionContinued ? cachedData.Evidence : "");
+        setTemp(sessionContinued ? cachedData.Temp : "");
+        setPh(sessionContinued ? cachedData.Ph : "");
+        setConductivity(sessionContinued ? cachedData.Conductivity : "");
+        setName(sessionContinued ? cachedData.NameField : "");
+        setObservation(sessionContinued ? cachedData.Observation : "");
+        setWellcover(sessionContinued ? cachedData.Wellcover : "");
+        setWellcoverDescription(sessionContinued ? cachedData.Wellcoverdescription : "");
+        setDateentered(sessionContinued ? cachedData.Dateentered : moment());
+    }, [sessionContinued]);
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
     };
 
-    const date = new Date();
-    const futureDate = date.getDate();
-    date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
-
-    const [evidence, setEvidence] = useState(evidenceInitilization);
-
     const handleChange_evidence = (event) => {
         setEvidence(event.target.value);
     };
-
-    const [pooling, setPooling] = useState(poolingInitilization);
 
     const handleChange_pooling = (event) => {
         setPooling(event.target.value);
     };
 
+    // geolocation  
+    const [location, setLocation] = useState(null);
 
-    function addField () {   /*const addField = () => */
+    useEffect(() => {
+        if (!sessionContinued) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        setLocation(position.coords);
+                        setFa_latitude(position.coords.latitude);
+                        setFa_longitude(position.coords.longitude);
+
+                    });
+            } else {
+                console.log('Geolocation is not supported by this browser.');
+                alert("Geolocation is not working right now, please fill it in manually.");
+            }
+        }
+    }, []);
+
+    function addField () {
         Axios.post('/api/insert', {
             well_id: well_id,
             fa_latitude: fa_latitude,
@@ -110,34 +115,54 @@ export default function Field() {
             observations: observation,
             datecollected: dateentered,
         })
-
             .then(() => {
                 console.log("success");
             })
     };
 
+    const idList = ["fa_latitude", "fa_longitude", "conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
+    // caching - local storage
+   function cacheFieldForm(){
+        let elementsValid = true;
+        // Checking if entered elements are valid.
+        for(let i = 0; i<idList.length && elementsValid; i++){
+            const id = idList[i];
+            const element = document.getElementById(id);
+            elementsValid = element.value==="" || element.checkValidity();
+            if(!elementsValid){
+                element.reportValidity();
+            }
+        }
 
-    ///caching
-    useEffect(() => {
-        localStorage.setItem("Conditions", JSON.stringify(conditions));
-        localStorage.setItem("Temp", JSON.stringify(temp));
-        localStorage.setItem("Ph", JSON.stringify(ph));
-        localStorage.setItem("Conductivity", JSON.stringify(conductivity));
-        localStorage.setItem("NameField", JSON.stringify(name));
-        localStorage.setItem("Observation", JSON.stringify(observation));
-        localStorage.setItem("Wellcover", JSON.stringify(wellcover));
-        localStorage.setItem("Wellcoverdescription", JSON.stringify(wellcoverdescription));
-        localStorage.setItem("Dateentered", JSON.stringify(dateentered));
-        localStorage.setItem("Evidence", JSON.stringify(evidence));
-        localStorage.setItem("Pooling", JSON.stringify(pooling));
-    }, [conditions, temp, ph, conductivity, name, observation, wellcover, wellcoverdescription, dateentered, evidence, pooling]);
+        if(elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")){
+            const fieldData = {
+                fa_latitude: fa_latitude,
+                fa_longitude: fa_longitude,
+                Conditions : conditions,
+                Temp : temp,
+                Ph : ph,
+                Conductivity : conductivity,
+                NameField : name,
+                Observation : observation,
+                Wellcover : wellcover,
+                Wellcoverdescription : wellcoverdescription,
+                Dateentered : dateentered,
+                Evidence : evidence,
+                Pooling : pooling
+            };
+            localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
+            alert("Information Saved!");
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
+        }
+    };
 
+    function handleClearLocalStorage() {
+        localStorage.removeItem("fieldData"+well_id);
+    };
 
-
-    var form = document.getElementById('submissionAlert');
-    const myFunction = () => {
+    const validForm = () => {
+        var form = document.getElementById("submissionAlert");
         if (form.checkValidity()) {
-            alert("Succesfully submitted Field Form!");
             return true;
         }
         else {
@@ -146,28 +171,69 @@ export default function Field() {
         }
     }
     const backButton = () => {
-        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
-    }
-
-    function myFunction2() {
-        if (myFunction()) {
-            addField();
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
+            if (well_id != null) {
+                window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+            } else {
+                window.location.href = `/Well`;
+            }
         }
     }
 
+    function submitForm() {
+        if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
+            addField();
+            handleClearLocalStorage();
+            alert("Succesfully submitted Field Form!");
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+        }
+    }
+    
     return (
-        //<div className="form-container">
-        // action="/editwell"
-        <form id="submissionAlert" >  
+        <form id = "submissionAlert">  
             <h2>{wellName}: Field</h2>
+            
+            <div>
+                {location || sessionContinued ? (
+                    <div>
+                        <div className="css">
+                            <label for="fa_latitude">
+                                Latitude (in decimal degrees):
+                                <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                                <br /> [40 - 43] (use 4 to 12 decimal places)
+                            </label>
+                            <input type="text" value={fa_latitude} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
+                                onChange={(event) => {
+                                    setFa_latitude(event.target.value);
+                                }}
+                            />
+                        </div>
+                        <div className="css">
+                            <label for="fa_longitude">
+                                Longitude (in decimal degrees):
+                                <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                                <br /> [-104 - -95.417] (use 4 to 12 decimal places)
+                            </label>
+                            <input type="text" value={fa_longitude} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
+                                onChange={(event) => {
+                                    setFa_longitude(event.target.value);
+                                }}
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <div>
+                        <p>Please allow this site to access your location</p>
+                            <button onClick={() => window.location.reload()}>Reload</button>
+                    </div>
+                )}
+            </div>
             <div className="css">
                 <label htmlFor="conditions">
                     Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <textarea
-                    type="text" value={conditions} id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
+                <textarea type="text" value={conditions} id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
                     onChange={(event) => {
                         setConditions(event.target.value);
                     }}
@@ -180,14 +246,11 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select id="wellCover"
-                            value={wellcover}
-                            onChange={handleChange_wellcover}
-                        >
-                            <option hidden defaultValue>Select one...</option>
-                            <option value="Intact" id="wellcover" name="wellcover" required >Intact</option>
-                            <option value="Observable_Opening" id="wellcover" name="wellcover" required>Observable Opening</option>
-                            <option value="Damaged" id="wellcover" name="wellcover" required >Damaged</option>
+                        <select id="wellCover" value={wellcover} onChange={handleChange_wellcover} required>
+                            <option value="" hidden defaultValue>Select one...</option>
+                            <option value="Intact" id="wellcover" name="wellcover">Intact</option>
+                            <option value="Observable_Opening" id="wellcover" name="wellcover">Observable Opening</option>
+                            <option value="Damaged" id="wellcover" name="wellcover">Damaged</option>
                         </select>
                     </div>
                     {wellcover === "Observable_Opening" && (
@@ -195,8 +258,7 @@ export default function Field() {
                             <label for="wellcoverdescription">
                                 Well Cover Description:
                             </label>
-                            <textarea
-                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                            <textarea type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
                                 onChange={(event) => {
                                     setWellcoverDescription(event.target.value);
                                 }}
@@ -208,8 +270,7 @@ export default function Field() {
                             <label for="wellcoverdescription">
                                 Well Cover Description:
                             </label>
-                            <textarea
-                                type="text" className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
+                            <textarea type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
                                 onChange={(event) => {
                                     setWellcoverDescription(event.target.value);
                                 }}
@@ -225,13 +286,10 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={evidence}
-                            onChange={handleChange_evidence}
-                        >
-                            <option hidden selected>Select one...</option>
-                            <option value="Yes" id="evidence" name="evidence" required >Yes</option>
-                            <option value="No" id="evidence" name="evidence" required >No</option>
+                        <select id = "evidence" value={evidence} onChange={handleChange_evidence} required>
+                            <option value="" hidden selected>Select one...</option>
+                            <option value="Yes" id="evidence" name="evidence">Yes</option>
+                            <option value="No" id="evidence" name="evidence">No</option>
 
                         </select>
                     </div>
@@ -244,13 +302,10 @@ export default function Field() {
                 </label>
                 <div id="App">
                     <div className="select-container">
-                        <select
-                            value={pooling}
-                            onChange={handleChange_pooling}
-                        >
-                            <option hidden selected>Select one...</option>
-                            <option value="Yes" id="pooling" name="pooling" required >Yes</option>
-                            <option value="No" id="pooling" name="pooling" required >No</option>
+                        <select id ="pooling" value={pooling} onChange={handleChange_pooling} required>
+                            <option value="" hidden selected>Select one...</option>
+                            <option value="Yes" id="pooling" name="pooling">Yes</option>
+                            <option value="No" id="pooling" name="pooling">No</option>
                         </select>
                     </div>
                 </div>
@@ -260,8 +315,7 @@ export default function Field() {
                     Groundwater Temperature<br /> [Degrees Celsius]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={temp} className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
+                <input type="text" value={temp} className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setTemp(event.target.value);
                     }}
@@ -272,8 +326,7 @@ export default function Field() {
                     pH<br /> [0-14]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={ph} className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
+                <input type="text" value={ph} className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
                     onChange={(event) => {
                         setPh(event.target.value);
                     }}
@@ -284,8 +337,7 @@ export default function Field() {
                     Conductivity <br /> [uS/cm]
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={conductivity} className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
+                <input type="text" value={conductivity} className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
                     onChange={(event) => {
                         setConductivity(event.target.value);
                     }}
@@ -296,8 +348,7 @@ export default function Field() {
                     Data Collector’s Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input
-                    type="text" value={name} className="textarea resize-ta" id="name" name="name" required
+                <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
@@ -307,8 +358,7 @@ export default function Field() {
                 <label htmlFor="observation">
                     Observations
                 </label>
-                <textarea
-                    type="text" value={observation } className="textarea resize-ta" maxLength="150" id="observation" name="observation"
+                <textarea type="text" value={observation } className="textarea resize-ta" maxLength="150" id="observation" name="observation"
                     onChange={(event) => {
                         setObservation(event.target.value);
                     }}
@@ -321,8 +371,9 @@ export default function Field() {
                 </label>
                 <div id="dateentered">
                     <DatePicker
+                        required
                         value={dateentered}
-                        dateFormat="DD-MM-YYYY"
+                        dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
                         onChange={(val) => setDateentered(val)}
                         inputProps={{
@@ -335,16 +386,14 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <button type="button" onClick={myFunction2} >Submit</button>
-            <button type="submit" onClick={backButton} >Back</button>
-            <button type="submit">
-                Save
-            </button>
+            <br/>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
             </div>
         </form >
-        //</div>
     );
 }

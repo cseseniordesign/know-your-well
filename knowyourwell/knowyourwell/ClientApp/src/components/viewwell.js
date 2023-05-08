@@ -42,32 +42,31 @@ export default function ViewWell() {
                 }
             })
             .then(function (response) {
-                //console.log(response)
                 formElements = response.data.WellInfo[0]
-                //console.log(formElements.wi_wellcode)
                 setLoading(false);
             });
     }, []);
 
-    if (formElements === null) {
-        const wellCookie = localStorage.getItem("wellData" + well_id);
+    if (formElements.length === 0) {
+        const wellCookie = localStorage.getItem("wellData");
+        let wells = null;
         if (wellCookie) {
             try {
-                formElements = JSON.parse(wellCookie)
+                wells = JSON.parse(wellCookie).Wells
+                formElements = wells.filter(well => well.well_id === well_id)[0]
             }
             catch (e) {
-                console.log("wellData is Invalid JSON")
+                console.log("wellCookie is inValid JSON")
             }
-            //console.log(formElements)
+            
         }
     }
 
-    //console.log(formElements)
-    if (formElements.length!=0) {
+    if (formElements.length!==0) {
         for (let i = 0; i < labelList.length; i += 2) {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
-            if (firstColumnName == "Date Entered:")
+            if (firstColumnName === "Date Entered:")
                 firstColumnValue = moment(firstColumnValue).format("MMMM DD, YYYY")
             let secondColumnValue = ""
             let secondColumnName = ""
@@ -93,7 +92,8 @@ export default function ViewWell() {
                 <br />
                 <div class="container" style={{textAlign: "center"}}>
                     {columnList}
-                    <button type="button" onClick={backButton}>Back</button>
+                    <br/>
+                    <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
                     <br/><br/>
                     <a href="mailto:knowyourwell@unl.edu" style={{ textAlign: "center" }}>
                     If any data is incorrect email us at knowyourwell@unl.edu</a>
