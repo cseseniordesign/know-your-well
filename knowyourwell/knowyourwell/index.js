@@ -49,18 +49,18 @@ app.post('/api/insert', (req, res) => {
         let rolledBack = false
 
         request.input('well_id', sql.Int, req.body.well_id);
-        request.input('fa_latitude', sql.Decimal, req.body.fa_latitude);
-        request.input('fa_longitude', sql.Decimal, req.body.fa_longitude);
-        request.input('fa_genlatitude', sql.Decimal, req.body.fa_genlatitude);
-        request.input('fa_genlongitude', sql.Decimal, req.body.fa_genlongitude);
+        request.input('fa_latitude', sql.Decimal(10, 5), req.body.fa_latitude);
+        request.input('fa_longitude', sql.Decimal(10, 5), req.body.fa_longitude);
+        request.input('fa_genlatitude', sql.Decimal(8, 3), req.body.fa_genlatitude);
+        request.input('fa_genlongitude', sql.Decimal(8, 3), req.body.fa_genlongitude);
         request.input('weather', sql.NVarChar, req.body.weather);
         request.input('wellcovercondition', sql.NVarChar, req.body.wellcovercondition);
         request.input('wellcoverdescription', sql.NVarChar, req.body.wellcoverdescription);
         request.input('runOff', sql.NVarChar, req.body.surfacerunoff);
         request.input('pooling', sql.NVarChar, req.body.pooling);
-        request.input('temp', sql.Decimal, req.body.groundwatertemp);
-        request.input('ph', sql.Decimal, req.body.ph);
-        request.input('conductivity', sql.Decimal, req.body.conductivity);
+        request.input('temp', sql.Decimal(8, 2), req.body.groundwatertemp);
+        request.input('ph', sql.Decimal(8, 2), req.body.ph);
+        request.input('conductivity', sql.Decimal(8, 2), parseFloat(req.body.conductivity));
         request.input('name', sql.NVarChar, req.body.name);
         request.input('observation', sql.NVarChar, req.body.observations);
         request.input('dateentered', sql.DateTime, req.body.datecollected);
@@ -107,14 +107,14 @@ app.post('/createclasslab', (req, res) => {
         })
 
         request.input('fa_id', sql.Int, req.body.fa_id);
-        request.input('ammonia', sql.Decimal, req.body.ammonia);
-        request.input('calcium', sql.Decimal, req.body.calciumhardness);
-        request.input('chloride', sql.Decimal, req.body.chloride);
+        request.input('ammonia', sql.Decimal(8, 2), req.body.ammonia);
+        request.input('calcium', sql.Decimal(8, 2), req.body.calciumhardness);
+        request.input('chloride', sql.Decimal(8, 2), req.body.chloride);
         request.input('bacteria', sql.NVarChar, req.body.bacteria);
-        request.input('copper', sql.Decimal, req.body.copper);
-        request.input('iron', sql.Decimal, req.body.iron);
-        request.input('manganese', sql.Decimal, req.body.manganese);
-        request.input('nitrate', sql.Decimal, req.body.nitrate);
+        request.input('copper', sql.Decimal(8, 2), req.body.copper);
+        request.input('iron', sql.Decimal(8, 2), req.body.iron);
+        request.input('manganese', sql.Decimal(8, 2), req.body.manganese);
+        request.input('nitrate', sql.Decimal(8, 2), req.body.nitrate);
         request.input('name', sql.NVarChar, req.body.datacollector);
         request.input('observations', sql.NVarChar, req.body.observations);
         request.input('dateentered', sql.DateTime, req.body.dateentered);
@@ -177,11 +177,11 @@ app.post('/createwellinfo', (req, res) => {
         request.input('landuse5yr', sql.NVarChar, req.body.landuse5yr);
         request.input('numberwelluser', sql.Int, req.body.numberwelluser);
         request.input('pestmanure', sql.NVarChar, req.body.pestmanure);
-        request.input('estlatitude', sql.Decimal, req.body.estlatitude);
-        request.input('estlongitude', sql.Decimal, req.body.estlongitude);
-        request.input('boreholediameter', sql.Decimal, req.body.boreholediameter);
-        request.input('totaldepth', sql.Decimal, req.body.totaldepth);
-        request.input('well_waterleveldepth', sql.Decimal, req.body.well_waterleveldepth);
+        request.input('estlatitude', sql.Decimal(10, 5), req.body.estlatitude);
+        request.input('estlongitude', sql.Decimal(10, 5), req.body.estlongitude);
+        request.input('boreholediameter', sql.Decimal(8, 2), req.body.boreholediameter);
+        request.input('totaldepth', sql.Decimal(8, 2), req.body.totaldepth);
+        request.input('well_waterleveldepth', sql.Decimal(8, 2), req.body.well_waterleveldepth);
         request.input('aquifertype', sql.NVarChar, req.body.aquifertype);
         request.input('aquiferclass', sql.NVarChar, req.body.aquiferclass);
         request.input('welltype', sql.NVarChar, req.body.welltype);
