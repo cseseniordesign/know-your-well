@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom'
 export default function ClassLab() {
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const fa_id = parseInt(searchParams.get("id"));
+    const fa_id = parseInt(searchParams.get("field_id"));
 
     // Checking for saved sessions
     const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
@@ -65,9 +65,6 @@ export default function ClassLab() {
         setName(sessionContinued ? cachedData.Datacollector : "");
         setDateentered(sessionContinued ? cachedData.Dateentered : moment());
     }, [sessionContinued]);
-
- 
-
  
 
     const handleChange_Bacteria = (event) => {
@@ -131,15 +128,11 @@ export default function ClassLab() {
     };
 
 
-
-
-
     //check mark
     function handleClearLocalStorage() {
         localStorage.clear();
     };
 
-    //
     const validForm = () => {
         var form = document.getElementById("submissionAlert");
         if (form.checkValidity() ) {
@@ -151,7 +144,6 @@ export default function ClassLab() {
         }
     }
 
-    //
 
     const backButton = () => {
         if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
