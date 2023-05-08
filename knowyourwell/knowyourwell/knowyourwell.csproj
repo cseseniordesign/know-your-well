@@ -38,9 +38,6 @@
 		<None Update=".\key\cert.pem">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update=".\key\rsaprivkey.pem">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update=".\metadata\idp.xml">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
