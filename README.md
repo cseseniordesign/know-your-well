@@ -114,6 +114,9 @@ The database that the PWA connects to is a SQL Database hosted on the sponsor's 
 * Currently, not all packages are automatically deployed to Azure. Client side packages (inside the ClientApp folder) are deployed correctly, but packages within the knowyourwell folder do not get deployed correctly. Our current workaround is to have that upper level package.json sent to Azure each deployment, so you can then manually run "npm install" from the Kudu console in Azure. This is very inefficient and the process should be performed automatically. There are two solutions to this problem that we can think of:
     1. Investigate why the client side packages are successfully transferred to Azure but the upper level packages are not. Ideally, everything needed on the Azure side is zipped up and sent from the GitHub Actions script. We do know that you may run into file size issues attempting to zip up and send the entire node_modules folder over from GitHub Actions, so another solution may be necessary.
     1. Have the Web App automatically run a script on deployment: Some Azure resource types have a post-deployment script as a default part of their structure but it seems that our resource type is not among them. More research is required for this option.
+* The data ocasionally doesn't load, for some reason opening the terminal fixes the problem.
+* The app loads slowly.
+    1. Could maybe be solved by adjusting how pooling works in the app.
 
 ### Agile Epic Level Issues
 Besides a few lingering bugs, we have implemented a large portion of the application. The largest outstanding categories are authentication and photo uploads.
