@@ -432,7 +432,6 @@ export default function WellInfo() {
                     Well construction completion year:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                {*/}
                 <div id="installyear">
                     <DatePicker
                         value={installyear}

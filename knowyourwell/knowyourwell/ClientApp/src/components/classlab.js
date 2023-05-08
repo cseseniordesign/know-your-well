@@ -275,9 +275,8 @@ export default function ClassLab() {
             <div className="css">
                 <label htmlFor="observations">
                     Observations
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <textarea type="text" value={observations} className="textarea resize-ta" maxLength="150" id="observations" name="observations" required
+                <textarea type="text" value={observations} className="textarea resize-ta" maxLength="150" id="observations" name="observations"
                     onChange={(event) => {
                         setObservations(event.target.value);
                     }}
