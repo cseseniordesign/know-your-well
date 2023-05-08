@@ -2,9 +2,7 @@ import React from 'react';
 import './css/login_signup.css';
 
 
-
 export default function Login() {
-
     return (
         <form id="style-login-signup-form">
             <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>Log in</h3>
@@ -17,7 +15,7 @@ export default function Login() {
                 />
             </div>
             <div className="mb-3">
-                <label  >Password</label>
+                <label>Password</label>
                 <input
                     type="password"
                     className="form-control"
@@ -46,4 +44,4 @@ export default function Login() {
             </p>
         </form>
     )
-} 
+}
