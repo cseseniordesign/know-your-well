@@ -468,7 +468,7 @@ export default function WellInfo() {
                                 Smell or taste of water desciption:
                             </label>
                             <textarea type="text" id="smelltaste_description" name="smelltaste_description" className="textarea resize-ta" maxLength="150"
-                                onChange={(event) => { // if 'yes'
+                                onChange={(event) => {
                                     setSmelltaste_description(event.target.value);
                                 }}
                             />

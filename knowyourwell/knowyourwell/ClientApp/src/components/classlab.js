@@ -32,7 +32,6 @@ export default function ClassLab() {
 
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("labData" + fa_id)) : null;
 
-   // const fa_id = parseInt(searchParams.get("field_id"));
     const well_id = searchParams.get("well_id");
     const wellName = searchParams.get("wellName");
     const [ammonia, setAmmonia] = useState(pullCachedData ? cachedData.Ammonia : "");
@@ -69,8 +68,6 @@ export default function ClassLab() {
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
     };
-
-    //const continue_session = window.confirm("Continue last session?");
 
     function addClassLab() {
         Axios.post('/createclasslab', {
@@ -141,7 +138,6 @@ export default function ClassLab() {
         }
     }
 
-
     const backButton = () => {
         if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
             window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
@@ -158,15 +154,7 @@ export default function ClassLab() {
     }
 
     return (
-        <form id="submissionAlert">
-            <div className="styling_offline_bar">
-                {/*isOnline ? (
-                    <p className="status_online" >Online mode</p>
-                ) : (
-                        <p className="status_offfline">Offline mode</p>
-                )*/}
-            </div>
-             
+        <form id="submissionAlert">             
             <h2>{wellName}: Class Lab</h2>
             <div className="css">
                 <label htmlFor="ammonia">
