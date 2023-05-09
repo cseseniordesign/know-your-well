@@ -17,7 +17,7 @@
     {
       "purpose": "any maskable",
       "sizes": "144x144",
-      "src": "/images/kywlogo.ico",
+      "src": "/images/kywlogosmall.png",
       "type": "image/ico"
     }
   ],
