@@ -3,7 +3,6 @@ form {
     display: block;
     text-align: center;
     padding: 20px 0px 40px 0;
-    
 }
 
 label {
@@ -38,4 +37,30 @@ textarea {
     justify-content: center;
 }
 
-      
+#installyear {
+    display: flex;
+    justify-content: center;
+}
+
+.styling_offline_bar > p {
+    text-align: center;
+    color: white
+}
+
+/*
+    input field validation
+    input:required:valid applies a success state only to required inputs. Because technically, optional inputs are always valid.
+    input:focus:valid' and 'input:focus:invalid apply to inputs only when they are focused.
+*/
+
+input:invalid {
+    border-color: red;
+}
+
+textarea:invalid {
+    border-color: red;
+}
+
+select:invalid {
+    border-color: red;
+}
