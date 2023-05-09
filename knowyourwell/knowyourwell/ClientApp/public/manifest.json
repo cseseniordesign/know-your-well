@@ -15,13 +15,13 @@
       "type": "image/ico"
     },
     {
-      "purpose": "any maskable",
+      "purpose": "any",
       "sizes": "192x192",
       "src": "/images/kywlogo192.png",
       "type": "image/ico"
     },
     {
-      "purpose": "any maskable",
+      "purpose": "any",
       "sizes": "512x512",
       "src": "/images/kywlogo512.png",
       "type": "image/ico"
