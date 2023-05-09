@@ -10,12 +10,6 @@
     },
     {
       "purpose": "any maskable",
-      "sizes": "16x16",
-      "src": "/favicon.ico",
-      "type": "image/ico"
-    },
-    {
-      "purpose": "any maskable",
       "sizes": "144x144",
       "src": "/images/kywlogosmall.png",
       "type": "image/ico"
