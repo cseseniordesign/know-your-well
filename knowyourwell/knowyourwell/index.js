@@ -5,7 +5,7 @@ const sql = require('mssql')
 const cors = require('cors');
 const { response } = require("express");
 const path = require("path")
-require('dotenv').config()
+//require('dotenv').config()
 
 
 app.use(cors());
