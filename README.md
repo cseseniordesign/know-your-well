@@ -82,7 +82,7 @@ The sponsors have consistently said that Authentication is an important feature 
 The database that the PWA connects to is a SQL Database hosted on the sponsor's Azure account. It has a series of tables that correspond to user-associated information and tables associated with each of the three contexts where the app is used (classroom/home for well info, remote site for well, and classroom for the class lab.) The sponsor also included a Nebraska Water Center lab table which is for an anticipated expansion of the app to be used to enter data that will come from their experiments. 
 
 ### Node Backend
-*More in-depth information can be found in Backend.md*
+*More in-depth information can be found in [Backend.md](/Backend.md)*
 
 * The entire app is served through the Node.js backend.
     * Accomplished by configuring project as Node app, and serving React front-end using [express.static()](https://expressjs.com/en/starter/static-files.html).
@@ -91,7 +91,7 @@ The database that the PWA connects to is a SQL Database hosted on the sponsor's 
     * Handles requests from the client app to retrieve, or update information in the DB. 
 
 ### React Frontend
-*More in-depth information can be found in Frontend.md*
+*More in-depth information can be found in [Frontend.md](/Frontend.md)*
 
 * Served by the Node Backend if the request doesn't match any of the DB API endpoints.
 * Broadly 
