@@ -18,7 +18,7 @@ export default function WellInfo() {
     const [city, setCity] = useState("");
     const [zipcode, setZipcode] = useState("");
     const [wellowner, setWellowner] = useState("");
-    const [installyear, setInstallyear] = useState(0);
+    const [installyear, setInstallyear] = useState("");
     const [numberwelluser, setNumberwelluser] = useState(0);
     const [estlatitude, setEstlatitude] = useState(null);
     const [estlongitude, setEstlongitude] = useState(null);
@@ -112,7 +112,7 @@ export default function WellInfo() {
             countyid: 1, // TODO
             nrdid: 1, // TODO
             wellowner: wellowner,
-            installyear: installyear,
+            installyear: JSON.stringify(installyear).substring(1,5),
             smelltaste: smelltaste,
             smelltastedescription: smelltaste_description,
             welldry: welldry,

@@ -168,7 +168,7 @@ app.post('/createwellinfo', (req, res) => {
         request.input('county_id', sql.Int, req.body.countyid);
         request.input('nrd_id', sql.Int, req.body.nrdid);
         request.input('wellowner', sql.NVarChar, req.body.wellowner);
-        request.input('installyear', sql.NVarChar, req.body.installyear);
+        request.input('installyear', sql.Int, req.body.installyear);
         request.input('smelltaste', sql.NVarChar, req.body.smelltaste);
         request.input('smelltaste_description', sql.NVarChar, req.body.smelltastedescription);
         request.input('welldry', sql.NVarChar, req.body.welldry);
@@ -217,14 +217,14 @@ app.post('/createwellinfo', (req, res) => {
 
 //credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
-    console.log("hit")
+    // console.log("hit")
     appPool.query('SELECT * FROM dbo.tblWellInfo;', function (err, recordset) {
         if (err) {
             console.log(err)
             res.status(500).send('SERVER ERROR')
             return
         }
-        console.log(recordset)
+        // console.log(recordset)
         res.status(200).json({ Wells: recordset.recordset })
     })
 })
@@ -296,7 +296,7 @@ app.get('/FieldList', async (req, res) => {
                         res.status(500).send('500: Server Error.')
                     }
                     else {
-                        console.log(recordset)
+                        // console.log(recordset)
                         res.status(200).json({ FieldList: recordset.recordset })
                     }
                 })
@@ -333,7 +333,7 @@ app.get('/GetFieldEntry', async (req, res) => {
                         res.status(500).send('500: Server Error.')
                     }
                     else {
-                        console.log(recordset)
+                        // console.log(recordset)
                         res.status(200).json({ FieldActivity: recordset.recordset })
                     }
                 })
@@ -370,7 +370,7 @@ app.get('/GetLabEntry', async (req, res) => {
                         res.status(500).send('500: Server Error.')
                     }
                     else {
-                        console.log(recordset)
+                        // console.log(recordset)
                         res.status(200).json({ ClassLabEntry: recordset.recordset })
                     }
                 })
