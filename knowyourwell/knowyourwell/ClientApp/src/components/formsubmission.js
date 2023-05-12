@@ -7,7 +7,7 @@ export default function FormSubmission() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const wellName = searchParams.get("wellName")
-    const well_id = searchParams.get("well_id")
+    const well_id = searchParams.get("id")
 
     const backButton = () => {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;

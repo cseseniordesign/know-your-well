@@ -55,5 +55,5 @@ jobs:
         with:
           app-name: 'knowyourwell'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_139A98B7ED1D49DA85522A31224ACA26 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_04CBE18A32604D04A2CED370AED59ACF }}
           package: .
