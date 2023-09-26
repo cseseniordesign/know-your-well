@@ -4,6 +4,7 @@ import './components/css/custom.css';
 import './components/css/style.css';
 //pages
 import Login from "./components/login"; 
+import SignUp from './components/signup';
 import NavMenu from './components/navmenu';
 import Well from './components/well';
 import EditWell from './components/editwell';
@@ -25,6 +26,7 @@ export default function App() {
             <NavMenu />
             <Routes>  
                 <Route exact path="/" element={<Login />} />
+                <Route exact path="/signup" element={<SignUp />} />
                 <Route exact path="/well" element={<Well />} />
                 <Route exact path="/editwell" element={<EditWell />} />
                 <Route exact path="/wellinfo" element={<WellInfo />} />
