@@ -5,7 +5,7 @@ import './css/login_signup.css';
 export default function Login() {
     return (
         <form id="style-login-signup-form">
-            <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>Login</h3>
+            <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>Log in</h3>
             <div className="mb-3">
                 <label >Email address</label>
                 <input id="resize"
@@ -35,9 +35,13 @@ export default function Login() {
                 </div>
             </div>
             <div className="d-grid" >
-                <a href="/Well" className="btn btn-primary">Login</a>
+                <a href="/Well" className="btn btn-primary">Log in</a>
                 <p></p>
+                <a href="/Signup" className="btn btn-primary">Sign Up</a>
             </div>
+            <p className="forgot-password text-right" >
+                Forgot <a href="/">password?</a>
+            </p>
         </form>
     )
 }
