@@ -1,0 +1,26 @@
+﻿<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" cacheDuration="PT604800S" entityID="https://kywsso.azurewebsites.net/">
+  <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIDqzCCApOgAwIBAgIUT/gZdKKMnev9Y3iFN+PEVqVCVSAwDQYJKoZIhvcNAQELBQAwZTELMAkGA1UEBhMCVVMxETAPBgNVBAgMCE5lYnJhc2thMR4wHAYDVQQKDBVOZWJyYXNrYSBXYXRlciBDZW50ZXIxIzAhBgkqhkiG9w0BCQEWFGtub3d5b3Vyd2VsbEB1bmwuZWR1MB4XDTIzMDQyNDIxMTcyMloXDTIzMDUyNDIxMTcyMlowZTELMAkGA1UEBhMCVVMxETAPBgNVBAgMCE5lYnJhc2thMR4wHAYDVQQKDBVOZWJyYXNrYSBXYXRlciBDZW50ZXIxIzAhBgkqhkiG9w0BCQEWFGtub3d5b3Vyd2VsbEB1bmwuZWR1MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAphTg8dCjgoTQL2SEqt4wUsSAwVijYwY+SqL+ym1xS81w4j02OvsPXrEJ8xlXV7hPvAi/6AQKiHYcSGKDDoxeAoqvMOoL2ZbZWPXnz7fb/uQjyz7Y6YlKyAfcrNh/cFhKvyhQ+UbKt1/2zCdgatrkMKgDIRx8Lo86FpsYSWje/KINekts4hfji9NwPNucQ2kvRfCitHzGkJhJzLPFCnnu7hdwUOphSjZpnf3q8oj0rPVc1i7ZcSFXwh/DXByzLvjSZMwKFYR4zdbsrTpj0+ei5nxeFXbYDdUY2Ot8Yt+RLQ1LKWidOFBKYZfqyjZlcwaUr3FIdK0Rj6bTNXtYpqGvewIDAQABo1MwUTAdBgNVHQ4EFgQUjbM5qEfNgFBJ78wAG9oiGmVYCkUwHwYDVR0jBBgwFoAUjbM5qEfNgFBJ78wAG9oiGmVYCkUwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEARXtltsL6D4SRqh5gDRAs5qoObBhkb3xSYGIIi9yA2M61Y3B9o+FLoZQ0pz2/byA53CKMY3I4ph+XFdo503wpUU3FBcC16zrRhqEJyE6EE6gUg8lhU30LxT8HUYPro4yox0PDf54iRyoJy9kkEV1POli+N5vQdkxB+0+7W/tSdtWdQj+DkokEO+cKK1/J2CEjDrHplrw5tSK+XZKWn2cH2ZnEvOpo04rVFMR8GJePGn0R2PD2mY4I9fW2Y5e+a4xc3LpyLWuNseBQ3dgbeFwISUw73E2qdyX3NnIAZTlxFAMk4DhUsEo8jdDFUOowk63975UXBUXA+JPNCg+xp+GhmQ==</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:KeyDescriptor use="encryption">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIDqzCCApOgAwIBAgIUT/gZdKKMnev9Y3iFN+PEVqVCVSAwDQYJKoZIhvcNAQELBQAwZTELMAkGA1UEBhMCVVMxETAPBgNVBAgMCE5lYnJhc2thMR4wHAYDVQQKDBVOZWJyYXNrYSBXYXRlciBDZW50ZXIxIzAhBgkqhkiG9w0BCQEWFGtub3d5b3Vyd2VsbEB1bmwuZWR1MB4XDTIzMDQyNDIxMTcyMloXDTIzMDUyNDIxMTcyMlowZTELMAkGA1UEBhMCVVMxETAPBgNVBAgMCE5lYnJhc2thMR4wHAYDVQQKDBVOZWJyYXNrYSBXYXRlciBDZW50ZXIxIzAhBgkqhkiG9w0BCQEWFGtub3d5b3Vyd2VsbEB1bmwuZWR1MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAphTg8dCjgoTQL2SEqt4wUsSAwVijYwY+SqL+ym1xS81w4j02OvsPXrEJ8xlXV7hPvAi/6AQKiHYcSGKDDoxeAoqvMOoL2ZbZWPXnz7fb/uQjyz7Y6YlKyAfcrNh/cFhKvyhQ+UbKt1/2zCdgatrkMKgDIRx8Lo86FpsYSWje/KINekts4hfji9NwPNucQ2kvRfCitHzGkJhJzLPFCnnu7hdwUOphSjZpnf3q8oj0rPVc1i7ZcSFXwh/DXByzLvjSZMwKFYR4zdbsrTpj0+ei5nxeFXbYDdUY2Ot8Yt+RLQ1LKWidOFBKYZfqyjZlcwaUr3FIdK0Rj6bTNXtYpqGvewIDAQABo1MwUTAdBgNVHQ4EFgQUjbM5qEfNgFBJ78wAG9oiGmVYCkUwHwYDVR0jBBgwFoAUjbM5qEfNgFBJ78wAG9oiGmVYCkUwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEARXtltsL6D4SRqh5gDRAs5qoObBhkb3xSYGIIi9yA2M61Y3B9o+FLoZQ0pz2/byA53CKMY3I4ph+XFdo503wpUU3FBcC16zrRhqEJyE6EE6gUg8lhU30LxT8HUYPro4yox0PDf54iRyoJy9kkEV1POli+N5vQdkxB+0+7W/tSdtWdQj+DkokEO+cKK1/J2CEjDrHplrw5tSK+XZKWn2cH2ZnEvOpo04rVFMR8GJePGn0R2PD2mY4I9fW2Y5e+a4xc3LpyLWuNseBQ3dgbeFwISUw73E2qdyX3NnIAZTlxFAMk4DhUsEo8jdDFUOowk63975UXBUXA+JPNCg+xp+GhmQ==</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://kywsso.azurewebsites.net/saml/logout"/>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://kywsso.azurewebsites.net/saml/acs" index="1"/>
+  </md:SPSSODescriptor>
+  <md:ContactPerson contactType="technical">
+    <md:GivenName>Know Your Well</md:GivenName>
+    <md:EmailAddress>knowyourwell@unl.edu</md:EmailAddress>
+  </md:ContactPerson>
+</md:EntityDescriptor>

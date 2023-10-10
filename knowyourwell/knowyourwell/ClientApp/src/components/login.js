@@ -1,8 +1,17 @@
 import React from 'react';
 import './css/login_signup.css';
-
+import Axios from 'axios'
 
 export default function Login() {
+
+    const initRedirectRequest = () => {
+        Axios
+            .get("/sso/redirect")
+            .then(function (response) {
+                console.log(response);
+            });
+    };
+
     return (
         <form id="style-login-signup-form">
             <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>Login</h3>
