@@ -17,6 +17,10 @@ export default function WellInfo() {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [zipcode, setZipcode] = useState("");
+    const [phone, setPhone] = useState("");
+    const [isValidPhone, setIsValidPhone] = useState(true);
+    const [email, setEmail] = useState("");
+    const [isValidEmail, setIsValidEmail] = useState(true);
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState("");
     const [numberwelluser, setNumberwelluser] = useState(0);
@@ -111,6 +115,8 @@ export default function WellInfo() {
             zipcode: zipcode,
             countyid: 1, // TODO
             nrdid: 1, // TODO
+            phone: phone,
+            email: email,
             wellowner: wellowner,
             installyear: JSON.stringify(installyear).substring(1,5),
             smelltaste: smelltaste,
@@ -138,6 +144,22 @@ export default function WellInfo() {
             .then(() => {
                 console.log("success");
             })
+    };
+
+    const handlePhoneChange = (event) => {
+        const phoneNumber = event.target.value;
+        const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
+    
+        setIsValidPhone(phonePattern.test(phoneNumber));
+        setPhone(phoneNumber);
+    };
+
+    const handleEmailChange = (event) => {
+        const emailValue = event.target.value;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        setIsValidEmail(emailPattern.test(emailValue));
+        setEmail(emailValue);
     };
 
     const validForm = () => {
@@ -416,6 +438,26 @@ export default function WellInfo() {
                         <option value="Upper Republican" id="nrd" name="nrd">Upper Republican</option>
                     </select>
                 </div>
+            </div>
+            <div className="css">
+                <label for="phone">
+                    Phone # (of well user):
+                </label>
+                <input type="text" className={`textarea resize-ta ${isValidPhone ? 'valid' : 'invalid'}`} id="phone" name="phone" pattern="^\d{3}-\d{3}-\d{4}$" 
+                    onChange={handlePhoneChange}
+                    title="Please enter a valid US phone number in the format XXX-XXX-XXXX."
+                />
+                {!isValidPhone && <p className="error-message">Invalid phone number format</p>}
+            </div>
+            <div className="css">
+                <label for="email">
+                    Email (of well user):
+                </label>
+                <input type="text" className={`textarea resize-ta ${isValidEmail ? 'valid' : 'invalid'}`} id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                    onChange={handleEmailChange}
+                    title="Please enter a valid email address in the format example@example.com"
+                />
+                {!isValidEmail && <p className="error-message">Invalid email address format</p>}
             </div>
             <div className="css">
                 <label for="wellowner">
