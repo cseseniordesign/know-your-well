@@ -465,10 +465,7 @@ export default function WellInfo() {
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <div className="requiredField">
-                <br/>
-                * = Required Field
-            </div>
+            
         </form>
     );
 }

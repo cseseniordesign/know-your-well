@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css'
 import DatePicker from 'react-datetime';
