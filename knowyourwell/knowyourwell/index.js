@@ -17,9 +17,9 @@ app.use(express.static("wwwroot"));
 
 const config = {
     user: "kywAdmin",
-    password: process.env.APPSETTING_MSSQL_PASSWORD,
-    database: "kyw",
-    server: 'kyw.database.windows.net',
+    password: "adminPass_!",
+    database: "WellKYW",
+    server: 'localhost',
     pool: {
         max: 10,
         min: 0,
@@ -27,7 +27,7 @@ const config = {
     },
     options: {
         encrypt: true, // for azure
-        trustServerCertificate: false // change to true for local dev / self-signed certs
+        trustServerCertificate: true // change to true for local dev / self-signed certs
     }
 }
 

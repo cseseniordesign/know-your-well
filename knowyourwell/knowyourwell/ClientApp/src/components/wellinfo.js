@@ -168,6 +168,10 @@ export default function WellInfo() {
     return (
         <form action="/editwell" id="submissionAlert" >
             <h2>Well Info</h2>
+            <div className="requiredField">
+                <br/>
+                * = Required Field
+            </div>
             <div className="css">
                 <label for="wellname">
                     Well Name:
@@ -737,10 +741,7 @@ export default function WellInfo() {
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <div className="requiredField">
-                <br/>
-                * = Required Field
-            </div>
+            
         </form>
     );
 }
