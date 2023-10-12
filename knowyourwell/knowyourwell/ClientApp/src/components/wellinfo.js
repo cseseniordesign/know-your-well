@@ -5,7 +5,7 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import LabResultEntry from './labresultentry';
+import NumberEntry from './numberentry';
 
 
 export default function WellInfo() {
@@ -270,7 +270,6 @@ export default function WellInfo() {
                     </select>
                 </div>
             </div>
-            <LabResultEntry fieldTitle="zipcode" mineral="zipmineral" min="50" max="100" label="ziplabel" setValue={setZipcode} />
             <div className="css">
                 <label for="zipcode">
                     Zip code:

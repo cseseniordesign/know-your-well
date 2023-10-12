@@ -5,6 +5,10 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
+import NumberEntry from './numberentry';
+import DropDownEntry from './dropdownentry';
+import TextEntry from './textentry';
+import FormFooter from './formfooter';
 
 
 export default function Field() {
@@ -14,22 +18,22 @@ export default function Field() {
 
     // Checking for saved sessions
     const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
-    if (localStorage.getItem("fieldData"+well_id)) {
+    if (localStorage.getItem("fieldData" + well_id)) {
         if (sessionContinued === null) {
-            const continue_session= window.confirm("Continue last saved session?");
+            const continue_session = window.confirm("Continue last saved session?");
             if (continue_session) {
                 setSessionContinued(true);
-            } else { 
+            } else {
                 handleClearLocalStorage();
                 setSessionContinued(false); // ends forever pop-up loop
                 /* will need to be changed if sessionContinued is ever used elsewhere,
                 potenitally add another var to set to true / false if question has already been asked? */
             }
-        } 
+        }
     }
     let pullCachedData = sessionContinued;
 
-    const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData"+well_id)) : null;
+    const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData" + well_id)) : null;
     const wellName = searchParams.get("wellName");
     const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : "");
     const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : "");
@@ -96,7 +100,7 @@ export default function Field() {
         }
     }, []);
 
-    function addField () {
+    function addField() {
         Axios.post('/api/insert', {
             well_id: well_id,
             fa_latitude: fa_latitude,
@@ -122,42 +126,42 @@ export default function Field() {
 
     const idList = ["fa_latitude", "fa_longitude", "conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
     // caching - local storage
-   function cacheFieldForm(){
+    function cacheFieldForm() {
         let elementsValid = true;
         // Checking if entered elements are valid.
-        for(let i = 0; i<idList.length && elementsValid; i++){
+        for (let i = 0; i < idList.length && elementsValid; i++) {
             const id = idList[i];
             const element = document.getElementById(id);
-            elementsValid = element.value==="" || element.checkValidity();
-            if(!elementsValid){
+            elementsValid = element.value === "" || element.checkValidity();
+            if (!elementsValid) {
                 element.reportValidity();
             }
         }
 
-        if(elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")){
+        if (elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")) {
             const fieldData = {
                 fa_latitude: fa_latitude,
                 fa_longitude: fa_longitude,
-                Conditions : conditions,
-                Temp : temp,
-                Ph : ph,
-                Conductivity : conductivity,
-                NameField : name,
-                Observation : observation,
-                Wellcover : wellcover,
-                Wellcoverdescription : wellcoverdescription,
-                Dateentered : dateentered,
-                Evidence : evidence,
-                Pooling : pooling
+                Conditions: conditions,
+                Temp: temp,
+                Ph: ph,
+                Conductivity: conductivity,
+                NameField: name,
+                Observation: observation,
+                Wellcover: wellcover,
+                Wellcoverdescription: wellcoverdescription,
+                Dateentered: dateentered,
+                Evidence: evidence,
+                Pooling: pooling
             };
-            localStorage.setItem("fieldData"+well_id, JSON.stringify(fieldData));
+            localStorage.setItem("fieldData" + well_id, JSON.stringify(fieldData));
             alert("Information Saved!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
         }
     };
 
     function handleClearLocalStorage() {
-        localStorage.removeItem("fieldData"+well_id);
+        localStorage.removeItem("fieldData" + well_id);
     };
 
     const validForm = () => {
@@ -171,7 +175,7 @@ export default function Field() {
         }
     }
     const backButton = () => {
-        if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
+        if (window.confirm("Any unsaved data will be lost.\nWould you like to continue?")) {
             if (well_id != null) {
                 window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
             } else {
@@ -188,11 +192,11 @@ export default function Field() {
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
-    
+
     return (
-        <form id = "submissionAlert">  
+        <form id="submissionAlert">
             <h2>{wellName}: Field</h2>
-            
+
             <div>
                 {location || sessionContinued ? (
                     <div>
@@ -224,7 +228,7 @@ export default function Field() {
                 ) : (
                     <div>
                         <p>Please allow this site to access your location</p>
-                            <button onClick={() => window.location.reload()}>Reload</button>
+                        <button onClick={() => window.location.reload()}>Reload</button>
                     </div>
                 )}
             </div>
@@ -239,131 +243,42 @@ export default function Field() {
                     }}
                 />
             </div>
-            <div className="css">
-                <label htmlFor="wellcover">
-                    Condition of the well cover
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <div id="App">
-                    <div className="select-container">
-                        <select id="wellCover" value={wellcover} onChange={handleChange_wellcover} required>
-                            <option value="" hidden defaultValue>Select one...</option>
-                            <option value="Intact" id="wellcover" name="wellcover">Intact</option>
-                            <option value="Observable_Opening" id="wellcover" name="wellcover">Observable Opening</option>
-                            <option value="Damaged" id="wellcover" name="wellcover">Damaged</option>
-                        </select>
-                    </div>
-                    {wellcover === "Observable_Opening" && (
-                        <div className="css">
-                            <label for="wellcoverdescription">
-                                Well Cover Description:
-                            </label>
-                            <textarea type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
-                                onChange={(event) => {
-                                    setWellcoverDescription(event.target.value);
-                                }}
-                            />
-                        </div>
-                    )}
-                    {wellcover === "Damaged" && (
-                        <div className="css">
-                            <label for="wellcoverdescription">
-                                Well Cover Description:
-                            </label>
-                            <textarea type="text" value={wellcoverdescription} className="textarea resize-ta" id="wellcoverdescription" name="wellcoverdescription"
-                                onChange={(event) => {
-                                    setWellcoverDescription(event.target.value);
-                                }}
-                            />
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div className="css">
-                <label htmlFor="evidence">
-                    Is there evidence of surface<br />run-off entry to the well?
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <div id="App">
-                    <div className="select-container">
-                        <select id = "evidence" value={evidence} onChange={handleChange_evidence} required>
-                            <option value="" hidden selected>Select one...</option>
-                            <option value="Yes" id="evidence" name="evidence">Yes</option>
-                            <option value="No" id="evidence" name="evidence">No</option>
+            <DropDownEntry
+                fieldTitle="Condition of the well cover"
+                id="wellcover"
+                options={["Intact", "Observable Opening", "Damaged"]}
+                value={wellcover}
+                onChange={handleChange_wellcover}
+            />
+            {(wellcover === "Observable Opening" || wellcover === "Damaged") && (
+                <TextEntry
+                    fieldTitle="Well Cover Description:"
+                    value={wellcoverdescription}
+                    id="wellcoverdescription"
+                    setValue={setWellcoverDescription}
+                    required="false"
+                />
+            )}
+            <DropDownEntry
+                fieldTitle="Is there evidence of surface run-off at the entry to the well?"
+                id="evidence"
+                options={["Yes", "No"]}
+                value={evidence}
+                onChange={handleChange_evidence}
+            />
+            <DropDownEntry
+                fieldTitle=" Is there evidence of pooling or puddles within 12 ft of the well?"
+                id="pooling"
+                options={["Yes", "No"]}
+                value={pooling}
+                onChange={handleChange_pooling}
+            />
+            <NumberEntry fieldTitle="Groundwater Temperature" metric={temp} min="0" max="100" label="Degrees Celsius" setValue={setTemp} />
+            <NumberEntry fieldTitle="pH" metric={ph} min="0" max="14" label="" setValue={setPh} />
+            <NumberEntry fieldTitle="Conductivity" metric={conductivity} min="" max="" label="uS/cm" setValue={setConductivity} />
+            <TextEntry fieldTitle="Data Collector’s Name:" value={name} id="name" setValue={setName} />
+            <TextEntry fieldTitle="Observations" value={observation} id="observation" maxLength="150" setValue={setObservation} />
 
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div className="css">
-                <label htmlFor="pooling">
-                    Is there evidence of pooling or<br />puddles within 12 ft of the well?
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <div id="App">
-                    <div className="select-container">
-                        <select id ="pooling" value={pooling} onChange={handleChange_pooling} required>
-                            <option value="" hidden selected>Select one...</option>
-                            <option value="Yes" id="pooling" name="pooling">Yes</option>
-                            <option value="No" id="pooling" name="pooling">No</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div className="css">
-                <label htmlFor="temp">
-                    Groundwater Temperature<br /> [Degrees Celsius]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={temp} className="textarea resize-ta" id="temp" name="temp" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
-                    onChange={(event) => {
-                        setTemp(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="ph">
-                    pH<br /> [0-14]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={ph} className="textarea resize-ta" id="ph" name="ph" pattern="[1-9]([.][0-9]{1,2})?|1[0-3]([.][0-9]{1,2})?|14" required
-                    onChange={(event) => {
-                        setPh(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="conductivity">
-                    Conductivity <br /> [uS/cm]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={conductivity} className="textarea resize-ta" id="conductivity" name="conductivity" pattern="[-]?[0-9]+|[0-9]+([.][0-9]*)?" required
-                    onChange={(event) => {
-                        setConductivity(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="name">
-                    Data Collector’s Name:
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
-                    onChange={(event) => {
-                        setName(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="observation">
-                    Observations
-                </label>
-                <textarea type="text" value={observation } className="textarea resize-ta" maxLength="150" id="observation" name="observation"
-                    onChange={(event) => {
-                        setObservation(event.target.value);
-                    }}
-                />
-            </div>
             <div className="css">
                 <label htmlFor="dateentered">
                     Date Entered:
@@ -386,14 +301,8 @@ export default function Field() {
                     /> {"  "}
                 </div>
             </div>
-            <br/>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
-            <div className="requiredField">
-                <br></br>
-                * = Required Field
-            </div>
+            <br />
+            <FormFooter submitForm={submitForm} backButton={backButton} cacheForm={cacheFieldForm} />
         </form >
     );
 }
