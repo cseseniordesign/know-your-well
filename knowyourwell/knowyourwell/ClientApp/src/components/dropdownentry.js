@@ -1,14 +1,12 @@
-const DropDownEntry = ({ fieldTitle, id, onChange, options, value }) => {
+import EntryPrompt from "./entryprompt";
 
+const DropDownEntry = ({ fieldTitle, id, onChange, options, value, required }) => {
     return (
         <div className="css">
-            <label htmlFor={id}>
-                {fieldTitle}
-                <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-            </label>
+            <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} />
             <div id="App">
                 <div className="select-container">
-                    <select id={id} value={value} onChange={onChange} required>
+                    <select id={id} value={value} onChange={onChange} required={required}>
                         <option value="" hidden>Select one...</option>
                         {options.map((option, index) => (
                             <option key={index} value={option} id={id} name={id}>

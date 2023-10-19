@@ -7,8 +7,9 @@ import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
 import NumberEntry from './numberentry';
 import DropDownEntry from './dropdownentry';
-import TextEntry from './textentry';
+import ShortTextEntry from './shorttextentry';
 import FormFooter from './formfooter';
+import LongTextEntry from './longtextentry';
 
 
 export default function Field() {
@@ -200,30 +201,16 @@ export default function Field() {
             <div>
                 {location || sessionContinued ? (
                     <div>
-                        <div className="css">
-                            <label for="fa_latitude">
-                                Latitude (in decimal degrees):
-                                <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                                <br /> [40 - 43] (use 4 to 12 decimal places)
-                            </label>
-                            <input type="text" value={fa_latitude} className="textarea resize-ta" id="fa_latitude" name="fa_latitude" pattern="4[0-2]+([.][0-9]{4,12})?|43" required
-                                onChange={(event) => {
-                                    setFa_latitude(event.target.value);
-                                }}
-                            />
-                        </div>
-                        <div className="css">
-                            <label for="fa_longitude">
-                                Longitude (in decimal degrees):
-                                <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                                <br /> [-104 - -95.417] (use 4 to 12 decimal places)
-                            </label>
-                            <input type="text" value={fa_longitude} className="textarea resize-ta" id="fa_longitude" name="fa_longitude" pattern="-(104|1[0-9][0-3]([.][0-9]{4,12})?|9[6-9]([.][0-9]{4,12})?|95([.][5-9][0-9]{3,11})?|95([.][4-9][2-9][0-9]{2,10})?|95([.][4-9][1-9][7-9][0-9]{1,9})?)" required
-                                onChange={(event) => {
-                                    setFa_longitude(event.target.value);
-                                }}
-                            />
-                        </div>
+                        <NumberEntry
+                            fieldTitle="Latitude (use 4-12 decimals):"
+                            metric={fa_latitude} min="40" max="43" id="fa_latitude"
+                            label="Degrees" setValue={setFa_latitude}
+                            required={true} />
+                        <NumberEntry
+                            fieldTitle="Longitude (use 4-12 decimals):"
+                            metric={fa_longitude} min="-104" max="-95.417" id="fa_longitude"
+                            label="Degrees" setValue={setFa_longitude}
+                            required={true} />
                     </div>
                 ) : (
                     <div>
@@ -232,52 +219,59 @@ export default function Field() {
                     </div>
                 )}
             </div>
-            <div className="css">
-                <label htmlFor="conditions">
-                    Conditions: Describe weather, temperature,<br /> or anything note-worthy about your well
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <textarea type="text" value={conditions} id="conditions" name="conditions" className="textarea resize-ta" maxLength="150" required
-                    onChange={(event) => {
-                        setConditions(event.target.value);
-                    }}
-                />
-            </div>
+            <LongTextEntry
+                fieldTitle="Conditions: Describe weather, temperature, or anything note-worthy about your well"
+                value={conditions} id="conditions" setValue={setConditions}
+            />
             <DropDownEntry
-                fieldTitle="Condition of the well cover"
-                id="wellcover"
+                fieldTitle="Condition of the well cover" id="wellcover"
                 options={["Intact", "Observable Opening", "Damaged"]}
-                value={wellcover}
-                onChange={handleChange_wellcover}
+                value={wellcover} onChange={handleChange_wellcover}
+                required={true}
             />
             {(wellcover === "Observable Opening" || wellcover === "Damaged") && (
-                <TextEntry
+                <LongTextEntry
                     fieldTitle="Well Cover Description:"
                     value={wellcoverdescription}
                     id="wellcoverdescription"
                     setValue={setWellcoverDescription}
-                    required="false"
-                />
-            )}
+                    required={false}
+                />)}
             <DropDownEntry
                 fieldTitle="Is there evidence of surface run-off at the entry to the well?"
-                id="evidence"
-                options={["Yes", "No"]}
-                value={evidence}
-                onChange={handleChange_evidence}
+                id="evidence" options={["Yes", "No"]} value={evidence}
+                onChange={handleChange_evidence} required={true}
             />
             <DropDownEntry
-                fieldTitle=" Is there evidence of pooling or puddles within 12 ft of the well?"
-                id="pooling"
-                options={["Yes", "No"]}
-                value={pooling}
-                onChange={handleChange_pooling}
+                fieldTitle="Is there evidence of pooling or puddles within 12 ft of the well?"
+                id="pooling" options={["Yes", "No"]} value={pooling}
+                onChange={handleChange_pooling} required={true}
             />
-            <NumberEntry fieldTitle="Groundwater Temperature" metric={temp} min="0" max="100" label="Degrees Celsius" setValue={setTemp} />
-            <NumberEntry fieldTitle="pH" metric={ph} min="0" max="14" label="" setValue={setPh} />
-            <NumberEntry fieldTitle="Conductivity" metric={conductivity} min="" max="" label="uS/cm" setValue={setConductivity} />
-            <TextEntry fieldTitle="Data Collector’s Name:" value={name} id="name" setValue={setName} />
-            <TextEntry fieldTitle="Observations" value={observation} id="observation" maxLength="150" setValue={setObservation} />
+            <NumberEntry
+                fieldTitle="Groundwater Temperature"
+                metric={temp} min="0" max="100" id="temp"
+                label="Degrees Celsius" setValue={setTemp}
+                required={true} />
+            <NumberEntry
+                fieldTitle="pH"
+                metric={ph} min="0" max="14" id="ph"
+                label="" setValue={setPh}
+                required={true} />
+            <NumberEntry
+                fieldTitle="Conductivity"
+                metric={conductivity} id="conductivity"
+                min="" max="" label="uS/cm"
+                setValue={setConductivity}
+                required={true} />
+            <ShortTextEntry
+                fieldTitle="Data Collector’s Name:"
+                value={name} id="name" setValue={setName}
+                required={true} />
+            <ShortTextEntry
+                fieldTitle="Observations"
+                value={observation} id="observation"
+                maxLength="150" setValue={setObservation}
+                required={true} />
 
             <div className="css">
                 <label htmlFor="dateentered">
