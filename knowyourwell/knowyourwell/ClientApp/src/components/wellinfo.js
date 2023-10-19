@@ -70,8 +70,6 @@ export default function WellInfo() {
     const [estlatitude, setEstlatitude] = useState(null);
     const [estlongitude, setEstlongitude] = useState(null);
     const [boreholediameter, setBoreholediameter] = useState(0);
-    const [totaldepth, setTotaldepth] = useState(0);
-    const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
     const [wellcasematerial, setWellcasematerial] = useState("");
     const [datacollector, setDatacollector] = useState("");
     const [observation, setObservation] = useState("");
@@ -463,9 +461,10 @@ export default function WellInfo() {
                 </div>
             </div>
             <br/>
-            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
+                onClick={error ? window.alert("Water level depth CANNOT be greater than total well depth.") : submitForm}>Submit
+            </button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            
         </form>
     );
 }
