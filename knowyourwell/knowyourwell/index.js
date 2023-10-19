@@ -17,7 +17,7 @@ app.use(express.static("wwwroot"));
 
 const config = {
     user: "kywAdmin",
-    password: "KJ6vcCG2", //process.env.APPSETTING_MSSQL_PASSWORD
+    password: process.env.APPSETTING_MSSQL_PASSWORD;
     database: "kyw",
     server: 'localhost', //kyw.database.windows.net
     pool: {
