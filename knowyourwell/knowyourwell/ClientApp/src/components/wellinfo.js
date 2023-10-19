@@ -77,6 +77,7 @@ export default function WellInfo() {
     const [error, setError] = useState(0);
     const [totaldepth, setTotaldepth] = useState(0);
     const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
+*/
 
     const date = new Date();
     const futureDate = date.getDate();
