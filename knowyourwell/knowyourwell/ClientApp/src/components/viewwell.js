@@ -8,7 +8,7 @@ let formElements = []
 let columnList = []
 const labelList = [
     "Well Code:", "Well Name:", "Name of Resident User:", "Address:", "Village, Town, or City:", "State:", "Zip code:",
-    "County:", "NRD District:", "Phone # (of well user):", "Email (of well user:", "Well owner (if different from resident):", "Well construction completion year:", "Complaints about smell or taste of water?:", "Smell or taste of water desciption:",
+    "County:", "NRD District:", "Phone # (of well user):", "Email (of well user):", "Well owner (if different from resident):", "Well construction completion year:", "Complaints about smell or taste of water?:", "Smell or taste of water desciption:",
     "Does the well ever go dry?:", "When well goes dry:", "Maintenance done to the well itself within the last five years:", "major land use / development changes around the well within the last five years?:", "Number of Well Users:",
     "manure, fertilizer, or pesticides been applied the well within the last five years:", "Estimated Latitude:", "Estimated Longitude:", "Bore hole diameter (inches):", "Total depth of well (feet):", "Topography of the well location:",
     "Water level (feet):", "Aquifer Type:", "Aquifer Class:", "Well Type (Construction Method):", "Well Casing Material:", "Observations:",

@@ -544,6 +544,18 @@ export default function WellInfo() {
                             />
                         </div>
                     )}
+                    {welldry === "Maybe" && (
+                        <div className="css">
+                            <label for="welldry_description">
+                                If so, when?
+                            </label>
+                            <textarea type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => {
+                                    setWelldry_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="css">
