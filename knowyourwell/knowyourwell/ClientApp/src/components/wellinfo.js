@@ -316,6 +316,18 @@ export default function WellInfo() {
                     setValue={(value) => updateWellInfo('welldrydescription', value)}
                     required={false}
                 />)}
+            {welldry === "Maybe" && (
+                        <div className="css">
+                            <label for="welldry_description">
+                                If so, when?
+                            </label>
+                            <textarea type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
+                                onChange={(event) => {
+                                    setWelldry_description(event.target.value);
+                                }}
+                            />
+                        </div>
+                    )}
             <DropDownEntry
                 fieldTitle="Any maintenance done to the well itself within the last five years?"
                 id="maintenance5yr"
