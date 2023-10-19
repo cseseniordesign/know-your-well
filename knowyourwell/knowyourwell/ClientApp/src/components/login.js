@@ -8,6 +8,7 @@ export default function Login() {
         Axios
             .get("/sso/redirect")
             .then(function (response) {
+                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
                 console.log(response);
             });
     };
