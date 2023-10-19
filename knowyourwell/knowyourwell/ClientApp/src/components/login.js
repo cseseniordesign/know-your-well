@@ -8,6 +8,7 @@ export default function Login() {
         Axios
             .get("/sso/redirect")
             .then(function (response) {
+                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
                 console.log(response);
             });
     };
@@ -44,9 +45,11 @@ export default function Login() {
                 </div>
             </div>
             <div className="d-grid" >
-                <a href="/Well" className="btn btn-primary">Login</a>
+                <a href="/Well" className="btn btn-primary" onClick={initRedirectRequest}>Login</a>
                 <p></p>
             </div>
         </form>
     )
 }
+// onClick={initRedirectRequest}
+// href="/Well"
