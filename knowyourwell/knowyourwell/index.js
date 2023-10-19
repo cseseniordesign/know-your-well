@@ -17,9 +17,9 @@ app.use(express.static("wwwroot"));
 
 const config = {
     user: "kywAdmin",
-    password: "adminPass_!",
-    database: "WellKYW",
-    server: 'localhost',
+    password: "KJ6vcCG2", //process.env.APPSETTING_MSSQL_PASSWORD
+    database: "kyw",
+    server: 'localhost', //kyw.database.windows.net
     pool: {
         max: 10,
         min: 0,
@@ -167,6 +167,8 @@ app.post('/createwellinfo', (req, res) => {
         request.input('zipcode', sql.NVarChar, req.body.zipcode);
         request.input('county_id', sql.Int, req.body.countyid);
         request.input('nrd_id', sql.Int, req.body.nrdid);
+        request.input('phone', sql.NVarChar, req.body.phone);
+        request.input('email', sql.NVarChar, req.body.email);
         request.input('wellowner', sql.NVarChar, req.body.wellowner);
         request.input('installyear', sql.Int, req.body.installyear);
         request.input('smelltaste', sql.NVarChar, req.body.smelltaste);
@@ -192,7 +194,7 @@ app.post('/createwellinfo', (req, res) => {
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
+            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @phone, @email, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
