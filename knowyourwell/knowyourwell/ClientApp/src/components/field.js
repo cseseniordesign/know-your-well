@@ -192,7 +192,10 @@ export default function Field() {
     return (
         <form id = "submissionAlert">  
             <h2>{wellName}: Field</h2>
-            
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
             <div>
                 {location || sessionContinued ? (
                     <div>
@@ -390,10 +393,7 @@ export default function Field() {
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
-            <div className="requiredField">
-                <br></br>
-                * = Required Field
-            </div>
+        
         </form >
     );
 }

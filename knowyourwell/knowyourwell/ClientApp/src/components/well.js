@@ -54,7 +54,7 @@ export default function Well() {
         if (wellList.length > 0) {
             return (
                 <List style={{ textAlign: 'center' }}>
-                    <h2> <strong> Well Selection from localStorage</strong></h2>
+                    <h2> <strong> Wells from localStorage</strong></h2>
                     {wellList}
                 </List>
             );
@@ -62,7 +62,7 @@ export default function Well() {
         else {
             return (
                 <List style={{ textAlign: 'center' }}>
-                    <h2> <strong> Well Selection </strong></h2>
+                    <h2> <strong> Wells </strong></h2>
                     <List.Item key={-1}>
                         <List.Content>
                             <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well </a>
@@ -76,7 +76,7 @@ export default function Well() {
     }
     return (
         <List style={{ textAlign: 'center' }}>
-            <h2> <strong> Well Selection </strong></h2>
+            <h2> <strong> Wells </strong></h2>
             <List.Item key={-1}>
                 <List.Content>
                     <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well </a>

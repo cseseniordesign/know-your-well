@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css' 
 import DatePicker from 'react-datetime';
@@ -156,6 +156,10 @@ export default function ClassLab() {
     return (
         <form id="submissionAlert">             
             <h2>{wellName}: Class Lab</h2>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
             <div className="css">
                 <label htmlFor="ammonia">
                     Ammonia - N<br /> [0-10 ppm(mg/L)]
@@ -295,10 +299,7 @@ export default function ClassLab() {
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheLabForm}>Save</button>
-            <div className="requiredField">
-                <br></br>
-                * = Required Field
-            </div>
+            
         </form>
     );
 }

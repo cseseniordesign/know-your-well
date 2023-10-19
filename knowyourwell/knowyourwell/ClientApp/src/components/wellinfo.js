@@ -27,12 +27,11 @@ export default function WellInfo() {
     const [estlatitude, setEstlatitude] = useState(null);
     const [estlongitude, setEstlongitude] = useState(null);
     const [boreholediameter, setBoreholediameter] = useState(0);
-    const [totaldepth, setTotaldepth] = useState(0);
-    const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
     const [wellcasematerial, setWellcasematerial] = useState("");
     const [datacollector, setDatacollector] = useState("");
     const [observation, setObservation] = useState("");
     const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
+    const [error, setError] = useState(0);
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -101,7 +100,28 @@ export default function WellInfo() {
     const [welltype, setWelltype] = useState("");
     const handleChange_welltype = (event) => {
         setWelltype(event.target.value);
-    };
+    };    
+    const [well_waterleveldepth, setWell_waterleveldepth] = useState("");
+    const handleChange_waterleveldepth = (event) => {
+        if(event.target.value > totaldepth) {
+            setError(1);
+            setWell_waterleveldepth("");
+        } else {
+            setError(0);
+            setWell_waterleveldepth(event.target.value);
+        }
+    }
+
+    const [totaldepth, setTotaldepth] = useState("");
+    const handleChange_totaldepth = (event) => {
+        if(event.target.value < well_waterleveldepth) {
+            setError(1);
+            setTotaldepth("");
+        } else {
+            setError(0);
+            setTotaldepth(event.target.value);
+        }
+    }
 
     function addWellInfo() {
         Axios.post('/createwellinfo', {
@@ -190,6 +210,10 @@ export default function WellInfo() {
     return (
         <form action="/editwell" id="submissionAlert" >
             <h2>Well Info</h2>
+            <div className="requiredField">
+                <br/>
+                * = Required Field
+            </div>
             <div className="css">
                 <label for="wellname">
                     Well Name:
@@ -654,10 +678,8 @@ export default function WellInfo() {
                 <label for="totaldepth">
                     Total depth of well (feet):
                 </label>
-                <input type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?"
-                    onChange={(event) => {
-                        setTotaldepth(event.target.value);
-                    }}
+                <input type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?" value={totaldepth}
+                    onChange={(handleChange_totaldepth)}
                 />
             </div>
             <div className="css">
@@ -681,10 +703,11 @@ export default function WellInfo() {
                 <label for="well_waterleveldepth">
                     Water level (feet):
                 </label>
-                <input type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?"
-                    onChange={(event) => {
-                        setWell_waterleveldepth(event.target.value);
-                    }}
+                <div className="waterMoreThanTotal">
+                    Water level depth cannot be greater than total well depth
+                </div>
+                <input type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?" value={well_waterleveldepth}
+                    onChange={(handleChange_waterleveldepth)}
                 />
             </div>
             <div className="css">
@@ -789,12 +812,10 @@ export default function WellInfo() {
                 </div>
             </div>
             <br/>
-            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
+                onClick={error ? window.alert("Water level depth CANNOT be greater than total well depth.") : submitForm}>Submit
+            </button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <div className="requiredField">
-                <br/>
-                * = Required Field
-            </div>
         </form>
     );
 }
