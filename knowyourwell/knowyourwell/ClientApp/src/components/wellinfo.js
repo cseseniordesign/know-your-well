@@ -481,6 +481,7 @@ export default function WellInfo() {
                 if(checkDepthValidation(well_waterleveldepth, totaldepth)) {
                     submitForm();
                 } else {
+                    setWell_waterleveldepth("");
                     window.alert("Well water depth CANNOT be greater than total well depth.");
                 }
             }
