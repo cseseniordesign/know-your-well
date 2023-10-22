@@ -121,8 +121,8 @@ export default function WellInfo() {
             city: city,
             state: state,
             zipcode: zipcode,
-            countyid: 1, // TODO
-            nrdid: 1, // TODO
+            countyid: county,
+            nrdid: nrd,
             phone: phone,
             email: email,
             wellowner: wellowner,
@@ -321,99 +321,99 @@ export default function WellInfo() {
                 <div className="select-container">
                     <select value={county} onChange={handleChange_county} required>
                         <option value="" hidden selected>Select one...</option>
-                        <option value="Adams" id="county" name="county">Adams</option>
-                        <option value="Antelope" id="county" name="county">Antelope</option>
-                        <option value="Arthur" id="county" name="county">Arthur</option>
-                        <option value="Banner" id="county" name="county">Banner</option>
-                        <option value="Blaine" id="county" name="county">Blaine</option>
-                        <option value="Boone" id="county" name="county">Boone</option>
-                        <option value="Box Butte" id="county" name="county">Box Butte</option>
-                        <option value="Boyd" id="county" name="county">Boyd</option>
-                        <option value="Brown" id="county" name="county">Brown</option>
-                        <option value="Buffalo" id="county" name="county">Buffalo</option>
-                        <option value="Burt" id="county" name="county">Burt</option>
-                        <option value="Butler" id="county" name="county">Butler</option>
-                        <option value="Cass" id="county" name="county">Cass</option>
-                        <option value="Cedar" id="county" name="county">Cedar</option>
-                        <option value="Chase" id="county" name="county">Chase</option>
-                        <option value="Cherry" id="county" name="county">Cherry</option>
-                        <option value="Cheyenne" id="county" name="county">Cheyenne</option>
-                        <option value="Clay" id="county" name="county">Clay</option>
-                        <option value="Colfax" id="county" name="county">Colfax</option>
-                        <option value="Cuming" id="county" name="county">Cuming</option>
-                        <option value="Custer" id="county" name="county">Custer</option>
-                        <option value="Dakota" id="county" name="county">Dakota</option>
-                        <option value="Dawes" id="county" name="county">Dawes</option>
-                        <option value="Dawson" id="county" name="county">Dawson</option>
-                        <option value="Dixon" id="county" name="county">Dixon</option>
-                        <option value="Dodge" id="county" name="county">Dodge</option>
-                        <option value="Douglas" id="county" name="county">Douglas</option>
-                        <option value="Deuel" id="county" name="county">Deuel</option>
-                        <option value="Dundy" id="county" name="county">Dundy</option>
-                        <option value="Fillmore" id="county" name="county">Fillmore</option>
-                        <option value="Franklin" id="county" name="county">Franklin</option>
-                        <option value="Frontier" id="county" name="county">Frontier</option>
-                        <option value="Furnas" id="county" name="county">Furnas</option>
-                        <option value="Gage" id="county" name="county">Gage</option>
-                        <option value="Garden" id="county" name="county">Garden</option>
-                        <option value="Garfield" id="county" name="county">Garfield</option>
-                        <option value="Gosper" id="county" name="county">Gosper</option>
-                        <option value="Grant" id="county" name="county">Grant</option>
-                        <option value="Greeley" id="county" name="county">Greeley</option>
-                        <option value="Hall" id="county" name="county">Hall</option>
-                        <option value="Hamilton" id="county" name="county">Hamilton</option>
-                        <option value="Harlan" id="county" name="county">Harlan</option>
-                        <option value="Hayes" id="county" name="county">Hayes</option>
-                        <option value="Hitchcock" id="county" name="county">Hitchcock</option>
-                        <option value="Holt" id="county" name="county">Holt</option>
-                        <option value="Hooker" id="county" name="county">Hooker</option>
-                        <option value="Howard" id="county" name="county">Howard</option>
-                        <option value="Jefferson" id="county" name="county">Jefferson</option>
-                        <option value="Johnson" id="county" name="county">Johnson</option>
-                        <option value="Kearney" id="county" name="county">Kearney</option>
-                        <option value="Keith" id="county" name="county">Keith</option>
-                        <option value="Keya Paha" id="county" name="county">Keya Paha</option>
-                        <option value="Kimball" id="county" name="county">Kimball</option>
-                        <option value="Knox" id="county" name="county">Knox</option>
-                        <option value="Lancaster" id="county" name="county">Lancaster</option>
-                        <option value="Lincoln" id="county" name="county">Lincoln</option>
-                        <option value="Logan" id="county" name="county">Logan</option>
-                        <option value="Loup" id="county" name="county">Loup</option>
-                        <option value="Madison" id="county" name="county">Madison</option>
-                        <option value="McPherson" id="county" name="county">McPherson</option>
-                        <option value="Merrick" id="county" name="county">Merrick</option>
-                        <option value="Morrill" id="county" name="county">Morrill</option>
-                        <option value="Nance" id="county" name="county">Nance</option>
-                        <option value="Nemaha" id="county" name="county">Nemaha</option>
-                        <option value="Nuckolls" id="county" name="county">Nuckolls</option>
-                        <option value="Otoe" id="county" name="county">Otoe</option>
-                        <option value="Pawnee" id="county" name="county">Pawnee</option>
-                        <option value="Perkins" id="county" name="county">Perkins</option>
-                        <option value="Phelps" id="county" name="county">Phelps</option>
-                        <option value="Pierce" id="county" name="county">Pierce</option>
-                        <option value="Platte" id="county" name="county">Platte</option>
-                        <option value="Polk" id="county" name="county">Polk</option>
-                        <option value="Red Willow" id="county" name="county">Red Willow</option>
-                        <option value="Richardson" id="county" name="county">Richardson</option>
-                        <option value="Rock" id="county" name="county">Rock</option>
-                        <option value="Saline" id="county" name="county">Saline</option>
-                        <option value="Sarpy" id="county" name="county">Sarpy</option>                        
-                        <option value="Saunders" id="county" name="county">Saunders</option>
-                        <option value="Scotts Bluff" id="county" name="county">Scotts Bluff</option>
-                        <option value="Seward" id="county" name="county">Seward</option>
-                        <option value="Sheridan" id="county" name="county">Sheridan</option>
-                        <option value="Sherman" id="county" name="county">Sherman</option>
-                        <option value="Sioux" id="county" name="county">Sioux</option>
-                        <option value="Stanton" id="county" name="county">Stanton</option>
-                        <option value="Thayer" id="county" name="county">Thayer</option>
-                        <option value="Thomas" id="county" name="county">Thomas</option>
-                        <option value="Thurston" id="county" name="county">Thurston</option>
-                        <option value="Valley" id="county" name="county">Valley</option>
-                        <option value="Washington" id="county" name="county">Washington</option>
-                        <option value="Wayne" id="county" name="county">Wayne</option>
-                        <option value="Webster" id="county" name="county">Webster</option>
-                        <option value="Wheeler" id="county" name="county">Wheeler</option>
-                        <option value="York" id="county" name="county">York</option>
+                        <option value="1" id="county" name="county">Adams</option>
+                        <option value="2" id="county" name="county">Antelope</option>
+                        <option value="3" id="county" name="county">Arthur</option>
+                        <option value="4" id="county" name="county">Banner</option>
+                        <option value="5" id="county" name="county">Blaine</option>
+                        <option value="6" id="county" name="county">Boone</option>
+                        <option value="7" id="county" name="county">Box Butte</option>
+                        <option value="8" id="county" name="county">Boyd</option>
+                        <option value="9" id="county" name="county">Brown</option>
+                        <option value="10" id="county" name="county">Buffalo</option>
+                        <option value="11" id="county" name="county">Burt</option>
+                        <option value="12" id="county" name="county">Butler</option>
+                        <option value="13" id="county" name="county">Cass</option>
+                        <option value="14" id="county" name="county">Cedar</option>
+                        <option value="15" id="county" name="county">Chase</option>
+                        <option value="16" id="county" name="county">Cherry</option>
+                        <option value="17" id="county" name="county">Cheyenne</option>
+                        <option value="18" id="county" name="county">Clay</option>
+                        <option value="19" id="county" name="county">Colfax</option>
+                        <option value="20" id="county" name="county">Cuming</option>
+                        <option value="21" id="county" name="county">Custer</option>
+                        <option value="22" id="county" name="county">Dakota</option>
+                        <option value="23" id="county" name="county">Dawes</option>
+                        <option value="24" id="county" name="county">Dawson</option>
+                        <option value="25" id="county" name="county">Deuel</option>
+                        <option value="26" id="county" name="county">Dixon</option>
+                        <option value="27" id="county" name="county">Dodge</option>
+                        <option value="28" id="county" name="county">Douglas</option>
+                        <option value="29" id="county" name="county">Dundy</option>
+                        <option value="30" id="county" name="county">Fillmore</option>
+                        <option value="31" id="county" name="county">Franklin</option>
+                        <option value="32" id="county" name="county">Frontier</option>
+                        <option value="33" id="county" name="county">Furnas</option>
+                        <option value="34" id="county" name="county">Gage</option>
+                        <option value="35" id="county" name="county">Garden</option>
+                        <option value="36" id="county" name="county">Garfield</option>
+                        <option value="37" id="county" name="county">Gosper</option>
+                        <option value="38" id="county" name="county">Grant</option>
+                        <option value="39" id="county" name="county">Greeley</option>
+                        <option value="40" id="county" name="county">Hall</option>
+                        <option value="41" id="county" name="county">Hamilton</option>
+                        <option value="42" id="county" name="county">Harlan</option>
+                        <option value="43" id="county" name="county">Hayes</option>
+                        <option value="44" id="county" name="county">Hitchcock</option>
+                        <option value="45" id="county" name="county">Holt</option>
+                        <option value="46" id="county" name="county">Hooker</option>
+                        <option value="47" id="county" name="county">Howard</option>
+                        <option value="48" id="county" name="county">Jefferson</option>
+                        <option value="49" id="county" name="county">Johnson</option>
+                        <option value="50" id="county" name="county">Kearney</option>
+                        <option value="51" id="county" name="county">Keith</option>
+                        <option value="52" id="county" name="county">Keya Paha</option>
+                        <option value="53" id="county" name="county">Kimball</option>
+                        <option value="54" id="county" name="county">Knox</option>
+                        <option value="55" id="county" name="county">Lancaster</option>
+                        <option value="56" id="county" name="county">Lincoln</option>
+                        <option value="57" id="county" name="county">Logan</option>
+                        <option value="58" id="county" name="county">Loup</option>
+                        <option value="59" id="county" name="county">McPherson</option>
+                        <option value="60" id="county" name="county">Madison</option>
+                        <option value="61" id="county" name="county">Merrick</option>
+                        <option value="62" id="county" name="county">Morrill</option>
+                        <option value="63" id="county" name="county">Nance</option>
+                        <option value="64" id="county" name="county">Nemaha</option>
+                        <option value="65" id="county" name="county">Nuckolls</option>
+                        <option value="66" id="county" name="county">Otoe</option>
+                        <option value="67" id="county" name="county">Pawnee</option>
+                        <option value="68" id="county" name="county">Perkins</option>
+                        <option value="69" id="county" name="county">Phelps</option>
+                        <option value="70" id="county" name="county">Pierce</option>
+                        <option value="71" id="county" name="county">Platte</option>
+                        <option value="72" id="county" name="county">Polk</option>
+                        <option value="73" id="county" name="county">Red Willow</option>
+                        <option value="74" id="county" name="county">Richardson</option>
+                        <option value="75" id="county" name="county">Rock</option>
+                        <option value="76" id="county" name="county">Saline</option>
+                        <option value="77" id="county" name="county">Sarpy</option>
+                        <option value="78" id="county" name="county">Saunders</option>
+                        <option value="79" id="county" name="county">Scotts Bluff</option>
+                        <option value="80" id="county" name="county">Seward</option>
+                        <option value="81" id="county" name="county">Sheridan</option>
+                        <option value="82" id="county" name="county">Sherman</option>
+                        <option value="83" id="county" name="county">Sioux</option>
+                        <option value="84" id="county" name="county">Stanton</option>
+                        <option value="85" id="county" name="county">Thayer</option>
+                        <option value="86" id="county" name="county">Thomas</option>
+                        <option value="87" id="county" name="county">Thurston</option>
+                        <option value="88" id="county" name="county">Valley</option>
+                        <option value="89" id="county" name="county">Washington</option>
+                        <option value="90" id="county" name="county">Wayne</option>
+                        <option value="91" id="county" name="county">Webster</option>
+                        <option value="92" id="county" name="county">Wheeler</option>
+                        <option value="93" id="county" name="county">York</option>
                     </select>
                 </div>
             </div>
@@ -425,29 +425,29 @@ export default function WellInfo() {
                 <div className="select-container">
                     <select value={nrd} onChange={handleChange_nrd} required>
                         <option value="" hidden selected>Select one...</option>
-                        <option value="Central Platte" id="nrd" name="nrd">Central Platte</option>
-                        <option value="Lewis and Clark" id="nrd" name="nrd">Lewis and Clark</option>
-                        <option value="Little Blue" id="nrd" name="nrd">Little Blue</option>
-                        <option value="Lower Big Blue" id="nrd" name="nrd">Lower Big Blue</option>
-                        <option value="Lower Elkhorn" id="nrd" name="nrd">Lower Elkhorn</option>
-                        <option value="Lower Loup" id="nrd" name="nrd">Lower Loup</option>
-                        <option value="Lower Niobrara" id="nrd" name="nrd">Lower Niobrara</option>
-                        <option value="Lower Platte North" id="nrd" name="nrd">Lower Platte North</option>
-                        <option value="Lower Platte South" id="nrd" name="nrd">Lower Platte South</option>
-                        <option value="Lower Republican" id="nrd" name="nrd">Lower Republican</option>
-                        <option value="Middle Niobrara" id="nrd" name="nrd">Middle Niobrara</option>
-                        <option value="Middle Republican" id="nrd" name="nrd">Middle Republican</option>
-                        <option value="Nemaha" id="nrd" name="nrd">Nemaha</option>
-                        <option value="North Platte" id="nrd" name="nrd">North Platte</option>
-                        <option value="Papio-Missouri River" id="nrd" name="nrd">Papio-Missouri River</option>
-                        <option value="South Platte" id="nrd" name="nrd">South Platte</option>
-                        <option value="Tri-Basin" id="nrd" name="nrd">Tri-Basin</option>
-                        <option value="Twin Platte" id="nrd" name="nrd">Twin Platte</option>
-                        <option value="Upper Big Blue" id="nrd" name="nrd">Upper Big Blue</option>
-                        <option value="Upper Elkhorn" id="nrd" name="nrd">Upper Elkhorn</option>
-                        <option value="Upper Loup" id="nrd" name="nrd">Upper Loup</option>
-                        <option value="Upper Niobrara-White" id="nrd" name="nrd">Upper Niobrara-White</option>
-                        <option value="Upper Republican" id="nrd" name="nrd">Upper Republican</option>
+                        <option value="1" id="nrd" name="nrd">Central Platte</option>
+                        <option value="2" id="nrd" name="nrd">Lewis and Clark</option>
+                        <option value="3" id="nrd" name="nrd">Little Blue</option>
+                        <option value="4" id="nrd" name="nrd">Lower Big Blue</option>
+                        <option value="5" id="nrd" name="nrd">Lower Elkhorn</option>
+                        <option value="6" id="nrd" name="nrd">Lower Loup</option>
+                        <option value="7" id="nrd" name="nrd">Lower Niobrara</option>
+                        <option value="8" id="nrd" name="nrd">Lower Platte North</option>
+                        <option value="9" id="nrd" name="nrd">Lower Platte South</option>
+                        <option value="10" id="nrd" name="nrd">Lower Republican</option>
+                        <option value="11" id="nrd" name="nrd">Middle Niobrara</option>
+                        <option value="12" id="nrd" name="nrd">Middle Republican</option>
+                        <option value="13" id="nrd" name="nrd">Nemaha</option>
+                        <option value="14" id="nrd" name="nrd">North Platte</option>
+                        <option value="15" id="nrd" name="nrd">Papio-Missouri River</option>
+                        <option value="16" id="nrd" name="nrd">South Platte</option>
+                        <option value="17" id="nrd" name="nrd">Tri-Basin</option>
+                        <option value="18" id="nrd" name="nrd">Twin Platte</option>
+                        <option value="19" id="nrd" name="nrd">Upper Big Blue</option>
+                        <option value="20" id="nrd" name="nrd">Upper Elkhorn</option>
+                        <option value="21" id="nrd" name="nrd">Upper Loup</option>
+                        <option value="22" id="nrd" name="nrd">Upper Niobrara-White</option>
+                        <option value="23" id="nrd" name="nrd">Upper Republican</option>
                     </select>
                 </div>
             </div>
