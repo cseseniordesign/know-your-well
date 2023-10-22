@@ -66,6 +66,7 @@ export default function Field() {
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
+        setWellcoverDescription("");
     };
 
     const handleChange_evidence = (event) => {
@@ -191,7 +192,7 @@ export default function Field() {
     
     return (
         <form id = "submissionAlert">  
-            <h2>{wellName}: Field</h2>
+            <h2>{wellName}: New Field</h2>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
@@ -348,7 +349,7 @@ export default function Field() {
             </div>
             <div className="css">
                 <label htmlFor="name">
-                    Data Collector’s Name:
+                    Teacher's Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
