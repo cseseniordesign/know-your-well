@@ -74,6 +74,9 @@ export default function WellInfo() {
     const [datacollector, setDatacollector] = useState("");
     const [observation, setObservation] = useState("");
     const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
+    const [error, setError] = useState(0);
+    const [totaldepth, setTotaldepth] = useState("");
+    const [well_waterleveldepth, setWell_waterleveldepth] = useState("");
  */
 
     const date = new Date();
@@ -474,8 +477,16 @@ export default function WellInfo() {
             </div>
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
-                onClick={error ? window.alert("Water level depth CANNOT be greater than total well depth.") : submitForm}>Submit
-            </button>
+            onClick={() => {
+                if(checkDepthValidation(well_waterleveldepth, totaldepth)) {
+                    submitForm();
+                } else {
+                    setWell_waterleveldepth("");
+                    window.alert("Well water depth CANNOT be greater than total well depth.");
+                }
+            }
+            }
+            >Submit</button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
         </form>
     );
