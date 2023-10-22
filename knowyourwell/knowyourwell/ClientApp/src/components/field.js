@@ -66,6 +66,7 @@ export default function Field() {
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
+        setWellcoverDescription("");
     };
 
     const handleChange_evidence = (event) => {
@@ -191,8 +192,11 @@ export default function Field() {
     
     return (
         <form id = "submissionAlert">  
-            <h2>{wellName}: Field</h2>
-            
+            <h2>{wellName}: New Field</h2>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
             <div>
                 {location || sessionContinued ? (
                     <div>
@@ -345,7 +349,7 @@ export default function Field() {
             </div>
             <div className="css">
                 <label htmlFor="name">
-                    Data Collector’s Name:
+                    Teacher's Name:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
@@ -390,10 +394,7 @@ export default function Field() {
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
-            <div className="requiredField">
-                <br></br>
-                * = Required Field
-            </div>
+        
         </form >
     );
 }
