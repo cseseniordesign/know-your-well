@@ -33,6 +33,8 @@ export default function WellInfo() {
     const [observation, setObservation] = useState("");
     const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
     const [error, setError] = useState(0);
+    const [totaldepth, setTotaldepth] = useState("");
+    const [well_waterleveldepth, setWell_waterleveldepth] = useState("");
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -102,25 +104,11 @@ export default function WellInfo() {
     const handleChange_welltype = (event) => {
         setWelltype(event.target.value);
     };    
-    const [well_waterleveldepth, setWell_waterleveldepth] = useState("");
-    const handleChange_waterleveldepth = (event) => {
-        if(event.target.value > totaldepth) {
-            setError(1);
-            setWell_waterleveldepth("");
+    function checkDepthValidation(well_waterleveldepth, totaldepth) {
+        if(well_waterleveldepth <= totaldepth) {
+            return true;
         } else {
-            setError(0);
-            setWell_waterleveldepth(event.target.value);
-        }
-    }
-
-    const [totaldepth, setTotaldepth] = useState("");
-    const handleChange_totaldepth = (event) => {
-        if(event.target.value < well_waterleveldepth) {
-            setError(1);
-            setTotaldepth("");
-        } else {
-            setError(0);
-            setTotaldepth(event.target.value);
+            return false;
         }
     }
 
@@ -680,7 +668,9 @@ export default function WellInfo() {
                     Total depth of well (feet):
                 </label>
                 <input type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?" value={totaldepth}
-                    onChange={(handleChange_totaldepth)}
+                    onChange={(event) => {
+                        setTotaldepth(event.target.value);
+                    }}
                 />
             </div>
             <div className="css">
@@ -708,8 +698,9 @@ export default function WellInfo() {
                     Water level depth cannot be greater than total well depth
                 </div>
                 <input type="text" className="textarea resize-ta" id="well_waterleveldepth" name="well_waterleveldepth" pattern="[0-9]+([.][0-9]{1,5})?" value={well_waterleveldepth}
-                    onChange={(handleChange_waterleveldepth)}
-                />
+                    onChange={(event) => {
+                        setWell_waterleveldepth(event.target.value);
+                    }}                />
             </div>
             <div className="css">
                 <label for="aquifertype">
@@ -814,8 +805,16 @@ export default function WellInfo() {
             </div>
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
-                onClick={error ? window.alert("Water level depth CANNOT be greater than total well depth.") : submitForm}>Submit
-            </button>
+            onClick={() => {
+                if(checkDepthValidation(well_waterleveldepth, totaldepth)) {
+                    submitForm();
+                } else {
+                    setWell_waterleveldepth("");
+                    window.alert("Well water depth CANNOT be greater than total well depth.");
+                }
+            }
+            }
+            >Submit</button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
         </form>
     );
