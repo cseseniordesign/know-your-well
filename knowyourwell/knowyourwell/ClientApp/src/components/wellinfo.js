@@ -104,7 +104,9 @@ export default function WellInfo() {
         setWelltype(event.target.value);
     };    
     function checkDepthValidation(well_waterleveldepth, totaldepth) {
-        if(well_waterleveldepth <= totaldepth) {
+        let tempwater_depth = parseFloat(well_waterleveldepth);
+        let temptotaldepth = parseFloat(totaldepth);
+        if(tempwater_depth <= temptotaldepth) {
             return true;
         } else {
             return false;
@@ -138,9 +140,9 @@ export default function WellInfo() {
             estlatitude: estlatitude,
             estlongitude: estlongitude,
             boreholediameter: boreholediameter,
-            totaldepth: totaldepth,
+            totaldepth: parseFloat(totaldepth),
             topography: topography,
-            well_waterleveldepth: well_waterleveldepth,
+            well_waterleveldepth: parseFloat(well_waterleveldepth),
             aquifertype: aquifertype,
             aquiferclass: aquiferclass,
             welltype: welltype,
