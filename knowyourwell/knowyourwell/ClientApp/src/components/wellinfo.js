@@ -13,6 +13,8 @@ export default function WellInfo() {
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
     const school_id = 1; // todo
+    const [regisNum, setRegisNum] = useState("");
+    const [dnrWellId, setDnrWellId] = useState("");
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -116,6 +118,8 @@ export default function WellInfo() {
             wellcode: wellcode,
             wellname: wellname,
             school_id: school_id,
+            regisNum: regisNum,
+            dnrWellId: dnrWellId,
             welluser: welluser,
             address: address,
             city: city,
@@ -210,6 +214,26 @@ export default function WellInfo() {
                 <input type="text" className="textarea resize-ta" id="wellname" name="wellname" required
                     onChange={(event) => {
                         setWellname(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="regisNum">
+                    Well Registration Number:
+                </label>
+                <input type="text" className="textarea resize-ta" id="regisNum" name="regisNum"
+                    onChange={(event) => {
+                        setRegisNum(event.target.value);
+                    }}
+                />
+            </div>
+            <div className="css">
+                <label for="dnrWellId">
+                    DNR Well ID:
+                </label>
+                <input type="text" className="textarea resize-ta" id="dnrWellId" name="dnrWellId"
+                    onChange={(event) => {
+                        setDnrWellId(event.target.value);
                     }}
                 />
             </div>
