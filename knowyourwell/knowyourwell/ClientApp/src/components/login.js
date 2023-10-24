@@ -45,11 +45,10 @@ export default function Login() {
                 </div>
             </div>
             <div className="d-grid" >
-                <a href="/Well" className="btn btn-primary" onClick={initRedirectRequest}>Login</a>
+            <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login</button>
+
                 <p></p>
             </div>
         </form>
     )
 }
-// onClick={initRedirectRequest}
-// href="/Well"
