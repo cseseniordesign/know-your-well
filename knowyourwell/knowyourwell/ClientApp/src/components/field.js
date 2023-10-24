@@ -11,11 +11,25 @@ import ShortTextEntry from './shorttextentry';
 import FormFooter from './formfooter';
 import LongTextEntry from './longtextentry';
 
-
 export default function Field() {
-
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
+
+    const initialFieldData = {
+        fa_latitude: "",
+        fa_longitude: "",
+        conditions: "",
+        temp: "",
+        ph: "",
+        conductivity: "",
+        name: "",
+        observation: "",
+        wellcover: "",
+        wellcoverdescription: "",
+        dateentered: moment().format('L, h:mm a'),
+        evidence: "",
+        pooling: "",
+    };
 
     // Checking for saved sessions
     const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
@@ -36,50 +50,26 @@ export default function Field() {
 
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData" + well_id)) : null;
     const wellName = searchParams.get("wellName");
-    const [fa_latitude, setFa_latitude] = useState(pullCachedData ? cachedData.fa_latitude : "");
-    const [fa_longitude, setFa_longitude] = useState(pullCachedData ? cachedData.fa_longitude : "");
-    const fa_genlatitude = Math.round(fa_latitude * 100) / 100; // rounds to third decimal place
-    const fa_genlongitude = Math.round(fa_longitude * 100) / 100; // rounds to third decimal place
-    const [conditions, setConditions] = useState(pullCachedData ? cachedData.Conditions : "");
-    const [pooling, setPooling] = useState(pullCachedData ? cachedData.Pooling : "");
-    const [evidence, setEvidence] = useState(pullCachedData ? cachedData.Evidence : "");
-    const [temp, setTemp] = useState(pullCachedData ? cachedData.Temp : "");
-    const [ph, setPh] = useState(pullCachedData ? cachedData.Ph : "");
-    const [conductivity, setConductivity] = useState(pullCachedData ? cachedData.Conductivity : "");
-    const [name, setName] = useState(pullCachedData ? cachedData.NameField : "");
-    const [observation, setObservation] = useState(pullCachedData ? cachedData.Observation : "");
-    const [wellcover, setWellcover] = useState(pullCachedData ? cachedData.Wellcover : "");
-    const [wellcoverdescription, setWellcoverDescription] = useState(pullCachedData ? cachedData.Wellcoverdescription : "");
-    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
+    const [fieldData, setFieldData] = useState(sessionContinued ? cachedData : initialFieldData);
+    const fa_genlatitude = Math.round(fieldData.fa_latitude * 100) / 100; // rounds to third decimal place
+    const fa_genlongitude = Math.round(fieldData.fa_longitude * 100) / 100; // rounds to third decimal place
+
 
     // Updating if user decides to load session
     useEffect(() => {
-        setFa_latitude(sessionContinued ? cachedData.fa_latitude : "");
-        setFa_longitude(sessionContinued ? cachedData.fa_longitude : "");
-        setConditions(sessionContinued ? cachedData.Conditions : "");
-        setPooling(sessionContinued ? cachedData.Pooling : "");
-        setEvidence(sessionContinued ? cachedData.Evidence : "");
-        setTemp(sessionContinued ? cachedData.Temp : "");
-        setPh(sessionContinued ? cachedData.Ph : "");
-        setConductivity(sessionContinued ? cachedData.Conductivity : "");
-        setName(sessionContinued ? cachedData.NameField : "");
-        setObservation(sessionContinued ? cachedData.Observation : "");
-        setWellcover(sessionContinued ? cachedData.Wellcover : "");
-        setWellcoverDescription(sessionContinued ? cachedData.Wellcoverdescription : "");
-        setDateentered(sessionContinued ? cachedData.Dateentered : moment());
+        setFieldData(sessionContinued ? cachedData : initialFieldData)
     }, [sessionContinued]);
 
-    const handleChange_wellcover = (event) => {
-        setWellcover(event.target.value);
-    };
+    function updateFieldData(fieldName, value, event) {
+        setFieldData((prevData) => ({
+            ...prevData,
+            [fieldName]: value,
+        }));
+    }
 
-    const handleChange_evidence = (event) => {
-        setEvidence(event.target.value);
-    };
-
-    const handleChange_pooling = (event) => {
-        setPooling(event.target.value);
-    };
+    const handleDropdownChange = (fieldName, event) => {
+        updateFieldData(fieldName, event.target.value);
+    }
 
     // geolocation  
     const [location, setLocation] = useState(null);
@@ -90,8 +80,8 @@ export default function Field() {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         setLocation(position.coords);
-                        setFa_latitude(position.coords.latitude);
-                        setFa_longitude(position.coords.longitude);
+                        updateFieldData('fa_latitude', position.coords.latitude);
+                        updateFieldData('fa_longitude', position.coords.longitude);
 
                     });
             } else {
@@ -103,29 +93,29 @@ export default function Field() {
 
     function addField() {
         Axios.post('/api/insert', {
-            well_id: well_id,
-            fa_latitude: fa_latitude,
-            fa_longitude: fa_longitude,
+            well_id: fieldData.well_id,
+            fa_latitude: fieldData.fa_latitude,
+            fa_longitude: fieldData.fa_longitude,
             fa_genlatitude: fa_genlatitude,
             fa_genlongitude: fa_genlongitude,
-            weather: conditions,
-            wellcovercondition: wellcover,
-            wellcoverdescription: wellcoverdescription,
-            surfacerunoff: evidence,
-            pooling: pooling,
-            groundwatertemp: temp,
-            ph: ph,
-            conductivity: conductivity,
-            name: name,
-            observations: observation,
-            datecollected: dateentered,
+            weather: fieldData.conditions,
+            wellcovercondition: fieldData.wellcover,
+            wellcoverdescription: fieldData.wellcoverdescription,
+            surfacerunoff: fieldData.evidence,
+            pooling: fieldData.pooling,
+            groundwatertemp: fieldData.temp,
+            ph: fieldData.ph,
+            conductivity: fieldData.conductivity,
+            name: fieldData.name,
+            observations: fieldData.observation,
+            datecollected: fieldData.dateentered,
         })
             .then(() => {
                 console.log("success");
             })
     };
 
-    const idList = ["fa_latitude", "fa_longitude", "conditions", "wellCover", "temp", "ph", "conductivity", "name", "observation"];
+    const idList = ["fa_latitude", "fa_longitude", "conditions", "wellcover", "temp", "ph", "conductivity", "name", "observation"];
     // caching - local storage
     function cacheFieldForm() {
         let elementsValid = true;
@@ -140,21 +130,6 @@ export default function Field() {
         }
 
         if (elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")) {
-            const fieldData = {
-                fa_latitude: fa_latitude,
-                fa_longitude: fa_longitude,
-                Conditions: conditions,
-                Temp: temp,
-                Ph: ph,
-                Conductivity: conductivity,
-                NameField: name,
-                Observation: observation,
-                Wellcover: wellcover,
-                Wellcoverdescription: wellcoverdescription,
-                Dateentered: dateentered,
-                Evidence: evidence,
-                Pooling: pooling
-            };
             localStorage.setItem("fieldData" + well_id, JSON.stringify(fieldData));
             alert("Information Saved!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
@@ -203,14 +178,25 @@ export default function Field() {
                     <div>
                         <NumberEntry
                             fieldTitle="Latitude (use 4-12 decimals):"
-                            metric={fa_latitude} min="40" max="43" id="fa_latitude"
-                            label="Degrees" setValue={setFa_latitude}
-                            required={true} />
+                            metric={fieldData.fa_latitude}
+                            min="40"
+                            max="43"
+                            id="fa_latitude"
+                            label="Degrees"
+                            setValue={(value) => updateFieldData('fa_latitude', value)}
+                            required={true}
+                        />
                         <NumberEntry
                             fieldTitle="Longitude (use 4-12 decimals):"
-                            metric={fa_longitude} min="-104" max="-95.417" id="fa_longitude"
-                            label="Degrees" setValue={setFa_longitude}
-                            required={true} />
+                            metric={fieldData.fa_longitude}
+                            min="-104"
+                            max="-95.417"
+                            id="fa_longitude"
+                            label="Degrees"
+                            setValue={(value) => updateFieldData('fa_longitude', value)}
+                            required={true}
+                        />
+
                     </div>
                 ) : (
                     <div>
@@ -221,58 +207,87 @@ export default function Field() {
             </div>
             <LongTextEntry
                 fieldTitle="Conditions: Describe weather, temperature, or anything note-worthy about your well"
-                value={conditions} id="conditions" setValue={setConditions}
+                value={fieldData.conditions}
+                id="conditions"
+                setValue={(value) => updateFieldData('conditions', value)}
             />
             <DropDownEntry
-                fieldTitle="Condition of the well cover" id="wellcover"
+                fieldTitle="Condition of the well cover"
+                id="wellcover"
                 options={["Intact", "Observable Opening", "Damaged"]}
-                value={wellcover} onChange={handleChange_wellcover}
+                value={fieldData.wellcover}
+                onChange={(event) => handleDropdownChange('wellcover', event)}
                 required={true}
             />
-            {(wellcover === "Observable Opening" || wellcover === "Damaged") && (
+            {(fieldData.wellcover === "Observable Opening" || fieldData.wellcover === "Damaged") && (
                 <LongTextEntry
                     fieldTitle="Well Cover Description:"
-                    value={wellcoverdescription}
+                    value={fieldData.wellcoverdescription}
                     id="wellcoverdescription"
-                    setValue={setWellcoverDescription}
+                    setValue={(value) => updateFieldData('wellcoverdescription', value)}
                     required={false}
                 />)}
             <DropDownEntry
                 fieldTitle="Is there evidence of surface run-off at the entry to the well?"
-                id="evidence" options={["Yes", "No"]} value={evidence}
-                onChange={handleChange_evidence} required={true}
+                id="evidence"
+                options={["Yes", "No"]}
+                value={fieldData.evidence}
+                onChange={(event) => handleDropdownChange('evidence', event)}
+                required={true}
             />
             <DropDownEntry
                 fieldTitle="Is there evidence of pooling or puddles within 12 ft of the well?"
-                id="pooling" options={["Yes", "No"]} value={pooling}
-                onChange={handleChange_pooling} required={true}
+                id="pooling"
+                options={["Yes", "No"]}
+                value={fieldData.pooling}
+                onChange={(event) => updateFieldData('pooling', event)}
+                required={true}
             />
             <NumberEntry
                 fieldTitle="Groundwater Temperature"
-                metric={temp} min="0" max="100" id="temp"
-                label="Degrees Celsius" setValue={setTemp}
-                required={true} />
+                metric={fieldData.temp}
+                min="0"
+                max="100"
+                id="temp"
+                label="Degrees Celsius"
+                setValue={(value) => updateFieldData('temp', value)}
+                required={true}
+            />
             <NumberEntry
-                fieldTitle="pH"
-                metric={ph} min="0" max="14" id="ph"
-                label="" setValue={setPh}
-                required={true} />
+                fieldTitle="ph"
+                metric={fieldData.ph}
+                min="0"
+                max="14"
+                id="ph"
+                label=""
+                setValue={(value) => updateFieldData('ph', value)}
+                required={true}
+            />
             <NumberEntry
                 fieldTitle="Conductivity"
-                metric={conductivity} id="conductivity"
-                min="" max="" label="uS/cm"
-                setValue={setConductivity}
-                required={true} />
+                metric={fieldData.conductivity}
+                id="conductivity"
+                min="100"
+                max="2000"
+                label="uS/cm"
+                setValue={(value) => updateFieldData('conductivity', value)}
+                required={true}
+            />
             <ShortTextEntry
                 fieldTitle="Data Collector’s Name:"
-                value={name} id="name" setValue={setName}
-                required={true} />
+                value={fieldData.name}
+                id="name"
+                setValue={(value) => updateFieldData('name', value)}
+                required={true}
+            />
             <ShortTextEntry
                 fieldTitle="Observations"
-                value={observation} id="observation"
-                maxLength="150" setValue={setObservation}
-                required={true} />
-
+                value={fieldData.Observation}
+                id="observation"
+                maxLength="150"
+                setValue={(value) => updateFieldData('Observation', value)}
+                required={true}
+            />
             <div className="css">
                 <label htmlFor="dateentered">
                     Date Entered:
@@ -281,10 +296,10 @@ export default function Field() {
                 <div id="dateentered">
                     <DatePicker
                         required
-                        value={dateentered}
+                        value={fieldData.dateentered}
                         dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
-                        onChange={(val) => setDateentered(val)}
+                        onChange={(value) => updateFieldData('dateentered', value)}
                         inputProps={{
                             style: {
                                 width: 300,
