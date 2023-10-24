@@ -75,9 +75,8 @@ export default function WellInfo() {
     const [observation, setObservation] = useState("");
     const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
     const [error, setError] = useState(0);
-    const [totaldepth, setTotaldepth] = useState("");
-    const [well_waterleveldepth, setWell_waterleveldepth] = useState("");
- */
+    const [totaldepth, setTotaldepth] = useState(0);
+    const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -176,7 +175,7 @@ export default function WellInfo() {
             window.location.href = `/well`
         }
     }
-
+    
     return (
         <form action="/editwell" id="submissionAlert" >
             <h2>Well Info</h2>
@@ -481,7 +480,6 @@ export default function WellInfo() {
                 if(checkDepthValidation(well_waterleveldepth, totaldepth)) {
                     submitForm();
                 } else {
-                    setWell_waterleveldepth("");
                     window.alert("Well water depth CANNOT be greater than total well depth.");
                 }
             }
