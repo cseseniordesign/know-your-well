@@ -56,6 +56,8 @@ export default function WellInfo() {
     const [wellname, setWellname] = useState("");
     //const [school_id, setSchool_id] = useState(0);
     const school_id = 1; // todo
+    const [regisNum, setRegisNum] = useState("");
+    const [dnrWellId, setDnrWellId] = useState("");
     const [welluser, setWelluser] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
