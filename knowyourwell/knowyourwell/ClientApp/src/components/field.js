@@ -66,7 +66,9 @@ export default function Field() {
 
     const handleChange_wellcover = (event) => {
         setWellcover(event.target.value);
-        setWellcoverDescription("");
+        if(wellcover === "Intact") {
+            setWellcoverDescription("");
+        }
     };
 
     const handleChange_evidence = (event) => {
