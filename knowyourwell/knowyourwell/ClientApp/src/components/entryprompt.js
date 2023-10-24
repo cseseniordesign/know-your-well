@@ -3,7 +3,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
         if (fieldTitle.length <= 60) {
             return (
                 <div>{fieldTitle}
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                    {required && <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>}
                 </div>
             );
         }
