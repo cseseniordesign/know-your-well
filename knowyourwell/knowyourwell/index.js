@@ -1,4 +1,7 @@
-﻿const express = require("express");
+﻿const assignEntity = require('./middleware/saml.js');
+const { Constants } = require('samlify');
+
+const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -15,9 +18,23 @@ app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
 
-const fs = require('fs');
-const rawData = fs.readFileSync('config.json', 'utf8');
-const config = JSON.parse(rawData);
+app.use(assignEntity);
+
+const config = {
+    user: "kywAdmin",
+    password: process.env.APPSETTING_MSSQL_PASSWORD,
+    database: "kyw",
+    server: 'kyw.database.windows.net',
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    options: {
+        encrypt: true, // for azure
+        trustServerCertificate: false // change to true for local dev / self-signed certs
+    }
+}
 
 const appPool = new sql.ConnectionPool(config)
 try {
@@ -26,7 +43,6 @@ try {
 catch (error) {
     console.error(error)
 }
-
 // field
 app.post('/api/insert', (req, res) => {
     const transaction = appPool.transaction();
@@ -342,6 +358,7 @@ app.get('/GetLabEntry', async (req, res) => {
             rolledBack = true
         })
 
+
         request.input('classlab_id', sql.Int, req.query.classlab_id).query('SELECT * FROM dbo.tblClassRoomLab WHERE classlab_id = @classlab_id;', function (err, recordset) {
             if (err) {
                 console.log(err)
@@ -366,6 +383,31 @@ app.get('/GetLabEntry', async (req, res) => {
         })
     })
 })
+
+// call to init a sso login with redirect binding
+app.get('/sso/redirect', async (req, res) => {
+    // Should return string of redirect URL, is string parse is failing and is returning Object
+    // console.log(req.sp.createLoginRequest(req.idp, 'redirect'))
+
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    console.log("id: " + id)
+    console.log("Context returned: " + redirectUrl + "\n");
+    // print(res.redirect(redirectUrl))
+    return res.redirect(redirectUrl);
+});
+
+// receive the idp response
+app.post("/saml/acs", async (req, res) => {
+    console.log("HEere")
+    await req.sp.parseLoginResponse(req.idp, 'post', req)
+    .then(parseResult => {
+      // Use the parseResult can do customized action
+        console.log("IAMHERE")
+        console.log(parseResult)
+        console.log(res)
+    })
+    .catch(console.error);
+  });
 
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
