@@ -3,7 +3,7 @@ import EntryPrompt from "./entryprompt";
 const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required }) => {
     const enforceConstraints = (min, max, entry) => {
         const allowEmptyAndNegative = entry === "" || (entry === "-" && min < 0);
-        const enforceMinAndMax = (!isNaN(min) && !isNaN(max)) || (entry >= Number(min) && entry <= Number(max));
+        const enforceMinAndMax = (!isNaN(min) && !isNaN(max)) && (entry >= Number(min) && entry <= Number(max));
         return enforceMinAndMax && !isNaN(entry) || allowEmptyAndNegative;
     };
 
