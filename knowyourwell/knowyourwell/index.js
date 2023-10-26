@@ -22,7 +22,7 @@ app.use(assignEntity);
 
 const config = {
     user: "kywAdmin",
-    password: "process.env.APPSETTING_MSSQL_PASSWORD";
+    password: "process.env.APPSETTING_MSSQL_PASSWORD",
     database: "kyw",
     server: 'kyw.database.windows.net',
     pool: {
@@ -124,8 +124,7 @@ app.post('/createclasslab', (req, res) => {
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblClassroomLab(cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(@ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @observations, @name, @dateentered)'
-            +'UPDATE dbo.tblFieldActivity SET classlab_id = SCOPE_IDENTITY() WHERE fieldactivity_id = @fa_id;', function (err, recordset) {
+            .query('INSERT INTO dbo.tblClassroomLab(fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(@fa_id, @ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @observations, @name, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -288,7 +287,7 @@ app.get('/FieldList', async (req, res) => {
 
         const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
-        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, classlab_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id'+secondFilter+');', function (err, recordset) {
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id'+secondFilter+');', function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(500).send('Query does not execute.')
