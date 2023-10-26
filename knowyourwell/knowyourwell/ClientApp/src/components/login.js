@@ -15,24 +15,24 @@ export default function Login() {
 
     return (
         <form id="style-login-signup-form">
-            <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>Login</h3>
+            <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>Login Using NebraskaCloud</h3>
             <div className="mb-3">
-                <label >Email address</label>
+                {/* <label >Email address</label>
                 <input id="resize"
                     type="email"
                     className="form-control"
                     placeholder="Enter email"
-                />
+                /> */}
             </div>
             <div className="mb-3">
-                <label>Password</label>
+                {/* <label>Password</label>
                 <input
                     type="password"
                     className="form-control"
                     placeholder="Enter password"
-                />
+                /> */}
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
                 <div className="custom-control custom-checkbox">
                     <input
                         type="checkbox"
@@ -43,7 +43,7 @@ export default function Login() {
                         Remember me
                     </label>
                 </div>
-            </div>
+            </div> */}
             <div className="d-grid" >
                 <a href="/Well" className="btn btn-primary" onClick={initRedirectRequest}>Login</a>
                 <p></p>

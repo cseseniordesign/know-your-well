@@ -82,21 +82,42 @@ export default function Well() {
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <h2><strong>Wells</strong></h2>
                     </div>
-                    <div style={{ position: 'absolute', top: '10px', right: '200px', boxSizing: 'border-box'}}>
-                        <button onClick={() => setSortDropdownVisibility(!isSortDropdownVisible)} className="btn btn-primary">Filter Wells</button>
+                    
+                    <div style={{ position: 'absolute', top: '10px', right: '50px', display: 'flex' }}>
+                
+                    <div>
+                        <button onClick={() => setSortDropdownVisibility(!isSortDropdownVisible)} className="btn btn-primary">Sort Wells</button>
                         {isSortDropdownVisible && (
-                                <div style={{
-                                    border: '1px solid #ccc',
-                                    marginTop: '10px',
-                                    width: '130px',
-                                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
-                                }}>
-                                    <button onClick = {setFilter("filter1")} className="dropdown-item">Filter Option 1</button>
-                                    <button onClick = {setFilter("filter2")} className="dropdown-item">Filter Option 1</button>
-                                    <button onClick = {setFilter("filter3")} className="dropdown-item">Filter Option 1</button>
-                                </div>
-                            )}
+                            <div style={{
+                                border: '1px solid #ccc',
+                                marginTop: '10px',
+                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+                                boxSizing: 'border-box'
+                            }}>
+                                <button onClick={() => setSort("undefined")} style = {{backgroundColor: sort === "undefined" ? 'yellow' : 'transparent'}} className="dropdown-item">Clear Sort</button>
+                                <button onClick={() => setSort("TRIM(wi_wellname)")} style = {{backgroundColor: sort === "TRIM(wi_wellname)" ? 'yellow' : 'transparent'}} className="dropdown-item">Alphabetically</button>
+                                <button onClick={() => setSort("well_id")} style = {{backgroundColor: sort === "well_id" ? 'yellow' : 'transparent'}} className="dropdown-item">well_id</button>
+                            </div>
+                        )}
                     </div>
+                    
+                    <div style={{ marginLeft: '20px' }}> {/* This marginLeft gives some space between the two components */}
+                        <button onClick={() => setFilterDropdownVisibility(!isFilterDropdownVisible)} className="btn btn-primary">Filter Wells</button>
+                        {isFilterDropdownVisible && (
+                            <div style={{
+                                border: '1px solid #ccc',
+                                marginTop: '10px',
+                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+                                boxSizing: 'border-box'
+                            }}>
+                                <button onClick={() => setFilter("undefined")} style = {{backgroundColor: filter === "undefined" ? 'yellow' : 'transparent'}} className="dropdown-item">Clear Filter</button>
+                                <button onClick={() => setFilter("wi_topography = 'HillSlope'")} style = {{backgroundColor: filter === "wi_topography = 'HillSlope'" ? 'yellow' : 'transparent'}} className="dropdown-item">HillSlope</button>
+                                <button onClick={() => setFilter("wi_topography = 'LevelLand'")} style = {{backgroundColor: filter === "wi_topography = 'LevelLand'" ? 'yellow' : 'transparent'}} className="dropdown-item">LevelLand</button>
+                            </div>
+                        )}
+                    </div>
+        
+                </div>
         
                     <List.Item key={-1}>
                         <List.Content>
@@ -119,35 +140,41 @@ export default function Well() {
                 <h2><strong>Wells</strong></h2>
             </div>
             
-            <div style={{ position: 'absolute', top: '10px', right: '260px'}}>
-            <button onClick={() => setSortDropdownVisibility(!isSortDropdownVisible)} className="btn btn-primary">Sort Wells</button>
-            {isSortDropdownVisible && (
+            <div style={{ position: 'absolute', top: '10px', right: '50px', display: 'flex' }}>
+        
+            <div>
+                <button onClick={() => setSortDropdownVisibility(!isSortDropdownVisible)} className="btn btn-primary">Sort Wells</button>
+                {isSortDropdownVisible && (
                     <div style={{
                         border: '1px solid #ccc',
                         marginTop: '10px',
                         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
                         boxSizing: 'border-box'
                     }}>
+                        <button onClick={() => setSort("undefined")} style = {{backgroundColor: sort === "undefined" ? 'yellow' : 'transparent'}} className="dropdown-item">Clear Sort</button>
                         <button onClick={() => setSort("TRIM(wi_wellname)")} style = {{backgroundColor: sort === "TRIM(wi_wellname)" ? 'yellow' : 'transparent'}} className="dropdown-item">Alphabetically</button>
                         <button onClick={() => setSort("well_id")} style = {{backgroundColor: sort === "well_id" ? 'yellow' : 'transparent'}} className="dropdown-item">well_id</button>
                     </div>
                 )}
             </div>
-            <div style={{ position: 'absolute', top: '10px', right: '140px'}}>
-            <button onClick={() => setFilterDropdownVisibility(!isFilterDropdownVisible)} className="btn btn-primary">Filter Wells</button>
-            {isFilterDropdownVisible && (
+            
+            <div style={{ marginLeft: '20px' }}> {/* This marginLeft gives some space between the two components */}
+                <button onClick={() => setFilterDropdownVisibility(!isFilterDropdownVisible)} className="btn btn-primary">Filter Wells</button>
+                {isFilterDropdownVisible && (
                     <div style={{
                         border: '1px solid #ccc',
                         marginTop: '10px',
                         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
                         boxSizing: 'border-box'
                     }}>
-                        <button onClick={() => setFilter("undefined")} style = {{backgroundColor: filter === "undefined" ? 'yellow' : 'transparent'}} className="dropdown-item">Clear</button>
+                        <button onClick={() => setFilter("undefined")} style = {{backgroundColor: filter === "undefined" ? 'yellow' : 'transparent'}} className="dropdown-item">Clear Filter</button>
                         <button onClick={() => setFilter("wi_topography = 'HillSlope'")} style = {{backgroundColor: filter === "wi_topography = 'HillSlope'" ? 'yellow' : 'transparent'}} className="dropdown-item">HillSlope</button>
                         <button onClick={() => setFilter("wi_topography = 'LevelLand'")} style = {{backgroundColor: filter === "wi_topography = 'LevelLand'" ? 'yellow' : 'transparent'}} className="dropdown-item">LevelLand</button>
                     </div>
                 )}
-            </div> 
+            </div>
+
+        </div>
 
             <List.Item key={-1}>
                 <List.Content>
