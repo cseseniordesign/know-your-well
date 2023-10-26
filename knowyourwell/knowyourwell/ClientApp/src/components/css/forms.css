@@ -57,6 +57,10 @@ input:invalid {
     border-color: red;
 }
 
+input:required {
+    border-color: red;
+}
+
 textarea:invalid {
     border-color: red;
 }
