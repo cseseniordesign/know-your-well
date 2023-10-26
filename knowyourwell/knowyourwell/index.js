@@ -1,7 +1,4 @@
-﻿const assignEntity = require('./middleware/saml.js');
-const { Constants } = require('samlify');
-
-const express = require("express");
+﻿const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -17,8 +14,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
-
-app.use(assignEntity);
 
 const config = {
     user: "kywAdmin",
@@ -385,31 +380,6 @@ app.get('/GetLabEntry', async (req, res) => {
         })
     })
 })
-
-// call to init a sso login with redirect binding
-app.get('/sso/redirect', async (req, res) => {
-    // Should return string of redirect URL, is string parse is failing and is returning Object
-    // console.log(req.sp.createLoginRequest(req.idp, 'redirect'))
-
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
-    console.log("id: " + id)
-    console.log("Context returned: " + redirectUrl + "\n");
-    // print(res.redirect(redirectUrl))
-    return res.redirect(redirectUrl);
-});
-
-// receive the idp response
-app.post("/saml/acs", async (req, res) => {
-    console.log("HEere")
-    await req.sp.parseLoginResponse(req.idp, 'post', req)
-    .then(parseResult => {
-      // Use the parseResult can do customized action
-        console.log("IAMHERE")
-        console.log(parseResult)
-        console.log(res)
-    })
-    .catch(console.error);
-  });
 
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
