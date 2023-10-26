@@ -205,19 +205,27 @@ app.post('/createwellinfo', (req, res) => {
     })
 });
 
-//credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
-    // console.log("hit")
-    appPool.query('SELECT * FROM dbo.tblWellInfo;', function (err, recordset) {
+    let query = 'SELECT * FROM dbo.tblWellInfo';
+
+    if (req.query.filterBy && req.query.filterBy != "undefined") {
+        query = query + ` WHERE ${req.query.filterBy}`
+    }
+
+    if (req.query.sortBy) {
+        query = query + ` ORDER BY ${req.query.sortBy}`
+    }
+
+    appPool.query(query, function (err, recordset) {
         if (err) {
             console.log(err)
             res.status(500).send('SERVER ERROR')
-            return
+            return;
         }
-        // console.log(recordset)
-        res.status(200).json({ Wells: recordset.recordset })
-    })
-})
+        res.status(200).json({ Wells: recordset.recordset });
+    });
+});
+
 
 app.get('/GetWellInfo', async (req, res) => {
     const transaction = appPool.transaction();
