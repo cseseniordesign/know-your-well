@@ -5,6 +5,9 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom'
+import NumberEntry from './numberentry';
+import DropDownEntry from './dropdownentry';
+import FormFooter from './formfooter';
   
 
 export default function ClassLab() {
@@ -42,6 +45,7 @@ export default function ClassLab() {
     const [manganese, setManganese] = useState(pullCachedData ? cachedData.Manganese : "");
     const [nitrate, setNitrate] = useState(pullCachedData ? cachedData.Nitrate : "");
     const [bacteria, setBacteria] = useState(pullCachedData ? cachedData.Bacteria : "");
+    const [wslSample, setSample] = useState(pullCachedData ? cachedData.Datacollector : "");
     const [name, setName] = useState(pullCachedData ? cachedData.Datacollector : "");
     const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
     const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
@@ -57,6 +61,7 @@ export default function ClassLab() {
         setManganese(sessionContinued ? cachedData.Manganese : "");
         setNitrate(sessionContinued ? cachedData.Nitrate : "");
         setBacteria(sessionContinued ? cachedData.Bacteria : "");
+        setSample(sessionContinued ? cachedData.Observations : "");
         setObservations(sessionContinued ? cachedData.Observations : "");
         setName(sessionContinued ? cachedData.Datacollector : "");
         setObservations(sessionContinued ? cachedData.Observations : "");
@@ -80,6 +85,7 @@ export default function ClassLab() {
             iron: iron,
             manganese: manganese,
             nitrate: nitrate,
+            wslSample : wslSample,
             observations: observations,
             datacollector: name,
             dateentered: dateentered,
@@ -113,6 +119,7 @@ export default function ClassLab() {
                 Iron: iron,
                 Manganese: manganese,
                 Nitrate: nitrate,
+                SampleID: wslSample,
                 Observations: observations,
                 Datacollector: name,
                 Dateentered: dateentered,
@@ -156,43 +163,16 @@ export default function ClassLab() {
     return (
         <form id="submissionAlert">             
             <h2>{wellName}: Class Lab</h2>
-            <div className="requiredField">
-                <br></br>
-                * = Required Field
-            </div>
-            <div className="css">
-                <label htmlFor="ammonia">
-                    Ammonia - N<br /> [0-10 ppm(mg/L)]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={ammonia} className="textarea resize-ta" id="ammonia" name="ammonia" pattern="[0-9]([.][0-9]*)?|10" required
-                    onChange={(event) => {
-                        setAmmonia(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="calcium">
-                    Calcium hardness <br /> [50-500 ppm(mg/L)]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={calcium} className="textarea resize-ta" id="calcium" name="calcium" pattern="[5-9][0-9]([.][0-9]*)?|[1-4][0-9]{2}([.][0-9]*)?|500" required
-                    onChange={(event) => {
-                        setCalcium(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="chloride">
-                    Chloride <br /> [0-400 ppm(mg/L)]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={chloride} className="textarea resize-ta" id="chloride" name="chloride" pattern="[1-3]?[0-9]{1,2}([.][0-9]*)?|400" required
-                    onChange={(event) => {
-                        setChloride(event.target.value);
-                    }}
-                />
-            </div>
+            <NumberEntry id="ammonia" fieldTitle="Ammonia - N" metric={ammonia} min="0" max="10" label="ppm(mg/L)" setValue={setAmmonia} />
+            <NumberEntry id="calcium" fieldTitle="Calcium hardness" metric={calcium} min="50" max="500" label="ppm(mg/L)" setValue={setCalcium} />
+            <NumberEntry id="chloride" fieldTitle="Chloride" metric={chloride} min="0" max="400" label="ppm(mg/L)" setValue={setChloride} />
+            <DropDownEntry
+                fieldTitle="Bacteria (Colilert)"
+                id="bacteria"
+                options={["Clear", "Yellow with fluorescent rim", "Yellow without fluorescent rim"]}
+                value={bacteria}
+                onChange={handleChange_Bacteria}
+            />
             <div className="css">
                 <label htmlFor="bacteria">
                     Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
@@ -209,47 +189,19 @@ export default function ClassLab() {
                     </div>
                 </div>
             </div>
+            <NumberEntry fieldTitle="Copper" metric={copper} min="0" max="10" label="ppm(mg/L)" setValue={setCopper} />
+            <NumberEntry fieldTitle="Iron" metric={iron} min="0" max="10" label="ppm(mg/L)" setValue={setIron} />
+            <NumberEntry fieldTitle="Mangenese" metric={manganese} min="0" max="50" label="ppm(mg/L)" setValue={setManganese} />
+            <NumberEntry fieldTitle="Nitrate" metric={nitrate} min="0" max="45" label="ppm(mg/L)" setValue={setNitrate} />
+
             <div className="css">
-                <label htmlFor="copper">
-                    Copper <br /> [0-10 ppm(mg/L)]
+                <label htmlFor="wslSample">
+                    WSL Sample ID:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <input type="text" value={copper} className="textarea resize-ta" id="copper" name="copper" pattern="[0-9]([.][0-9]*|10)?" required
+                <input type="text" value={wslSample} className="textarea resize-ta" id="wslSample" name="wslSample" required
                     onChange={(event) => {
-                        setCopper(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="iron">
-                    Iron<br /> [0-10 ppm(mg/L)]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={iron} className="textarea resize-ta" id="iron" name="iron" pattern="[0-9]([.][0-9]*|10)?" required
-                    onChange={(event) => {
-                        setIron(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="manganese">
-                    Manganese<br /> [0-50 ppm(mg/L)]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={manganese } className="textarea resize-ta" id="manganese" name="manganese" pattern="[0-9]([.][0-9]*)?|[1-4][0-9]([.][0-9]*)?|50" required
-                    onChange={(event) => {
-                        setManganese(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="nitrate">
-                    Nitrate - N<br /> [0-45 ppm(mg/L)]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={nitrate } className="textarea resize-ta" id="nitrate" name="nitrate" pattern="[0-9]([.][0-9]*)?|[1-3][0-9]([.][0-9]*)?|4[0-4]([.][0-9]*)?|45" required
-                    onChange={(event) => {
-                        setNitrate(event.target.value);
+                        setSample(event.target.value);
                     }}
                 />
             </div>
@@ -296,10 +248,7 @@ export default function ClassLab() {
                 </div>
             </div>
             <br/>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheLabForm}>Save</button>
-            
+            <FormFooter submitForm={submitForm} backButton={backButton} cacheForm={cacheLabForm}/>
         </form>
     );
 }
