@@ -5,6 +5,7 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
+import NumberEntry from './numberentry';
 
 
 export default function WellInfo() {
@@ -17,6 +18,10 @@ export default function WellInfo() {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [zipcode, setZipcode] = useState("");
+    const [phone, setPhone] = useState("");
+    const [isValidPhone, setIsValidPhone] = useState(true);
+    const [email, setEmail] = useState("");
+    const [isValidEmail, setIsValidEmail] = useState(true);
     const [phone, setPhone] = useState("");
     const [isValidPhone, setIsValidPhone] = useState(true);
     const [email, setEmail] = useState("");
@@ -104,7 +109,7 @@ export default function WellInfo() {
         setWelltype(event.target.value);
     };    
     function checkDepthValidation(well_waterleveldepth, totaldepth) {
-                let tempwater_depth = parseFloat(well_waterleveldepth);
+        let tempwater_depth = parseFloat(well_waterleveldepth);
         let temptotaldepth = parseFloat(totaldepth);
         if(tempwater_depth <= temptotaldepth) {
             return true;
@@ -668,7 +673,7 @@ export default function WellInfo() {
                 <label for="totaldepth">
                     Total depth of well (feet):
                 </label>
-                <input type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?"
+                <input type="text" className="textarea resize-ta" id="totaldepth" name="totaldepth" pattern="[0-9]+([.][0-9]{1,5})?" value={totaldepth}
                     onChange={(event) => {
                         setTotaldepth(event.target.value);
                         if(event.target.value === "") {
