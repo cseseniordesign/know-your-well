@@ -226,7 +226,7 @@ app.get('/Wells', async (req, res) => {
         query = query + ` WHERE ${req.query.filterBy}`
     }
 
-    if (req.query.sortBy) {
+    if (req.query.sortBy && req.query.sortBy != "undefined") {
         query = query + ` ORDER BY ${req.query.sortBy}`
     }
 
