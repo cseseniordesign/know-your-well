@@ -23,6 +23,8 @@ const keyList = [
     "wi_aquifertype", "wi_aquiferclass", "wi_welltype", "wi_wellcasematerial", "wi_observation", "wi_dateentered"
 ];
 
+const countyNames = ["Adams", "Antelope", "Arthur", "Banner", "Blaine", "Boone", "BoxButte", "Boyd", "Brown", "Buffalo", "Burt", "Butler", "Cass", "Cedar", "Chase", "Cherry", "Cheyenne", "Clay", "Colfax", "Cuming", "Custer", "Dakota", "Dawes", "Dawson", "Deuel", "Dixon", "Dodge", "Douglas", "Dundy", "Fillmore", "Franklin", "Frontier", "Furnas", "Gage", "Garden", "Garfield", "Gosper", "Grant", "Greeley", "Hall", "Hamilton", "Harlan", "Hayes", "Hitchcock", "Holt", "Hooker", "Howard", "Jefferson", "Johnson", "Kearney", "Keith", "KeyaPaha", "Kimball", "Knox", "Lancaster", "Lincoln", "Logan", "Loup", "McPherson", "Madison", "Merrick", "Morrill", "Nance", "Nemaha", "Nuckolls", "Otoe", "Pawnee", "Perkins", "Phelps", "Pierce", "Platte", "Polk", "RedWillow", "Richardson", "Rock", "Saline", "Sarpy", "Saunders", "ScottsBluff", "Seward", "Sheridan", "Sherman", "Sioux", "Stanton", "Thayer", "Thomas", "Thurston", "Valley", "Washington", "Wayne", "Webster", "Wheeler", "York"]
+
 export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
@@ -66,6 +68,7 @@ export default function ViewWell() {
         for (let i = 0; i < labelList.length; i += 2) {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
+            
             if (firstColumnName === "Date Entered:")
                 firstColumnValue = moment(firstColumnValue).format("MMMM DD, YYYY")
             let secondColumnValue = ""
@@ -73,6 +76,9 @@ export default function ViewWell() {
             if (i < labelList.length + 2) {
                 secondColumnName = labelList[i + 1]
                 secondColumnValue = formElements[keyList[i+1]]
+            }
+            if (secondColumnName === "County:") {
+                secondColumnValue = countyNames[formElements[keyList[i+1]]-1]
             }
             columnList.push(
                 <div class="row">
