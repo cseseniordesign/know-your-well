@@ -3,9 +3,24 @@ import EntryPrompt from "./entryprompt";
 const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required }) => {
     const enforceConstraints = (min, max, entry) => {
         const allowEmptyAndNegative = entry === "" || (entry === "-" && min < 0);
+        entry = parseFloat(entry);
+        if(allowEmptyAndNegative || (min > 0 && entry < min) || (max < 0 && entry > max)){
+            return true;
+        }
         const enforceMinAndMax = (!isNaN(min) && !isNaN(max)) && (entry >= Number(min) && entry <= Number(max));
-        return enforceMinAndMax && !isNaN(entry) || allowEmptyAndNegative;
+        return enforceMinAndMax && !isNaN(entry);
     };
+
+    const clearIfInvalid = (min, max, entry) => {
+        const hasConstraints = !isNaN(min) && !isNaN(max);
+        entry = parseFloat(entry);
+        const tooSmall = entry < min;
+        const tooBig = entry > max;
+        const outsideOfRange = (tooSmall && !tooBig) || (!tooSmall && tooBig);
+        if(hasConstraints && outsideOfRange){
+            setValue("");
+        }
+    }
 
     const returnLabel = (min, max, label) => {
         if (min && max && label) {
@@ -24,11 +39,20 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
                 <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} />
                 {returnLabel(min, max, label)}
             </label>
-            <input type="text" value={metric} className="textarea resize-ta" id={fieldTitle} name={fieldTitle} required={required}
+            <input
+                type="text"
+                value={metric}
+                className="textarea resize-ta"
+                id={id}
+                name={fieldTitle}
+                required={required}
                 onChange={(event) => {
                     if (enforceConstraints(min, max, event.target.value)) {
                         setValue(event.target.value);
                     }
+                }}
+                onBlur={(event) => {
+                    clearIfInvalid(min, max, event.target.value)
                 }}
             />
         </div>

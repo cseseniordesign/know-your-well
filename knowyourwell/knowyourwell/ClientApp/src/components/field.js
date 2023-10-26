@@ -244,7 +244,7 @@ export default function Field() {
                 id="pooling"
                 options={["Yes", "No"]}
                 value={fieldData.pooling}
-                onChange={(event) => updateFieldData('pooling', event)}
+                onChange={(event) => handleDropdownChange('pooling', event)}
                 required={true}
             />
             <NumberEntry
