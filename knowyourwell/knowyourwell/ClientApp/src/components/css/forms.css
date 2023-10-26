@@ -61,6 +61,10 @@ input:required {
     border-color: red;
 }
 
+input:valid {
+    border-color: black;
+}
+
 textarea:invalid {
     border-color: red;
 }
