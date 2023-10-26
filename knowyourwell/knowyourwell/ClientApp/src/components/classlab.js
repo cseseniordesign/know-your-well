@@ -47,6 +47,7 @@ export default function ClassLab() {
     const [manganese, setManganese] = useState(pullCachedData ? cachedData.Manganese : "");
     const [nitrate, setNitrate] = useState(pullCachedData ? cachedData.Nitrate : "");
     const [bacteria, setBacteria] = useState(pullCachedData ? cachedData.Bacteria : "");
+    const [wslSample, setSample] = useState(pullCachedData ? cachedData.Datacollector : "");
     const [name, setName] = useState(pullCachedData ? cachedData.Datacollector : "");
     const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
     const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
@@ -62,6 +63,7 @@ export default function ClassLab() {
         setManganese(sessionContinued ? cachedData.Manganese : "");
         setNitrate(sessionContinued ? cachedData.Nitrate : "");
         setBacteria(sessionContinued ? cachedData.Bacteria : "");
+        setSample(sessionContinued ? cachedData.Observations : "");
         setObservations(sessionContinued ? cachedData.Observations : "");
         setName(sessionContinued ? cachedData.Datacollector : "");
         setObservations(sessionContinued ? cachedData.Observations : "");
@@ -85,6 +87,7 @@ export default function ClassLab() {
             iron: iron,
             manganese: manganese,
             nitrate: nitrate,
+            wslSample : wslSample,
             observations: observations,
             datacollector: name,
             dateentered: dateentered,
@@ -118,6 +121,7 @@ export default function ClassLab() {
                 Iron: iron,
                 Manganese: manganese,
                 Nitrate: nitrate,
+                SampleID: wslSample,
                 Observations: observations,
                 Datacollector: name,
                 Dateentered: dateentered,
@@ -244,7 +248,17 @@ export default function ClassLab() {
                 label="ppm(mg/L)"
                 setValue={setNitrate}
                 required={true} />
-
+<div className="css">
+                <label htmlFor="wslSample">
+                    WSL Sample ID:
+                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
+                </label>
+                <input type="text" value={wslSample} className="textarea resize-ta" id="wslSample" name="wslSample" required
+                    onChange={(event) => {
+                        setSample(event.target.value);
+                    }}
+                />
+            </div>
             <ShortTextEntry
                 fieldTitle="Data Collector's Name:"
                 value={name}
