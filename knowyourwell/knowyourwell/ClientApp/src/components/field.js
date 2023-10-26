@@ -60,7 +60,7 @@ export default function Field() {
         setFieldData(sessionContinued ? cachedData : initialFieldData)
     }, [sessionContinued]);
 
-    function updateFieldData(fieldName, value, event) {
+    function updateFieldData(fieldName, value) {
         setFieldData((prevData) => ({
             ...prevData,
             [fieldName]: value,
