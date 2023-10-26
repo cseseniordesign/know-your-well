@@ -119,12 +119,13 @@ app.post('/createclasslab', (req, res) => {
         request.input('iron', sql.Decimal(8, 2), req.body.iron);
         request.input('manganese', sql.Decimal(8, 2), req.body.manganese);
         request.input('nitrate', sql.Decimal(8, 2), req.body.nitrate);
+        request.input('wslSample', sql.NVarChar, req.body.wslSample);
         request.input('name', sql.NVarChar, req.body.datacollector);
         request.input('observations', sql.NVarChar, req.body.observations);
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblClassroomLab(fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(@fa_id, @ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @observations, @name, @dateentered)', function (err, recordset) {
+            .query('INSERT INTO dbo.tblClassroomLab(fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_wsl_sample_id, cl_datacollector, cl_datecollected) VALUES(@fa_id, @ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @observations, @wslSample, @name, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -285,9 +286,9 @@ app.get('/FieldList', async (req, res) => {
             rolledBack = true
         })
 
-        const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
+        //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
-        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id'+secondFilter+');', function (err, recordset) {
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(500).send('Query does not execute.')
