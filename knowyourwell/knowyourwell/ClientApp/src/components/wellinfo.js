@@ -22,10 +22,6 @@ export default function WellInfo() {
     const [isValidPhone, setIsValidPhone] = useState(true);
     const [email, setEmail] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(true);
-    const [phone, setPhone] = useState("");
-    const [isValidPhone, setIsValidPhone] = useState(true);
-    const [email, setEmail] = useState("");
-    const [isValidEmail, setIsValidEmail] = useState(true);
     const [wellowner, setWellowner] = useState("");
     const [installyear, setInstallyear] = useState("");
     const [numberwelluser, setNumberwelluser] = useState(0);
