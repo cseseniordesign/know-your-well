@@ -12,6 +12,7 @@ import NumberEntry from './numberentry';
 import ShortTextEntry from './shorttextentry';
 import DropDownEntry from './dropdownentry';
 import LongTextEntry from './longtextentry';
+import FormFooter from './formfooter';
 
 
 export default function WellInfo() {
@@ -231,7 +232,7 @@ export default function WellInfo() {
                 </label>
                 <div id="installyear">
                     <DatePicker
-                        value={installyear}
+                        value={wellInfo.installyear}
                         dateFormat="YYYY"
                         timeFormat=""
                         onChange={(value) => updateWellInfo('installyear', value)}
@@ -297,7 +298,7 @@ export default function WellInfo() {
                 fieldTitle="How many people use this well?"
                 metric={wellInfo.numberwelluser}
                 id="numberwelluser"
-                setValue={(value) => updateFieldData('numberwelluser', value)}
+                setValue={(value) => updateWellInfo('numberwelluser', value)}
                 required={true}
             />
             <DropDownEntry
@@ -314,7 +315,7 @@ export default function WellInfo() {
                 min="40"
                 max="43"
                 id="estlatitude"
-                setValue={(value) => updateFieldData('estlatitude', value)}
+                setValue={(value) => updateWellInfo('estlatitude', value)}
                 required={true}
             />
             <NumberEntry
@@ -323,21 +324,21 @@ export default function WellInfo() {
                 min="-104"
                 max="-95.417"
                 id="estlongitude"
-                setValue={(value) => updateFieldData('estlongitude', value)}
+                setValue={(value) => updateWellInfo('estlongitude', value)}
                 required={true}
             />
             <NumberEntry
                 fieldTitle="Bore hole diameter (inches):"
                 metric={wellInfo.boreholediameter}
                 id="boreholediameter"
-                setValue={(value) => updateFieldData('boreholediameter', value)}
+                setValue={(value) => updateWellInfo('boreholediameter', value)}
                 required={false}
             />
             <NumberEntry
                 fieldTitle="Total depth of well (feet):"
                 metric={wellInfo.totaldepth}
                 id="totaldepth"
-                setValue={(value) => updateFieldData('totaldepth', value)}
+                setValue={(value) => updateWellInfo('totaldepth', value)}
                 required={false}
             />
             <DropDownEntry
@@ -352,7 +353,7 @@ export default function WellInfo() {
                 fieldTitle="Water level (feet):"
                 metric={wellInfo.wellwaterleveldepth}
                 id="wellwaterleveldepth"
-                setValue={(value) => updateFieldData('wellwaterleveldepth', value)}
+                setValue={(value) => updateWellInfo('wellwaterleveldepth', value)}
                 required={false}
             />
             <DropDownEntry
@@ -407,10 +408,10 @@ export default function WellInfo() {
                 </label>
                 <div id="dateentered">
                     <DatePicker
-                        value={dateentered}
+                        value={wellInfo.dateentered}
                         dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
-                        onChange={(val) => setDateentered(val)}
+                        onChange={(value) => updateWellInfo('dateentered', value)}
                         inputProps={{
                             style: {
                                 width: 300,
