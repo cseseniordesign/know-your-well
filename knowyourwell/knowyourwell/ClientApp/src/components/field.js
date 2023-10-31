@@ -93,7 +93,7 @@ export default function Field() {
 
     function addField() {
         Axios.post('/api/insert', {
-            well_id: fieldData.well_id,
+            well_id: well_id,
             fa_latitude: fieldData.fa_latitude,
             fa_longitude: fieldData.fa_longitude,
             fa_genlatitude: fa_genlatitude,
