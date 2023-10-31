@@ -27,18 +27,6 @@ catch (error) {
     console.error(error)
 }
 
-const db = mysql.createPool({
-    //user: "fnaif",
-    //host: "cse.unl.edu",
-    //password: "d5suMv1a",
-    //database: "fnaif",
-
-    user: "kywTeam@kyw",
-    host: "kyw.mysql.database.azure.com",
-    password: "NYWell2022",
-    database: "fnaif",
-});
-
 app.post('/api/insert', (req, res) => {
     const transaction = appPool.transaction();
     transaction.begin(err => {
@@ -301,31 +289,30 @@ app.get('/idp/metadata', (req, res) => {
 
             //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
-            request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
-                if (err) {
-                    console.log(err)
-                    res.status(500).send('Query does not execute.')
-                    if (!rolledBack) {
-                        transaction.rollback(err => {
-                            // ... error checks
-                        })
-                    }
-                } else {
-                    transaction.commit(err => {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send('500: Server Error.')
-                        }
-                        else {
-                            // console.log(recordset)
-                            res.status(200).json({ FieldList: recordset.recordset })
-                        }
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
                     })
                 }
-            })
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else {
+                        // console.log(recordset)
+                        res.status(200).json({ FieldList: recordset.recordset })
+                    }
+                })
+            }
         })
     })
-});
+})
 
 app.get('/GetFieldEntry', async (req, res) => {
     const transaction = appPool.transaction();
