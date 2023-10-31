@@ -17,9 +17,9 @@ app.use(express.static("wwwroot"));
 
 const config = {
     user: "kywAdmin",
-    password: process.env.APPSETTING_MSSQL_PASSWORD,
+    password: "KJ6vcCG2",
     database: "kyw",
-    server: 'kyw.database.windows.net',
+    server: 'localhost',
     pool: {
         max: 10,
         min: 0,
@@ -38,18 +38,6 @@ try {
 catch (error) {
     console.error(error)
 }
-
-const db = mysql.createPool({
-    //user: "fnaif",
-    //host: "cse.unl.edu",
-    //password: "d5suMv1a",
-    //database: "fnaif",
-
-    user: "kywTeam@kyw",
-    host: "kyw.mysql.database.azure.com",
-    password: "NYWell2022",
-    database: "fnaif",
-});
 
 app.post('/api/insert', (req, res) => {
     const transaction = appPool.transaction();
@@ -336,7 +324,7 @@ app.get('/FieldList', async (req, res) => {
             }
         })
     })
-})
+})})
 
 app.get('/GetFieldEntry', async (req, res) => {
     const transaction = appPool.transaction();
