@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
-import './css/forms.css' 
+import './css/forms.css'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
@@ -8,7 +8,9 @@ import { useSearchParams } from 'react-router-dom'
 import NumberEntry from './numberentry';
 import DropDownEntry from './dropdownentry';
 import FormFooter from './formfooter';
-  
+import ShortTextEntry from './shorttextentry';
+import LongTextEntry from './longtextentry';
+
 
 export default function ClassLab() {
 
@@ -68,7 +70,7 @@ export default function ClassLab() {
 
         setDateentered(sessionContinued ? cachedData.Dateentered : moment());
     }, [sessionContinued]);
- 
+
 
     const handleChange_Bacteria = (event) => {
         setBacteria(event.target.value);
@@ -89,7 +91,7 @@ export default function ClassLab() {
             observations: observations,
             datacollector: name,
             dateentered: dateentered,
-        } )
+        })
             .then(() => {
                 console.log("success");
             })
@@ -136,7 +138,7 @@ export default function ClassLab() {
 
     const validForm = () => {
         var form = document.getElementById("submissionAlert");
-        if (form.checkValidity() ) {
+        if (form.checkValidity()) {
             return true;
         }
         else {
@@ -146,7 +148,7 @@ export default function ClassLab() {
     }
 
     const backButton = () => {
-        if(window.confirm("Any unsaved data will be lost.\nWould you like to continue?")){
+        if (window.confirm("Any unsaved data will be lost.\nWould you like to continue?")) {
             window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
         }
     }
@@ -161,17 +163,42 @@ export default function ClassLab() {
     }
 
     return (
-        <form id="submissionAlert">             
+        <form id="submissionAlert">
             <h2>{wellName}: Class Lab</h2>
-            <NumberEntry id="ammonia" fieldTitle="Ammonia - N" metric={ammonia} min="0" max="10" label="ppm(mg/L)" setValue={setAmmonia} />
-            <NumberEntry id="calcium" fieldTitle="Calcium hardness" metric={calcium} min="50" max="500" label="ppm(mg/L)" setValue={setCalcium} />
-            <NumberEntry id="chloride" fieldTitle="Chloride" metric={chloride} min="0" max="400" label="ppm(mg/L)" setValue={setChloride} />
+            <NumberEntry
+                id="ammonia"
+                fieldTitle="Ammonia - N"
+                metric={ammonia}
+                min="0"
+                max="10"
+                label="ppm(mg/L)"
+                setValue={setAmmonia}
+                required={true} />
+            <NumberEntry
+                id="calcium"
+                fieldTitle="Calcium hardness"
+                metric={calcium}
+                min="50"
+                max="500"
+                label="ppm(mg/L)"
+                setValue={setCalcium}
+                required={true} />
+            <NumberEntry
+                id="chloride"
+                fieldTitle="Chloride"
+                metric={chloride}
+                min="0"
+                max="400"
+                label="ppm(mg/L)"
+                setValue={setChloride}
+                required={true} />
             <DropDownEntry
                 fieldTitle="Bacteria (Colilert)"
                 id="bacteria"
                 options={["Clear", "Yellow with fluorescent rim", "Yellow without fluorescent rim"]}
                 value={bacteria}
                 onChange={handleChange_Bacteria}
+                required={true}
             />
             <div className="css">
                 <label htmlFor="bacteria">
@@ -189,12 +216,39 @@ export default function ClassLab() {
                     </div>
                 </div>
             </div>
-            <NumberEntry fieldTitle="Copper" metric={copper} min="0" max="10" label="ppm(mg/L)" setValue={setCopper} />
-            <NumberEntry fieldTitle="Iron" metric={iron} min="0" max="10" label="ppm(mg/L)" setValue={setIron} />
-            <NumberEntry fieldTitle="Mangenese" metric={manganese} min="0" max="50" label="ppm(mg/L)" setValue={setManganese} />
-            <NumberEntry fieldTitle="Nitrate" metric={nitrate} min="0" max="45" label="ppm(mg/L)" setValue={setNitrate} />
-
-            <div className="css">
+            <NumberEntry
+                fieldTitle="Copper"
+                metric={copper}
+                min="0"
+                max="10"
+                label="ppm(mg/L)"
+                setValue={setCopper}
+                required={true} />
+            <NumberEntry
+                fieldTitle="Iron"
+                metric={iron}
+                min="0"
+                max="10"
+                label="ppm(mg/L)"
+                setValue={setIron}
+                required={true} />
+            <NumberEntry
+                fieldTitle="Mangenese"
+                metric={manganese}
+                min="0"
+                max="50"
+                label="ppm(mg/L)"
+                setValue={setManganese}
+                required={true} />
+            <NumberEntry
+                fieldTitle="Nitrate"
+                metric={nitrate}
+                min="0"
+                max="45"
+                label="ppm(mg/L)"
+                setValue={setNitrate}
+                required={true} />
+<div className="css">
                 <label htmlFor="wslSample">
                     WSL Sample ID:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
@@ -205,34 +259,27 @@ export default function ClassLab() {
                     }}
                 />
             </div>
-            <div className="css">
-                <label htmlFor="name">
-                    Data Collector’s Name:
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={name} className="textarea resize-ta" id="name" name="name" required
-                    onChange={(event) => {
-                        setName(event.target.value);
-                    }}
-                />
-            </div>
-            <div className="css">
-                <label htmlFor="observations">
-                    Observations
-                </label>
-                <textarea type="text" value={observations} className="textarea resize-ta" maxLength="150" id="observations" name="observations"
-                    onChange={(event) => {
-                        setObservations(event.target.value);
-                    }}
-                />
-            </div>
+            <ShortTextEntry
+                fieldTitle="Data Collector's Name:"
+                value={name}
+                id="name"
+                setValue={setName}
+                required={true}
+            />
+            <LongTextEntry
+                fieldTitle="Observations"
+                value={observations}
+                id="observations"
+                setValue={setObservations}
+                required={false}
+            />
             <div className="css">
                 <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
                 <div id="dateentered">
-                    <DatePicker 
+                    <DatePicker
                         value={dateentered}
                         dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
@@ -247,8 +294,8 @@ export default function ClassLab() {
                     /> {"  "}
                 </div>
             </div>
-            <br/>
-            <FormFooter submitForm={submitForm} backButton={backButton} cacheForm={cacheLabForm}/>
+            <br />
+            <FormFooter submitForm={submitForm} backButton={backButton} cacheForm={cacheLabForm} />
         </form>
     );
 }

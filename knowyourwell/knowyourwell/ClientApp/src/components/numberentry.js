@@ -27,9 +27,10 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
             return `[${min}-${max} ${label}]`;
         } else if (min && max && !label) {
             return `[${min}-${max}]`;
-        } else {
+        } else if (label) {
             return `[${label}]`
-        }
+        } 
+        return;
     };
 
     return (
