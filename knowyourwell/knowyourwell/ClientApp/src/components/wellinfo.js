@@ -38,8 +38,8 @@ export default function WellInfo() {
         smelltastedescription: "",
         state: "",
         topography: "",
-        totaldepth: "",
-        wellwaterleveldepth: "",
+        totaldepth: 0,
+        wellwaterleveldepth: 0,
         wellcasematerial: "",
         wellcode: "",
         welldry: "",
@@ -447,7 +447,7 @@ export default function WellInfo() {
                 if(wellInfo.wellwaterleveldepth > wellInfo.totaldepth) {
                     submitForm();
                 } else {
-                    updateWellInfo('waterleveldepth', "");
+                    updateWellInfo('waterleveldepth', 0);
                     window.alert("Well water depth CANNOT be greater than total well depth.");
                 }
             }
