@@ -15,21 +15,9 @@ app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
 
-const config = {
-    user: "kywAdmin",
-    password: process.env.APPSETTING_MSSQL_PASSWORD,
-    database: "kyw",
-    server: 'kyw.database.windows.net',
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    },
-    options: {
-        encrypt: true, // for azure
-        trustServerCertificate: true // change to true for local dev / self-signed certs
-    }
-}
+const fs = require('fs');
+const rawData = fs.readFileSync('config.json', 'utf8');
+const config = JSON.parse(rawData);
 
 const appPool = new sql.ConnectionPool(config)
 try {
@@ -299,44 +287,45 @@ app.get('/sso/redirect', async (req, res) => {
 
 app.get('/idp/metadata', (req, res) => {
     res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
-app.get('/FieldList', async (req, res) => {
-    const transaction = appPool.transaction();
-    transaction.begin(err => {
-        if (err)
-            console.error("Transaction Failed")
-        const request = appPool.request(transaction)
-        let rolledBack = false
+    app.get('/FieldList', async (req, res) => {
+        const transaction = appPool.transaction();
+        transaction.begin(err => {
+            if (err)
+                console.error("Transaction Failed")
+            const request = appPool.request(transaction)
+            let rolledBack = false
 
-        transaction.on('rollback', aborted => {
-            rolledBack = true
-        })
+            transaction.on('rollback', aborted => {
+                rolledBack = true
+            })
 
-        //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
+            //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
-        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
-            if (err) {
-                console.log(err)
-                res.status(500).send('Query does not execute.')
-                if (!rolledBack) {
-                    transaction.rollback(err => {
-                        // ... error checks
+            request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send('Query does not execute.')
+                    if (!rolledBack) {
+                        transaction.rollback(err => {
+                            // ... error checks
+                        })
+                    }
+                } else {
+                    transaction.commit(err => {
+                        if (err) {
+                            console.log(err)
+                            res.status(500).send('500: Server Error.')
+                        }
+                        else {
+                            // console.log(recordset)
+                            res.status(200).json({ FieldList: recordset.recordset })
+                        }
                     })
                 }
-            } else {
-                transaction.commit(err => {
-                    if (err) {
-                        console.log(err)
-                        res.status(500).send('500: Server Error.')
-                    }
-                    else {
-                        // console.log(recordset)
-                        res.status(200).json({ FieldList: recordset.recordset })
-                    }
-                })
-            }
+            })
         })
     })
-})
+});
 
 app.get('/GetFieldEntry', async (req, res) => {
     const transaction = appPool.transaction();
@@ -425,4 +414,3 @@ app.get("*", (req, res) => {
     console.log("hit")
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
-
