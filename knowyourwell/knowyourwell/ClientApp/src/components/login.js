@@ -14,9 +14,9 @@ export default function Login() {
     };
 
     return (
-        <div style={{textAlign: "center"}}>
-            <h3>Log in</h3>
-            <button onClick={initRedirectRequest}>Log in to Nebraska Cloud</button>
+        <div className="d-grid" >
+            <a href="/Well" className="btn btn-primary" >Log in to Nebraska Cloud</a>
+            <p></p>
         </div>
     )
 }

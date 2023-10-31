@@ -12,7 +12,6 @@ import NumberEntry from './numberentry';
 import ShortTextEntry from './shorttextentry';
 import DropDownEntry from './dropdownentry';
 import LongTextEntry from './longtextentry';
-import FormFooter from './formfooter';
 
 
 export default function WellInfo() {
@@ -24,6 +23,7 @@ export default function WellInfo() {
         city: "",
         datacollector: "",
         dateentered: moment().format('L, h:mm a'),
+        email: "",
         estlatitude: "",
         estlongitude: "",
         installyear: "",
@@ -32,6 +32,7 @@ export default function WellInfo() {
         numberwelluser: "",
         observation: "",
         pestmanure: "",
+        phone: "",
         school_id: "",
         smelltaste: "",
         smelltastedescription: "",
@@ -51,35 +52,8 @@ export default function WellInfo() {
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
-    /**
-    const wellcode = "abc123" // TODO
-    const [wellname, setWellname] = useState("");
-    //const [school_id, setSchool_id] = useState(0);
-    const school_id = 1; // todo
-    const [regisNum, setRegisNum] = useState("");
-    const [dnrWellId, setDnrWellId] = useState("");
-    const [welluser, setWelluser] = useState("");
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [zipcode, setZipcode] = useState("");
-    const [phone, setPhone] = useState("");
-    const [isValidPhone, setIsValidPhone] = useState(true);
-    const [email, setEmail] = useState("");
-    const [isValidEmail, setIsValidEmail] = useState(true);
-    const [wellowner, setWellowner] = useState("");
-    const [installyear, setInstallyear] = useState("");
-    const [numberwelluser, setNumberwelluser] = useState(0);
-    const [estlatitude, setEstlatitude] = useState(null);
-    const [estlongitude, setEstlongitude] = useState(null);
-    const [boreholediameter, setBoreholediameter] = useState(0);
-    const [wellcasematerial, setWellcasematerial] = useState("");
-    const [datacollector, setDatacollector] = useState("");
-    const [observation, setObservation] = useState("");
-    const [dateentered, setDateentered] = useState(moment().format('L, h:mm a'));
-    const [error, setError] = useState(0);
-    const [totaldepth, setTotaldepth] = useState(0);
-    const [well_waterleveldepth, setWell_waterleveldepth] = useState(0);
-*/
+    const [isValidEmail, setIsValidEmail] = useState();
+    const [isValidPhone, setIsValidPhone] = useState();
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -107,6 +81,7 @@ export default function WellInfo() {
             countyid: wellInfo.countyid,
             datacollector: wellInfo.datacollector,
             dateentered: wellInfo.dateentered,
+            email: wellInfo.email,
             estlatitude: wellInfo.estlatitude,
             estlongitude: wellInfo.estlongitude,
             installyear: JSON.stringify(wellInfo.installyear).substring(1, 5),
@@ -116,6 +91,7 @@ export default function WellInfo() {
             numberwelluser: wellInfo.numberwelluser,
             observation: wellInfo.observation,
             pestmanure: wellInfo.pestmanure,
+            phone: wellInfo.phone,
             school_id: wellInfo.school_id,
             smelltaste: wellInfo.smelltaste,
             smelltastedescription: wellInfo.smelltastedescription,
@@ -143,7 +119,7 @@ export default function WellInfo() {
         const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
     
         setIsValidPhone(phonePattern.test(phoneNumber));
-        setPhone(phoneNumber);
+        updateWellInfo('phone', phoneNumber);
     };
 
     const handleEmailChange = (event) => {
@@ -151,7 +127,7 @@ export default function WellInfo() {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         setIsValidEmail(emailPattern.test(emailValue));
-        setEmail(emailValue);
+        updateWellInfo('email', emailValue);
     };
 
     const validForm = () => {
@@ -321,18 +297,6 @@ export default function WellInfo() {
                     setValue={(value) => updateWellInfo('welldrydescription', value)}
                     required={false}
                 />)}
-            {welldry === "Maybe" && (
-                        <div className="css">
-                            <label for="welldry_description">
-                                If so, when?
-                            </label>
-                            <textarea type="text" id="welldry_description" name="welldry_description" className="textarea resize-ta" maxLength="150"
-                                onChange={(event) => {
-                                    setWelldry_description(event.target.value);
-                                }}
-                            />
-                        </div>
-                    )}
             <DropDownEntry
                 fieldTitle="Any maintenance done to the well itself within the last five years?"
                 id="maintenance5yr"
@@ -480,10 +444,10 @@ export default function WellInfo() {
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
             onClick={() => {
-                if(checkDepthValidation(well_waterleveldepth, totaldepth)) {
+                if(wellInfo.wellwaterleveldepth > wellInfo.totaldepth) {
                     submitForm();
                 } else {
-                    setWell_waterleveldepth("");
+                    updateWellInfo('waterleveldepth', "");
                     window.alert("Well water depth CANNOT be greater than total well depth.");
                 }
             }
