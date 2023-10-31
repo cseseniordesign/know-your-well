@@ -16,6 +16,7 @@ export default function Field() {
     const well_id = parseInt(searchParams.get("id"));
 
     const initialFieldData = {
+        well_id: well_id,
         fa_latitude: "",
         fa_longitude: "",
         conditions: "",
@@ -68,6 +69,9 @@ export default function Field() {
     }
 
     const handleDropdownChange = (fieldName, event) => {
+        if(fieldName === 'wellcover' && event.target.value === 'Intact') {
+            updateFieldData('wellcoverdescription', "");
+        }
         updateFieldData(fieldName, event.target.value);
     }
 

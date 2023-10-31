@@ -15,9 +15,21 @@ app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
 
-const fs = require('fs');
-const rawData = fs.readFileSync('config.json', 'utf8');
-const config = JSON.parse(rawData);
+const config = {
+    user: "kywAdmin",
+    password: process.env.APPSETTING_MSSQL_PASSWORD,
+    database: "kyw",
+    server: 'kyw.database.windows.net',
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    options: {
+        encrypt: true, // for azure
+        trustServerCertificate: true // change to true for local dev / self-signed certs
+    }
+}
 
 const appPool = new sql.ConnectionPool(config)
 try {
@@ -218,7 +230,6 @@ app.post('/createwellinfo', (req, res) => {
     })
 });
 
-//credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
 
@@ -375,6 +386,7 @@ app.get('/GetLabEntry', async (req, res) => {
         transaction.on('rollback', aborted => {
             rolledBack = true
         })
+
 
         request.input('classlab_id', sql.Int, req.query.classlab_id).query('SELECT * FROM dbo.tblClassRoomLab WHERE classlab_id = @classlab_id;', function (err, recordset) {
             if (err) {
