@@ -5,17 +5,18 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
-import NumberEntry from './numberentry';
-import DropDownEntry from './dropdownentry';
-import ShortTextEntry from './shorttextentry';
-import FormFooter from './formfooter';
-import LongTextEntry from './longtextentry';
+import NumberEntry from './reusable/numberentry';
+import DropDownEntry from './reusable/dropdownentry';
+import ShortTextEntry from './reusable/shorttextentry';
+import FormFooter from './reusable/formfooter';
+import LongTextEntry from './reusable/longtextentry';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
 
     const initialFieldData = {
+        well_id: well_id,
         fa_latitude: "",
         fa_longitude: "",
         conditions: "",
@@ -60,7 +61,7 @@ export default function Field() {
         setFieldData(sessionContinued ? cachedData : initialFieldData)
     }, [sessionContinued]);
 
-    function updateFieldData(fieldName, value, event) {
+    function updateFieldData(fieldName, value) {
         setFieldData((prevData) => ({
             ...prevData,
             [fieldName]: value,
@@ -68,6 +69,9 @@ export default function Field() {
     }
 
     const handleDropdownChange = (fieldName, event) => {
+        if(fieldName === 'wellcover' && event.target.value === 'Intact') {
+            updateFieldData('wellcoverdescription', "");
+        }
         updateFieldData(fieldName, event.target.value);
     }
 
@@ -93,7 +97,7 @@ export default function Field() {
 
     function addField() {
         Axios.post('/api/insert', {
-            well_id: fieldData.well_id,
+            well_id: well_id,
             fa_latitude: fieldData.fa_latitude,
             fa_longitude: fieldData.fa_longitude,
             fa_genlatitude: fa_genlatitude,
@@ -170,12 +174,13 @@ export default function Field() {
     }
 
     return (
-        <form id = "submissionAlert">  
-            <h2>{wellName}: New Field</h2>
+        <form id="submissionAlert">
+            <h2>{wellName}: Field</h2>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
             </div>
+
             <div>
                 {location || sessionContinued ? (
                     <div>
@@ -315,6 +320,11 @@ export default function Field() {
             </div>
             <br />
             <FormFooter submitForm={submitForm} backButton={backButton} cacheForm={cacheFieldForm} />
+            <br/>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
+        
         </form >
     );
 }

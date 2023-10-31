@@ -129,6 +129,7 @@ export default function Well() {
 
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
     useEffect(() => {
+
         const queryParams = {};
     
         if (filter) {
@@ -148,20 +149,20 @@ export default function Well() {
             setWells(responseDataToHTMLList(response.data.Wells));
             setLoading(false);
         });
-    }, [filter, sort]);
-    
-    if (isLoading) {
+        
         const wellCookie = localStorage.getItem("wellData");
-        if (wellCookie) {
+        if (wellCookie && !wellList) {
             try {
                 const wellData = JSON.parse(wellCookie)
-                console.log(wellData.Wells)
-                // setWells(responseDataToHTMLList(wellData.Wells));
+                setWells(responseDataToHTMLList(wellData.Wells));
             }
             catch (e) {
                 console.log("wellData is Invalid JSON")
             }
         }
+    }, [filter, sort]);
+    
+    if (isLoading) {
         if (wellList.length > 0) {
             return (
                 <List style={{ textAlign: 'center' }}>

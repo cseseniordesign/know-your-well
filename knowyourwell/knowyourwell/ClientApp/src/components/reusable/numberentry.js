@@ -8,7 +8,7 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
             return true;
         }
         const enforceMinAndMax = (!isNaN(min) && !isNaN(max)) && (entry >= Number(min) && entry <= Number(max));
-        return enforceMinAndMax && !isNaN(entry);
+        return (enforceMinAndMax && !isNaN(entry)) || isNaN(min) || isNaN(max);
     };
 
     const clearIfInvalid = (min, max, entry) => {
@@ -17,7 +17,7 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
         const tooSmall = entry < min;
         const tooBig = entry > max;
         const outsideOfRange = (tooSmall && !tooBig) || (!tooSmall && tooBig);
-        if(hasConstraints && outsideOfRange){
+        if(hasConstraints && outsideOfRange && !isNaN(miN) && !isNaN(max)){
             setValue("");
         }
     }
@@ -27,9 +27,10 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
             return `[${min}-${max} ${label}]`;
         } else if (min && max && !label) {
             return `[${min}-${max}]`;
-        } else {
+        } else if (label) {
             return `[${label}]`
-        }
+        } 
+        return;
     };
 
     return (
