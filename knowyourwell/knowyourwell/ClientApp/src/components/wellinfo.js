@@ -38,8 +38,8 @@ export default function WellInfo() {
         smelltastedescription: "",
         state: "",
         topography: "",
-        totaldepth: 0,
-        wellwaterleveldepth: 0,
+        totaldepth: "",
+        wellwaterleveldepth: "",
         wellcasematerial: "",
         wellcode: "",
         welldry: "",
@@ -444,7 +444,7 @@ export default function WellInfo() {
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
             onClick={() => {
-                if(wellInfo.wellwaterleveldepth > wellInfo.totaldepth) {
+                if(wellInfo.wellwaterleveldepth < wellInfo.totaldepth) {
                     submitForm();
                 } else {
                     updateWellInfo('waterleveldepth', 0);

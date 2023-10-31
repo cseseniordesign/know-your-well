@@ -17,7 +17,7 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
         const tooSmall = entry < min;
         const tooBig = entry > max;
         const outsideOfRange = (tooSmall && !tooBig) || (!tooSmall && tooBig);
-        if(hasConstraints && outsideOfRange && !isNaN(miN) && !isNaN(max)){
+        if(hasConstraints && outsideOfRange && !isNaN(min) && !isNaN(max)){
             setValue("");
         }
     }
