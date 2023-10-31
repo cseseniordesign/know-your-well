@@ -5,11 +5,11 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom'
-import NumberEntry from './numberentry';
-import DropDownEntry from './dropdownentry';
-import FormFooter from './formfooter';
-import ShortTextEntry from './shorttextentry';
-import LongTextEntry from './longtextentry';
+import NumberEntry from './reusable/numberentry';
+import DropDownEntry from './reusable/dropdownentry';
+import FormFooter from './reusable/formfooter';
+import ShortTextEntry from './reusable/shorttextentry';
+import LongTextEntry from './reusable/longtextentry';
 
 
 export default function ClassLab() {

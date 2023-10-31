@@ -1,17 +1,17 @@
-﻿﻿import React from 'react'
+﻿import React from 'react'
 import './css/forms.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
-import stateOptions from './states';
-import countyOptions from './counties';
-import nrdOptions from './nrds';
-import NumberEntry from './numberentry';
-import ShortTextEntry from './shorttextentry';
-import DropDownEntry from './dropdownentry';
-import LongTextEntry from './longtextentry';
+import stateOptions from './resources/states';
+import countyOptions from './resources/counties';
+import nrdOptions from './resources/nrds';
+import NumberEntry from './reusable/numberentry';
+import ShortTextEntry from './reusable/shorttextentry';
+import DropDownEntry from './reusable/dropdownentry';
+import LongTextEntry from './reusable/longtextentry';
 
 
 export default function WellInfo() {
@@ -58,7 +58,6 @@ export default function WellInfo() {
     const date = new Date();
     const futureDate = date.getDate();
     date.setDate(futureDate);
-    const defaultValue = date.toLocaleDateString('en-CA');
 
     function updateWellInfo(fieldName, value) {
         setWellInfo((prevData) => ({
@@ -124,7 +123,7 @@ export default function WellInfo() {
 
     const handleEmailChange = (event) => {
         const emailValue = event.target.value;
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailPattern = /\S+@\S+\.\S+/;
 
         setIsValidEmail(emailPattern.test(emailValue));
         updateWellInfo('email', emailValue);
@@ -158,6 +157,7 @@ export default function WellInfo() {
     return (
         <form action="/editwell" id="submissionAlert" >
             <h2>Well Info</h2>
+            <p>*=Required Field</p>
             <ShortTextEntry
                 fieldTitle="Well Name:"
                 value={wellInfo.wellname}
@@ -232,7 +232,7 @@ export default function WellInfo() {
                     onChange={handlePhoneChange}
                     title="Please enter a valid US phone number in the format XXX-XXX-XXXX."
                 />
-                {!isValidPhone && <p className="error-message">Invalid phone number format</p>}
+                {!isValidPhone && <p className="error-message">Please use XXX-XXX-XXXX</p>}
             </div>
             <div className="css">
                 <label for="email">
