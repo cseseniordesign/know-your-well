@@ -15,9 +15,21 @@ app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
 
-const fs = require('fs');
-const rawData = fs.readFileSync('config.json', 'utf8');
-const config = JSON.parse(rawData);
+const config = {
+    user: "kywAdmin",
+    password: process.env.APPSETTING_MSSQL_PASSWORD,
+    database: "kyw",
+    server: 'kyw.database.windows.net',
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    options: {
+        encrypt: true, // for azure
+        trustServerCertificate: false // change to true for local dev / self-signed certs
+    }
+}
 
 const appPool = new sql.ConnectionPool(config)
 try {
@@ -265,14 +277,6 @@ app.get('/GetWellInfo', async (req, res) => {
     })
 })
 
-// call to init a sso login with redirect binding
-app.get('/sso/redirect', async (req, res) => {
-    console.log("Server received redirect request");
-    const { id, context } = await req.sp.createLoginRequest(req.idp, 'redirect');
-    console.log("Context returned: " + context + "\n");
-    return res.redirect(context);
-});
-
 app.get('/idp/metadata', (req, res) => {
     res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
     app.get('/FieldList', async (req, res) => {
@@ -312,7 +316,7 @@ app.get('/idp/metadata', (req, res) => {
             }
         })
     })
-})
+})})
 
 app.get('/GetFieldEntry', async (req, res) => {
     const transaction = appPool.transaction();
