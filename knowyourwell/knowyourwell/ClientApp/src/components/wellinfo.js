@@ -244,27 +244,15 @@ export default function WellInfo() {
                 />
                 {!isValidEmail && <p className="error-message">Invalid email address format</p>}
             </div>
-            <div className="css">
-                <label for="installyear">
-                    Well construction completion year:
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <div id="installyear">
-                    <DatePicker
-                        value={wellInfo.installyear}
-                        dateFormat="YYYY"
-                        timeFormat=""
-                        onChange={(value) => updateWellInfo('installyear', value)}
-                        inputProps={{
-                            style: {
-                                width: 300,
-                                textAlign: 'center',
-                                border: '1px solid black'
-                            }
-                        }}
-                    /> {"  "}
-                </div>
-            </div>
+            <NumberEntry
+                fieldTitle="Well construction completion year:"
+                id="installyear"
+                metric={wellInfo.installyear} min="1800"
+                max={new Date().getFullYear()}
+                setValue={(value) => updateWellInfo('installyear', value)}
+                required={true}
+                allowDecimal={false}
+            />
             <DropDownEntry
                 fieldTitle="Any complaints about smell or taste of water?"
                 id="smelltaste"

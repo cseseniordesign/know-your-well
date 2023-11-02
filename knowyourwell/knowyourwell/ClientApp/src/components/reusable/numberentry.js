@@ -1,14 +1,17 @@
 import EntryPrompt from "./entryprompt";
 
-const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required }) => {
-    const enforceConstraints = (min, max, entry) => {
+const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required, allowDecimal }) => {
+    const enforceConstraints = (min, max, entry, allowDecimal) => {
+        if((!allowDecimal && entry.slice(-1) === ".") || isNaN(entry.slice(-1))){
+            return false;
+        }
         const allowEmptyAndNegative = entry === "" || (entry === "-" && min < 0);
         entry = parseFloat(entry);
         if(allowEmptyAndNegative || (min > 0 && entry < min) || (max < 0 && entry > max)){
             return true;
         }
         const enforceMinAndMax = (!isNaN(min) && !isNaN(max)) && (entry >= Number(min) && entry <= Number(max));
-        return (enforceMinAndMax && !isNaN(entry)) || isNaN(min) || isNaN(max);
+        return enforceMinAndMax || isNaN(min) || isNaN(max);
     };
 
     const clearIfInvalid = (min, max, entry) => {
@@ -47,7 +50,7 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
                 name={fieldTitle}
                 required={required}
                 onChange={(event) => {
-                    if (enforceConstraints(min, max, event.target.value)) {
+                    if (enforceConstraints(min, max, event.target.value, allowDecimal)) {
                         setValue(event.target.value);
                     }
                 }}
