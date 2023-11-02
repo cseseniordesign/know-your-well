@@ -441,7 +441,6 @@ export default function WellInfo() {
             <br />
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg"
                 onClick={() => {
-                    debugger
                     if (checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
                         submitForm();
                     } else {
