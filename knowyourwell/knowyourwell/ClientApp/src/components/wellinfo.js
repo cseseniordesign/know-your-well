@@ -53,8 +53,8 @@ export default function WellInfo() {
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
-    const [isValidEmail, setIsValidEmail] = useState();
-    const [isValidPhone, setIsValidPhone] = useState();
+    const [isValidEmail, setIsValidEmail] = useState(true);
+    const [isValidPhone, setIsValidPhone] = useState(true);
 
     const date = new Date();
     const futureDate = date.getDate();
