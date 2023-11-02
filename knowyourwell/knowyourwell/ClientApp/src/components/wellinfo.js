@@ -34,7 +34,8 @@ export default function WellInfo() {
         observation: "",
         pestmanure: "",
         phone: "",
-        school_id: "",
+        school_id: 1,
+        nrd: "",
         smelltaste: "",
         smelltastedescription: "",
         state: "",
@@ -72,13 +73,13 @@ export default function WellInfo() {
     }
 
     function addWellInfo() {
-        const county_id = countyOptions.indexOf(wellInfo.county) - 1
-        const nrd_id = nrdOptions.indexOf(wellInfo.nrdid) - 1
+        const county_id = countyOptions.indexOf(wellInfo.county) + 1
+        const nrd_id = nrdOptions.indexOf(wellInfo.nrd) + 1
         Axios.post('/createwellinfo', {
             address: wellInfo.address,
             aquiferclass: wellInfo.aquiferclass,
             aquifertype: wellInfo.aquifertype,
-            boreholediameter: wellInfo.boreholediameter,
+            boreholediameter: Number(wellInfo.boreholediameter),
             city: wellInfo.city,
             countyid: county_id,
             datacollector: wellInfo.datacollector,
@@ -101,6 +102,8 @@ export default function WellInfo() {
             topography: wellInfo.topography,
             totaldepth: Number(wellInfo.totaldepth),
             wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
+            // totaldepth: wellInfo.totaldepth,
+            // well_waterleveldepth: wellInfo.wellwaterleveldepth,
             wellcasematerial: wellInfo.wellcasematerial,
             wellcode: wellInfo.wellcode,
             welldry: wellInfo.welldry,
