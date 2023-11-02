@@ -21,7 +21,7 @@ export default function WellInfo() {
         aquifertype: "",
         boreholediameter: "",
         city: "",
-        county_id: "",
+        county: "",
         datacollector: "",
         dateentered: moment().format('L, h:mm a'),
         email: "",
@@ -34,7 +34,8 @@ export default function WellInfo() {
         observation: "",
         pestmanure: "",
         phone: "",
-        school_id: "",
+        school_id: 1,
+        nrd: "",
         smelltaste: "",
         smelltastedescription: "",
         state: "",
@@ -72,13 +73,15 @@ export default function WellInfo() {
     }
 
     function addWellInfo() {
+        const county_id = countyOptions.indexOf(wellInfo.county) + 1
+        const nrd_id = nrdOptions.indexOf(wellInfo.nrd) + 1
         Axios.post('/createwellinfo', {
             address: wellInfo.address,
             aquiferclass: wellInfo.aquiferclass,
             aquifertype: wellInfo.aquifertype,
-            boreholediameter: wellInfo.boreholediameter,
+            boreholediameter: Number(wellInfo.boreholediameter),
             city: wellInfo.city,
-            countyid: wellInfo.countyid,
+            countyid: county_id,
             datacollector: wellInfo.datacollector,
             dateentered: wellInfo.dateentered,
             email: wellInfo.email,
@@ -87,7 +90,7 @@ export default function WellInfo() {
             installyear: JSON.stringify(wellInfo.installyear).substring(1, 5),
             landuse5yr: wellInfo.landuse5yr,
             maintenance5yr: wellInfo.maintenance5yr,
-            nrdid: wellInfo.nrdid,
+            nrdid: nrd_id,
             numberwelluser: wellInfo.numberwelluser,
             observation: wellInfo.observation,
             pestmanure: wellInfo.pestmanure,
@@ -99,6 +102,8 @@ export default function WellInfo() {
             topography: wellInfo.topography,
             totaldepth: Number(wellInfo.totaldepth),
             wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
+            // totaldepth: wellInfo.totaldepth,
+            // well_waterleveldepth: wellInfo.wellwaterleveldepth,
             wellcasematerial: wellInfo.wellcasematerial,
             wellcode: wellInfo.wellcode,
             welldry: wellInfo.welldry,
@@ -154,7 +159,6 @@ export default function WellInfo() {
         }
     }
     function checkDepthValidation(totaldepth, wellwaterleveldepth) {
-        debugger
         if (totaldepth === "" && wellwaterleveldepth >= 0) {
             return true;
         } else {
@@ -441,7 +445,6 @@ export default function WellInfo() {
             <br />
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg"
                 onClick={() => {
-                    debugger
                     if (checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
                         submitForm();
                     } else {
