@@ -15,21 +15,9 @@ app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
 
-const config = {
-    user: "kywAdmin",
-    password: process.env.APPSETTING_MSSQL_PASSWORD,
-    database: "kyw",
-    server: 'kyw.database.windows.net',
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    },
-    options: {
-        encrypt: true, // for azure
-        trustServerCertificate: false // change to true for local dev / self-signed certs
-    }
-}
+const fs = require('fs');
+const rawData = fs.readFileSync('config.json', 'utf8');
+const config = JSON.parse(rawData);
 
 const appPool = new sql.ConnectionPool(config)
 try {
