@@ -2,15 +2,23 @@ import EntryPrompt from "./entryprompt";
 
 const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required, allowDecimal }) => {
     const enforceConstraints = (min, max, entry, allowDecimal) => {
-        if((!allowDecimal && entry.slice(-1) === ".") || isNaN(entry.slice(-1))){
+        if((!allowDecimal && entry.slice(-1) === ".")){
             return false;
         }
         const allowEmptyAndNegative = entry === "" || (entry === "-" && min < 0);
-        entry = parseFloat(entry);
-        if(allowEmptyAndNegative || (min > 0 && entry < min) || (max < 0 && entry > max)){
+        if(allowEmptyAndNegative){
             return true;
         }
-        const enforceMinAndMax = (!isNaN(min) && !isNaN(max)) && (entry >= Number(min) && entry <= Number(max));
+        const doNotAllowText =  isNaN(entry.slice(-1));
+        if(doNotAllowText){
+            return false;
+        }
+        entry = parseFloat(entry);
+        const allowEntryForIrregularMinOrMax = (min > 0 && entry < min) || (max < 0 && entry > max);
+        if(allowEntryForIrregularMinOrMax){
+            return true;
+        }
+        const enforceMinAndMax = (entry >= Number(min) && entry <= Number(max));
         return enforceMinAndMax || isNaN(min) || isNaN(max);
     };
 
