@@ -11,13 +11,13 @@ const labelList = [
     "Conditions: Weather, temperature, or anything note-worthy the well:", "Condition of the well cover:", "Well Cover Description:",
     "Evidence of surface run-off entry to the well:", "Evidence of pooling or puddles within 12 ft of the well:", "Groundwater Temperature [Degrees Celsius]:",
     "pH [0-14]:", "Conductivity [uS/cm]:", "Data Collector’s Name:",
-    "Observations:", "Date Entered:"
+    "Observations:", "Date Entered:", "Latitude:", "Longitude:"
 ]
 
 const keyList = [
     "fa_weather", "fa_wellcovercondition", "fa_wellcoverdescription", "fa_surfacerunoff",
     "fa_pooling", "fa_groundwatertemp", "fa_ph", "fa_conductivity",
-    "fa_datacollector", "fa_observation", "fa_datecollected"
+    "fa_datacollector", "fa_observation", "fa_datecollected", "fa_latitude", "fa_longitude"
 ]
 
 export default function ViewField() {

@@ -15,19 +15,27 @@ app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
 
-const config = {
-    user: "kywAdmin",
-    password: process.env.APPSETTING_MSSQL_PASSWORD,
-    database: "kyw",
-    server: 'kyw.database.windows.net',
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    },
-    options: {
-        encrypt: true, // for azure
-        trustServerCertificate: false // change to true for local dev / self-signed certs
+let config;
+
+try{
+    const fs = require('fs');
+    const rawData = fs.readFileSync('config.json', 'utf8');
+    config = JSON.parse(rawData);
+} catch (e) {
+    config = {
+        user: "kywAdmin",
+        password: process.env.APPSETTING_MSSQL_PASSWORD,
+        database: "kyw",
+        server: 'kyw.database.windows.net',
+        pool: {
+            max: 10,
+            min: 0,
+            idleTimeoutMillis: 30000
+        },
+        options: {
+            encrypt: true, // for azure
+            trustServerCertificate: false // change to true for local dev / self-signed certs
+        }
     }
 }
 
@@ -39,7 +47,6 @@ catch (error) {
     console.error(error)
 }
 
-// field
 app.post('/api/insert', (req, res) => {
     const transaction = appPool.transaction();
     transaction.begin(err => {
@@ -115,13 +122,13 @@ app.post('/createclasslab', (req, res) => {
         request.input('iron', sql.Decimal(8, 2), req.body.iron);
         request.input('manganese', sql.Decimal(8, 2), req.body.manganese);
         request.input('nitrate', sql.Decimal(8, 2), req.body.nitrate);
+        request.input('wslSample', sql.NVarChar, req.body.wslSample);
         request.input('name', sql.NVarChar, req.body.datacollector);
         request.input('observations', sql.NVarChar, req.body.observations);
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblClassroomLab(cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_datacollector, cl_datecollected) VALUES(@ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @observations, @name, @dateentered)'
-            +'UPDATE dbo.tblFieldActivity SET classlab_id = SCOPE_IDENTITY() WHERE fieldactivity_id = @fa_id;', function (err, recordset) {
+            .query('INSERT INTO dbo.tblClassroomLab(fieldactivity_id, cl_ammonia, cl_calciumhardness, cl_chloride, cl_bacteria, cl_copper, cl_iron, cl_manganese, cl_nitrate, cl_observation, cl_wsl_sample_id, cl_datacollector, cl_datecollected) VALUES(@fa_id, @ammonia, @calcium, @chloride, @bacteria, @copper, @iron, @manganese, @nitrate, @observations, @wslSample, @name, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -158,15 +165,19 @@ app.post('/createwellinfo', (req, res) => {
         })
 
         request.input('wellcode', sql.NVarChar, req.body.wellcode);
-        request.input('welluser', sql.NVarChar, req.body.welluser);
         request.input('wellname', sql.NVarChar, req.body.wellname);
         request.input('school_id', sql.Int, req.body.school_id);
+        request.input('regisNum', sql.NVarChar, req.body.regisNum);
+        request.input('dnrWellId', sql.Int, req.body.dnrWellId);
+        request.input('welluser', sql.NVarChar, req.body.welluser);
         request.input('address', sql.NVarChar, req.body.address);
         request.input('city', sql.NVarChar, req.body.city);
         request.input('state', sql.NVarChar, req.body.state);
         request.input('zipcode', sql.NVarChar, req.body.zipcode);
         request.input('county_id', sql.Int, req.body.countyid);
         request.input('nrd_id', sql.Int, req.body.nrdid);
+        request.input('phone', sql.NVarChar, req.body.phone);
+        request.input('email', sql.NVarChar, req.body.email);
         request.input('wellowner', sql.NVarChar, req.body.wellowner);
         request.input('installyear', sql.Int, req.body.installyear);
         request.input('smelltaste', sql.NVarChar, req.body.smelltaste);
@@ -181,7 +192,7 @@ app.post('/createwellinfo', (req, res) => {
         request.input('estlongitude', sql.Decimal(10, 5), req.body.estlongitude);
         request.input('boreholediameter', sql.Decimal(8, 2), req.body.boreholediameter);
         request.input('totaldepth', sql.Decimal(8, 2), req.body.totaldepth);
-        request.input('well_waterleveldepth', sql.Decimal(8, 2), req.body.well_waterleveldepth);
+        request.input('wellwaterleveldepth', sql.Decimal(8, 2), req.body.wellwaterleveldepth);
         request.input('aquifertype', sql.NVarChar, req.body.aquifertype);
         request.input('aquiferclass', sql.NVarChar, req.body.aquiferclass);
         request.input('welltype', sql.NVarChar, req.body.welltype);
@@ -192,7 +203,7 @@ app.post('/createwellinfo', (req, res) => {
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @boreholediameter, @totaldepth, @well_waterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
+            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_registration_number, wi_dnr_well_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @regisNum, @dnrWellId, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @phone, @email, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @boreholediameter, @totaldepth, @wellwaterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -215,19 +226,27 @@ app.post('/createwellinfo', (req, res) => {
     })
 });
 
-//credit to https://arctype.com/blog/rest-api-tutorial/
 app.get('/Wells', async (req, res) => {
-    // console.log("hit")
-    appPool.query('SELECT * FROM dbo.tblWellInfo;', function (err, recordset) {
+    let query = 'SELECT * FROM dbo.tblWellInfo';
+
+    if (req.query.filterBy && req.query.filterBy != "undefined") {
+        query = query + ` WHERE ${req.query.filterBy}`
+    }
+
+    if (req.query.sortBy && req.query.sortBy != "undefined") {
+        query = query + ` ORDER BY ${req.query.sortBy}`
+    }
+
+    appPool.query(query, function (err, recordset) {
         if (err) {
             console.log(err)
             res.status(500).send('SERVER ERROR')
-            return
+            return;
         }
-        // console.log(recordset)
-        res.status(200).json({ Wells: recordset.recordset })
-    })
-})
+        res.status(200).json({ Wells: recordset.recordset });
+    });
+});
+
 
 app.get('/GetWellInfo', async (req, res) => {
     const transaction = appPool.transaction();
@@ -266,6 +285,10 @@ app.get('/GetWellInfo', async (req, res) => {
     })
 })
 
+app.get('/idp/metadata', (req, res) => {
+    res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
+})
+
 app.get('/FieldList', async (req, res) => {
     const transaction = appPool.transaction();
     transaction.begin(err => {
@@ -278,9 +301,9 @@ app.get('/FieldList', async (req, res) => {
             rolledBack = true
         })
 
-        const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
+        //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
-        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, classlab_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id'+secondFilter+');', function (err, recordset) {
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(500).send('Query does not execute.')
@@ -354,6 +377,7 @@ app.get('/GetLabEntry', async (req, res) => {
             rolledBack = true
         })
 
+
         request.input('classlab_id', sql.Int, req.query.classlab_id).query('SELECT * FROM dbo.tblClassRoomLab WHERE classlab_id = @classlab_id;', function (err, recordset) {
             if (err) {
                 console.log(err)
@@ -385,4 +409,9 @@ app.get("*", (req, res) => {
 
 app.listen(process.env.PORT || 7193, () => {
     console.log("server is running");
+});
+
+app.get("*", (req, res) => {
+    console.log("hit")
+    res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });

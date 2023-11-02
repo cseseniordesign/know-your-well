@@ -37,11 +37,6 @@ textarea {
     justify-content: center;
 }
 
-#installyear {
-    display: flex;
-    justify-content: center;
-}
-
 .styling_offline_bar > p {
     text-align: center;
     color: white
@@ -55,6 +50,14 @@ textarea {
 
 input:invalid {
     border-color: red;
+}
+
+input:required {
+    border-color: red;
+}
+
+input:valid {
+    border-color: black;
 }
 
 textarea:invalid {
