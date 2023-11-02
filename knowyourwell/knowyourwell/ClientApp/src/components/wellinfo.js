@@ -21,6 +21,7 @@ export default function WellInfo() {
         aquifertype: "",
         boreholediameter: "",
         city: "",
+        county_id: "",
         datacollector: "",
         dateentered: moment().format('L, h:mm a'),
         email: "",
@@ -52,8 +53,8 @@ export default function WellInfo() {
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
-    const [isValidEmail, setIsValidEmail] = useState();
-    const [isValidPhone, setIsValidPhone] = useState();
+    const [isValidEmail, setIsValidEmail] = useState(true);
+    const [isValidPhone, setIsValidPhone] = useState(true);
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -96,8 +97,8 @@ export default function WellInfo() {
             smelltastedescription: wellInfo.smelltastedescription,
             state: wellInfo.state,
             topography: wellInfo.topography,
-            totaldepth: wellInfo.totaldepth,
-            well_waterleveldepth: wellInfo.wellwaterleveldepth,
+            totaldepth: Number(wellInfo.totaldepth),
+            wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
             wellcasematerial: wellInfo.wellcasematerial,
             wellcode: wellInfo.wellcode,
             welldry: wellInfo.welldry,
@@ -153,7 +154,16 @@ export default function WellInfo() {
             window.location.href = `/well`
         }
     }
-    
+    function checkDepthValidation(totaldepth, wellwaterleveldepth) {
+        debugger
+        if(totaldepth === "" && wellwaterleveldepth >= 0) {
+            return true;
+        } else {
+            if (Number(totaldepth) >= Number(wellwaterleveldepth)) {
+                return true;
+            } else return false;
+        }
+    }
     return (
         <form action="/editwell" id="submissionAlert" >
             <h2>Well Info</h2>
@@ -432,14 +442,14 @@ export default function WellInfo() {
             <br/>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
             onClick={() => {
-                if(wellInfo.wellwaterleveldepth < wellInfo.totaldepth) {
+                debugger
+                if(checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
                     submitForm();
                 } else {
-                    updateWellInfo('waterleveldepth', 0);
+                    updateWellInfo('waterleveldepth', "");
                     window.alert("Well water depth CANNOT be greater than total well depth.");
                 }
-            }
-            }
+            }}
             >Submit</button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
         </form>
