@@ -154,7 +154,6 @@ export default function WellInfo() {
         }
     }
     function checkDepthValidation(totaldepth, wellwaterleveldepth) {
-        debugger
         if (totaldepth === "" && wellwaterleveldepth >= 0) {
             return true;
         } else {
