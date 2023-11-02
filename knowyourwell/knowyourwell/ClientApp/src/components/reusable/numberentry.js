@@ -1,21 +1,22 @@
+import { jSXAttribute } from "@babel/types";
 import EntryPrompt from "./entryprompt";
 
-const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required, allowDecimal }) => {
+const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required, allowDecimal = true }) => {
     const enforceConstraints = (min, max, entry, allowDecimal) => {
-        if((!allowDecimal && entry.slice(-1) === ".")){
-            return false;
-        }
-        const allowEmptyAndNegative = entry === "" || (entry === "-" && min < 0);
-        if(allowEmptyAndNegative){
+        if ((allowDecimal && entry.slice(-1) === ".")) {
             return true;
         }
-        const doNotAllowText =  isNaN(entry.slice(-1));
-        if(doNotAllowText){
+        const allowEmptyAndNegative = entry === "" || (entry === "-" && min < 0);
+        if (allowEmptyAndNegative) {
+            return true;
+        }
+        const doNotAllowText = isNaN(entry.slice(-1));
+        if (doNotAllowText) {
             return false;
         }
         entry = parseFloat(entry);
         const allowEntryForIrregularMinOrMax = (min > 0 && entry < min) || (max < 0 && entry > max);
-        if(allowEntryForIrregularMinOrMax){
+        if (allowEntryForIrregularMinOrMax) {
             return true;
         }
         const enforceMinAndMax = (entry >= Number(min) && entry <= Number(max));
@@ -23,13 +24,14 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
     };
 
     const clearIfInvalid = (min, max, entry) => {
-        const hasConstraints = !isNaN(min) && !isNaN(max);
         entry = parseFloat(entry);
         const tooSmall = entry < min;
         const tooBig = entry > max;
         const outsideOfRange = (tooSmall && !tooBig) || (!tooSmall && tooBig);
-        if(hasConstraints && outsideOfRange && !isNaN(min) && !isNaN(max)){
+        if (outsideOfRange || isNaN(entry)) {
             setValue("");
+        } else {
+            setValue(entry);
         }
     }
 
@@ -40,7 +42,7 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
             return `[${min}-${max}]`;
         } else if (label) {
             return `[${label}]`
-        } 
+        }
         return;
     };
 
