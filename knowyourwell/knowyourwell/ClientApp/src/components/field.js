@@ -321,9 +321,6 @@ export default function Field() {
             <br />
             <FormFooter submitForm={submitForm} backButton={backButton} cacheForm={cacheFieldForm} />
             <br/>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={submitForm}>Submit</button>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-            <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={cacheFieldForm}>Save</button>
         
         </form >
     );

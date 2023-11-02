@@ -267,19 +267,21 @@ app.get('/GetWellInfo', async (req, res) => {
 
 app.get('/idp/metadata', (req, res) => {
     res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
-    app.get('/FieldList', async (req, res) => {
-        const transaction = appPool.transaction();
-        transaction.begin(err => {
-            if (err)
-                console.error("Transaction Failed")
-            const request = appPool.request(transaction)
-            let rolledBack = false
+})
 
-            transaction.on('rollback', aborted => {
-                rolledBack = true
-            })
+app.get('/FieldList', async (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        const request = appPool.request(transaction)
+        let rolledBack = false
 
-            //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
         request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
             if (err) {
@@ -304,7 +306,7 @@ app.get('/idp/metadata', (req, res) => {
             }
         })
     })
-})})
+})
 
 app.get('/GetFieldEntry', async (req, res) => {
     const transaction = appPool.transaction();
