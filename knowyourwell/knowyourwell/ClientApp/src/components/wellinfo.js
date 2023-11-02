@@ -117,7 +117,7 @@ export default function WellInfo() {
     const handlePhoneChange = (event) => {
         const phoneNumber = event.target.value;
         const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
-    
+
         setIsValidPhone(phonePattern.test(phoneNumber));
         updateWellInfo('phone', phoneNumber);
     };
@@ -134,10 +134,9 @@ export default function WellInfo() {
         var form = document.getElementById('submissionAlert');
         if (form.checkValidity()) {
             return true;
-        }
-        else {
+        } else {
             form.reportValidity();
-            return false;
+            return process.env.NODE_ENV === 'development';
         }
     }
 
@@ -156,7 +155,7 @@ export default function WellInfo() {
     }
     function checkDepthValidation(totaldepth, wellwaterleveldepth) {
         debugger
-        if(totaldepth === "" && wellwaterleveldepth >= 0) {
+        if (totaldepth === "" && wellwaterleveldepth >= 0) {
             return true;
         } else {
             if (Number(totaldepth) >= Number(wellwaterleveldepth)) {
@@ -238,7 +237,7 @@ export default function WellInfo() {
                 <label for="phone">
                     Phone # (of well user):
                 </label>
-                <input type="text" className={`textarea resize-ta ${isValidPhone ? 'valid' : 'invalid'}`} id="phone" name="phone" pattern="^\d{3}-\d{3}-\d{4}$" 
+                <input type="text" className={`textarea resize-ta ${isValidPhone ? 'valid' : 'invalid'}`} id="phone" name="phone" pattern="^\d{3}-\d{3}-\d{4}$"
                     onChange={handlePhoneChange}
                     title="Please enter a valid US phone number in the format XXX-XXX-XXXX."
                 />
@@ -439,17 +438,17 @@ export default function WellInfo() {
                     /> {"  "}
                 </div>
             </div>
-            <br/>
-            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" 
-            onClick={() => {
-                debugger
-                if(checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
-                    submitForm();
-                } else {
-                    updateWellInfo('waterleveldepth', "");
-                    window.alert("Well water depth CANNOT be greater than total well depth.");
-                }
-            }}
+            <br />
+            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg"
+                onClick={() => {
+                    debugger
+                    if (checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
+                        submitForm();
+                    } else {
+                        updateWellInfo('waterleveldepth', "");
+                        window.alert("Well water depth CANNOT be greater than total well depth.");
+                    }
+                }}
             >Submit</button>
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
         </form>
