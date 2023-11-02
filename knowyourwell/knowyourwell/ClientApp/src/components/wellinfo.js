@@ -69,6 +69,12 @@ export default function WellInfo() {
     }
 
     const handleDropdownChange = (fieldName, event) => {
+        if(fieldName === 'smelltaste' && (event.target.value === 'No' || event.target.value === 'Unknown')) {
+                updateWellInfo('smelltastedescription', "");
+        } 
+        if(fieldName === 'welldry' && (event.target.value === 'No' || event.target.value === 'Unknown')) {
+                updateWellInfo('welldrydescription', "");
+        }       
         updateWellInfo(fieldName, event.target.value);
     }
 
