@@ -159,7 +159,6 @@ export default function WellInfo() {
         }
     }
     function checkDepthValidation(totaldepth, wellwaterleveldepth) {
-        debugger
         if (totaldepth === "" && wellwaterleveldepth >= 0) {
             return true;
         } else {
@@ -446,7 +445,6 @@ export default function WellInfo() {
             <br />
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg"
                 onClick={() => {
-                    debugger
                     if (checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
                         submitForm();
                     } else {
