@@ -21,7 +21,7 @@ export default function WellInfo() {
         aquifertype: "",
         boreholediameter: "",
         city: "",
-        county_id: "",
+        county: "",
         datacollector: "",
         dateentered: moment().format('L, h:mm a'),
         email: "",
@@ -72,13 +72,15 @@ export default function WellInfo() {
     }
 
     function addWellInfo() {
+        const county_id = countyOptions.indexOf(wellInfo.county) - 1
+        const nrd_id = nrdOptions.indexOf(wellInfo.nrdid) - 1
         Axios.post('/createwellinfo', {
             address: wellInfo.address,
             aquiferclass: wellInfo.aquiferclass,
             aquifertype: wellInfo.aquifertype,
             boreholediameter: wellInfo.boreholediameter,
             city: wellInfo.city,
-            countyid: wellInfo.countyid,
+            countyid: county_id,
             datacollector: wellInfo.datacollector,
             dateentered: wellInfo.dateentered,
             email: wellInfo.email,
@@ -87,7 +89,7 @@ export default function WellInfo() {
             installyear: JSON.stringify(wellInfo.installyear).substring(1, 5),
             landuse5yr: wellInfo.landuse5yr,
             maintenance5yr: wellInfo.maintenance5yr,
-            nrdid: wellInfo.nrdid,
+            nrdid: nrd_id,
             numberwelluser: wellInfo.numberwelluser,
             observation: wellInfo.observation,
             pestmanure: wellInfo.pestmanure,
