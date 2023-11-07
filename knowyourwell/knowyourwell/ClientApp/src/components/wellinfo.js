@@ -61,6 +61,7 @@ export default function WellInfo() {
             countyid: county_id,
             datacollector: wellInfo.datacollector,
             dateentered: wellInfo.dateentered,
+            dnrId: wellInfo.dnrId,
             email: wellInfo.email,
             estlatitude: wellInfo.estlatitude,
             estlongitude: wellInfo.estlongitude,
@@ -72,6 +73,7 @@ export default function WellInfo() {
             observation: wellInfo.observation,
             pestmanure: wellInfo.pestmanure,
             phone: wellInfo.phone,
+            registNum: wellInfo.registNum,
             school_id: wellInfo.school_id,
             smelltaste: wellInfo.smelltaste,
             smelltastedescription: wellInfo.smelltastedescription,
@@ -152,6 +154,20 @@ export default function WellInfo() {
                 id="wellname"
                 setValue={(value) => updateWellInfo('wellname', value)}
                 required={true}
+            />
+            <ShortTextEntry
+                fieldTitle="Registration Number:"
+                value={wellInfo.registNum}
+                id="registNum"
+                setValue={(value) => updateWellInfo('registNum', value)}
+                required={false}
+            />
+            <NumberEntry
+                fieldTitle="DNR Well ID:"
+                id="dnrId"
+                metric={wellInfo.dnrId}
+                setValue={(value) => updateWellInfo('dnrId', value)}
+                allowDecimal={false}
             />
             <ShortTextEntry
                 fieldTitle="Name of the resident well user:"
