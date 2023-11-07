@@ -231,7 +231,7 @@ export default function WellInfo() {
                 required={false}
             />
             <div className="css">
-                <label for="phone">
+                <label htmlFor="phone">
                     Phone # (of well user):
                 </label>
                 <input
@@ -244,7 +244,7 @@ export default function WellInfo() {
                 {!isValidPhone && <p className="error-message">Please use XXX-XXX-XXXX</p>}
             </div>
             <div className="css">
-                <label for="email">
+                <label htmlFor="email">
                     Email (of well user):
                 </label>
                 <input 
@@ -421,7 +421,7 @@ export default function WellInfo() {
                 required={true}
             />
             <div className="css">
-                <label for="dateentered">
+                <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
