@@ -3,7 +3,6 @@ import './css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
-import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import stateOptions from './resources/states';
 import countyOptions from './resources/counties';
@@ -12,45 +11,17 @@ import NumberEntry from './reusable/numberentry';
 import ShortTextEntry from './reusable/shorttextentry';
 import DropDownEntry from './reusable/dropdownentry';
 import LongTextEntry from './reusable/longtextentry';
+import devWellInfo from './resources/devwellinfo';
+import prodWellInfo from './resources/prodwellinfo';
 
 
 export default function WellInfo() {
-    const initialWellInfo = {
-        address: "",
-        aquiferclass: "",
-        aquifertype: "",
-        boreholediameter: "",
-        city: "",
-        county: "",
-        datacollector: "",
-        dateentered: moment().format('L, h:mm a'),
-        email: "",
-        estlatitude: "",
-        estlongitude: "",
-        installyear: "",
-        landuse5yr: "",
-        maintenance5yr: "",
-        numberwelluser: "",
-        observation: "",
-        pestmanure: "",
-        phone: "",
-        school_id: 1,
-        nrd: "",
-        smelltaste: "",
-        smelltastedescription: "",
-        state: "",
-        topography: "",
-        totaldepth: "",
-        wellwaterleveldepth: "",
-        wellcasematerial: "",
-        wellcode: "",
-        welldry: "",
-        welldrydescription: "",
-        wellname: "",
-        wellowner: "",
-        welltype: "",
-        welluser: "",
-        zipcode: ""
+    let initialWellInfo;
+
+    if (process.env.NODE_ENV === "development") {
+        initialWellInfo = devWellInfo;
+    } else {
+        initialWellinfo = prodWellInfo;
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
@@ -69,12 +40,12 @@ export default function WellInfo() {
     }
 
     const handleDropdownChange = (fieldName, event) => {
-        if(fieldName === 'smelltaste' && (event.target.value === 'No' || event.target.value === 'Unknown')) {
-                updateWellInfo('smelltastedescription', "");
-        } 
-        if(fieldName === 'welldry' && (event.target.value === 'No' || event.target.value === 'Unknown')) {
-                updateWellInfo('welldrydescription', "");
-        }       
+        if (fieldName === 'smelltaste' && (event.target.value === 'No' || event.target.value === 'Unknown')) {
+            updateWellInfo('smelltastedescription', "");
+        }
+        if (fieldName === 'welldry' && (event.target.value === 'No' || event.target.value === 'Unknown')) {
+            updateWellInfo('welldrydescription', "");
+        }
         updateWellInfo(fieldName, event.target.value);
     }
 
@@ -247,7 +218,10 @@ export default function WellInfo() {
                 <label for="phone">
                     Phone # (of well user):
                 </label>
-                <input type="text" className={`textarea resize-ta ${isValidPhone ? 'valid' : 'invalid'}`} id="phone" name="phone" pattern="^\d{3}-\d{3}-\d{4}$"
+                <input
+                    type="text" value={wellInfo.phone}
+                    className={`textarea resize-ta ${isValidPhone ? 'valid' : 'invalid'}`}
+                    id="phone" name="phone" pattern="^\d{3}-\d{3}-\d{4}$"
                     onChange={handlePhoneChange}
                     title="Please enter a valid US phone number in the format XXX-XXX-XXXX."
                 />
@@ -257,7 +231,10 @@ export default function WellInfo() {
                 <label for="email">
                     Email (of well user):
                 </label>
-                <input type="text" className={`textarea resize-ta ${isValidEmail ? 'valid' : 'invalid'}`} id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                <input 
+                type="text" value={wellInfo.email}
+                className={`textarea resize-ta ${isValidEmail ? 'valid' : 'invalid'}`} 
+                id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     onChange={handleEmailChange}
                     title="Please enter a valid email address in the format example@example.com"
                 />
