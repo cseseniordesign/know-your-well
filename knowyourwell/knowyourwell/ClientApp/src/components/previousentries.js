@@ -18,12 +18,13 @@ function generatelistElements(previousEntries, well_id, name) {
         listElements.push(
             <>
                 < List.Item >
-                    <h4>Field Activity Date: {moment(entry.date).format("MMMM DD, YYYY")}</h4>
+                    <h4>Field Activity Date: {moment(entry.fieldDate).format("MMMM DD, YYYY hh:mm A")}</h4>
+                    <h4>Class Lab Date: {moment(entry.labDate).format("MMMM DD, YYYY hh:mm A")}</h4>
                 </List.Item >
                 <List.Item key={key}>
                     <List.Content>
-                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field</a>
-                        <a href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class={buttonClass} aria-disabled={entry.labID == null}>Class Lab</a>
+                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field (Field ID: {entry.fieldID})</a>
+                        <a href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class={buttonClass} aria-disabled={entry.labID == null}>Class Lab {entry.labID != null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}</a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -62,7 +63,7 @@ export default function PreviousEntries() {
                 var i
                 for (i = 0; i < fieldList.length; i++) {
                     const fieldEntry = fieldList[i]
-                    const entry = { date: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: fieldEntry.classlab_id }
+                    const entry = { fieldDate: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: fieldEntry.classlab_id, labDate: fieldEntry.cl_datecollected }
                     previousEntries.push(entry);
                 }
                 listElements = generatelistElements(previousEntries, well_id, wellName);

@@ -34,7 +34,7 @@ try{
         },
         options: {
             encrypt: true, // for azure
-            trustServerCertificate: false // change to true for local dev / self-signed certs
+            trustServerCertificate: true // change to true for local dev / self-signed certs
         }
     }
 }
@@ -321,7 +321,7 @@ app.get('/FieldList', async (req, res) => {
 
         //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
-        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fa.fieldactivity_id, fa.fa_datecollected, cl.classlab_id, cl.cl_datecollected FROM dbo.tblFieldActivity AS fa LEFT JOIN dbo.tblClassroomLab AS cl ON fa.fieldactivity_id = cl.fieldactivity_id WHERE fa.well_id = @well_id;', function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(500).send('Query does not execute.')
