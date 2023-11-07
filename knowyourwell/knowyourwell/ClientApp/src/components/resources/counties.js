@@ -92,6 +92,6 @@ const countyOptions = [
     "Webster",
     "Wheeler",
     "York"
-];
+].map((county, index) => ({ key: index.toString(), value: county }));
 
 export default countyOptions;

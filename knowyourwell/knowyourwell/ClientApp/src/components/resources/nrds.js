@@ -22,6 +22,6 @@ const nrdOptions = [
     "Upper Loup",
     "Upper Niobrara-White",
     "Upper Republican"
-];
+].map((nrd, index) => ({ key: index.toString(), value: nrd }));
 
 export default nrdOptions;
