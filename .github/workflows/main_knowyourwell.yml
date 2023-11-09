@@ -65,10 +65,9 @@ jobs:
             Write-Error "Health check failed"
             exit 1
           }
-      
 
   analyze:
-    needs: deploy
+    needs: build
     runs-on: windows-latest
 
     steps:

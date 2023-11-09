@@ -415,3 +415,8 @@ app.get("*", (req, res) => {
     console.log("hit")
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
+
+app.get("/health", (req, res) => {
+    console.log("hit")
+    res.status(200).send("Healthy")
+});
