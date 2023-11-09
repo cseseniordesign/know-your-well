@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
-import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
 import NumberEntry from './reusable/numberentry';
@@ -10,27 +9,20 @@ import DropDownEntry from './reusable/dropdownentry';
 import ShortTextEntry from './reusable/shorttextentry';
 import FormFooter from './reusable/formfooter';
 import LongTextEntry from './reusable/longtextentry';
+import devFieldData from './resources/devfielddata';
+import prodFieldData from './resources/prodfielddata';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
 
-    const initialFieldData = {
-        well_id: well_id,
-        fa_latitude: "",
-        fa_longitude: "",
-        conditions: "",
-        temp: "",
-        ph: "",
-        conductivity: "",
-        name: "",
-        observation: "",
-        wellcover: "",
-        wellcoverdescription: "",
-        dateentered: moment().format('L, h:mm a'),
-        evidence: "",
-        pooling: "",
-    };
+    let initialFieldData;
+
+    if (process.env.NODE_ENV === "development") {
+        initialFieldData = devFieldData;
+    } else {
+        initialFieldData = prodFieldData;
+    }
 
     // Checking for saved sessions
     const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
@@ -96,8 +88,9 @@ export default function Field() {
     }, []);
 
     function addField() {
+        fieldData.well_id = well_id;
         Axios.post('/api/insert', {
-            well_id: well_id,
+            well_id: fieldData.well_id,
             fa_latitude: fieldData.fa_latitude,
             fa_longitude: fieldData.fa_longitude,
             fa_genlatitude: fa_genlatitude,
@@ -111,7 +104,7 @@ export default function Field() {
             ph: fieldData.ph,
             conductivity: fieldData.conductivity,
             name: fieldData.name,
-            observations: fieldData.observation,
+            observations: fieldData.observations,
             datecollected: fieldData.dateentered,
         })
             .then(() => {
@@ -119,7 +112,7 @@ export default function Field() {
             })
     };
 
-    const idList = ["fa_latitude", "fa_longitude", "conditions", "wellcover", "temp", "ph", "conductivity", "name", "observation"];
+    const idList = ["fa_latitude", "fa_longitude", "conditions", "wellcover", "temp", "ph", "conductivity", "name", "observations"];
     // caching - local storage
     function cacheFieldForm() {
         let elementsValid = true;
@@ -290,10 +283,10 @@ export default function Field() {
             />
             <ShortTextEntry
                 fieldTitle="Observations"
-                value={fieldData.Observation}
-                id="observation"
+                value={fieldData.observations}
+                id="observations"
                 maxLength="150"
-                setValue={(value) => updateFieldData('Observation', value)}
+                setValue={(value) => updateFieldData('Observations', value)}
                 required={true}
             />
             <div className="css">

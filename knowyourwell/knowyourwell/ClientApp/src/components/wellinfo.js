@@ -79,8 +79,6 @@ export default function WellInfo() {
             topography: wellInfo.topography,
             totaldepth: Number(wellInfo.totaldepth),
             wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
-            // totaldepth: wellInfo.totaldepth,
-            // well_waterleveldepth: wellInfo.wellwaterleveldepth,
             wellcasematerial: wellInfo.wellcasematerial,
             wellcode: wellInfo.wellcode,
             welldry: wellInfo.welldry,
