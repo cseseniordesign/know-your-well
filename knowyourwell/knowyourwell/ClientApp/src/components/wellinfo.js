@@ -61,6 +61,7 @@ export default function WellInfo() {
             countyid: county_id,
             datacollector: wellInfo.datacollector,
             dateentered: wellInfo.dateentered,
+            dnrId: wellInfo.dnrId,
             email: wellInfo.email,
             estlatitude: wellInfo.estlatitude,
             estlongitude: wellInfo.estlongitude,
@@ -72,6 +73,7 @@ export default function WellInfo() {
             observation: wellInfo.observation,
             pestmanure: wellInfo.pestmanure,
             phone: wellInfo.phone,
+            registNum: wellInfo.registNum,
             school_id: wellInfo.school_id,
             smelltaste: wellInfo.smelltaste,
             smelltastedescription: wellInfo.smelltastedescription,
@@ -156,6 +158,20 @@ export default function WellInfo() {
                 required={true}
             />
             <ShortTextEntry
+                fieldTitle="Registration Number:"
+                value={wellInfo.registNum}
+                id="registNum"
+                setValue={(value) => updateWellInfo('registNum', value)}
+                required={false}
+            />
+            <NumberEntry
+                fieldTitle="DNR Well ID:"
+                id="dnrId"
+                metric={wellInfo.dnrId}
+                setValue={(value) => updateWellInfo('dnrId', value)}
+                allowDecimal={false}
+            />
+            <ShortTextEntry
                 fieldTitle="Name of the resident well user:"
                 value={wellInfo.welluser}
                 id="welluser"
@@ -215,7 +231,7 @@ export default function WellInfo() {
                 required={false}
             />
             <div className="css">
-                <label for="phone">
+                <label htmlFor="phone">
                     Phone # (of well user):
                 </label>
                 <input
@@ -228,7 +244,7 @@ export default function WellInfo() {
                 {!isValidPhone && <p className="error-message">Please use XXX-XXX-XXXX</p>}
             </div>
             <div className="css">
-                <label for="email">
+                <label htmlFor="email">
                     Email (of well user):
                 </label>
                 <input 
@@ -405,7 +421,7 @@ export default function WellInfo() {
                 required={true}
             />
             <div className="css">
-                <label for="dateentered">
+                <label htmlFor="dateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
