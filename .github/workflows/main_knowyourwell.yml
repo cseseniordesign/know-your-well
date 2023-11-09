@@ -57,7 +57,11 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_04CBE18A32604D04A2CED370AED59ACF }}
           package: .
-  
+      
+      - name: Health Check
+        run: |
+          curl --fail https://https://knowyourwell.azurewebsites.net//health || exit 1
+
   analyze:
     needs: build
     runs-on: windows-latest
@@ -69,7 +73,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages: 'csharp'
+          languages: 'javascript'
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
