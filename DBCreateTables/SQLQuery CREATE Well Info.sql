@@ -15,6 +15,8 @@ CREATE TABLE [dbo].[tblWellInfo](
 	[wi_wellcode] [nvarchar](100) NOT NULL,
 	[wi_wellname] [nvarchar](255) NOT NULL,
 	[school_id][int] NOT NULL,
+	[wi_registration_number][nvarchar](100) NULL,
+	[wi_dnr_well_id][int] NULL,
 	[wi_well_user] [nvarchar](255) NULL,	
 	[wi_address] [nvarchar](255) NULL,
 	[wi_city] [nvarchar](255) NULL,
