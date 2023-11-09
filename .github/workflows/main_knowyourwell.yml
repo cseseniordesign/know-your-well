@@ -60,10 +60,15 @@ jobs:
       
       - name: Health Check
         run: |
-          curl --fail https://https://knowyourwell.azurewebsites.net//health || exit 1
+          $response = Invoke-WebRequest -Uri "https://knowyourwell.azurewebsites.net/health" -UseBasicParsing
+          if ($response.StatusCode -ne 200) {
+            Write-Error "Health check failed"
+            exit 1
+          }
+      
 
   analyze:
-    needs: build
+    needs: deploy
     runs-on: windows-latest
 
     steps:
