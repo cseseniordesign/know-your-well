@@ -204,22 +204,6 @@ export default function ClassLab() {
                 onChange={handleChange_Bacteria}
                 required={true}
             />
-            <div className="css">
-                <label htmlFor="bacteria">
-                    Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <div id="App">
-                    <div className="select-container">
-                        <select value={bacteria} onChange={handleChange_Bacteria} required>
-                            <option value="" hidden defaultValue>Select one...</option>
-                            <option value="Clear" id="bacteria" name="bacteria">Clear</option>
-                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria">Yellow with fluorescent rim </option>
-                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria">Yellow without fluorescent rim</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
             <NumberEntry
                 fieldTitle="Copper"
                 metric={copper}
