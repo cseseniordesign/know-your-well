@@ -36,7 +36,7 @@ const createWellInfoPayload = (wellInfo) => {
         wellowner: String,
         welltype: String,
         welluser: String,
-        zipcode: Number,
+        zipcode: String,
     };
 
     const payload = {};

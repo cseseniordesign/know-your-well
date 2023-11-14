@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS [dbo].[tblWaterScienceLab]
 
 CREATE TABLE [dbo].[tblWaterScienceLab](
 	[watersciencelab_id] [int] NOT NULL IDENTITY(1, 1),
+	[fieldactivity_id][int] NOT NULL,
 	[wsl_samplecode] [nvarchar](255) NOT NULL,
 	[wsl_nh4n][decimal](8,2) NOT NULL,
 	[wsl_no3no2n][decimal](8,2) NOT NULL,
@@ -43,6 +44,13 @@ CREATE TABLE [dbo].[tblWaterScienceLab](
 GO
 
 ALTER TABLE [dbo].[tblWaterScienceLab] ADD  CONSTRAINT [DF_tblWaterScienceLab_wsl_dateentered]  DEFAULT (getdate()) FOR [wsl_dateentered]
+GO
+
+ALTER TABLE [dbo].[tblWaterScienceLab]  WITH CHECK ADD  CONSTRAINT [FK_tblWaterScienceLab_tblFieldActivity] FOREIGN KEY([fieldactivity_id])
+REFERENCES [dbo].[tblFieldActivity] ([fieldactivity_id])
+GO
+
+ALTER TABLE [dbo].[tblWaterScienceLab] CHECK CONSTRAINT [FK_tblWaterScienceLab_tblFieldActivity]
 GO
 
 

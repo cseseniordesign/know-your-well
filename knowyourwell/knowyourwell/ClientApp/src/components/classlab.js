@@ -165,6 +165,10 @@ export default function ClassLab() {
     return (
         <form id="submissionAlert">
             <h2>{wellName}: Class Lab</h2>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
             <NumberEntry
                 id="ammonia"
                 fieldTitle="Ammonia - N"

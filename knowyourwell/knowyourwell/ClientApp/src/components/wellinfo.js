@@ -1,6 +1,6 @@
 ﻿import React from 'react'
 import './css/forms.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
@@ -21,7 +21,7 @@ export default function WellInfo() {
     if (process.env.NODE_ENV === "development") {
         initialWellInfo = devWellInfo;
     } else {
-        initialWellinfo = prodWellInfo;
+        initialWellInfo = prodWellInfo;
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
@@ -47,6 +47,25 @@ export default function WellInfo() {
             updateWellInfo('welldrydescription', "");
         }
         updateWellInfo(fieldName, event.target.value);
+    }
+    useEffect(() => {
+        const savedWellInfo = localStorage.getItem('wellInfo');
+        if (savedWellInfo) {
+            const confirmContinue = window.confirm('Continue with saved data?');
+            if (confirmContinue) {
+                setWellInfo(JSON.parse(savedWellInfo));
+            } else {
+                localStorage.removeItem('wellInfo');
+            }
+        }
+    }, []);
+    
+    function cacheWellInfo() {
+        localStorage.setItem('wellInfo', JSON.stringify(wellInfo));
+        alert('Well information has been saved!');
+    }
+    function clearLocalStorage() {
+        localStorage.removeItem('wellInfo');
     }
 
     function addWellInfo() {
@@ -81,8 +100,6 @@ export default function WellInfo() {
             topography: wellInfo.topography,
             totaldepth: Number(wellInfo.totaldepth),
             wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
-            // totaldepth: wellInfo.totaldepth,
-            // well_waterleveldepth: wellInfo.wellwaterleveldepth,
             wellcasematerial: wellInfo.wellcasematerial,
             wellcode: wellInfo.wellcode,
             welldry: wellInfo.welldry,
@@ -133,8 +150,10 @@ export default function WellInfo() {
     function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
             addWellInfo();
-            alert("Succesfully submitted Well Info Form!");
-            window.location.href = `/well`
+            clearLocalStorage();
+            alert("Successfully submitted Well Info Form!");
+            window.location.href = `/well`;
+            
         }
     }
     function checkDepthValidation(totaldepth, wellwaterleveldepth) {
@@ -443,16 +462,23 @@ export default function WellInfo() {
             </div>
             <br />
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg"
-                onClick={() => {
-                    if (checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
-                        submitForm();
-                    } else {
-                        updateWellInfo('waterleveldepth', "");
-                        window.alert("Well water depth CANNOT be greater than total well depth.");
-                    }
-                }}
-            >Submit</button>
-            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-        </form>
-    );
+            onClick={() => {
+                if (checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
+                    submitForm();
+                } else {
+                    updateWellInfo('waterleveldepth', "");
+                    window.alert("Well water depth CANNOT be greater than total well depth.");
+                }
+            }}  
+        >Submit</button>
+         <button
+        type="button"
+        style={{ width: "180px", height: "17%"}}
+        className="btn btn-secondary btn-lg"
+        onClick={cacheWellInfo}
+       >Save</button>
+        <button 
+        type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
+    </form>
+);
 }
