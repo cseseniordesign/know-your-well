@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dropdown, List } from 'semantic-ui-react'
 import Axios from 'axios'
 
