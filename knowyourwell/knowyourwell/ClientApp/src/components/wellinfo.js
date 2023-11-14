@@ -189,6 +189,7 @@ export default function WellInfo() {
                 metric={wellInfo.dnrId}
                 setValue={(value) => updateWellInfo('dnrId', value)}
                 allowDecimal={false}
+                required={false}
             />
             <ShortTextEntry
                 fieldTitle="Name of the resident well user:"
@@ -278,8 +279,7 @@ export default function WellInfo() {
             <NumberEntry
                 fieldTitle="Well construction completion year:"
                 id="installyear"
-                metric={wellInfo.installyear} min="1800"
-                max={new Date().getFullYear()}
+                metric={wellInfo.installyear} min="1800" max="2100"
                 setValue={(value) => updateWellInfo('installyear', value)}
                 required={true}
                 allowDecimal={false}
