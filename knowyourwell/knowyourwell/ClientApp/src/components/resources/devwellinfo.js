@@ -14,6 +14,8 @@ const devWellInfo = {
     estlatitude: "40",
     estlongitude: "-104",
     installyear: "2020",
+    isValidEmail: "",
+    isValidPhone: "",
     landuse5yr: "No",
     maintenance5yr: "No",
     numberwelluser: "1",

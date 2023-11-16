@@ -172,7 +172,7 @@ export default function ClassLab() {
             <NumberEntry
                 id="ammonia"
                 fieldTitle="Ammonia - N"
-                metric={ammonia}
+                value={ammonia}
                 min="0"
                 max="10"
                 label="ppm(mg/L)"
@@ -181,7 +181,7 @@ export default function ClassLab() {
             <NumberEntry
                 id="calcium"
                 fieldTitle="Calcium hardness"
-                metric={calcium}
+                value={calcium}
                 min="50"
                 max="500"
                 label="ppm(mg/L)"
@@ -190,7 +190,7 @@ export default function ClassLab() {
             <NumberEntry
                 id="chloride"
                 fieldTitle="Chloride"
-                metric={chloride}
+                value={chloride}
                 min="0"
                 max="400"
                 label="ppm(mg/L)"
@@ -206,7 +206,7 @@ export default function ClassLab() {
             />
             <NumberEntry
                 fieldTitle="Copper"
-                metric={copper}
+                value={copper}
                 min="0"
                 max="10"
                 label="ppm(mg/L)"
@@ -214,7 +214,7 @@ export default function ClassLab() {
                 required={true} />
             <NumberEntry
                 fieldTitle="Iron"
-                metric={iron}
+                value={iron}
                 min="0"
                 max="10"
                 label="ppm(mg/L)"
@@ -222,7 +222,7 @@ export default function ClassLab() {
                 required={true} />
             <NumberEntry
                 fieldTitle="Mangenese"
-                metric={manganese}
+                value={manganese}
                 min="0"
                 max="50"
                 label="ppm(mg/L)"
@@ -230,7 +230,7 @@ export default function ClassLab() {
                 required={true} />
             <NumberEntry
                 fieldTitle="Nitrate"
-                metric={nitrate}
+                value={nitrate}
                 min="0"
                 max="45"
                 label="ppm(mg/L)"

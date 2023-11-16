@@ -2,16 +2,16 @@ const fieldPrompts = [
     {
         type: "longtextentry",
         fieldTitle: "Conditions: Describe weather, temperature, or anything note-worthy about your well",
-        value: 'conditions',
+        value: "conditions",
         id: "conditions",
     },
     {
         type: "dropdownentry",
         options: ["Intact", "Observable Opening", "Damaged"],
         fieldTitle: "Condition of the well cover",
-        value: 'wellcover',
+        value: "wellcover",
         id: "wellcover",
-        required: "true",
+        required: true,
     },
     {
         dependsOn: "wellcover",
@@ -27,7 +27,7 @@ const fieldPrompts = [
         value: "evidence",
         id: "evidence",
         options: ["Yes", "No"],
-        required: "true",
+        required: true,
     },
     {
         type: "dropdownentry",
@@ -35,7 +35,7 @@ const fieldPrompts = [
         value: "pooling",
         id: "pooling",
         options: ["Yes", "No"],
-        required: "true",
+        required: true,
     },
     {
         type: "numberentry",
@@ -45,7 +45,7 @@ const fieldPrompts = [
         min: "0",
         max: "100",
         label: "Degrees Celsius",
-        required: "true",
+        required: true,
     },
     {
         type: "numberentry",
@@ -55,7 +55,7 @@ const fieldPrompts = [
         min: "0",
         max: "14",
         label: "",
-        required: "true",
+        required: true,
     },
     {
         type: "numberentry",
@@ -65,14 +65,14 @@ const fieldPrompts = [
         min: "100",
         max: "2000",
         label: "uS/cm",
-        required: "true",
+        required: true,
     },
     {
         type: "shorttextentry",
         fieldTitle: "Data Collector's Name:",
         value: "name",
         id: "name",
-        required: "true",
+        required: true,
     },
     {
         type: "longtextentry",
@@ -80,7 +80,7 @@ const fieldPrompts = [
         value: "observations",
         id: "observations",
         maxLength: "150",
-        required: "true",
+        required: true,
     },
 ];
 
