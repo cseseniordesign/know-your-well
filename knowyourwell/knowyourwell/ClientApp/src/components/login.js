@@ -12,8 +12,6 @@ export default function Login() {
           };
         fetch("/sso/redirect", options)
             .then(function(response) {
-                console.log("Response:")
-                console.log(response)
 
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
@@ -21,8 +19,6 @@ export default function Login() {
                 return response.text()
             })
             .then(function(data) {
-                console.log("Data:")
-                console.log(data);
                 window.location.href = data;
             })
             .catch(function(error) {
