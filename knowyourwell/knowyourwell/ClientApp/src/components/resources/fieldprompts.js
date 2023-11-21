@@ -80,7 +80,7 @@ const fieldPrompts = [
         value: "observations",
         id: "observations",
         maxLength: "150",
-        required: true,
+        required: false,
     },
 ];
 

@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 let formElements = []
 let columnList = []
 const labelList = [
-    "Well Code:", "Well Name:", "Well Registration Number:", "DNR Well ID:", "Name of Resident User:", "Address:", "Village, Town, or City:", "State:", "Zip code:",
+    "Well Code:", "Well Name:", "Data Collector:", "Well Registration Number:", "DNR Well ID:", "Name of Resident User:", "Address:", "Village, Town, or City:", "State:", "Zip code:",
     "County:", "NRD District:", "Phone # (of well user):", "Email (of well user):", "Well owner (if different from resident):", "Well construction completion year:", "Complaints about smell or taste of water?:", "Smell or taste of water desciption:",
     "Does the well ever go dry?:", "When well goes dry:", "Maintenance done to the well itself within the last five years:", "major land use / development changes around the well within the last five years?:", "Number of Well Users:",
     "manure, fertilizer, or pesticides been applied the well within the last five years:", "Estimated Latitude:", "Estimated Longitude:", "Bore hole diameter (inches):", "Total depth of well (feet):", "Topography of the well location:",
@@ -16,7 +16,7 @@ const labelList = [
 ]
 
 const keyList = [
-    "wi_wellcode", "wi_wellname", "wi_registration_number", "wi_dnr_well_id", "wi_well_user", "wi_address", "wi_city", "wi_state",
+    "wi_wellcode", "wi_wellname", "wi_datacollector", "wi_registration_number", "wi_dnr_well_id", "wi_well_user", "wi_address", "wi_city", "wi_state",
     "wi_zipcode", "county_id", "nrd_id", "wi_phone_well_user", "wi_email_well_user", "wi_well_owner", "wi_installyear", "wi_smelltaste",
     "wi_smelltaste_description", "wi_welldry", "wi_welldry_description", "wi_maintenance5yr", "wi_landuse5yr", "wi_numberwelluser",
     "wi_pestmanure", "wi_estlatitude", "wi_estlongitude", "wi_boreholediameter", "wi_totaldepth", "wi_topography", "wi_waterleveldepth",
@@ -69,9 +69,9 @@ export default function ViewWell() {
         for (let i = 0; i < labelList.length; i += 2) {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
-            
+            debugger
             if (firstColumnName === "Date Entered:")
-                firstColumnValue = moment(firstColumnValue).format("MMMM DD, YYYY")
+                //firstColumnValue = firstColumnValue.replace("T", " ").replace("Z", "").replace(".000", "");
             if (firstColumnName === "NRD District:")
                 firstColumnValue = nrdDistricts[formElements[keyList[i]]-1]
             let secondColumnValue = ""
@@ -80,6 +80,10 @@ export default function ViewWell() {
                 secondColumnName = labelList[i + 1]
                 secondColumnValue = formElements[keyList[i+1]]
             }
+            if (secondColumnName === "Date Entered:")
+                 //secondColumnValue = secondColumnValue.replace("T", " ").replace("Z", "").replace(".000", "");
+            if (secondColumnName === "NRD District:")
+                secondColumnValue = nrdDistricts[formElements[keyList[i+1]]-1]
             if (secondColumnName === "County:") {
                 secondColumnValue = countyNames[formElements[keyList[i+1]]-1]
             }
