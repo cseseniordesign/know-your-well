@@ -59,11 +59,37 @@ export default function WellInfo() {
             }
         }
     }, []);
+    useEffect(() => {
+        const handleOnline = () => {
+            console.log('Online');
+            const queuedData = JSON.parse(localStorage.getItem('queuedData')) || [];
+            queuedData.forEach(data => {
+                Axios.post('/createwellinfo', data)
+                    .then(() => {
+                        console.log("Queued data sent successfully");
+                        // Remove the data from the queue after successful submission
+                    })
+                    .catch(error => console.log(error));
+            });
+            localStorage.removeItem('queuedData');
+        };
+        const handleOffline = () => {
+            console.log('Offline');
+           
+        };
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, []);
     
     function cacheWellInfo() {
         localStorage.setItem('wellInfo', JSON.stringify(wellInfo));
         alert('Well information has been saved!');
     }
+
     function clearLocalStorage() {
         localStorage.removeItem('wellInfo');
     }
@@ -71,6 +97,13 @@ export default function WellInfo() {
     function addWellInfo() {
         const county_id = countyOptions.indexOf(wellInfo.county) + 1
         const nrd_id = nrdOptions.indexOf(wellInfo.nrd) + 1
+        //Checking to see if user is offline - if so then we cache the data that would have been submitted
+        if (!navigator.onLine) {
+            const queuedData = JSON.parse(localStorage.getItem('queuedData')) || [];
+            queuedData.push(wellInfo);
+            localStorage.setItem('queuedData', JSON.stringify(queuedData));
+            console.log('Data queued as the user is offline');
+        } else { //Making post request if the user is online
         Axios.post('/createwellinfo', {
             address: wellInfo.address,
             aquiferclass: wellInfo.aquiferclass,
@@ -113,7 +146,7 @@ export default function WellInfo() {
             .then(() => {
                 console.log("success");
             })
-    };
+        }};
 
     const handlePhoneChange = (event) => {
         const phoneNumber = event.target.value;
@@ -150,12 +183,13 @@ export default function WellInfo() {
     function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
             addWellInfo();
+            //clearing cached data after making the post request
             clearLocalStorage();
             alert("Successfully submitted Well Info Form!");
             window.location.href = `/well`;
-            
+        
         }
-    }
+    }           
     function checkDepthValidation(totaldepth, wellwaterleveldepth) {
         if (totaldepth === "" && wellwaterleveldepth >= 0) {
             return true;
