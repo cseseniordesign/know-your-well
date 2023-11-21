@@ -1,5 +1,4 @@
-﻿
-form {
+﻿form {
     display: block;
     text-align: center;
     padding: 20px 0px 40px 0;
@@ -7,12 +6,12 @@ form {
 
 label {
     display: block;
-    text-align:center
+    text-align: center
 }
 
- select{
-     width:19em;
- }
+select {
+    width: 19em;
+}
 
 input {
     width: 19em;
@@ -21,11 +20,13 @@ input {
 textarea {
     width: 19em;
 }
+
 .css {
     padding: 10px 0px 5px 10px
 }
-.clicking{
-    text-align:center
+
+.clicking {
+    text-align: center
 }
 
 .requiredField {
@@ -37,7 +38,7 @@ textarea {
     justify-content: center;
 }
 
-.styling_offline_bar > p {
+.styling_offline_bar>p {
     text-align: center;
     color: white
 }
@@ -47,10 +48,6 @@ textarea {
     input:required:valid applies a success state only to required inputs. Because technically, optional inputs are always valid.
     input:focus:valid' and 'input:focus:invalid apply to inputs only when they are focused.
 */
-
-input:invalid {
-    border-color: red;
-}
 
 input:required {
     border-color: red;
@@ -64,6 +61,16 @@ textarea:invalid {
     border-color: red;
 }
 
+textarea:valid {
+    border-width: 2px;
+}
+
+select:valid {
+    border-width: 2px;
+    border-color: black;
+}
+
 select:invalid {
+    border-width: 2px;
     border-color: red;
 }

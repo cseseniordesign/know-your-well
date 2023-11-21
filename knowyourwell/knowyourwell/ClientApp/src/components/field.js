@@ -59,7 +59,7 @@ export default function Field() {
         }));
     }
 
-    const handleDropdownChange = (fieldName, event) => {
+    const handleChange = (fieldName, event) => {
         if (fieldName === 'wellcover' && event.target.value === 'Intact') {
             updateFieldData('wellcoverdescription', "");
         }
@@ -177,7 +177,7 @@ export default function Field() {
                     <div>
                         <NumberEntry
                             fieldTitle="Latitude (use 4-12 decimals):"
-                            metric={fieldData.fa_latitude}
+                            value={fieldData.fa_latitude}
                             min="40"
                             max="43"
                             id="fa_latitude"
@@ -187,7 +187,7 @@ export default function Field() {
                         />
                         <NumberEntry
                             fieldTitle="Longitude (use 4-12 decimals):"
-                            metric={fieldData.fa_longitude}
+                            value={fieldData.fa_longitude}
                             min="-104"
                             max="-95.417"
                             id="fa_longitude"
@@ -205,7 +205,8 @@ export default function Field() {
                 )}
             </div>
             {fieldPrompts.map((prompt) => (
-                <div key={prompt.id}>{renderField(prompt, fieldData, updateFieldData, handleDropdownChange)}</div>
+                <div key={prompt.id}>{renderField(
+                    prompt, fieldData, handleChange)}</div>
             ))}
             <div className="css">
                 <label htmlFor="dateentered">
