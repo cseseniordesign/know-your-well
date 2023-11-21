@@ -5,13 +5,32 @@ import Axios from 'axios'
 export default function Login() {
 
     const initRedirectRequest = () => {
-        Axios
-            .get("/sso/redirect")
-            .then(function (response) {
-                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-                console.log(response);
+        console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+        const options = {
+            method: 'GET',
+            mode: 'no-cors'
+          };
+        fetch("/sso/redirect", options)
+            .then(function(response) {
+                console.log("Response:")
+                console.log(response)
+
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.text()
+            })
+            .then(function(data) {
+                console.log("Data:")
+                console.log(data);
+                window.location.href = data;
+            })
+            .catch(function(error) {
+                console.log("ERROR")
+                console.error("Error:", error);
             });
     };
+    
 
     return (
         <form id="style-login-signup-form">

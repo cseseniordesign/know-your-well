@@ -10,8 +10,12 @@ const { response } = require("express");
 const path = require("path")
 //require('dotenv').config()
 
+// const corsOptions = {
+//     origin: 'https://localhost:44463', // Replace with the origin you want to allow
+//   };
 
-app.use(cors());
+
+app.use(cors({    origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
@@ -20,11 +24,13 @@ app.use(express.static("wwwroot"));
 
 app.use(assignEntity);
 
+app.options('*', cors())
+
 const config = {
     user: "kywAdmin",
-    password: process.env.APPSETTING_MSSQL_PASSWORD,
+    password: "KJ6vcCG2",
     database: "kyw",
-    server: 'kyw.database.windows.net',
+    server: 'localhost',
     pool: {
         max: 10,
         min: 0,
@@ -32,7 +38,7 @@ const config = {
     },
     options: {
         encrypt: true, // for azure
-        trustServerCertificate: false // change to true for local dev / self-signed certs
+        trustServerCertificate: true // change to true for local dev / self-signed certs
     }
 }
 
@@ -386,14 +392,33 @@ app.get('/GetLabEntry', async (req, res) => {
 
 // call to init a sso login with redirect binding
 app.get('/sso/redirect', async (req, res) => {
-    // Should return string of redirect URL, is string parse is failing and is returning Object
-    // console.log(req.sp.createLoginRequest(req.idp, 'redirect'))
 
     const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
-    // print(res.redirect(redirectUrl))
-    return res.redirect(redirectUrl);
+
+    // res.header("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    // res.header("Pragma", "no-cache"); // HTTP 1.0.
+    // res.header("Expires", "0"); // Proxies.
+    // res.header('Access-Control-Allow-Origin', '*'); // Replace '*' with your specific origin(s)
+    // res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    // res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization');
+    // res.header('Access-Control-Allow-Credentials', 'true');
+    // res.header('Access-Control-Expose-Headers', 'Custom-Header-Name');
+    // res.header('Access-Control-Max-Age', '3600');
+    // // res.header('Cache-Control', 'no-store');
+
+    // res.writeHead(302, {
+    //     Location: redirectUrl
+    //   }).end()
+    // try {
+    //     return res.redirect(302, redirectUrl);
+    // } catch (error) {
+    //     console.error("Error:", error);
+    // }
+    return res.status(200).send(redirectUrl)
+    // return res.redirect(redirectUrl);
+    
 });
 
 // receive the idp response

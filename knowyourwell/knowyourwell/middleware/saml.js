@@ -6,7 +6,7 @@ samlify.setSchemaValidator(validator);
 
 // Configure identity provider from metadata, currently using https://samltest.id/ as idp
 const idp = samlify.IdentityProvider({
-    metadata: fs.readFileSync(__dirname + '/../metadata/testidp.xml'),
+    metadata: fs.readFileSync(__dirname + '/../metadata/idp.xml'),
     wantLogoutRequestSigned: true
 });
 
