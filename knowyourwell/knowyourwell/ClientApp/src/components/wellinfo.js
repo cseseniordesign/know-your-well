@@ -1,4 +1,4 @@
-﻿import React from 'react'
+import React from 'react'
 import './css/forms.css'
 import { useState, useEffect } from 'react';
 import Axios from 'axios'

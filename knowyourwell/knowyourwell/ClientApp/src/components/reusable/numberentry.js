@@ -1,7 +1,7 @@
 import { jSXAttribute } from "@babel/types";
 import EntryPrompt from "./entryprompt";
 
-const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, required, allowDecimal = true }) => {
+const NumberEntry = ({ id, fieldTitle, value, min, max, label, setValue, required, allowDecimal = true }) => {
     const enforceConstraints = (min, max, entry, allowDecimal) => {
         if ((allowDecimal && entry.slice(-1) === ".")) {
             return true;
@@ -54,7 +54,7 @@ const NumberEntry = ({ id, fieldTitle, metric, min, max, label, setValue, requir
             </label>
             <input
                 type="text"
-                value={metric}
+                value={value}
                 className="textarea resize-ta"
                 id={id}
                 name={fieldTitle}

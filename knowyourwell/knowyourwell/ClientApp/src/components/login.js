@@ -14,7 +14,7 @@ export default function Login() {
                 </h3>
                 <div className="d-grid">
                     <a href="/Well" className="btn btn-primary">
-                        Login Using Nebraska Cloud
+                        Login with School Credentials
                     </a>
                 </div>
             </div>
