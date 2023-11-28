@@ -12,6 +12,7 @@ const prodFieldData = {
     observation: "",
     wellcover: "",
     wellcoverdescription: "",
+    topography: "",
     dateentered: moment().format('L, h:mm a'),
     evidence: "",
     pooling: "",

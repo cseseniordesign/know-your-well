@@ -130,7 +130,6 @@ export default function WellInfo() {
             smelltaste: wellInfo.smelltaste,
             smelltastedescription: wellInfo.smelltastedescription,
             state: wellInfo.state,
-            topography: wellInfo.topography,
             totaldepth: Number(wellInfo.totaldepth),
             wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
             wellcasematerial: wellInfo.wellcasematerial,

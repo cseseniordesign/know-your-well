@@ -24,7 +24,6 @@ const prodWellInfo = {
     smelltaste: "",
     smelltastedescription: "",
     state: "",
-    topography: "",
     totaldepth: "",
     wellwaterleveldepth: "",
     wellcasematerial: "",
