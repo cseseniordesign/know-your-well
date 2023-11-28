@@ -24,6 +24,7 @@ export default function Login() {
                 console.error("Error:", error);
             });
     };
+    
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -38,9 +39,12 @@ export default function Login() {
                 <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login</button>
                 </div>
             </div>
-            
-            <div style={{ flex: 1 }}></div>
-            
-        </div>
+
+            <div className="d-grid" >
+            <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login</button>
+
+                <p></p>
+            </div>
+        </form>
     )
 }

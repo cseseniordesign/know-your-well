@@ -30,6 +30,10 @@ jobs:
         working-directory: ./knowyourwell
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: Install npm dependencies
+        working-directory: ./knowyourwell/knowyourwell
+        run: npm install
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
