@@ -44,6 +44,7 @@ const renderField = (prompt, data, handleChange, isValid = true) => {
                     label={prompt.label}
                     setValue={(event) => handleChange(prompt.value, event)}
                     required={prompt.required}
+                    allowDecimal={prompt.allowDecimal}
                 />
             );
         case "dropdownentry":

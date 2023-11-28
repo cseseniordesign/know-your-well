@@ -166,6 +166,7 @@ const wellInfoPrompts = [
         id: "numberwelluser",
         value: "numberwelluser",
         required: true,
+        allowDecimal: false,
     },
     {
         type: "dropdownentry",

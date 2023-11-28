@@ -1,50 +1,61 @@
-import { jSXAttribute } from "@babel/types";
+import React from "react";
 import EntryPrompt from "./entryprompt";
 
-const NumberEntry = ({ id, fieldTitle, value, min, max, label, setValue, required, allowDecimal = true }) => {
-    const enforceConstraints = (min, max, entry, allowDecimal) => {
-        if ((allowDecimal && entry.slice(-1) === ".")) {
-            return true;
-        }
-        const allowEmptyAndNegative = entry === "" || (entry === "-" && min < 0);
-        if (allowEmptyAndNegative) {
-            return true;
-        }
-        const doNotAllowText = isNaN(entry.slice(-1));
-        if (doNotAllowText) {
-            return false;
-        }
-        entry = parseFloat(entry);
-        const allowEntryForIrregularMinOrMax = (min > 0 && entry < min) || (max < 0 && entry > max);
-        if (allowEntryForIrregularMinOrMax) {
-            return true;
-        }
-        const enforceMinAndMax = (entry >= Number(min) && entry <= Number(max));
-        return enforceMinAndMax || isNaN(min) || isNaN(max);
-    };
-
-    const clearIfInvalid = (min, max, entry) => {
-        entry = parseFloat(entry);
-        const tooSmall = entry < min;
-        const tooBig = entry > max;
-        const outsideOfRange = (tooSmall && !tooBig) || (!tooSmall && tooBig);
-        if (outsideOfRange || isNaN(entry)) {
-            setValue("");
-        } else {
-            setValue(entry);
-        }
-    }
+const NumberEntry = ({
+    id, fieldTitle, value, min, max, label,
+    setValue, required, allowDecimal = true
+}) => {
 
     const returnLabel = (min, max, label) => {
-        if (min && max && label) {
-            return `[${min}-${max} ${label}]`;
-        } else if (min && max && !label) {
-            return `[${min}-${max}]`;
-        } else if (label) {
-            return `[${label}]`
-        }
-        return;
+        const range = min && max ? `${min}-${max}` : '';
+        const labelPart = label ? ` ${label}` : '';
+        return range ? `[${range}${labelPart}]` : '';
     };
+
+    const checkRange = (input) => {
+        input = parseInt(input);
+        if (isNaN(max) && isNaN(min)){
+            return true;
+        } else if (isNaN(max) || max < 0){
+            return input >= min;
+        } else if (isNaN(min) || min > 0){
+            return input <= max;
+        }
+        return input > min && input < max;
+    }
+
+    const isValidEntry = (input) => {
+        const isInRange = checkRange(input);
+        return isInRange || input === '-' || input === '';
+    };
+
+    const handleInputChange = (event) => {
+        const inputValue = event.target.value;
+        if (isValidEntry(inputValue)){
+            setValue(inputValue);
+        }
+    };
+
+    const clearIfInvalid = (event) => {
+        let input = event.target.value;
+        let inRange;
+        if (isNaN(max) && isNaN(min)){
+            inRange = true;
+        } else if (isNaN(max)){
+            inRange = input >= min;
+        } else if (isNaN(min)){
+            inRange = input <= max;
+        } else {
+            inRange = input >= min && input <= max;
+        }
+        if (!inRange || isNaN(input)) {
+            setValue('');
+        } else if (allowDecimal){
+            setValue(parseFloat(input));
+        } else {
+            setValue(parseInt(input));
+        }
+    }
 
     return (
         <div className="css">
@@ -53,20 +64,14 @@ const NumberEntry = ({ id, fieldTitle, value, min, max, label, setValue, require
                 {returnLabel(min, max, label)}
             </label>
             <input
-                type="text"
+                type="number"
                 value={value}
                 className="textarea resize-ta"
                 id={id}
                 name={fieldTitle}
                 required={required}
-                onChange={(event) => {
-                    if (enforceConstraints(min, max, event.target.value, allowDecimal)) {
-                        setValue(event.target.value);
-                    }
-                }}
-                onBlur={(event) => {
-                    clearIfInvalid(min, max, event.target.value)
-                }}
+                onChange={handleInputChange}
+                onBlur={clearIfInvalid}
             />
         </div>
     );
