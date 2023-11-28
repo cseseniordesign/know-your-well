@@ -61,3 +61,27 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_04CBE18A32604D04A2CED370AED59ACF }}
           package: .
+      
+      - name: Health Check
+        run: |
+          $response = Invoke-WebRequest -Uri "https://knowyourwell.azurewebsites.net/health" -UseBasicParsing
+          if ($response.StatusCode -ne 200) {
+            Write-Error "Health check failed"
+            exit 1
+          }
+
+  analyze:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'javascript'
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
