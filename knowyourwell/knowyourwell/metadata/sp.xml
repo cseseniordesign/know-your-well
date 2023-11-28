@@ -17,7 +17,7 @@
     </md:KeyDescriptor>
     <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://knowyourwell.azurewebsites.net/saml/logout"/>
     <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
-    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://knowyourwell.azurewebsites.net/saml/acs" index="1"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://kywtest.azurewebsites.net/saml/acs" index="1"/>
   </md:SPSSODescriptor>
   <md:ContactPerson contactType="technical">
     <md:GivenName>Know Your Well</md:GivenName>
