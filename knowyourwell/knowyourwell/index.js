@@ -403,6 +403,28 @@ app.get('/GetLabEntry', async (req, res) => {
     })
 })
 
+app.get('/sso/redirect', async (req, res) => {
+
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    console.log("id: " + id)
+    console.log("Context returned: " + redirectUrl + "\n");
+
+    return res.status(200).send(redirectUrl)
+    
+});
+
+// receive the idp response
+app.post("/saml/acs", async (req, res) => {
+    console.log("HEere")
+    await req.sp.parseLoginResponse(req.idp, 'post', req)
+    .then(parseResult => {
+      // Use the parseResult can do customized action
+        console.log(parseResult)
+        console.log(res)
+    })
+    .catch(console.error);
+  });
+
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
 });
