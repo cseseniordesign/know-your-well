@@ -35,7 +35,7 @@ export default function Login() {
                     Welcome to Know Your Well
                 </h3>
                 <div className="d-grid">
-                <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login</button>
+                <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login with School Credentials</button>
                 </div>
             </div>
             
