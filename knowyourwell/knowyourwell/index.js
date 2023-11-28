@@ -1,4 +1,7 @@
-﻿const express = require("express");
+﻿﻿const assignEntity = require('./middleware/saml.js');
+const { Constants } = require('samlify');
+
+const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -8,12 +11,16 @@ const path = require("path")
 //require('dotenv').config()
 
 
-app.use(cors());
+app.use(cors({    origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
+
+app.use(assignEntity);
+
+app.options('*', cors())
 
 let config;
 
