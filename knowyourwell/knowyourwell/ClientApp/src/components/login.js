@@ -1,11 +1,9 @@
 import React from 'react';
 import './css/login_signup.css';
-import Axios from 'axios'
 
 export default function Login() {
 
     const initRedirectRequest = () => {
-        console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
         const options = {
             method: 'GET',
             mode: 'no-cors'
