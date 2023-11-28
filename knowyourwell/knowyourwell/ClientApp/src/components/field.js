@@ -97,6 +97,7 @@ export default function Field() {
             weather: fieldData.conditions,
             wellcovercondition: fieldData.wellcover,
             wellcoverdescription: fieldData.wellcoverdescription,
+            topography: fieldData.topography,
             surfacerunoff: fieldData.evidence,
             pooling: fieldData.pooling,
             groundwatertemp: fieldData.temp,

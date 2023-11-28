@@ -25,7 +25,6 @@ const createWellInfoPayload = (wellInfo) => {
         smelltaste: String,
         smelltastedescription: String,
         state: String,
-        topography: String,
         totaldepth: Number,
         wellwaterleveldepth: Number,
         wellcasematerial: String,

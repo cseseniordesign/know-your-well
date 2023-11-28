@@ -23,6 +23,14 @@ const fieldPrompts = [
     },
     {
         type: "dropdownentry",
+        fieldTitle: "Topography of the well location:",
+        id: "topography",
+        options: ["HillTop", "HillSlope", "LevelLand", "Depression"],
+        value: "topography",
+        required: true,
+    },
+    {
+        type: "dropdownentry",
         fieldTitle: "Is there evidence of surface run-off at the entry to the well?",
         value: "evidence",
         id: "evidence",

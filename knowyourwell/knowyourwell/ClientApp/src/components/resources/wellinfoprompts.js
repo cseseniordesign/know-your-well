@@ -208,14 +208,6 @@ const wellInfoPrompts = [
         required: false,
     },
     {
-        type: "dropdownentry",
-        fieldTitle: "Topography of the well location:",
-        id: "topography",
-        options: ["HillTop", "HillSlope", "LevelLand", "Depression"],
-        value: "topography",
-        required: true,
-    },
-    {
         type: "numberentry",
         fieldTitle: "Water level (feet):",
         id: "wellwaterleveldepth",

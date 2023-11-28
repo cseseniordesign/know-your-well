@@ -28,7 +28,6 @@ const devWellInfo = {
     smelltaste: "Yes",
     smelltastedescription: "Sample smell taste description",
     state: "NE",
-    topography: "HillSlope",
     totaldepth: "132",
     wellwaterleveldepth: "21",
     wellcasematerial: "Sample well case material",
