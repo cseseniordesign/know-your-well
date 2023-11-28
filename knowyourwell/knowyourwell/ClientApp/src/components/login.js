@@ -29,7 +29,6 @@ export default function Login() {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             
-            <div style={{ flex: 1 }}></div>
             
             <div style={{ flex: 1 }}>
                 <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>
@@ -40,11 +39,7 @@ export default function Login() {
                 </div>
             </div>
 
-            <div className="d-grid" >
-            <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login</button>
-
-                <p></p>
             </div>
-        </form>
+        
     )
 }
