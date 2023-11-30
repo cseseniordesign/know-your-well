@@ -70,6 +70,7 @@ app.post('/api/insert', (req, res) => {
         request.input('weather', sql.NVarChar, req.body.weather);
         request.input('wellcovercondition', sql.NVarChar, req.body.wellcovercondition);
         request.input('wellcoverdescription', sql.NVarChar, req.body.wellcoverdescription);
+        request.input('topography', sql.NVarChar, req.body.topography);
         request.input('runOff', sql.NVarChar, req.body.surfacerunoff);
         request.input('pooling', sql.NVarChar, req.body.pooling);
         request.input('temp', sql.Decimal(8, 2), req.body.groundwatertemp);
@@ -84,7 +85,7 @@ app.post('/api/insert', (req, res) => {
         })
 
         request
-            .query('INSERT INTO dbo.tblFieldActivity(well_id, fa_latitude, fa_longitude, fa_genlatitude, fa_genlongitude, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(@well_id, @fa_latitude, @fa_longitude, @fa_genlatitude, @fa_genlongitude, @weather, @wellcovercondition, @wellcoverdescription, @runOff, @pooling, @temp, @ph, @conductivity, @name, @observation, @dateentered)', function (err, recordset) {
+            .query('INSERT INTO dbo.tblFieldActivity(well_id, fa_latitude, fa_longitude, fa_genlatitude, fa_genlongitude, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_topography, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(@well_id, @fa_latitude, @fa_longitude, @fa_genlatitude, @fa_genlongitude, @weather, @wellcovercondition, @wellcoverdescription, @topography, @runOff, @pooling, @temp, @ph, @conductivity, @name, @observation, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -206,7 +207,6 @@ app.post('/createwellinfo', (req, res) => {
         request.input('wellcasematerial', sql.NVarChar, req.body.wellcasematerial);
         request.input('datacollector', sql.NVarChar, req.body.datacollector);
         request.input('observation', sql.NVarChar, req.body.observation);
-        request.input('topography', sql.NVarChar, req.body.topography);
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
@@ -218,7 +218,7 @@ app.post('/createwellinfo', (req, res) => {
                 'wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, ' +
                 'wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, ' +
                 'wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, ' +
-                'wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, ' +
+                'wi_wellcasematerial, wi_datacollector, wi_observation, ' +
                 'wi_dateentered) ' +
                 'VALUES(@wellcode, @wellname, @school_id, @regisNum, @dnrWellId, ' +
                 '@welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, ' +
@@ -227,7 +227,7 @@ app.post('/createwellinfo', (req, res) => {
                 '@maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, ' +
                 '@estlatitude, @estlongitude, @boreholediameter, @totaldepth, ' +
                 '@wellwaterleveldepth, @aquifertype, @aquiferclass, @welltype, ' +
-                '@wellcasematerial, @datacollector, @observation, @topography, ' +
+                '@wellcasematerial, @datacollector, @observation, ' +
                 '@dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
