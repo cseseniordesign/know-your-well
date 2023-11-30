@@ -175,23 +175,7 @@ export default function Well() {
             return (
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                    <div style={{ flex: 10 }}></div>
-
-                    {/* Left Side: List of Wells and Create Well Button */}
                     <div style={{ flex: 30, textAlign: 'center' }}>
-                        <List>
-                            <h2><strong>Wells</strong></h2>
-                            <List.Item key={-1}>
-                                <List.Content>
-                                    <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
-                                </List.Content>
-                                <br />
-                            </List.Item>
-                            {wellList}
-                        </List>
-                    </div>
-
-                    <div style={{ flex: 3, textAlign: 'center' }}>
                         <div>
                             <button onClick={() => setSortDropdownVisibility(!isSortDropdownVisible)} className="btn btn-primary">Sort Wells</button>
                             {isSortDropdownVisible && (
@@ -205,12 +189,7 @@ export default function Well() {
                                     <button onClick={() => setSort("TRIM(wi_wellname)")} style={{ backgroundColor: sort === "TRIM(wi_wellname)" ? 'yellow' : 'transparent' }} className="dropdown-item">A-Z</button>
                                     <button onClick={() => setSort("TRIM(wi_wellname) DESC")} style={{ backgroundColor: sort === "TRIM(wi_wellname) DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Z-A</button>
                                 </div>
-                            )}
-                        </div>
-                    </div>
-
-                    <div style={{ flex: 3, textAlign: 'center' }}>
-                        <div>
+                            )}  
                             <button onClick={() => setFilterDropdownVisibility(!isFilterDropdownVisible)} className="btn btn-primary">Filter By County</button>
                             {isFilterDropdownVisible && (
                                 <div style={{
@@ -225,9 +204,18 @@ export default function Well() {
                                 </div>
                             )}
                         </div>
-                    </div>
 
-                    <div style={{ flex: 4 }}></div>
+                        <List>
+                            <h2><strong>Wells</strong></h2>
+                            <List.Item key={-1}>
+                                <List.Content>
+                                    <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
+                                </List.Content>
+                                <br />
+                            </List.Item>
+                            {wellList}
+                        </List>
+                    </div>
 
                 </div>
             );
@@ -237,22 +225,7 @@ export default function Well() {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-            <div style={{ flex: 10 }}></div>
-
             <div style={{ flex: 30, textAlign: 'center' }}>
-                <List>
-                    <h2><strong>Wells</strong></h2>
-                    <List.Item key={-1}>
-                        <List.Content>
-                            <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
-                        </List.Content>
-                        <br />
-                    </List.Item>
-                    {wellList}
-                </List>
-            </div>
-
-            <div style={{ flex: 3, textAlign: 'center' }}>
                 <div>
                     <button onClick={() => setSortDropdownVisibility(!isSortDropdownVisible)} className="btn btn-primary">Sort Wells</button>
                     {isSortDropdownVisible && (
@@ -266,12 +239,7 @@ export default function Well() {
                             <button onClick={() => setSort("TRIM(wi_wellname)")} style={{ backgroundColor: sort === "TRIM(wi_wellname)" ? 'yellow' : 'transparent' }} className="dropdown-item">A-Z</button>
                             <button onClick={() => setSort("TRIM(wi_wellname) DESC")} style={{ backgroundColor: sort === "TRIM(wi_wellname) DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Z-A</button>
                         </div>
-                    )}
-                </div>
-            </div>
-
-            <div style={{ flex: 3, textAlign: 'center' }}>
-                <div>
+                    )}  
                     <button onClick={() => setFilterDropdownVisibility(!isFilterDropdownVisible)} className="btn btn-primary">Filter By County</button>
                     {isFilterDropdownVisible && (
                         <div style={{
@@ -286,8 +254,19 @@ export default function Well() {
                         </div>
                     )}
                 </div>
+
+                <List>
+                    <h2><strong>Wells</strong></h2>
+                    <List.Item key={-1}>
+                        <List.Content>
+                            <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
+                        </List.Content>
+                        <br />
+                    </List.Item>
+                    {wellList}
+                </List>
             </div>
-            <div style={{ flex: 4 }}></div>
+
         </div>
     );
 }
