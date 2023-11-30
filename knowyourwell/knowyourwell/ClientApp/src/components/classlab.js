@@ -165,10 +165,14 @@ export default function ClassLab() {
     return (
         <form id="submissionAlert">
             <h2>{wellName}: Class Lab</h2>
+            <div className="requiredField">
+                <br></br>
+                * = Required Field
+            </div>
             <NumberEntry
                 id="ammonia"
                 fieldTitle="Ammonia - N"
-                metric={ammonia}
+                value={ammonia}
                 min="0"
                 max="10"
                 label="ppm(mg/L)"
@@ -177,7 +181,7 @@ export default function ClassLab() {
             <NumberEntry
                 id="calcium"
                 fieldTitle="Calcium hardness"
-                metric={calcium}
+                value={calcium}
                 min="50"
                 max="500"
                 label="ppm(mg/L)"
@@ -186,7 +190,7 @@ export default function ClassLab() {
             <NumberEntry
                 id="chloride"
                 fieldTitle="Chloride"
-                metric={chloride}
+                value={chloride}
                 min="0"
                 max="400"
                 label="ppm(mg/L)"
@@ -200,25 +204,9 @@ export default function ClassLab() {
                 onChange={handleChange_Bacteria}
                 required={true}
             />
-            <div className="css">
-                <label htmlFor="bacteria">
-                    Bacteria (Colilert) <br />[Positive if more than 1 MPN/100ml]
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <div id="App">
-                    <div className="select-container">
-                        <select value={bacteria} onChange={handleChange_Bacteria} required>
-                            <option value="" hidden defaultValue>Select one...</option>
-                            <option value="Clear" id="bacteria" name="bacteria">Clear</option>
-                            <option value="Yellow_with_fluorescent" id="bacteria" name="bacteria">Yellow with fluorescent rim </option>
-                            <option value="Yellow_without_fluorescent" id="bacteria" name="bacteria">Yellow without fluorescent rim</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
             <NumberEntry
                 fieldTitle="Copper"
-                metric={copper}
+                value={copper}
                 min="0"
                 max="10"
                 label="ppm(mg/L)"
@@ -226,7 +214,7 @@ export default function ClassLab() {
                 required={true} />
             <NumberEntry
                 fieldTitle="Iron"
-                metric={iron}
+                value={iron}
                 min="0"
                 max="10"
                 label="ppm(mg/L)"
@@ -234,7 +222,7 @@ export default function ClassLab() {
                 required={true} />
             <NumberEntry
                 fieldTitle="Mangenese"
-                metric={manganese}
+                value={manganese}
                 min="0"
                 max="50"
                 label="ppm(mg/L)"
@@ -242,7 +230,7 @@ export default function ClassLab() {
                 required={true} />
             <NumberEntry
                 fieldTitle="Nitrate"
-                metric={nitrate}
+                value={nitrate}
                 min="0"
                 max="45"
                 label="ppm(mg/L)"

@@ -3,6 +3,28 @@ import './css/login_signup.css';
 
 export default function Login() {
 
+    const initRedirectRequest = () => {
+        const options = {
+            method: 'GET',
+            mode: 'no-cors'
+          };
+        fetch("/sso/redirect", options)
+            .then(function(response) {
+
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.text()
+            })
+            .then(function(data) {
+                window.location.href = data;
+            })
+            .catch(function(error) {
+                console.log("ERROR")
+                console.error("Error:", error);
+            });
+    };
+
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             
@@ -13,9 +35,7 @@ export default function Login() {
                     Welcome to Know Your Well
                 </h3>
                 <div className="d-grid">
-                    <a href="/Well" className="btn btn-primary">
-                        Login Using Nebraska Cloud
-                    </a>
+                <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login with School Credentials</button>
                 </div>
             </div>
             
