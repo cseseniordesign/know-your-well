@@ -181,8 +181,8 @@ export default function Well() {
                             boxSizing: 'border-box'
                         }}>
                             <button onClick={() => setSort("undefined")} style={{ backgroundColor: sort === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Sort</button>
-                            <button onClick={() => setSort("TRIM(wi_wellname)")} style={{ backgroundColor: sort === "TRIM(wi_wellname)" ? 'yellow' : 'transparent' }} className="dropdown-item">A-Z</button>
-                            <button onClick={() => setSort("TRIM(wi_wellname) DESC")} style={{ backgroundColor: sort === "TRIM(wi_wellname) DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Z-A</button>
+                            <button onClick={() => setSort("well_id")} style={{ backgroundColor: sort === "well_id" ? 'yellow' : 'transparent' }} className="dropdown-item">Newest-Oldest</button>
+                            <button onClick={() => setSort("well_id DESC")} style={{ backgroundColor: sort === "well_id DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Oldest-Newest</button>
                         </div>
                     )}
                 </div>
