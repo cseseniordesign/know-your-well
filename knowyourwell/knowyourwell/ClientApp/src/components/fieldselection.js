@@ -86,7 +86,7 @@ export default function FieldSelection() {
         else {
             return (
                 <List style={{ textAlign: 'center' }}>
-                    <h2> <strong>{wellName}: Field Selection</strong></h2>
+                    <h2> <strong>{wellName}: Field Selection for Class Lab</strong></h2>
                     <List.Item>
                         <List.Content>
                             <br />
@@ -100,7 +100,7 @@ export default function FieldSelection() {
 
     return (
         <List style={{ textAlign: 'center' }}>
-            <h2> <strong>{wellName}: Field Selection</strong></h2>
+            <h2> <strong>{wellName}: Field Selection for Class Lab</strong></h2>
             {fieldList}
             <List.Item>
                 <List.Content>

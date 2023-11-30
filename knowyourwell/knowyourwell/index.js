@@ -1,4 +1,7 @@
-﻿const express = require("express");
+﻿﻿﻿﻿const assignEntity = require('./middleware/saml.js');
+const { Constants } = require('samlify');
+
+const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -8,12 +11,16 @@ const path = require("path")
 //require('dotenv').config()
 
 
-app.use(cors());
+app.use(cors({    origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(express.static("wwwroot"));
+
+app.use(assignEntity);
+
+app.options('*', cors())
 
 let config;
 
@@ -34,7 +41,7 @@ try {
         },
         options: {
             encrypt: true, // for azure
-            trustServerCertificate: true // change to true for local dev / self-signed certs
+            trustServerCertificate: false // change to true for local dev / self-signed certs
         }
     }
 }
@@ -420,6 +427,33 @@ app.get('/GetLabEntry', async (req, res) => {
         })
     })
 })
+
+app.get('/sso/redirect', async (req, res) => {
+
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    console.log("id: " + id)
+    console.log("Context returned: " + redirectUrl + "\n");
+
+    return res.status(200).send(redirectUrl)
+    
+});
+
+// receive the idp response
+app.post("/saml/acs", async (req, res) => {
+    console.log("HEere")
+    await req.sp.parseLoginResponse(req.idp, 'post', req)
+    .then(parseResult => {
+        // Use the parseResult can do customized action
+
+        kywmemValue = parseResult.extract.attributes.kywmem
+        displayName = parseResult.extract.attributes.displayName
+
+        console.log('kywmem Value:', kywmemValue);
+        console.log(' displayName Value:', displayName);
+        });
+    res.redirect("/Well")
+
+});
 
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
