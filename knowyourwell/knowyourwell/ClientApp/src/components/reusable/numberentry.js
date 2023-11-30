@@ -13,46 +13,38 @@ const NumberEntry = ({
     };
 
     const checkRange = (input) => {
-        input = parseInt(input);
-        if (isNaN(max) && isNaN(min)){
-            return true;
-        } else if (isNaN(max) || max < 0){
-            return input >= min;
-        } else if (isNaN(min) || min > 0){
-            return input <= max;
+        if (isNaN(input)) {
+            return false;
         }
-        return input > min && input < max;
+        input = parseInt(input);
+        return (isNaN(max) && isNaN(min)) ||
+            ((isNaN(max) || max < 0) && input >= min) ||
+            ((isNaN(min) || min > 0) && input <= max) ||
+            (input > min && input < max);
     }
 
     const isValidEntry = (input) => {
         const isInRange = checkRange(input);
-        return isInRange || input === '-' || input === '';
+        const decimal = allowDecimal || (!allowDecimal && !input.includes('.'));
+        return (isInRange || input === '-' || input === '') && decimal;
     };
 
     const handleInputChange = (event) => {
         const inputValue = event.target.value;
-        if (isValidEntry(inputValue)){
+        if (isValidEntry(inputValue)) {
             setValue(inputValue);
         }
     };
 
     const clearIfInvalid = (event) => {
-        let input = event.target.value;
-        let inRange;
-        if (isNaN(max) && isNaN(min)){
-            inRange = true;
-        } else if (isNaN(max)){
-            inRange = input >= min;
-        } else if (isNaN(min)){
-            inRange = input <= max;
-        } else {
-            inRange = input >= min && input <= max;
-        }
+        let input = parseFloat(event.target.value);
+        const inRange = (isNaN(max) && input >= min) ||
+            (isNaN(min) && input <= max) ||
+            (isNaN(max) && isNaN(min)) ||
+            (!isNaN(max) && !isNaN(min) && input >= min && input <= max);
         if (!inRange || isNaN(input)) {
             setValue('');
-        } else if (allowDecimal){
-            setValue(parseFloat(input));
-        } else {
+        } else if (input % 1 === 0) {
             setValue(parseInt(input));
         }
     }
@@ -64,7 +56,7 @@ const NumberEntry = ({
                 {returnLabel(min, max, label)}
             </label>
             <input
-                type="number"
+                type="text" inputmode="numeric"
                 value={value}
                 className="textarea resize-ta"
                 id={id}
