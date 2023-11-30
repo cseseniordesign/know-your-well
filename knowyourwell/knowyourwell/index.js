@@ -17,7 +17,7 @@ app.use(express.static("wwwroot"));
 
 let config;
 
-try{
+try {
     const fs = require('fs');
     const rawData = fs.readFileSync('config.json', 'utf8');
     config = JSON.parse(rawData);
