@@ -34,7 +34,10 @@ const renderField = (prompt, data, handleChange, isValid = true) => {
                 />
             );
         case "numberentry":
-             return (
+            if(max < 0){
+                setValue("-")
+            }
+            return (
                 <NumberEntry
                     fieldTitle={prompt.fieldTitle}
                     value={data[prompt.value]}
