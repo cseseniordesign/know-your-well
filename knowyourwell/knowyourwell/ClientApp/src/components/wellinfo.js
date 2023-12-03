@@ -33,20 +33,25 @@ export default function WellInfo() {
         }));
     }
 
-    const handleChange = (fieldName, value) => {
-        const emailPattern = /\S+@\S+\.\S+/;
-        const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
-        if (fieldName === 'smelltaste' && (value === 'No' || value === 'Unknown')) {
-            updateWellInfo('smelltastedescription', "");
-        } else if (fieldName === 'welldry' && (value === 'No' || value === 'Unknown')) {
-            updateWellInfo('welldrydescription', "");
-        } else if (fieldName === 'phone') {
-            updateWellInfo('isValidPhone', phonePattern.test(value));
-        } else if (fieldName === 'email') {
-            updateWellInfo('isValidEmail', emailPattern.test(value));
-        }
-        updateWellInfo(fieldName, value);
+   const handleChange = (fieldName, value) => {
+    const emailPattern = /\S+@\S+\.\S+/;
+    const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
+
+    let updates = { [fieldName]: value };
+
+    if (fieldName === 'smelltaste' && (value === 'No' || value === 'Unknown')) {
+        updates['smelltastedescription'] = "";
+    } else if (fieldName === 'welldry' && (value === 'No' || value === 'Unknown')) {
+        updates['welldrydescription'] = "";
+    } else if (fieldName === 'phone') {
+        updates['isValidPhone'] = phonePattern.test(value);
+    } else if (fieldName === 'email') {
+        updates['isValidEmail'] = emailPattern.test(value);
     }
+
+    updateWellInfo(updates);
+};
+
 
     useEffect(() => {
         const savedWellInfo = localStorage.getItem('wellInfo');
