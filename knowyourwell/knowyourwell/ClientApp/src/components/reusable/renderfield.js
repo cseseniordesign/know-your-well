@@ -34,7 +34,7 @@ const renderField = (prompt, data, handleChange, isValid = true) => {
                 />
             );
         case "numberentry":
-            if(max < 0){
+            if(max < 0 && isNaN(data[prompt.value])){
                 setValue("-")
             }
             return (
