@@ -188,11 +188,7 @@ export default function WellInfo() {
             <h2>Well Info</h2>
             <p>*=Required Field</p>
             {wellInfoPrompts.map((prompt) => (
-                <div key={prompt.id}>{prompt.id === 'phone' ? 
-                renderField(prompt, wellInfo, handleChange, wellInfo.isValidPhone) : 
-                prompt.id === 'email' ?
-                renderField(prompt, wellInfo, handleChange, wellInfo.isValidEmail) : 
-                renderField(prompt, wellInfo, handleChange)}
+                <div key={prompt.id}>{renderField(prompt, wellInfo, handleChange)}
                 </div>
             ))}
             <div className="css">
