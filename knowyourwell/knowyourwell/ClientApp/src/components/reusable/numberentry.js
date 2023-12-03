@@ -56,8 +56,7 @@ const NumberEntry = ({
                 {returnLabel(min, max, label)}
             </label>
             <input
-                type="text" inputmode="numeric"
-                pattern="[0-9\-\.]*"
+                type="text"
                 value={value}
                 className="textarea resize-ta"
                 id={id}
