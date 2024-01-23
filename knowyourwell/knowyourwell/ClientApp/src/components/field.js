@@ -60,7 +60,7 @@ export default function Field() {
     }
 
     const handleChange = (fieldName, value) => {
-        if (fieldName === 'wellcover' && event.target.value === 'Intact') {
+        if (fieldName === 'wellcover' && value === 'Intact') {
             updateFieldData('wellcoverdescription', "");
         }
         updateFieldData(fieldName, value);
