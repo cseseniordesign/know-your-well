@@ -67,10 +67,8 @@ export default function ViewWell() {
 
     if (formElements.length!==0) {
         for (let i = 0; i < labelList.length; i += 2) {
-            debugger;
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
-            debugger
             if (firstColumnName === "Date Entered:")
                 //firstColumnValue = firstColumnValue.replace("T", " ").replace("Z", "").replace(".000", "");
             if (firstColumnName === "NRD District:")
