@@ -59,11 +59,11 @@ export default function Field() {
         }));
     }
 
-    const handleChange = (fieldName, event) => {
+    const handleChange = (fieldName, value) => {
         if (fieldName === 'wellcover' && event.target.value === 'Intact') {
             updateFieldData('wellcoverdescription', "");
         }
-        updateFieldData(fieldName, event.target.value);
+        updateFieldData(fieldName, value);
     }
 
     // geolocation  
