@@ -1,4 +1,6 @@
-﻿﻿﻿﻿const assignEntity = require('./middleware/saml.js');
+﻿﻿const useUser = require('./ClientApp/src/components/reusable/usercontext').useUser;
+
+const assignEntity = require('./middleware/saml.js');
 const { Constants } = require('samlify');
 
 const express = require("express");
@@ -450,6 +452,8 @@ app.post("/saml/acs", async (req, res) => {
 
         console.log('kywmem Value:', kywmemValue);
         console.log(' displayName Value:', displayName);
+        const userData = { name: displayName, kywmem: kywmemValue };
+        useUser(userData)
         });
     res.redirect("/Well")
 
