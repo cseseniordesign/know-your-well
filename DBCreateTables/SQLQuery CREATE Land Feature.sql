@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS [dbo].[tblLandFeature]
 
 CREATE TABLE [dbo].[tblLandFeature](
 	[landfeature_id] [int] NOT NULL IDENTITY(1, 1),
-	[well_id][int] NOT NULL,
+	[fieldactivity_id][int] NOT NULL,
 	[lf_type] [nvarchar](100) NOT NULL,
 	[lf_latitude][decimal](10,5) NOT NULL,
 	[lf_longitude][decimal](10,5) NOT NULL,
@@ -33,11 +33,11 @@ GO
 ALTER TABLE [dbo].[tblLandFeature] ADD  CONSTRAINT [DF_tblLandFeature_lf_datecollected]  DEFAULT (getdate()) FOR [lf_datecollected]
 GO
 
-ALTER TABLE [dbo].[tblLandFeature]  WITH CHECK ADD  CONSTRAINT [FK_tblLandFeature_tblWellInfo] FOREIGN KEY([well_id])
-REFERENCES [dbo].[tblWellinfo] ([well_id])
+ALTER TABLE [dbo].[tblLandFeature]  WITH CHECK ADD  CONSTRAINT [FK_tblLandFeature_tblFieldActivity] FOREIGN KEY([fieldactivity_id])
+REFERENCES [dbo].[tblFieldActivity] ([fieldactivity_id])
 GO
 
-ALTER TABLE [dbo].[tblLandFeature] CHECK CONSTRAINT [FK_tblLandFeature_tblWellInfo]
+ALTER TABLE [dbo].[tblLandFeature] CHECK CONSTRAINT [FK_tblLandFeature_tblFieldActivity]
 GO
 
 

@@ -1,4 +1,7 @@
-﻿﻿const assignEntity = require('./middleware/saml.js');
+
+const useUser = require('./ClientApp/src/components/reusable/usercontext').useUser;
+
+const assignEntity = require('./middleware/saml.js');
 const { Constants } = require('samlify');
 
 const express = require("express");
@@ -24,7 +27,7 @@ app.options('*', cors())
 
 let config;
 
-try{
+try {
     const fs = require('fs');
     const rawData = fs.readFileSync('config.json', 'utf8');
     config = JSON.parse(rawData);
@@ -70,6 +73,7 @@ app.post('/api/insert', (req, res) => {
         request.input('weather', sql.NVarChar, req.body.weather);
         request.input('wellcovercondition', sql.NVarChar, req.body.wellcovercondition);
         request.input('wellcoverdescription', sql.NVarChar, req.body.wellcoverdescription);
+        request.input('topography', sql.NVarChar, req.body.topography);
         request.input('runOff', sql.NVarChar, req.body.surfacerunoff);
         request.input('pooling', sql.NVarChar, req.body.pooling);
         request.input('temp', sql.Decimal(8, 2), req.body.groundwatertemp);
@@ -84,7 +88,7 @@ app.post('/api/insert', (req, res) => {
         })
 
         request
-            .query('INSERT INTO dbo.tblFieldActivity(well_id, fa_latitude, fa_longitude, fa_genlatitude, fa_genlongitude, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(@well_id, @fa_latitude, @fa_longitude, @fa_genlatitude, @fa_genlongitude, @weather, @wellcovercondition, @wellcoverdescription, @runOff, @pooling, @temp, @ph, @conductivity, @name, @observation, @dateentered)', function (err, recordset) {
+            .query('INSERT INTO dbo.tblFieldActivity(well_id, fa_latitude, fa_longitude, fa_genlatitude, fa_genlongitude, fa_weather, fa_wellcovercondition, fa_wellcoverdescription, fa_topography, fa_surfacerunoff, fa_pooling, fa_groundwatertemp, fa_ph, fa_conductivity, fa_datacollector, fa_observation, fa_datecollected) VALUES(@well_id, @fa_latitude, @fa_longitude, @fa_genlatitude, @fa_genlongitude, @weather, @wellcovercondition, @wellcoverdescription, @topography, @runOff, @pooling, @temp, @ph, @conductivity, @name, @observation, @dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -206,11 +210,28 @@ app.post('/createwellinfo', (req, res) => {
         request.input('wellcasematerial', sql.NVarChar, req.body.wellcasematerial);
         request.input('datacollector', sql.NVarChar, req.body.datacollector);
         request.input('observation', sql.NVarChar, req.body.observation);
-        request.input('topography', sql.NVarChar, req.body.topography);
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, wi_registration_number, wi_dnr_well_id, wi_well_user, wi_address, wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, wi_smelltaste_description, wi_welldry, wi_welldry_description, wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, wi_wellcasematerial, wi_datacollector, wi_observation, wi_topography, wi_dateentered) VALUES(@wellcode, @wellname, @school_id, @regisNum, @dnrWellId, @welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, @phone, @email, @wellowner, @installyear, @smelltaste, @smelltaste_description, @welldry, @welldry_description, @maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, @estlatitude, @estlongitude, @boreholediameter, @totaldepth, @wellwaterleveldepth, @aquifertype, @aquiferclass, @welltype, @wellcasematerial, @datacollector, @observation, @topography, @dateentered)', function (err, recordset) {
+            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, ' +
+                'wi_registration_number, wi_dnr_well_id, wi_well_user, wi_address, ' +
+                'wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, ' +
+                'wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, ' +
+                'wi_smelltaste_description, wi_welldry, wi_welldry_description, ' +
+                'wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, ' +
+                'wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, ' +
+                'wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, ' +
+                'wi_wellcasematerial, wi_datacollector, wi_observation, ' +
+                'wi_dateentered) ' +
+                'VALUES(@wellcode, @wellname, @school_id, @regisNum, @dnrWellId, ' +
+                '@welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, ' +
+                '@phone, @email, @wellowner, @installyear, @smelltaste, ' +
+                '@smelltaste_description, @welldry, @welldry_description, ' +
+                '@maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, ' +
+                '@estlatitude, @estlongitude, @boreholediameter, @totaldepth, ' +
+                '@wellwaterleveldepth, @aquifertype, @aquiferclass, @welltype, ' +
+                '@wellcasematerial, @datacollector, @observation, ' +
+                '@dateentered)', function (err, recordset) {
                 if (err) {
                     console.log(err)
                     res.status(500).send('Query does not execute.')
@@ -310,7 +331,7 @@ app.get('/FieldList', async (req, res) => {
 
         //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
 
-        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE (well_id = @well_id);', function (err, recordset) {
+        request.input('well_id', sql.Int, req.query.well_id).query('SELECT fa.fieldactivity_id, fa.fa_datecollected, cl.classlab_id, cl.cl_datecollected FROM dbo.tblFieldActivity AS fa LEFT JOIN dbo.tblClassroomLab AS cl ON fa.fieldactivity_id = cl.fieldactivity_id WHERE fa.well_id = @well_id;', function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(500).send('Query does not execute.')
@@ -425,12 +446,19 @@ app.post("/saml/acs", async (req, res) => {
     console.log("HEere")
     await req.sp.parseLoginResponse(req.idp, 'post', req)
     .then(parseResult => {
-      // Use the parseResult can do customized action
-        console.log(parseResult)
-        console.log(res)
-    })
-    .catch(console.error);
-  });
+        // Use the parseResult can do customized action
+
+        kywmemValue = parseResult.extract.attributes.kywmem
+        displayName = parseResult.extract.attributes.displayName
+
+        console.log('kywmem Value:', kywmemValue);
+        console.log(' displayName Value:', displayName);
+        const userData = { name: displayName, kywmem: kywmemValue };
+        useUser(userData)
+        });
+    res.redirect("/Well")
+
+});
 
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
