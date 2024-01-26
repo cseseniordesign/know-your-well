@@ -33,4 +33,17 @@ test('renders EntryPrompt component with required indicator', () => {
     expect(screen.getByTestId('requiredFieldIndicator')).toBeInTheDocument();
 });
 
-// Add more test cases as needed
+test('field title longer than 60 characters renders on multiple lines', () => {
+    const entryPrompt = render(
+        <EntryPrompt
+            id="test3"
+            fieldTitle="Test Field with a Really Long Title to Test that long Titles are rendered on multiple lines"
+            required={true}
+        />
+    );
+
+    expect(screen.getByText('Test Field with a Really Long Title to')).toBeInTheDocument();
+    expect(screen.getByText('Test that long Titles are rendered on')).toBeInTheDocument();    
+    expect(screen.getByText('multiple lines')).toBeInTheDocument();    
+});
+
