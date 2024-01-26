@@ -234,5 +234,22 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-knowyourwell/knowyourwell/index.js
+
+# Code coverage files
 knowyourwell/knowyourwell/config.json
+knowyourwell/knowyourwell/coverage/clover.xml
+knowyourwell/knowyourwell/coverage/coverage-final.json
+knowyourwell/knowyourwell/coverage/lcov.info
+knowyourwell/knowyourwell/coverage/lcov-report/base.css
+knowyourwell/knowyourwell/coverage/lcov-report/block-navigation.js
+knowyourwell/knowyourwell/coverage/lcov-report/entryprompt.js.html
+knowyourwell/knowyourwell/coverage/lcov-report/dropdownentry.js.html
+knowyourwell/knowyourwell/coverage/lcov-report/favicon.png
+knowyourwell/knowyourwell/coverage/lcov-report/index.html
+knowyourwell/knowyourwell/coverage/lcov-report/longtextentry.js.html
+knowyourwell/knowyourwell/coverage/lcov-report/numberentry.js.html
+knowyourwell/knowyourwell/coverage/lcov-report/prettify.css
+knowyourwell/knowyourwell/coverage/lcov-report/prettify.js
+knowyourwell/knowyourwell/coverage/lcov-report/shorttextentry.js.html
+knowyourwell/knowyourwell/coverage/lcov-report/sort-arrow-sprite.png
+knowyourwell/knowyourwell/coverage/lcov-report/sorter.js
