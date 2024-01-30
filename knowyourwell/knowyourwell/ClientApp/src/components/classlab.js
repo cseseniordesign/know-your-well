@@ -202,6 +202,7 @@ export default function ClassLab() {
                 options={["Clear", "Yellow with fluorescent rim", "Yellow without fluorescent rim"]}
                 value={bacteria}
                 onChange={handleChange_Bacteria}
+                setValue={setBacteria}
                 required={true}
             />
             <NumberEntry
