@@ -76,14 +76,16 @@ const NavMenu = () => {
         // console.log("CHECK RESPONSE HERE")
         // console.log("")
         let controlled_json = response.data
-        school = response.data.kywmem
-        name = response.data.displayn
+        let school = response.data.kywmem
+        let name = response.data.displayn
         // console.log(controlled_json);
         // console.log(controlled_json.kywmem)
         // console.log(controlled_json.displayn)
         // console.log("")
 
     })
+    console.log(school)
+    console.log(name)
 
     return (
         <header>
@@ -92,6 +94,7 @@ const NavMenu = () => {
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
                 <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}>{school}{name}</div>
+                <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}>HELLO</div>
                     <ul className="navbar-nav flex-grow">
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
