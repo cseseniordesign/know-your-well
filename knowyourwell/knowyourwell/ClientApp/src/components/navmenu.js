@@ -66,17 +66,22 @@ const NavMenu = () => {
     //     user = { name: ""}
     // }
     const { user } = useUser() || { user: { name: "" } };
+    let school = ""
+    let name = ""
+
     
     Axios.get('/userinfo', {
         responseType: "json"
     }).then(function (response) {
-        console.log("CHECK RESPONSE HERE")
-        console.log("")
+        // console.log("CHECK RESPONSE HERE")
+        // console.log("")
         let controlled_json = response.data
-        console.log(controlled_json);
-        console.log(controlled_json.kywmem)
-        console.log(controlled_json.displayn)
-        console.log("")
+        school = response.data.kywmem
+        name = response.data.displayn
+        // console.log(controlled_json);
+        // console.log(controlled_json.kywmem)
+        // console.log(controlled_json.displayn)
+        // console.log("")
 
     })
 
@@ -86,7 +91,7 @@ const NavMenu = () => {
                 <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-                {user && <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}>{user.name}</div>}
+                <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}>{school}{name}</div>
                     <ul className="navbar-nav flex-grow">
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
