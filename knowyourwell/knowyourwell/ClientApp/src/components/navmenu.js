@@ -53,6 +53,7 @@
 
 import React, { useState } from 'react';
 import { useUser } from './usercontext';
+import Axios from 'axios'
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './css/NavMenu.css';
@@ -65,6 +66,15 @@ const NavMenu = () => {
     //     user = { name: ""}
     // }
     const { user } = useUser() || { user: { name: "" } };
+    
+    Axios.get('/userinfo', {
+        responseType: "json"
+    }).then(function (response) {
+        console.log("CHECK RESPONSE HERE")
+        console.log("")
+        console.log(response);
+        console.log("")
+    })
 
     return (
         <header>

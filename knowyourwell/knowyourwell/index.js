@@ -1,5 +1,6 @@
 ﻿﻿
-const useUser = require('./ClientApp/src/components/usercontext.mjs').useUser;
+// const useUser = require('./ClientApp/src/components/usercontext.js').useUser;
+// // import('./ClientApp/src/components/usercontext.js').useUser;
 
 const assignEntity = require('./middleware/saml.js');
 const { Constants } = require('samlify');
@@ -10,7 +11,10 @@ const app = express();
 const sql = require('mssql')
 const cors = require('cors');
 const { response } = require("express");
-const path = require("path")
+const path = require("path");
+
+let kywmemValue = "kywmem";
+let displayName = "displayname";
 //require('dotenv').config()
 
 
@@ -440,6 +444,18 @@ app.get('/sso/redirect', async (req, res) => {
     return res.status(200).send(redirectUrl)
     
 });
+
+app.get('/userinfo', async (req, res) => {
+    // check if kywmem and name are empty
+    console.log("TESTING SCOPE HEREEEEEEEEEEEEEEEEEEE")
+    console.log("")
+    console.log(kywmemValue)
+    console.log(displayName)
+    console.log("")
+    // if it is empty respond with json saying they are empty
+    // if not then send the name and attribute
+    res.status(200).json({ kywmem: "HELLOOOO", displayn : "YOOO"})
+})
 
 // receive the idp response
 app.post("/saml/acs", async (req, res) => {
