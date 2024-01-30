@@ -1,56 +1,3 @@
-// import React from 'react'
-// import { useUser } from './reusable/usercontext';
-// import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap'
-// import { Link } from 'react-router-dom'
-// import './css/NavMenu.css';
-
-
-
-// export default class NavMenu extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-
-//         this.toggleNavbar = this.toggleNavbar.bind(this);
-//         this.state = {
-//             collapsed: true
-//         };
-//     }
-
-//     toggleNavbar() {
-//         this.setState({
-//             collapsed: !this.state.collapsed
-//         });
-//     }
-
-//     render() {
-//         const { user } = useUser();
-
-//         return (
-//             <header>
-//                 <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-//                     <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
-//                     <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-//                     <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-//                     <div style={{ fontFamily: 'Georgia, serif' }}>{user.name}</div>
-//                         <ul className="navbar-nav flex-grow">
-//                             <NavItem>
-//                                 <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
-//                             </NavItem>
-//                             <NavItem>
-//                                 <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink>
-//                             </NavItem>
-//                             <NavItem>
-//                                 <NavLink tag={Link} className="text-dark" to="AboutProject">About Project</NavLink>
-//                             </NavItem>
-//                         </ul>
-//                     </Collapse>
-//                 </Navbar>
-//             </header>
-//         );
-//     }
-// }
-
 import React, { useState } from 'react';
 import { useUser } from './usercontext';
 import Axios from 'axios'
@@ -70,20 +17,30 @@ const NavMenu = () => {
     let name = ""
 
     
-    Axios.get('/userinfo', {
-        responseType: "json"
-    }).then(function (response) {
-        // console.log("CHECK RESPONSE HERE")
-        // console.log("")
-        let controlled_json = response.data
-        let school = response.data.kywmem
-        let name = response.data.displayn
-        // console.log(controlled_json);
-        // console.log(controlled_json.kywmem)
-        // console.log(controlled_json.displayn)
-        // console.log("")
+    // Axios.get('/userinfo', {
+    //     responseType: "json"
+    // }).then(function (response) {
+    //     // console.log("CHECK RESPONSE HERE")
+    //     // console.log("")
+    //     school = response.data.kywmem
+    //     name = response.data.displayn
+    //     // console.log(controlled_json);
+    //     // console.log(controlled_json.kywmem)
+    //     // console.log(controlled_json.displayn)
+    //     // console.log("")
 
-    })
+    // })
+    (async () => {
+        try {
+            const response = await Axios.get('/userinfo', { responseType: "json" });
+            school = response.data.kywmem;
+            name = response.data.displayn;
+    
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
+    })();
+
     console.log(school)
     console.log(name)
 
