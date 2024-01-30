@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import "reflect-metadata"
+import { Routes, Route } from 'react-router-dom';
 import React from 'react';
 import './components/css/custom.css';
 import './components/css/style.css';
