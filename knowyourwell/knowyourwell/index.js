@@ -1,5 +1,5 @@
 ﻿﻿
-const useUser = require('./ClientApp/src/components/reusable/usercontext.js').useUser;
+const useUser = require('./ClientApp/src/components/usercontext.mjs').useUser;
 
 const assignEntity = require('./middleware/saml.js');
 const { Constants } = require('samlify');

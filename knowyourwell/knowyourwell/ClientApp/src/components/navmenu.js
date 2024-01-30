@@ -52,7 +52,7 @@
 // }
 
 import React, { useState } from 'react';
-import { useUser } from './reusable/usercontext';
+import { useUser } from './usercontext';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './css/NavMenu.css';
