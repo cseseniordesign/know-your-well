@@ -20,7 +20,7 @@ const NumberEntry = ({
         return (isNaN(max) && isNaN(min)) ||
             ((isNaN(max) || max < 0) && input >= min) ||
             ((isNaN(min) || min > 0) && input <= max) ||
-            (input > min && input < max);
+            ((input >= min && input <= max));
     }
 
     const isValidEntry = (input) => {
