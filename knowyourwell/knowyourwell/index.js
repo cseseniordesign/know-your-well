@@ -171,12 +171,12 @@ app.post('/createwellinfo', (req, res) => {
         transaction.on('rollback', aborted => {
             rolledBack = true
         })
-
+        
         request.input('wellcode', sql.NVarChar, req.body.wellcode);
         request.input('wellname', sql.NVarChar, req.body.wellname);
         request.input('school_id', sql.Int, req.body.school_id);
-        request.input('regisNum', sql.NVarChar, req.body.regisNum);
-        request.input('dnrWellId', sql.Int, req.body.dnrWellId);
+        request.input('registNum', sql.NVarChar, req.body.registNum);
+        request.input('dnrId', sql.Int, req.body.dnrId);
         request.input('welluser', sql.NVarChar, req.body.welluser);
         request.input('address', sql.NVarChar, req.body.address);
         request.input('city', sql.NVarChar, req.body.city);
@@ -220,7 +220,7 @@ app.post('/createwellinfo', (req, res) => {
                 'wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, ' +
                 'wi_wellcasematerial, wi_datacollector, wi_observation, ' +
                 'wi_dateentered) ' +
-                'VALUES(@wellcode, @wellname, @school_id, @regisNum, @dnrWellId, ' +
+                'VALUES(@wellcode, @wellname, @school_id, @registNum, @dnrId, ' +
                 '@welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, ' +
                 '@phone, @email, @wellowner, @installyear, @smelltaste, ' +
                 '@smelltaste_description, @welldry, @welldry_description, ' +
