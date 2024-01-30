@@ -72,8 +72,12 @@ const NavMenu = () => {
     }).then(function (response) {
         console.log("CHECK RESPONSE HERE")
         console.log("")
-        console.log(response);
+        controlled_json = response.data
+        console.log(controlled_json);
+        console.log(controlled_json.kywmem)
+        console.log(controlled_json.displayn)
         console.log("")
+
     })
 
     return (

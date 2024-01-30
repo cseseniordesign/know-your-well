@@ -447,14 +447,17 @@ app.get('/sso/redirect', async (req, res) => {
 
 app.get('/userinfo', async (req, res) => {
     // check if kywmem and name are empty
-    console.log("TESTING SCOPE HEREEEEEEEEEEEEEEEEEEE")
-    console.log("")
-    console.log(kywmemValue)
-    console.log(displayName)
-    console.log("")
     // if it is empty respond with json saying they are empty
     // if not then send the name and attribute
-    res.status(200).json({ kywmem: "HELLOOOO", displayn : "YOOO"})
+    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+
+
+    // res.status(200).json({ kywmem: "HELLOOOO", displayn : "YOOO"})
+    // console.log("TESTING SCOPE HEREEEEEEEEEEEEEEEEEEE")
+    // console.log("")
+    // console.log(kywmemValue)
+    // console.log(displayName)
+    // console.log("")
 })
 
 // receive the idp response
