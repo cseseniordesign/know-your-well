@@ -17,6 +17,8 @@ const prodWellInfo = {
     maintenance5yr: "",
     numberwelluser: "",
     nrd: "",
+    dnrId: "",
+    registNum: "",
     observation: "",
     pestmanure: "",
     phone: "",

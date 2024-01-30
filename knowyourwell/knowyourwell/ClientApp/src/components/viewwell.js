@@ -35,7 +35,7 @@ const secondColumn = [
     { "Name of Resident User:": "wi_well_user" },
     { "Village, Town, or City:": "wi_city" },
     { "Zip code:": "wi_zipcode" },
-    { "NRD District:": "nrd_id" },
+    { "NRD:": "nrd_id" },
     { "Email (of well user):": "wi_email_well_user" },
     { "Well construction completion year:": "wi_installyear" },
     { "Smell or taste of water desciption:": "wi_smelltaste_description" },
