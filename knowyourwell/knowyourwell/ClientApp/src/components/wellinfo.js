@@ -23,14 +23,18 @@ export default function WellInfo() {
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
     const [schoolid, setSchoolid] = useState("");
 
-    //
-    Axios.get('/userinfo', { //getting kywmem attribute / school id from user profile
+    useEffect(() => {
+        // Fetch the user info once when the component mounts
+        Axios.get('/userinfo', {
             responseType: "json"
         }).then(function (response) {
             setSchoolid(response.data.kywmem);
-            console.log(schoolid)
-        })
-    //
+            console.log(response.data.kywmem); // Log the fetched schoolid
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+    }, []); // The empty array ensures this effect runs only once after the initial render
+    
 
     const date = new Date();
     const futureDate = date.getDate();
