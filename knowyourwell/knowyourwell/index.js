@@ -13,7 +13,7 @@ const cors = require('cors');
 const { response } = require("express");
 const path = require("path");
 
-let kywmemValue = "kywmem";
+let kywmemValue = "15";
 let displayName = "displayname";
 //require('dotenv').config()
 

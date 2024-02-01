@@ -21,6 +21,7 @@ export default function WellInfo() {
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
+    const [schoolid, setSchoolid] = useState("");
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -104,6 +105,12 @@ export default function WellInfo() {
             localStorage.setItem('queuedData', JSON.stringify(queuedData));
             console.log('Data queued as the user is offline');
         } else { //Making post request if the user is online
+        Axios.get('/userinfo', { //getting kywmem attribute / school id from user profile
+                responseType: "json"
+            }).then(function (response) {
+                setSchoolid(response.data.kywmem);
+            })
+        console.log(schoolid)
         Axios.post('/createwellinfo', {
             address: wellInfo.address,
             aquiferclass: wellInfo.aquiferclass,
@@ -126,7 +133,7 @@ export default function WellInfo() {
             pestmanure: wellInfo.pestmanure,
             phone: wellInfo.phone,
             registNum: wellInfo.registNum,
-            school_id: wellInfo.school_id,
+            school_id: schoolid,
             smelltaste: wellInfo.smelltaste,
             smelltastedescription: wellInfo.smelltastedescription,
             state: wellInfo.state,
