@@ -33,6 +33,7 @@ export default function Well() {
     const [sort, setSort] = useState(String);
     const [wellList, setWells] = useState([]);
     const [schoolid, setSchoolid] = useState("")
+    setSchoolid('school_id = 15')
 
     // const counties = <div><button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
     //     {countyOptions.map((county, index) => (
@@ -154,7 +155,6 @@ export default function Well() {
             queryParams.sortBy = sort;
         }
 
-        setSchoolid('school_id = 15')
         queryParams.schoolid = schoolid
 
         Axios.get("/Wells", {
@@ -177,7 +177,7 @@ export default function Well() {
                 console.log("wellData is Invalid JSON")
             }
         }
-    }, [filter, sort]);
+    }, [filter, sort, schoolid]);
 
     if (isLoading) {
         if (wellList.length > 0) {
