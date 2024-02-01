@@ -263,7 +263,7 @@ app.get('/Wells', async (req, res) => {
 
 
     if (kywmemValue && kywmemValue != "") {
-        query = query +  ` WHERE ${kywmemValue}`
+        query = query +  ` WHERE school_id = ${kywmemValue}`
         if (req.query.filterBy && req.query.filterBy != "undefined") {
             query = query + ` AND ${req.query.filterBy}`
         }
