@@ -23,17 +23,15 @@ export default function WellInfo() {
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
     const [schoolid, setSchoolid] = useState("");
 
-    useEffect(() => {
-        // Fetch the user info once when the component mounts
+    useEffect(() => { // very inefficient solution, may have to come back to this and use user contexts
         Axios.get('/userinfo', {
-            responseType: "json"
-        }).then(function (response) {
-            setSchoolid(response.data.kywmem);
-            console.log(response.data.kywmem); // Log the fetched schoolid
-        }).catch(function (error) {
-            console.error("Failed to fetch school id:", error);
-        });
-    }, []); // The empty array ensures this effect runs only once after the initial render
+                responseType: "json"
+            }).then(function (response) {
+                setSchoolid(response.data.kywmem);
+            }).catch(function (error) {
+                console.error("Failed to fetch school id:", error);
+            });
+    }, []);
     
 
     const date = new Date();

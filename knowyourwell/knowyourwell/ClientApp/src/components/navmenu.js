@@ -10,13 +10,13 @@ const NavMenu = () => {
     const toggleNavbar = () => setCollapsed(!collapsed);
     const [school, setSchool] = useState("");
     const [name, setName] = useState("");
+    
     // let { user } = useUser();
     // if (user == null) {
     //     user = { name: ""}
     // }
     // const { user } = useUser() || { user: { name: "" } };
-    // let school = ""
-    // let name = ""
+
 
     
     Axios.get('/userinfo', {
@@ -25,6 +25,7 @@ const NavMenu = () => {
         setSchool(response.data.kywmem);
         setName(response.data.displayn);
     })
+
 
     // console.log(school)
     // console.log(name)

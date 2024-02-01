@@ -261,8 +261,12 @@ app.post('/createwellinfo', (req, res) => {
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
 
+    if (req.query.schoolid && req.query.schoolid != "undefined") {
+        query = query +  ` WHERE ${req.query.schoolid}`
+    }
+
     if (req.query.filterBy && req.query.filterBy != "undefined") {
-        query = query + ` WHERE ${req.query.filterBy}`
+        query = query + ` AND ${req.query.filterBy}`
     }
 
     if (req.query.sortBy && req.query.sortBy != "undefined") {
