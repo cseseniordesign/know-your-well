@@ -180,7 +180,7 @@ export default function Well() {
                 console.log("wellData is Invalid JSON")
             }
         }
-    }, [filter, sort, schoolid]);
+    }, [filter, sort]);
 
     if (isLoading) {
         if (wellList.length > 0) {
