@@ -26,7 +26,6 @@ const firstColumn = [
     { "Water level (feet):": "wi_waterleveldepth" },
     { "Aquifer Class:": "wi_aquiferclass" },
     { "Well Casing Material:": "wi_wellcasematerial" },
-    { "Date Entered:": "wi_dateentered" }
 ];
 
 const secondColumn = [
@@ -90,7 +89,7 @@ export default function ViewWell() {
     if (formElements.length !== 0) {
         formElements['county_id'] = countyOptions.find(option => option.key === formElements['county_id'].toString()).value;
         formElements['nrd_id'] = nrdOptions.find(option => option.key === formElements['nrd_id'].toString()).value;
-        for (let i = 0; i < firstColumn.length - 1; i++) {
+        for (let i = 0; i < firstColumn.length; i++) {
             const firstColumnName = Object.keys(firstColumn[i])[0];
             const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
 
@@ -115,6 +114,11 @@ export default function ViewWell() {
                 <br />
                 <div className="container" style={{ textAlign: "center" }}>
                     {columnList}
+                    <div key="dateentered" className="row">
+                        <div className="col">
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {formElements["wi_dateentered"]}</p>
+                        </div>
+                    </div>
                     <br />
                     <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
                     <br /><br />
