@@ -124,7 +124,7 @@ export default function ViewWell() {
                     {columnList}
                     <div key="dateentered" className="row">
                         <div className="col">
-                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).format('llll')}</p>
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).format('MM-DD-YYYY hh:mm A')}</p>
                         </div>
                     </div>
                     <br />
