@@ -117,7 +117,7 @@ export default function WellInfo() {
             email: wellInfo.email,
             estlatitude: wellInfo.estlatitude,
             estlongitude: wellInfo.estlongitude,
-            installyear: JSON.stringify(wellInfo.installyear).substring(1, 5),
+            installyear: JSON.stringify(wellInfo.installyear).substring(0,4),
             landuse5yr: wellInfo.landuse5yr,
             maintenance5yr: wellInfo.maintenance5yr,
             nrdid: wellInfo.nrd,
