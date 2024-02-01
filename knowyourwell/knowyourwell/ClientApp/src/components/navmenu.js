@@ -22,30 +22,12 @@ const NavMenu = () => {
     Axios.get('/userinfo', {
         responseType: "json"
     }).then(function (response) {
-        // console.log("CHECK RESPONSE HERE")
-        // console.log("")
-        // school = response.data.kywmem
-        // name = response.data.displayn
         setSchool(response.data.kywmem);
         setName(response.data.displayn);
-        // console.log(controlled_json);
-        // console.log(controlled_json.kywmem)
-        // console.log(controlled_json.displayn)
-        // console.log("")
     })
-    // (async () => {
-    //     try {
-    //         const response = await Axios.get('/userinfo', { responseType: "json" });
-    //         school = response.data.kywmem;
-    //         name = response.data.displayn;
-    
-    //     } catch (error) {
-    //         console.error("Error fetching data: ", error);
-    //     }
-    // })();
 
-    console.log(school)
-    console.log(name)
+    // console.log(school)
+    // console.log(name)
 
     return (
         <header>
@@ -53,8 +35,7 @@ const NavMenu = () => {
                 <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-                <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}>{school}{name}</div>
-                <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}>HELLO</div>
+                <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}><strong>{school}</strong></div>
                     <ul className="navbar-nav flex-grow">
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
