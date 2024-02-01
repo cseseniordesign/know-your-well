@@ -95,8 +95,6 @@ export default function WellInfo() {
     }
 
     function addWellInfo() {
-        console.log(wellInfo);
-        debugger;
         wellInfo.county = countyOptions.indexOf(wellInfo.county) + 1
         wellInfo.nrd = nrdOptions.indexOf(wellInfo.nrd) + 1
         //Checking to see if user is offline - if so then we cache the data that would have been submitted

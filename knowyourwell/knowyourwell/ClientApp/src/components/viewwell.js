@@ -1,13 +1,11 @@
 ﻿import React, { useEffect, useState } from 'react';
 import './css/forms.css'
+import moment from 'moment';
 import Axios from 'axios'
-import moment from 'moment'
 import { useSearchParams } from "react-router-dom";
 import countyOptions from './resources/counties';
 import nrdOptions from './resources/nrds';
 
-let formElements = []
-let columnList = []
 const firstColumn = [
     { "Well Code:": "wi_wellcode" },
     { "Data Collector:": "wi_datacollector" },
@@ -57,7 +55,14 @@ export default function ViewWell() {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
     }
 
+    const backToWellsButton = () => {
+        window.location.href = '/well';
+    }
+
     const [isLoading, setLoading] = useState(true);
+
+    let formElements = [];
+
     useEffect(() => {
         Axios
             .get("/GetWellInfo", {
@@ -86,7 +91,10 @@ export default function ViewWell() {
 
         }
     }
-    if (formElements.length !== 0) {
+
+    let columnList = [];
+
+    if (formElements) {
         formElements['county_id'] = countyOptions.find(option => option.key === formElements['county_id'].toString()).value;
         formElements['nrd_id'] = nrdOptions.find(option => option.key === formElements['nrd_id'].toString()).value;
         for (let i = 0; i < firstColumn.length; i++) {
@@ -116,7 +124,7 @@ export default function ViewWell() {
                     {columnList}
                     <div key="dateentered" className="row">
                         <div className="col">
-                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {formElements["wi_dateentered"]}</p>
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).format('llll')}</p>
                         </div>
                     </div>
                     <br />
@@ -128,9 +136,16 @@ export default function ViewWell() {
                 </div>
             </div>
         );
-    }
+    } else {
+        return (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <h1>The well you're looking for does not exist</h1>
+                <button
+                    type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backToWellsButton}>
+                    Back
+                </button>
+            </div>
 
-    else {
-        return <h1>Loading</h1>
+        );
     }
 }

@@ -8,7 +8,7 @@ const prodWellInfo = {
     city: "",
     county: "",
     datacollector: "",
-    dateentered: moment().format('L, h:mm a'), 
+    dateentered: moment().format("llll"), 
     email: "",
     estlatitude: "",
     estlongitude: "",
