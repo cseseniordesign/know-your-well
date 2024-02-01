@@ -25,7 +25,7 @@ const prodWellInfo = {
     school_id: "1",
     smelltaste: "",
     smelltastedescription: "",
-    state: "",
+    state: "NE",
     totaldepth: "",
     wellwaterleveldepth: "",
     wellcasematerial: "",
