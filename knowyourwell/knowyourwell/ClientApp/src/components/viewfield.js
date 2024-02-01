@@ -11,13 +11,13 @@ const labelList = [
     "Conditions: Weather, temperature, or anything note-worthy the well:", "Condition of the well cover:", "Well Cover Description:", "Topography of the well location:",
     "Evidence of surface run-off entry to the well:", "Evidence of pooling or puddles within 12 ft of the well:", "Groundwater Temperature [Degrees Celsius]:",
     "pH [0-14]:", "Conductivity [uS/cm]:", "Data Collector’s Name:",
-    "Observations:", "Date Entered:", "Latitude:", "Longitude:"
+    "Observations:", "Date Entered:", "Latitude:", "Longitude:", "Date Entered:"
 ]
 
 const keyList = [
     "fa_weather", "fa_wellcovercondition", "fa_wellcoverdescription", "fa_topography", "fa_surfacerunoff",
     "fa_pooling", "fa_groundwatertemp", "fa_ph", "fa_conductivity",
-    "fa_datacollector", "fa_observation", "fa_datecollected", "fa_latitude", "fa_longitude"
+    "fa_datacollector", "fa_observation", "fa_datecollected", "fa_latitude", "fa_longitude", "fa_datecollected"
 ]
 
 export default function ViewField() {
@@ -68,7 +68,7 @@ export default function ViewField() {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
             if (firstColumnName == "Date Entered:")
-                firstColumnValue = moment(firstColumnValue).format("MMMM DD, YYYY")
+                firstColumnValue = moment(firstColumnValue).format("MM-DD-YYYY hh:mm A")
             let secondColumnValue = ""
             let secondColumnName = ""
             if (i < labelList.length + 1) {
@@ -76,7 +76,7 @@ export default function ViewField() {
                 secondColumnValue = formElements[keyList[i + 1]]
             }
             if (secondColumnName == "Date Entered:")
-                secondColumnValue = moment(secondColumnValue).format("MMMM DD, YYYY")
+                secondColumnValue = moment(secondColumnValue).format("MM-DD-YYYY hh:mm A")
 
             columnList.push(
                 <div class="row">
