@@ -8,38 +8,41 @@ import './css/NavMenu.css';
 const NavMenu = () => {
     const [collapsed, setCollapsed] = useState(true);
     const toggleNavbar = () => setCollapsed(!collapsed);
+    const [school, setSchool] = useState("");
+    const [name, setName] = useState("");
     // let { user } = useUser();
     // if (user == null) {
     //     user = { name: ""}
     // }
-    const { user } = useUser() || { user: { name: "" } };
-    let school = ""
-    let name = ""
+    // const { user } = useUser() || { user: { name: "" } };
+    // let school = ""
+    // let name = ""
 
     
-    // Axios.get('/userinfo', {
-    //     responseType: "json"
-    // }).then(function (response) {
-    //     // console.log("CHECK RESPONSE HERE")
-    //     // console.log("")
-    //     school = response.data.kywmem
-    //     name = response.data.displayn
-    //     // console.log(controlled_json);
-    //     // console.log(controlled_json.kywmem)
-    //     // console.log(controlled_json.displayn)
-    //     // console.log("")
-
-    // })
-    (async () => {
-        try {
-            const response = await Axios.get('/userinfo', { responseType: "json" });
-            school = response.data.kywmem;
-            name = response.data.displayn;
+    Axios.get('/userinfo', {
+        responseType: "json"
+    }).then(function (response) {
+        // console.log("CHECK RESPONSE HERE")
+        // console.log("")
+        // school = response.data.kywmem
+        // name = response.data.displayn
+        setSchool(response.data.kywmem);
+        setName(response.data.displayn);
+        // console.log(controlled_json);
+        // console.log(controlled_json.kywmem)
+        // console.log(controlled_json.displayn)
+        // console.log("")
+    })
+    // (async () => {
+    //     try {
+    //         const response = await Axios.get('/userinfo', { responseType: "json" });
+    //         school = response.data.kywmem;
+    //         name = response.data.displayn;
     
-        } catch (error) {
-            console.error("Error fetching data: ", error);
-        }
-    })();
+    //     } catch (error) {
+    //         console.error("Error fetching data: ", error);
+    //     }
+    // })();
 
     console.log(school)
     console.log(name)
