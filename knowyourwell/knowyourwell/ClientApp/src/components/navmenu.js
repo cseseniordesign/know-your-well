@@ -11,13 +11,8 @@ const NavMenu = () => {
     const [school, setSchool] = useState("");
     const [name, setName] = useState("");
     
-    // let { user } = useUser();
-    // if (user == null) {
-    //     user = { name: ""}
-    // }
-    // const { user } = useUser() || { user: { name: "" } };
 
-
+    //  { user } = useUser() || { user: { name: "" } };
     
     Axios.get('/userinfo', {
         responseType: "json"
@@ -25,6 +20,11 @@ const NavMenu = () => {
         setSchool(response.data.kywmem);
         setName(response.data.displayn);
     })
+
+    // let { user } = useUser();
+    // if (user == null) {
+    //     user = { name: ""}
+    // }
 
 
     // console.log(school)

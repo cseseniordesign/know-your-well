@@ -32,11 +32,11 @@ export default function Well() {
     const [filter, setFilter] = useState(String);
     const [sort, setSort] = useState(String);
     const [wellList, setWells] = useState([]);
-    const [schoolid, setSchoolid] = useState("")
+    // const [schoolid, setSchoolid] = useState("")
 
-    useEffect(() => {
-        setSchoolid('school_id = 15');
-      }, []);
+    // useEffect(() => {
+    //     setSchoolid('school_id = 15');
+    //   }, []);
 
     // const counties = <div><button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
     //     {countyOptions.map((county, index) => (
@@ -158,7 +158,7 @@ export default function Well() {
             queryParams.sortBy = sort;
         }
 
-        queryParams.schoolid = schoolid
+        // queryParams.schoolid = schoolid
 
         Axios.get("/Wells", {
             params: queryParams,
