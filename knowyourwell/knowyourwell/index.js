@@ -1,6 +1,5 @@
-
 ﻿﻿const assignEntity = require('./middleware/saml.js');
-﻿﻿
+
 const { Constants } = require('samlify');
 
 const express = require("express");
@@ -11,8 +10,6 @@ const cors = require('cors');
 const { response } = require("express");
 const path = require("path");
 
-let kywmemValue = "15";
-let displayName = "displayname";
 //require('dotenv').config()
 
 let kywmemValue = "1";
@@ -472,8 +469,6 @@ app.post("/saml/acs", async (req, res) => {
 
         console.log('kywmem Value:', kywmemValue);
         console.log(' displayName Value:', displayName);
-        const userData = { name: displayName, kywmem: kywmemValue };
-        useUser(userData)
         });
     res.redirect("/Well")
 
