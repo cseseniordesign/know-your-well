@@ -10,6 +10,9 @@ const { response } = require("express");
 const path = require("path")
 //require('dotenv').config()
 
+let kywmemValue = "1";
+let displayName = "displayname";
+
 
 app.use(cors({    origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -254,8 +257,13 @@ app.post('/createwellinfo', (req, res) => {
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
 
-    if (req.query.filterBy && req.query.filterBy != "undefined") {
-        query = query + ` WHERE ${req.query.filterBy}`
+    if (kywmemValue && kywmemValue != "") {
+        query = query +  ` WHERE school_id = ${kywmemValue}`
+        if (req.query.filterBy && req.query.filterBy != "undefined") {
+            query = query + ` AND ${req.query.filterBy}`
+        }
+    } else if (req.query.filterBy && req.query.filterBy != "undefined") {
+        query = query + ` Where ${req.query.filterBy}`
     }
 
     if (req.query.sortBy && req.query.sortBy != "undefined") {
@@ -437,6 +445,10 @@ app.get('/sso/redirect', async (req, res) => {
     return res.status(200).send(redirectUrl)
     
 });
+
+app.get('/userinfo', async (req, res) => {
+    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+})
 
 // receive the idp response
 app.post("/saml/acs", async (req, res) => {

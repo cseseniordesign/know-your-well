@@ -21,6 +21,17 @@ export default function WellInfo() {
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
+    const [schoolid, setSchoolid] = useState("");
+
+    useEffect(() => { // very inefficient solution, may have to come back to this and use user contexts
+        Axios.get('/userinfo', {
+                responseType: "json"
+            }).then(function (response) {
+                setSchoolid(response.data.kywmem);
+            }).catch(function (error) {
+                console.error("Failed to fetch school id:", error);
+            });
+    }, []);
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -126,7 +137,8 @@ export default function WellInfo() {
                 pestmanure: wellInfo.pestmanure,
                 phone: wellInfo.phone,
                 registNum: wellInfo.registNum,
-                school_id: wellInfo.school_id,
+                school_id: schoolid,
+                // school_id: wellInfo.school_id,
                 smelltaste: wellInfo.smelltaste,
                 smelltastedescription: wellInfo.smelltastedescription,
                 state: wellInfo.state,

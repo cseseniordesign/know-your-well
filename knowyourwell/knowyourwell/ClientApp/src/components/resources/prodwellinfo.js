@@ -22,7 +22,7 @@ const prodWellInfo = {
     observation: "",
     pestmanure: "",
     phone: "",
-    school_id: "1",
+    school_id: "",
     smelltaste: "",
     smelltastedescription: "",
     state: "NE",
