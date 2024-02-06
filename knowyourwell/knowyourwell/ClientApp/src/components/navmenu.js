@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useUser } from './usercontext';
 import Axios from 'axios'
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';

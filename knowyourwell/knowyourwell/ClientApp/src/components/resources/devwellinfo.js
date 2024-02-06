@@ -8,7 +8,7 @@ const devWellInfo = {
     city: "Kearney",
     county: "9",
     datacollector: "Sample Data Collector",
-    dateentered: moment().format('L, h:mm a'),
+    dateentered: moment().format('llll'),
     dnrId: "5678",
     email: "example@example.com",
     estlatitude: "40",

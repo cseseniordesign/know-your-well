@@ -18,8 +18,8 @@ function generatelistElements(previousEntries, well_id, name) {
         listElements.push(
             <>
                 < List.Item >
-                    <h4>Field Activity Date: {moment(entry.fieldDate).format("MMMM DD, YYYY hh:mm A")}</h4>
-                    <h4>Class Lab Date: {moment(entry.labDate).format("MMMM DD, YYYY hh:mm A")}</h4>
+                    <h4>Field Activity Date: {moment(entry.fieldDate).format("MM-DD-YYYY hh:mm A")}</h4>
+                    <h4>Class Lab Date: {moment(entry.labDate).format("MM-DD-YYYY hh:mm A")}</h4>
                 </List.Item >
                 <List.Item key={key}>
                     <List.Content>

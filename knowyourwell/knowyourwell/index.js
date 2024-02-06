@@ -1,8 +1,6 @@
-﻿﻿
-// const useUser = require('./ClientApp/src/components/usercontext.js').useUser;
-// // import('./ClientApp/src/components/usercontext.js').useUser;
 
-const assignEntity = require('./middleware/saml.js');
+﻿﻿const assignEntity = require('./middleware/saml.js');
+﻿﻿
 const { Constants } = require('samlify');
 
 const express = require("express");
@@ -16,6 +14,9 @@ const path = require("path");
 let kywmemValue = "15";
 let displayName = "displayname";
 //require('dotenv').config()
+
+let kywmemValue = "1";
+let displayName = "displayname";
 
 
 app.use(cors({    origin: '*'}));
@@ -178,12 +179,12 @@ app.post('/createwellinfo', (req, res) => {
         transaction.on('rollback', aborted => {
             rolledBack = true
         })
-
+        
         request.input('wellcode', sql.NVarChar, req.body.wellcode);
         request.input('wellname', sql.NVarChar, req.body.wellname);
         request.input('school_id', sql.Int, req.body.school_id);
-        request.input('regisNum', sql.NVarChar, req.body.regisNum);
-        request.input('dnrWellId', sql.Int, req.body.dnrWellId);
+        request.input('registNum', sql.NVarChar, req.body.registNum);
+        request.input('dnrId', sql.Int, req.body.dnrId);
         request.input('welluser', sql.NVarChar, req.body.welluser);
         request.input('address', sql.NVarChar, req.body.address);
         request.input('city', sql.NVarChar, req.body.city);
@@ -227,7 +228,7 @@ app.post('/createwellinfo', (req, res) => {
                 'wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, ' +
                 'wi_wellcasematerial, wi_datacollector, wi_observation, ' +
                 'wi_dateentered) ' +
-                'VALUES(@wellcode, @wellname, @school_id, @regisNum, @dnrWellId, ' +
+                'VALUES(@wellcode, @wellname, @school_id, @registNum, @dnrId, ' +
                 '@welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, ' +
                 '@phone, @email, @wellowner, @installyear, @smelltaste, ' +
                 '@smelltaste_description, @welldry, @welldry_description, ' +
@@ -456,18 +457,7 @@ app.get('/sso/redirect', async (req, res) => {
 });
 
 app.get('/userinfo', async (req, res) => {
-    // check if kywmem and name are empty
-    // if it is empty respond with json saying they are empty
-    // if not then send the name and attribute
     res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
-
-
-    // res.status(200).json({ kywmem: "HELLOOOO", displayn : "YOOO"})
-    // console.log("TESTING SCOPE HEREEEEEEEEEEEEEEEEEEE")
-    // console.log("")
-    // console.log(kywmemValue)
-    // console.log(displayName)
-    // console.log("")
 })
 
 // receive the idp response
