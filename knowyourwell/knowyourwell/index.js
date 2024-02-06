@@ -1,4 +1,6 @@
+
 ﻿﻿const assignEntity = require('./middleware/saml.js');
+﻿﻿
 const { Constants } = require('samlify');
 
 const express = require("express");
@@ -7,7 +9,10 @@ const app = express();
 const sql = require('mssql')
 const cors = require('cors');
 const { response } = require("express");
-const path = require("path")
+const path = require("path");
+
+let kywmemValue = "15";
+let displayName = "displayname";
 //require('dotenv').config()
 
 let kywmemValue = "1";
@@ -257,6 +262,7 @@ app.post('/createwellinfo', (req, res) => {
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
 
+
     if (kywmemValue && kywmemValue != "") {
         query = query +  ` WHERE school_id = ${kywmemValue}`
         if (req.query.filterBy && req.query.filterBy != "undefined") {
@@ -265,6 +271,10 @@ app.get('/Wells', async (req, res) => {
     } else if (req.query.filterBy && req.query.filterBy != "undefined") {
         query = query + ` Where ${req.query.filterBy}`
     }
+
+    // if (req.query.filterBy && req.query.filterBy != "undefined") {
+    //     query = query + ` AND ${req.query.filterBy}`
+    // }
 
     if (req.query.sortBy && req.query.sortBy != "undefined") {
         query = query + ` ORDER BY ${req.query.sortBy}`
@@ -462,6 +472,8 @@ app.post("/saml/acs", async (req, res) => {
 
         console.log('kywmem Value:', kywmemValue);
         console.log(' displayName Value:', displayName);
+        const userData = { name: displayName, kywmem: kywmemValue };
+        useUser(userData)
         });
     res.redirect("/Well")
 

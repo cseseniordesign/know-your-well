@@ -115,6 +115,7 @@ export default function WellInfo() {
             localStorage.setItem('queuedData', JSON.stringify(queuedData));
             console.log('Data queued as the user is offline');
         } else { //Making post request if the user is online
+
             Axios.post('/createwellinfo', {
                 address: wellInfo.address,
                 aquiferclass: wellInfo.aquiferclass,
