@@ -35,7 +35,7 @@ const NavMenu = () => {
                 <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-                <div style={{ fontFamily: 'Georgia, serif', float: 'right' }}><strong>{name}</strong></div>
+                <div style={{ float: 'right' }}><strong>{name}</strong></div>
                     <ul className="navbar-nav flex-grow">
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
@@ -49,6 +49,8 @@ const NavMenu = () => {
                     </ul>
                 </Collapse>
             </Navbar>
+            <div class="displayname">
+            </div>
         </header>
     );
 }
