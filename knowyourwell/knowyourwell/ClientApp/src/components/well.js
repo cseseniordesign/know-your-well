@@ -3,7 +3,6 @@ import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios'
-import { useNavigate } from 'react-router-dom';
 
 
 function responseDataToHTMLList(responseData) {
