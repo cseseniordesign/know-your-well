@@ -33,7 +33,24 @@ export default function Well() {
     const [sort, setSort] = useState(String);
     const [wellList, setWells] = useState([]);
     const containerRef = useRef(null);
-	const [schoolid, setSchoolid] = useState("")
+    // const [schoolid, setSchoolid] = useState("")
+
+    // useEffect(() => {
+    //     setSchoolid('school_id = 15');
+    //   }, []);
+
+    // const counties = <div><button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
+    //     {countyOptions.map((county, index) => (
+    //         <button
+    //             key={index}
+    //             onClick={() => setFilter(`county_id = '${index + 1}'`)}
+    //             style={{ backgroundColor: filter === `county_id = '${index + 1}'` ? 'yellow' : 'transparent' }}
+    //             className="dropdown-item"
+    //         >
+    //             {county}
+    //         </button>
+    //     ))}
+    // </div>
 
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
     useEffect(() => {
@@ -91,7 +108,7 @@ export default function Well() {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
             <div style={{ flex: 30, textAlign: 'center' }}>
-                <div onBlur={handleBlur} ref={containerRef}>
+                <div ref={containerRef}>
                     <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
                     {isSortDropdownVisible && (
                         <div style={{
