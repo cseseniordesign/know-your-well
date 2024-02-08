@@ -2,6 +2,7 @@
 import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
 import Axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 
 function responseDataToHTMLList(responseData) {
@@ -32,6 +33,7 @@ export default function Well() {
     const [filter, setFilter] = useState(String);
     const [sort, setSort] = useState(String);
     const [wellList, setWells] = useState([]);
+    const navigate = useNavigate();
     // const [schoolid, setSchoolid] = useState("")
 
     // useEffect(() => {
