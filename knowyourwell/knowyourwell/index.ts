@@ -1,4 +1,8 @@
-﻿﻿const assignEntity = require('./middleware/saml.js');
+﻿﻿import { TblWellInfo } from './ClientApp/src/entities/TblWellInfo';
+import { AppDataSource } from './ClientApp/src/data-source';
+
+const wellInfoRepository = AppDataSource.getRepository(TblWellInfo);
+const assignEntity = require('./middleware/saml.js');
 
 const { Constants } = require('samlify');
 
@@ -9,6 +13,15 @@ const sql = require('mssql')
 const cors = require('cors');
 const { response } = require("express");
 const path = require("path");
+
+// import assignEntity from './middleware/saml';
+// import { Constants } from 'samlify';
+// import express from "express";
+// import bodyParser from 'body-parser';
+// import { response } from "express";
+// import sql from 'mssql';
+// import cors from 'cors';
+// import path from "path";
 
 //require('dotenv').config()
 
@@ -176,83 +189,8 @@ app.post('/createwellinfo', (req, res) => {
         transaction.on('rollback', aborted => {
             rolledBack = true
         })
-        
-        request.input('wellcode', sql.NVarChar, req.body.wellcode);
-        request.input('wellname', sql.NVarChar, req.body.wellname);
-        request.input('school_id', sql.Int, req.body.school_id);
-        request.input('registNum', sql.NVarChar, req.body.registNum);
-        request.input('dnrId', sql.Int, req.body.dnrId);
-        request.input('welluser', sql.NVarChar, req.body.welluser);
-        request.input('address', sql.NVarChar, req.body.address);
-        request.input('city', sql.NVarChar, req.body.city);
-        request.input('state', sql.NVarChar, req.body.state);
-        request.input('zipcode', sql.NVarChar, req.body.zipcode);
-        request.input('county_id', sql.Int, req.body.countyid);
-        request.input('nrd_id', sql.Int, req.body.nrdid);
-        request.input('phone', sql.NVarChar, req.body.phone);
-        request.input('email', sql.NVarChar, req.body.email);
-        request.input('wellowner', sql.NVarChar, req.body.wellowner);
-        request.input('installyear', sql.Int, req.body.installyear);
-        request.input('smelltaste', sql.NVarChar, req.body.smelltaste);
-        request.input('smelltaste_description', sql.NVarChar, req.body.smelltastedescription);
-        request.input('welldry', sql.NVarChar, req.body.welldry);
-        request.input('welldry_description', sql.NVarChar, req.body.welldrydescription);
-        request.input('maintenance5yr', sql.NVarChar, req.body.maintenance5yr);
-        request.input('landuse5yr', sql.NVarChar, req.body.landuse5yr);
-        request.input('numberwelluser', sql.Int, req.body.numberwelluser);
-        request.input('pestmanure', sql.NVarChar, req.body.pestmanure);
-        request.input('estlatitude', sql.Decimal(10, 5), req.body.estlatitude);
-        request.input('estlongitude', sql.Decimal(10, 5), req.body.estlongitude);
-        request.input('boreholediameter', sql.Decimal(8, 2), req.body.boreholediameter);
-        request.input('totaldepth', sql.Decimal(8, 2), req.body.totaldepth);
-        request.input('wellwaterleveldepth', sql.Decimal(8, 2), req.body.wellwaterleveldepth);
-        request.input('aquifertype', sql.NVarChar, req.body.aquifertype);
-        request.input('aquiferclass', sql.NVarChar, req.body.aquiferclass);
-        request.input('welltype', sql.NVarChar, req.body.welltype);
-        request.input('wellcasematerial', sql.NVarChar, req.body.wellcasematerial);
-        request.input('datacollector', sql.NVarChar, req.body.datacollector);
-        request.input('observation', sql.NVarChar, req.body.observation);
-        request.input('dateentered', sql.DateTime, req.body.dateentered);
-
-        request
-            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, ' +
-                'wi_registration_number, wi_dnr_well_id, wi_well_user, wi_address, ' +
-                'wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, ' +
-                'wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, ' +
-                'wi_smelltaste_description, wi_welldry, wi_welldry_description, ' +
-                'wi_maintenance5yr, wi_landuse5yr, wi_numberwelluser, wi_pestmanure, ' +
-                'wi_estlatitude, wi_estlongitude, wi_boreholediameter, wi_totaldepth, ' +
-                'wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, ' +
-                'wi_wellcasematerial, wi_datacollector, wi_observation, ' +
-                'wi_dateentered) ' +
-                'VALUES(@wellcode, @wellname, @school_id, @registNum, @dnrId, ' +
-                '@welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, ' +
-                '@phone, @email, @wellowner, @installyear, @smelltaste, ' +
-                '@smelltaste_description, @welldry, @welldry_description, ' +
-                '@maintenance5yr, @landuse5yr, @numberwelluser, @pestmanure, ' +
-                '@estlatitude, @estlongitude, @boreholediameter, @totaldepth, ' +
-                '@wellwaterleveldepth, @aquifertype, @aquiferclass, @welltype, ' +
-                '@wellcasematerial, @datacollector, @observation, ' +
-                '@dateentered)', function (err, recordset) {
-                if (err) {
-                    console.log(err)
-                    res.status(500).send('Query does not execute.')
-                    if (!rolledBack) {
-                        transaction.rollback(err => {
-                            // ... error checks
-                        })
-                    }
-                } else {
-                    transaction.commit(err => {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send('500: Server Error.')
-                        }
-                        else
-                            res.status(500).send('Values Inserted')
-                    })
-                }
-            })
+        const wellInfo = new TbhWellInfo(req.body);
+        wellInfoRepository.save(wellInfo);
     })
 });
 
