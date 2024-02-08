@@ -1,4 +1,5 @@
-﻿﻿const assignEntity = require('./middleware/saml.js');
+const assignEntity = require('./middleware/saml.js');
+
 
 const { Constants } = require('samlify');
 
@@ -13,7 +14,7 @@ const path = require("path");
 //require('dotenv').config()
 
 let kywmemValue = "1";
-let displayName = "displayname";
+let displayName = "Student Name";
 
 
 app.use(cors({    origin: '*'}));
