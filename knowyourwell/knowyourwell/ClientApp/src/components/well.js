@@ -50,6 +50,21 @@ export default function Well() {
     //         </button>
     //     ))}
     // </div>
+
+    useEffect(() => { // login check
+        Axios.get('/userinfo', {
+            responseType: "json"
+        }).then(function (response) {
+            let displayname = response.data.displayn;
+            if(displayname == ""){
+                window.alert("You are not yet logged in. Please log in.");
+                navigate("/");
+            }
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+    }, [navigate]);
+
     const counties = <div><button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
     <button onClick={() => setFilter("county_id = '1'")} style={{ backgroundColor: filter === "county_id = '1'" ? 'yellow' : 'transparent' }} className="dropdown-item">Adams</button>
     <button onClick={() => setFilter("county_id = '2'")} style={{ backgroundColor: filter === "county_id = '2'" ? 'yellow' : 'transparent' }} className="dropdown-item">Antelop</button>
