@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState, useRef } from 'react';
 import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
+import { useNavigate } from 'react-router-dom';
 import Axios from 'axios'
 
 
@@ -33,6 +34,7 @@ export default function Well() {
     const [sort, setSort] = useState(String);
     const [wellList, setWells] = useState([]);
     const containerRef = useRef(null);
+    const navigate = useNavigate();
     // const [schoolid, setSchoolid] = useState("")
 
     // useEffect(() => {
@@ -51,6 +53,20 @@ export default function Well() {
     //         </button>
     //     ))}
     // </div>
+
+    useEffect(() => { // login check
+        Axios.get('/userinfo', {
+            responseType: "json"
+        }).then(function (response) {
+            let displayname = response.data.displayn;
+            if(displayname == ""){
+                window.alert("You are not yet logged in. Please log in.");
+                navigate("/");
+            }
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+    }, [navigate]);
 
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
     useEffect(() => {
