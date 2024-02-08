@@ -95,8 +95,8 @@ export default function ViewWell() {
     let columnList = [];
 
     if (formElements) {
-        formElements['county_id'] = countyOptions.find(option => option.key === (formElements['county_id']).toString()).value; // -1 to properly index
-        formElements['nrd_id'] = nrdOptions.find(option => option.key === (formElements['nrd_id']).toString()).value;
+        formElements['county_id'] = countyOptions.find(option => option.key === formElements['county_id'].toString()).value;
+        formElements['nrd_id'] = nrdOptions.find(option => option.key === formElements['nrd_id'].toString()).value;
         for (let i = 0; i < firstColumn.length; i++) {
             const firstColumnName = Object.keys(firstColumn[i])[0];
             const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
