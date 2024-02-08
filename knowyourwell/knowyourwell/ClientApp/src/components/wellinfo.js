@@ -106,8 +106,6 @@ export default function WellInfo() {
     }
 
     function addWellInfo() {
-        wellInfo.county = countyOptions.indexOf(wellInfo.county);
-        wellInfo.nrd = nrdOptions.indexOf(wellInfo.nrd);
         //Checking to see if user is offline - if so then we cache the data that would have been submitted
         if (!navigator.onLine) {
             const queuedData = JSON.parse(localStorage.getItem('queuedData')) || [];

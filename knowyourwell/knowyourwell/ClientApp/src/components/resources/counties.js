@@ -1,5 +1,4 @@
 const countyOptions = [
-    "BUFFER",
     "Adams",
     "Antelope",
     "Arthur",
