@@ -1,4 +1,5 @@
 const nrdOptions = [
+    "BUFFER",
     "Central Platte",
     "Lewis and Clark",
     "Little Blue",
