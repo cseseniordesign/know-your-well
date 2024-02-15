@@ -1,4 +1,4 @@
-const assignEntity = require('./middleware/saml.js');
+﻿﻿const assignEntity = require('./middleware/saml.js');
 
 
 const { Constants } = require('samlify');
@@ -37,9 +37,9 @@ try {
 } catch (e) {
     config = {
         user: "kywAdmin",
-        password: process.env.APPSETTING_MSSQL_PASSWORD,
+        password: "KJ6vcCG2",
         database: "kyw",
-        server: 'kyw.database.windows.net',
+        server: 'localhost',
         pool: {
             max: 10,
             min: 0,
@@ -47,7 +47,7 @@ try {
         },
         options: {
             encrypt: true, // for azure
-            trustServerCertificate: false // change to true for local dev / self-signed certs
+            trustServerCertificate: true // change to true for local dev / self-signed certs
         }
     }
 }
@@ -457,6 +457,61 @@ app.get('/sso/redirect', async (req, res) => {
 app.get('/userinfo', async (req, res) => {
     res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 })
+
+app.get('/wellcode', async (req, res) => {
+    // get the school id from the request
+    // find the school code using the school id
+    // find the largest well code for that school
+    // add 1 to the largest well code and return
+    let query1 = `SELECT sch_code FROM dbo.tblSchool WHERE school_id = ${kywmemValue}`
+    
+    let sch_code = ''
+
+    const getSchoolCode = () => {
+        return new Promise((resolve, reject) => {
+            appPool.query(query1, function (err, recordset) {
+                if (err) {
+                    console.log(err);
+                    reject(new Error('SERVER ERROR'));
+                } else {
+                    const sch_code = recordset.recordset[0].sch_code;
+                    resolve(sch_code);
+                }
+            });
+        });
+    };
+
+    sch_code = await getSchoolCode();
+
+    let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE '${sch_code}%'`
+    // let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE 'abc%'`
+    console.log(query2)
+    appPool.query(query2, function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return;
+        }
+        let prev_max_wellcode = recordset.recordset[0].MAXWELLCODE
+        if (prev_max_wellcode == null) {
+            //well code could not be found with this school code meaning this school has not created a well before
+            console.log("Correctly found undefined")
+            const firstWellCode = sch_code + "001"
+            res.status(200).json({ wellcode: firstWellCode})
+        } else {
+            // well code could be found for this school
+            // console.log("Correctly found well code")
+            console.log(prev_max_wellcode)
+            const match = prev_max_wellcode.match(/([a-zA-Z]*)(\d*)/);
+            const oldNumber = match[2]
+            const newNumber = Number(oldNumber) + 1
+            const paddedNumber = newNumber.toString().padStart(oldNumber.length, '0');
+            const finalWellCode = sch_code + paddedNumber
+            res.status(200).json({ wellcode: finalWellCode})
+        }
+        
+    });
+});
 
 // receive the idp response
 app.post("/saml/acs", async (req, res) => {
