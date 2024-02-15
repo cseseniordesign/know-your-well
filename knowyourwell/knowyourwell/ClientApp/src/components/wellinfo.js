@@ -22,6 +22,7 @@ export default function WellInfo() {
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
     const [schoolid, setSchoolid] = useState("");
+    const [wellcode, setWellCode] = useState("");
 
     useEffect(() => { // very inefficient solution, may have to come back to this and use user contexts
         Axios.get('/userinfo', {
@@ -31,7 +32,18 @@ export default function WellInfo() {
             }).catch(function (error) {
                 console.error("Failed to fetch school id:", error);
             });
+        
+        Axios.get('/wellcode', {
+            }).then(function (response) {
+                // response should be well code
+                console.log(response.data.wellcode)
+                setWellCode(response.data.wellcode)
+            }).catch(function (error) {
+                console.error("Failed to generate well code:", error);
+            });
+        
     }, []);
+
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -144,7 +156,8 @@ export default function WellInfo() {
                 totaldepth: Number(wellInfo.totaldepth),
                 wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
                 wellcasematerial: wellInfo.wellcasematerial,
-                wellcode: wellInfo.wellcode,
+                // wellcode: wellInfo.wellcode,
+                wellcode: wellcode,
                 welldry: wellInfo.welldry,
                 welldrydescription: wellInfo.welldrydescription,
                 wellname: wellInfo.wellname,
