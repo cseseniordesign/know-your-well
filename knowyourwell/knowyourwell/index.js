@@ -36,6 +36,7 @@ try {
     config = JSON.parse(rawData);
 } catch (e) {
     config = {
+        user: "kywAdmin",
         password: process.env.APPSETTING_MSSQL_PASSWORD,
         database: "kyw",
         server: 'kyw.database.windows.net',
