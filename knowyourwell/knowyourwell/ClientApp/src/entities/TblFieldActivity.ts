@@ -28,7 +28,7 @@ export class TblFieldActivity {
   @Column("decimal", { name: "fa_genlongitude", precision: 8, scale: 3 })
   faGenlongitude: number;
 
-  @Column("nvarchar", { name: "fa_weather" })
+  @Column("nvarchar", { name: "fa_weather", default: "default" })
   faWeather: string;
 
   @Column("nvarchar", { name: "fa_wellcovercondition", length: 255 })

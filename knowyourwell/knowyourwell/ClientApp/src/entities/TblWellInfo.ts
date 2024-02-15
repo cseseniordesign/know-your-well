@@ -13,7 +13,6 @@ import { TblWellFeature } from "./TblWellFeature";
 import { TblWellForm } from "./TblWellForm";
 import { TblSchool } from "./TblSchool";
 
-@Index("PK_tblWellInfo", ["wellId"], { unique: true })
 @Entity("tblWellInfo", { schema: "dbo" })
 export class TblWellInfo {
   @PrimaryGeneratedColumn({ type: "int", name: "well_id" })
@@ -114,7 +113,7 @@ export class TblWellInfo {
   @Column("nvarchar", { name: "wi_welltype", length: 100 })
   wiWelltype: string;
 
-  @Column("nvarchar", { name: "wi_wellcasematerial" })
+  @Column("nvarchar", { name: "wi_wellcasematerial", default: "default" })
   wiWellcasematerial: string;
 
   @Column("nvarchar", { name: "wi_datacollector", nullable: true, length: 255 })
@@ -145,22 +144,22 @@ export class TblWellInfo {
   @Column("int", { name: "wi_dnr_well_id", nullable: true })
   wiDnrWellId: number | null;
 
-  @OneToMany(
-    () => TblFieldActivity,
-    (tblFieldActivity) => tblFieldActivity.well
-  )
-  tblFieldActivities: TblFieldActivity[];
+  // @OneToMany(
+  //   () => TblFieldActivity,
+  //   (tblFieldActivity) => tblFieldActivity.well
+  // )
+  // tblFieldActivities: TblFieldActivity[];
 
-  @OneToMany(() => TblLandFeature, (tblLandFeature) => tblLandFeature.well)
-  tblLandFeatures: TblLandFeature[];
+  // @OneToMany(() => TblLandFeature, (tblLandFeature) => tblLandFeature.well)
+  // tblLandFeatures: TblLandFeature[];
 
-  @OneToMany(() => TblWellFeature, (tblWellFeature) => tblWellFeature.well)
-  tblWellFeatures: TblWellFeature[];
+  // @OneToMany(() => TblWellFeature, (tblWellFeature) => tblWellFeature.well)
+  // tblWellFeatures: TblWellFeature[];
 
-  @OneToMany(() => TblWellForm, (tblWellForm) => tblWellForm.well)
-  tblWellForms: TblWellForm[];
+  // @OneToMany(() => TblWellForm, (tblWellForm) => tblWellForm.well)
+  // tblWellForms: TblWellForm[];
 
-  @ManyToOne(() => TblSchool, (tblSchool) => tblSchool.tblWellInfos)
-  @JoinColumn([{ name: "school_id", referencedColumnName: "schoolId" }])
-  school: TblSchool;
+  // @ManyToOne(() => TblSchool, (tblSchool) => tblSchool.tblWellInfos)
+  // @JoinColumn([{ name: "school_id", referencedColumnName: "schoolId" }])
+  // school: TblSchool;
 }
