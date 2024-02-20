@@ -14,12 +14,8 @@ const path = require("path");
 
 //require('dotenv').config()
 
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false }
-}));
+let kywmemValue = "";
+let displayName = "";
 
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: true }));
