@@ -13,8 +13,8 @@ const path = require("path");
 
 //require('dotenv').config()
 
-let kywmemValue = "1";
-let displayName = "Student Name";
+let kywmemValue = "";
+let displayName = "";
 
 
 app.use(cors({    origin: '*'}));
