@@ -28,29 +28,6 @@ const NavMenu = () => {
         window.location.href = '/';
     };
 
-    // const initLogout = () => {
-    //     console.log("navmenu logout")
-    //     const options = {
-    //         method: 'GET',
-    //         mode: 'no-cors'
-    //       };
-    //     fetch("/logout", options)
-    //         .then(function(response) {
-
-    //             if (!response.ok) {
-    //                 throw new Error("Network response was not ok");
-    //             }
-    //             return response.text()
-    //         })
-    //         .then(function(data) {
-    //             window.location.href = '/';
-    //         })
-    //         .catch(function(error) {
-    //             console.log("ERROR")
-    //             console.error("Error:", error);
-    //         });
-    // };
-
 
     return (
         <header>
@@ -58,7 +35,7 @@ const NavMenu = () => {
                 <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-                {name && <button onClick={initLogout} style={{marginLeft: '10px', background: 'none',border: 'none',padding: 0,cursor: 'pointer'}}><strong>Clickable Text</strong></button>}
+                {name && <button onClick={initLogout} style={{marginLeft: '10px', background: 'none',border: 'none',padding: 0,cursor: 'pointer'}}><strong>Logout</strong></button>}
                 <div>  </div>
                 <div style={{ float: 'right' }}><strong>{name}</strong></div>
                     <ul className="navbar-nav flex-grow">
