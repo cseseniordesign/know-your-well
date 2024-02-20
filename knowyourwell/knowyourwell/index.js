@@ -451,16 +451,9 @@ app.get('/sso/redirect', async (req, res) => {
     console.log("Context returned: " + redirectUrl + "\n");
 
     return res.status(200).send(redirectUrl)
-    
 });
 
 app.get('/logout', async (req, res) => {
-    console.log("hit index logout")
-
-    // const { id, context} = await req.sp.createLogoutRequest(req.idp, 'redirect', {logoutNameID: displayName});
-    // console.log('made it past redirect')
-    // console.log("id: " + id)
-    // console.log("Context returned: " + context + "\n");
     kywmemValue = ""
     displayName = ""
 
@@ -498,7 +491,6 @@ app.get('/wellcode', async (req, res) => {
 
     let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE '${sch_code}%'`
     // let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE 'abc%'`
-    console.log(query2)
     appPool.query(query2, function (err, recordset) {
         if (err) {
             console.log(err)
@@ -508,13 +500,10 @@ app.get('/wellcode', async (req, res) => {
         let prev_max_wellcode = recordset.recordset[0].MAXWELLCODE
         if (prev_max_wellcode == null) {
             //well code could not be found with this school code meaning this school has not created a well before
-            console.log("Correctly found undefined")
             const firstWellCode = sch_code + "001"
             res.status(200).json({ wellcode: firstWellCode})
         } else {
             // well code could be found for this school
-            // console.log("Correctly found well code")
-            console.log(prev_max_wellcode)
             const match = prev_max_wellcode.match(/([a-zA-Z]*)(\d*)/);
             const oldNumber = match[2]
             const newNumber = Number(oldNumber) + 1
