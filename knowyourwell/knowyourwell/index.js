@@ -454,6 +454,19 @@ app.get('/sso/redirect', async (req, res) => {
     
 });
 
+app.get('/logout', async (req, res) => {
+    console.log("hit index logout")
+
+    // const { id, context} = await req.sp.createLogoutRequest(req.idp, 'redirect', {logoutNameID: displayName});
+    // console.log('made it past redirect')
+    // console.log("id: " + id)
+    // console.log("Context returned: " + context + "\n");
+    kywmemValue = ""
+    displayName = ""
+
+    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+})
+
 app.get('/userinfo', async (req, res) => {
     res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 })
