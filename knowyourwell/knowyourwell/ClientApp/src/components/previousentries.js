@@ -3,6 +3,7 @@ import { List } from 'semantic-ui-react'
 import { useSearchParams } from "react-router-dom";
 import Axios from 'axios'
 import moment from 'moment'
+import { useNavigate } from 'react-router-dom';
 //import FieldSelection from './fieldselection';
 
 var previousEntries = []
@@ -39,6 +40,21 @@ export default function PreviousEntries() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
     const wellName = searchParams.get("wellName")
+    const navigate = useNavigate();
+
+    useEffect(() => { // login check
+        Axios.get('/userinfo', {
+            responseType: "json"
+        }).then(function (response) {
+            let displayname = response.data.displayn;
+            if(displayname == ""){
+                window.alert("You are not yet logged in. Please log in.");
+                navigate("/");
+            }
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+    }, [navigate]);
 
     const backButton = () => {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;

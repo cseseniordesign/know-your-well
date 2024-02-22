@@ -44,6 +44,7 @@ const NavMenu = () => {
                         </NavItem>
                         <NavItem>
                             {name && <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink>}
+                            {/* <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink> */}
                         </NavItem>
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="AboutProject">About Project</NavLink>

@@ -5,6 +5,7 @@ import Axios from 'axios'
 import { useSearchParams } from "react-router-dom";
 import countyOptions from './resources/counties';
 import nrdOptions from './resources/nrds';
+import { useNavigate } from 'react-router-dom';
 
 const firstColumn = [
     { "Well Code:": "wi_wellcode" },
@@ -50,6 +51,21 @@ export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
     const wellName = searchParams.get("wellName");
+    const navigate = useNavigate();
+
+    useEffect(() => { // login check
+        Axios.get('/userinfo', {
+            responseType: "json"
+        }).then(function (response) {
+            let displayname = response.data.displayn;
+            if(displayname == ""){
+                window.alert("You are not yet logged in. Please log in.");
+                navigate("/");
+            }
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+    }, [navigate]);
 
     const backButton = () => {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
