@@ -1,6 +1,5 @@
 ﻿﻿const assignEntity = require('./middleware/saml.js');
 
-
 const { Constants } = require('samlify');
 
 const express = require("express");
