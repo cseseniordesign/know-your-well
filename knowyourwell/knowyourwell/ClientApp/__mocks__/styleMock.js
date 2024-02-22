@@ -1,0 +1,2 @@
+// mockCSS.js
+module.exports = {};

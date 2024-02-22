@@ -180,7 +180,7 @@ app.post('/createwellinfo', (req, res) => {
         
         request.input('wellcode', sql.NVarChar, req.body.wellcode);
         request.input('wellname', sql.NVarChar, req.body.wellname);
-        request.input('school_id', sql.Int, req.body.school_id);
+        // request.input('school_id', sql.Int, req.body.school_id);
         request.input('registNum', sql.NVarChar, req.body.registNum);
         request.input('dnrId', sql.Int, req.body.dnrId);
         request.input('welluser', sql.NVarChar, req.body.welluser);
@@ -216,7 +216,7 @@ app.post('/createwellinfo', (req, res) => {
         request.input('dateentered', sql.DateTime, req.body.dateentered);
 
         request
-            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, school_id, ' +
+            .query('INSERT INTO dbo.tblWellInfo(wi_wellcode, wi_wellname, ' +
                 'wi_registration_number, wi_dnr_well_id, wi_well_user, wi_address, ' +
                 'wi_city, wi_state, wi_zipcode, county_id, nrd_id, wi_phone_well_user, ' +
                 'wi_email_well_user, wi_well_owner, wi_installyear, wi_smelltaste, ' +
@@ -226,7 +226,7 @@ app.post('/createwellinfo', (req, res) => {
                 'wi_waterleveldepth, wi_aquifertype, wi_aquiferclass, wi_welltype, ' +
                 'wi_wellcasematerial, wi_datacollector, wi_observation, ' +
                 'wi_dateentered) ' +
-                'VALUES(@wellcode, @wellname, @school_id, @registNum, @dnrId, ' +
+                'VALUES(@wellcode, @wellname, @registNum, @dnrId, ' +
                 '@welluser, @address, @city, @state, @zipcode, @county_id, @nrd_id, ' +
                 '@phone, @email, @wellowner, @installyear, @smelltaste, ' +
                 '@smelltaste_description, @welldry, @welldry_description, ' +
@@ -261,14 +261,14 @@ app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
 
 
-    if (kywmemValue && kywmemValue != "") {
-        query = query +  ` WHERE school_id = ${kywmemValue}`
+    // if (kywmemValue && kywmemValue != "") {
+    //     query = query +  ` WHERE school_id = ${kywmemValue}`
         if (req.query.filterBy && req.query.filterBy != "undefined") {
             query = query + ` AND ${req.query.filterBy}`
         }
-    } else if (req.query.filterBy && req.query.filterBy != "undefined") {
-        query = query + ` Where ${req.query.filterBy}`
-    }
+    // } else if (req.query.filterBy && req.query.filterBy != "undefined") {
+    //     query = query + ` Where ${req.query.filterBy}`
+    // }
 
     // if (req.query.filterBy && req.query.filterBy != "undefined") {
     //     query = query + ` AND ${req.query.filterBy}`
@@ -464,56 +464,56 @@ app.get('/userinfo', async (req, res) => {
     res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 })
 
-app.get('/wellcode', async (req, res) => {
-    // get the school id from the request
-    // find the school code using the school id
-    // find the largest well code for that school
-    // add 1 to the largest well code and return
-    let query1 = `SELECT sch_code FROM dbo.tblSchool WHERE school_id = ${kywmemValue}`
+// app.get('/wellcode', async (req, res) => {
+//     // get the school id from the request
+//     // find the school code using the school id
+//     // find the largest well code for that school
+//     // add 1 to the largest well code and return
+//     let query1 = `SELECT sch_code FROM dbo.tblSchool WHERE school_id = ${kywmemValue}`
     
-    let sch_code = ''
+//     let sch_code = ''
 
-    const getSchoolCode = () => {
-        return new Promise((resolve, reject) => {
-            appPool.query(query1, function (err, recordset) {
-                if (err) {
-                    console.log(err);
-                    reject(new Error('SERVER ERROR'));
-                } else {
-                    const sch_code = recordset.recordset[0].sch_code;
-                    resolve(sch_code);
-                }
-            });
-        });
-    };
+//     const getSchoolCode = () => {
+//         return new Promise((resolve, reject) => {
+//             appPool.query(query1, function (err, recordset) {
+//                 if (err) {
+//                     console.log(err);
+//                     reject(new Error('SERVER ERROR'));
+//                 } else {
+//                     const sch_code = recordset.recordset[0].sch_code;
+//                     resolve(sch_code);
+//                 }
+//             });
+//         });
+//     };
 
-    sch_code = await getSchoolCode();
+//     sch_code = await getSchoolCode();
 
-    let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE '${sch_code}%'`
-    // let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE 'abc%'`
-    appPool.query(query2, function (err, recordset) {
-        if (err) {
-            console.log(err)
-            res.status(500).send('SERVER ERROR')
-            return;
-        }
-        let prev_max_wellcode = recordset.recordset[0].MAXWELLCODE
-        if (prev_max_wellcode == null) {
-            //well code could not be found with this school code meaning this school has not created a well before
-            const firstWellCode = sch_code + "001"
-            res.status(200).json({ wellcode: firstWellCode})
-        } else {
-            // well code could be found for this school
-            const match = prev_max_wellcode.match(/([a-zA-Z]*)(\d*)/);
-            const oldNumber = match[2]
-            const newNumber = Number(oldNumber) + 1
-            const paddedNumber = newNumber.toString().padStart(oldNumber.length, '0');
-            const finalWellCode = sch_code + paddedNumber
-            res.status(200).json({ wellcode: finalWellCode})
-        }
+//     let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE '${sch_code}%'`
+//     // let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE 'abc%'`
+//     appPool.query(query2, function (err, recordset) {
+//         if (err) {
+//             console.log(err)
+//             res.status(500).send('SERVER ERROR')
+//             return;
+//         }
+//         let prev_max_wellcode = recordset.recordset[0].MAXWELLCODE
+//         if (prev_max_wellcode == null) {
+//             //well code could not be found with this school code meaning this school has not created a well before
+//             const firstWellCode = sch_code + "001"
+//             res.status(200).json({ wellcode: firstWellCode})
+//         } else {
+//             // well code could be found for this school
+//             const match = prev_max_wellcode.match(/([a-zA-Z]*)(\d*)/);
+//             const oldNumber = match[2]
+//             const newNumber = Number(oldNumber) + 1
+//             const paddedNumber = newNumber.toString().padStart(oldNumber.length, '0');
+//             const finalWellCode = sch_code + paddedNumber
+//             res.status(200).json({ wellcode: finalWellCode})
+//         }
         
-    });
-});
+//     });
+// });
 
 // receive the idp response
 app.post("/saml/acs", async (req, res) => {
