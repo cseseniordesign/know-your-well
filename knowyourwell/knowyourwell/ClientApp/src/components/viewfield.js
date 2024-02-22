@@ -4,6 +4,7 @@ import './css/forms.css'
 import Axios from 'axios'
 import moment from 'moment'
 import { useSearchParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 let formElements = []
 let columnList = []
@@ -25,6 +26,23 @@ export default function ViewField() {
     const fieldactivity_id = parseInt(searchParams.get("fieldactivity_id"));
     const wellName = searchParams.get("wellName")
     const well_id = searchParams.get("well_id")
+    const navigate = useNavigate();
+
+    useEffect(() => { // login check
+        Axios.get('/userinfo', {
+            responseType: "json"
+        }).then(function (response) {
+            let displayname = response.data.displayn;
+            if(displayname == ""){
+                window.alert("You are not yet logged in. Please log in.");
+                navigate("/");
+            }
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+    }, [navigate]);
+
+    
 
     const backButton = () => {
         window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}`;

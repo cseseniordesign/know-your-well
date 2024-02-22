@@ -1,6 +1,5 @@
 ﻿﻿const assignEntity = require('./middleware/saml.js');
 
-
 const { Constants } = require('samlify');
 
 const express = require("express");
@@ -290,6 +289,8 @@ app.get('/Wells', async (req, res) => {
 
 
 app.get('/GetWellInfo', async (req, res) => {
+
+
     const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)
@@ -445,6 +446,13 @@ app.get('/GetLabEntry', async (req, res) => {
 })
 
 app.get('/sso/redirect', async (req, res) => {
+
+    // const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
+    // defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
+    
+    // function insertTagProperty(xmlTag, property){
+    //   return xmlTag.replace('>', ` ${property}>`);
+    // }    
 
     const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', {forceAuthn: "true"});
     console.log("id: " + id)

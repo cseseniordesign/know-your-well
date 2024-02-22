@@ -3,6 +3,8 @@ import { List } from 'semantic-ui-react'
 import { useSearchParams } from "react-router-dom";
 import Axios from 'axios'
 import moment from 'moment'
+import { useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditWell() {
 
@@ -10,6 +12,25 @@ export default function EditWell() {
     const wellName = searchParams.get("wellName");
     const FieldRedirect  = searchParams.get("FieldRedirect")
     const id = searchParams.get("id");
+    const navigate = useNavigate();
+
+    useEffect(() => { // login check
+        Axios.get('/userinfo', {
+            responseType: "json"
+        }).then(function (response) {
+            let displayname = response.data.displayn;
+            if(displayname == ""){
+                window.alert("You are not yet logged in. Please log in.");
+                navigate("/");
+            }
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+    }, [navigate]);
+
+
+
+
     if (localStorage.getItem("fieldData"+id) && !FieldRedirect) {
         const viewSavedForm = window.confirm("You have a saved field form.\n Would you like to view it?");
         if (viewSavedForm) {
