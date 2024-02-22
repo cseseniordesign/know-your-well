@@ -21,6 +21,29 @@ export default function WellInfo() {
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
+    const [schoolid, setSchoolid] = useState("");
+    const [wellcode, setWellCode] = useState("");
+
+    useEffect(() => { // very inefficient solution, may have to come back to this and use user contexts
+        Axios.get('/userinfo', {
+                responseType: "json"
+            }).then(function (response) {
+                setSchoolid(response.data.kywmem);
+            }).catch(function (error) {
+                console.error("Failed to fetch school id:", error);
+            });
+        
+        Axios.get('/wellcode', {
+            }).then(function (response) {
+                // response should be well code
+                console.log(response.data.wellcode)
+                setWellCode(response.data.wellcode)
+            }).catch(function (error) {
+                console.error("Failed to generate well code:", error);
+            });
+        
+    }, []);
+
 
     const date = new Date();
     const futureDate = date.getDate();
@@ -75,7 +98,7 @@ export default function WellInfo() {
         };
         const handleOffline = () => {
             console.log('Offline');
-           
+
         };
         window.addEventListener('online', handleOnline);
         window.addEventListener('offline', handleOffline);
@@ -84,7 +107,7 @@ export default function WellInfo() {
             window.removeEventListener('offline', handleOffline);
         };
     }, []);
-    
+
     function cacheWellInfo() {
         localStorage.setItem('wellInfo', JSON.stringify(wellInfo));
         alert('Well information has been saved!');
@@ -95,8 +118,6 @@ export default function WellInfo() {
     }
 
     function addWellInfo() {
-        wellInfo.county = countyOptions.indexOf(wellInfo.county) + 1
-        wellInfo.nrd = nrdOptions.indexOf(wellInfo.nrd) + 1
         //Checking to see if user is offline - if so then we cache the data that would have been submitted
         if (!navigator.onLine) {
             const queuedData = JSON.parse(localStorage.getItem('queuedData')) || [];
@@ -104,48 +125,52 @@ export default function WellInfo() {
             localStorage.setItem('queuedData', JSON.stringify(queuedData));
             console.log('Data queued as the user is offline');
         } else { //Making post request if the user is online
-        Axios.post('/createwellinfo', {
-            address: wellInfo.address,
-            aquiferclass: wellInfo.aquiferclass,
-            aquifertype: wellInfo.aquifertype,
-            boreholediameter: Number(wellInfo.boreholediameter),
-            city: wellInfo.city,
-            countyid: wellInfo.county,
-            datacollector: wellInfo.datacollector,
-            dateentered: wellInfo.dateentered,
-            dnrId: wellInfo.dnrId,
-            email: wellInfo.email,
-            estlatitude: wellInfo.estlatitude,
-            estlongitude: wellInfo.estlongitude,
-            installyear: JSON.stringify(wellInfo.installyear).substring(1, 5),
-            landuse5yr: wellInfo.landuse5yr,
-            maintenance5yr: wellInfo.maintenance5yr,
-            nrdid: wellInfo.nrd,
-            numberwelluser: wellInfo.numberwelluser,
-            observation: wellInfo.observation,
-            pestmanure: wellInfo.pestmanure,
-            phone: wellInfo.phone,
-            registNum: wellInfo.registNum,
-            school_id: wellInfo.school_id,
-            smelltaste: wellInfo.smelltaste,
-            smelltastedescription: wellInfo.smelltastedescription,
-            state: wellInfo.state,
-            totaldepth: Number(wellInfo.totaldepth),
-            wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
-            wellcasematerial: wellInfo.wellcasematerial,
-            wellcode: wellInfo.wellcode,
-            welldry: wellInfo.welldry,
-            welldrydescription: wellInfo.welldrydescription,
-            wellname: wellInfo.wellname,
-            wellowner: wellInfo.wellowner,
-            welltype: wellInfo.welltype,
-            welluser: wellInfo.welluser,
-            zipcode: wellInfo.zipcode,
-        })
-            .then(() => {
-                console.log("success");
+
+            Axios.post('/createwellinfo', {
+                address: wellInfo.address,
+                aquiferclass: wellInfo.aquiferclass,
+                aquifertype: wellInfo.aquifertype,
+                boreholediameter: Number(wellInfo.boreholediameter),
+                city: wellInfo.city,
+                countyid: wellInfo.county,
+                datacollector: wellInfo.datacollector,
+                dateentered: wellInfo.dateentered,
+                dnrId: wellInfo.dnrId,
+                email: wellInfo.email,
+                estlatitude: wellInfo.estlatitude,
+                estlongitude: wellInfo.estlongitude,
+                installyear: parseInt(wellInfo.installyear),
+                landuse5yr: wellInfo.landuse5yr,
+                maintenance5yr: wellInfo.maintenance5yr,
+                nrdid: wellInfo.nrd,
+                numberwelluser: wellInfo.numberwelluser,
+                observation: wellInfo.observation,
+                pestmanure: wellInfo.pestmanure,
+                phone: wellInfo.phone,
+                registNum: wellInfo.registNum,
+                school_id: schoolid,
+                // school_id: wellInfo.school_id,
+                smelltaste: wellInfo.smelltaste,
+                smelltastedescription: wellInfo.smelltastedescription,
+                state: wellInfo.state,
+                totaldepth: Number(wellInfo.totaldepth),
+                wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
+                wellcasematerial: wellInfo.wellcasematerial,
+                // wellcode: wellInfo.wellcode,
+                wellcode: wellcode,
+                welldry: wellInfo.welldry,
+                welldrydescription: wellInfo.welldrydescription,
+                wellname: wellInfo.wellname,
+                wellowner: wellInfo.wellowner,
+                welltype: wellInfo.welltype,
+                welluser: wellInfo.welluser,
+                zipcode: wellInfo.zipcode,
             })
-        }};
+                .then(() => {
+                    console.log("success");
+                })
+        }
+    };
 
     const validForm = () => {
         var form = document.getElementById('submissionAlert');
@@ -170,9 +195,9 @@ export default function WellInfo() {
             clearLocalStorage();
             alert("Successfully submitted Well Info Form!");
             window.location.href = `/well`;
-        
+
         }
-    }           
+    }
     function checkDepthValidation(totaldepth, wellwaterleveldepth) {
         if (totaldepth === "" && wellwaterleveldepth >= 0) {
             return true;

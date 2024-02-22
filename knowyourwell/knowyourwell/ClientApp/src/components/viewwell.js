@@ -1,30 +1,50 @@
 ﻿import React, { useEffect, useState } from 'react';
 import './css/forms.css'
+import moment from 'moment';
 import Axios from 'axios'
-import moment from 'moment'
 import { useSearchParams } from "react-router-dom";
+import countyOptions from './resources/counties';
+import nrdOptions from './resources/nrds';
 
-let formElements = []
-let columnList = []
-const labelList = [
-    "Well Code:", "Well Name:", "Data Collector:", "Well Registration Number:", "DNR Well ID:", "Name of Resident User:", "Address:", "Village, Town, or City:", "State:", "Zip code:",
-    "County:", "NRD District:", "Phone # (of well user):", "Email (of well user):", "Well owner (if different from resident):", "Well construction completion year:", "Complaints about smell or taste of water?:", "Smell or taste of water desciption:",
-    "Does the well ever go dry?:", "When well goes dry:", "Maintenance done to the well itself within the last five years:", "major land use / development changes around the well within the last five years?:", "Number of Well Users:",
-    "manure, fertilizer, or pesticides been applied the well within the last five years:", "Estimated Latitude:", "Estimated Longitude:", "Bore hole diameter (inches):", "Total depth of well (feet):",
-    "Water level (feet):", "Aquifer Type:", "Aquifer Class:", "Well Type (Construction Method):", "Well Casing Material:", "Observations:",
-    "Date Entered:"
-]
-
-const keyList = [
-    "wi_wellcode", "wi_wellname", "wi_datacollector", "wi_registration_number", "wi_dnr_well_id", "wi_well_user", "wi_address", "wi_city", "wi_state",
-    "wi_zipcode", "county_id", "nrd_id", "wi_phone_well_user", "wi_email_well_user", "wi_well_owner", "wi_installyear", "wi_smelltaste",
-    "wi_smelltaste_description", "wi_welldry", "wi_welldry_description", "wi_maintenance5yr", "wi_landuse5yr", "wi_numberwelluser",
-    "wi_pestmanure", "wi_estlatitude", "wi_estlongitude", "wi_boreholediameter", "wi_totaldepth", "wi_waterleveldepth",
-    "wi_aquifertype", "wi_aquiferclass", "wi_welltype", "wi_wellcasematerial", "wi_observation", "wi_dateentered"
+const firstColumn = [
+    { "Well Code:": "wi_wellcode" },
+    { "Data Collector:": "wi_datacollector" },
+    { "DNR Well ID:": "wi_dnr_well_id" },
+    { "Address:": "wi_address" },
+    { "State:": "wi_state" },
+    { "County:": "county_id" },
+    { "Phone # (of well user):": "wi_phone_well_user" },
+    { "Well owner (if different from resident):": "wi_well_owner" },
+    { "Complaints about smell or taste of water?:": "wi_smelltaste" },
+    { "Does the well ever go dry?:": "wi_welldry" },
+    { "Maintenance done to the well itself within the last five years:": "wi_maintenance5yr" },
+    { "Number of Well Users:": "wi_numberwelluser" },
+    { "Estimated Latitude:": "wi_estlatitude" },
+    { "Bore hole diameter (inches):": "wi_boreholediameter" },
+    { "Water level (feet):": "wi_waterleveldepth" },
+    { "Aquifer Class:": "wi_aquiferclass" },
+    { "Well Casing Material:": "wi_wellcasematerial" },
 ];
 
-const countyNames = ["Adams", "Antelope", "Arthur", "Banner", "Blaine", "Boone", "BoxButte", "Boyd", "Brown", "Buffalo", "Burt", "Butler", "Cass", "Cedar", "Chase", "Cherry", "Cheyenne", "Clay", "Colfax", "Cuming", "Custer", "Dakota", "Dawes", "Dawson", "Deuel", "Dixon", "Dodge", "Douglas", "Dundy", "Fillmore", "Franklin", "Frontier", "Furnas", "Gage", "Garden", "Garfield", "Gosper", "Grant", "Greeley", "Hall", "Hamilton", "Harlan", "Hayes", "Hitchcock", "Holt", "Hooker", "Howard", "Jefferson", "Johnson", "Kearney", "Keith", "KeyaPaha", "Kimball", "Knox", "Lancaster", "Lincoln", "Logan", "Loup", "McPherson", "Madison", "Merrick", "Morrill", "Nance", "Nemaha", "Nuckolls", "Otoe", "Pawnee", "Perkins", "Phelps", "Pierce", "Platte", "Polk", "RedWillow", "Richardson", "Rock", "Saline", "Sarpy", "Saunders", "ScottsBluff", "Seward", "Sheridan", "Sherman", "Sioux", "Stanton", "Thayer", "Thomas", "Thurston", "Valley", "Washington", "Wayne", "Webster", "Wheeler", "York"];
-const nrdDistricts = ["Central Platte", "Lewis and Clark", "Little Blue", "Lower Big Blue", "Lower Elkhorn", "Lower Loup", "Lower Niobrara", "Lower Platte North", "Lower Platte South", "Lower Republican", "Middle Niobrara", "Middle Republican", "Nemaha", "North Platte", "Papio-Missouri River", "South Platte", "Tri-Basin", "Twin Platte", "Upper Big Blue", "Upper Elkhorn", "Upper Loup", "Upper Niobrara-White", "Upper Republican"];
+const secondColumn = [
+    { "Well Name:": "wi_wellname" },
+    { "Well Registration Number:": "wi_registration_number" },
+    { "Name of Resident User:": "wi_well_user" },
+    { "Village, Town, or City:": "wi_city" },
+    { "Zip code:": "wi_zipcode" },
+    { "NRD:": "nrd_id" },
+    { "Email (of well user):": "wi_email_well_user" },
+    { "Well construction completion year:": "wi_installyear" },
+    { "Smell or taste of water desciption:": "wi_smelltaste_description" },
+    { "When well goes dry:": "wi_welldry_description" },
+    { "Major land use / development changes around the well within the last five years?:": "wi_landuse5yr" },
+    { "Manure, fertilizer, or pesticides been applied the well within the last five years:": "wi_pestmanure" },
+    { "Estimated Longitude:": "wi_estlongitude" },
+    { "Total depth of well (feet):": "wi_totaldepth" },
+    { "Aquifer Type:": "wi_aquifertype" },
+    { "Well Type (Construction Method):": "wi_welltype" },
+    { "Observations:": "wi_observation" }
+];
 
 export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -35,7 +55,14 @@ export default function ViewWell() {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
     }
 
+    const backToWellsButton = () => {
+        window.location.href = '/well';
+    }
+
     const [isLoading, setLoading] = useState(true);
+
+    let formElements = [];
+
     useEffect(() => {
         Axios
             .get("/GetWellInfo", {
@@ -61,59 +88,64 @@ export default function ViewWell() {
             catch (e) {
                 console.log("wellCookie is inValid JSON")
             }
-            
+
         }
     }
 
-    if (formElements.length!==0) {
-        for (let i = 0; i < labelList.length; i += 2) {
-            const firstColumnName = labelList[i]
-            let firstColumnValue = formElements[keyList[i]];
-            if (firstColumnName === "Date Entered:")
-                //firstColumnValue = firstColumnValue.replace("T", " ").replace("Z", "").replace(".000", "");
-            if (firstColumnName === "NRD District:")
-                firstColumnValue = nrdDistricts[formElements[keyList[i]]-1]
-            let secondColumnValue = ""
-            let secondColumnName = ""
-            if (i < labelList.length + 2) {
-                secondColumnName = labelList[i + 1]
-                secondColumnValue = formElements[keyList[i+1]]
-            }
-            if (secondColumnName === "Date Entered:")
-                 //secondColumnValue = secondColumnValue.replace("T", " ").replace("Z", "").replace(".000", "");
-            if (secondColumnName === "NRD District:")
-                secondColumnValue = nrdDistricts[formElements[keyList[i+1]]-1]
-            if (secondColumnName === "County:") {
-                secondColumnValue = countyNames[formElements[keyList[i+1]]-1]
-            }
+    let columnList = [];
+
+    if (formElements) {
+        formElements['county_id'] = countyOptions.find(option => option.key === formElements['county_id'].toString()).value;
+        formElements['nrd_id'] = nrdOptions.find(option => option.key === formElements['nrd_id'].toString()).value;
+        for (let i = 0; i < firstColumn.length; i++) {
+            const firstColumnName = Object.keys(firstColumn[i])[0];
+            const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
+
+            const secondColumnName = Object.keys(secondColumn[i])[0];
+            const secondColumnValue = formElements[Object.values(secondColumn[i])[0]];
+
             columnList.push(
-                <div class="row">
-                    <div class="col">
+                <div key={i} className="row">
+                    <div className="col">
                         <p style={{ textAlign: "center" }}><b>{firstColumnName}</b> {firstColumnValue}</p>
                     </div>
-                    <div class="col">
+                    <div className="col">
                         <p style={{ textAlign: "center" }}><b>{secondColumnName}</b> {secondColumnValue}</p>
                     </div>
                 </div>
             );
-                
         }
+
         return (
             <div className="css">
                 <h2>{wellName}: Well Info</h2>
                 <br />
-                <div class="container" style={{textAlign: "center"}}>
+                <div className="container" style={{ textAlign: "center" }}>
                     {columnList}
-                    <br/>
+                    <div key="dateentered" className="row">
+                        <div className="col">
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).format('MM-DD-YYYY hh:mm A')}</p>
+                        </div>
+                    </div>
+                    <br />
                     <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
-                    <br/><br/>
+                    <br /><br />
                     <a href="mailto:knowyourwell@unl.edu" style={{ textAlign: "center" }}>
-                    If any data is incorrect email us at knowyourwell@unl.edu</a>
+                        If any data is incorrect email us at knowyourwell@unl.edu
+                    </a>
                 </div>
             </div>
         );
-    }
-    else {
-        return <h1>Loading</h1>
+    } else {
+        return (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <h1>The well you're looking for does not exist</h1>
+                <button
+                    type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backToWellsButton}>
+                    Back
+                </button>
+            </div>
+
+        );
     }
 }

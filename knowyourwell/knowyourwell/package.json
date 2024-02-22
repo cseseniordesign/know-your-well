@@ -8,7 +8,8 @@
     "build": "cd ClientApp && npm install && npm run build && cd .. && npm install",
     "server": "nodemon index.js",
     "client": "cd ClientApp && npm start && cd ..",
-    "dev": "concurrently \"npm run client\" \"npm run server\""
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -27,5 +28,21 @@
     "react-datetime": "^3.2.0",
     "react-detect-offline": "^2.4.5",
     "samlify": "^2.8.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-react": "^7.23.3",
+    "@testing-library/jest-dom": "^6.3.0",
+    "@testing-library/react": "^14.1.2",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jest-environment-jsdom",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }

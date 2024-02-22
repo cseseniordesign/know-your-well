@@ -7,15 +7,15 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
                 </div>
             );
         }
-        const parts = fieldTitle.split(/(?<=\s)/);
+        const wordsOrParts = fieldTitle.split(/(?<=\s)/);
         let currentLine = '';
         const lines = [];
-        for (let part of parts) {
-            if (currentLine.length + part.length <= 40) {
-                currentLine += part;
+        for (let wordOrPart of wordsOrParts) {
+            if (currentLine.length + wordOrPart.length <= 40) {
+                currentLine += wordOrPart;
             } else {
                 lines.push(currentLine);
-                currentLine = part;
+                currentLine = wordOrPart;
             }
         }
         if (currentLine) {

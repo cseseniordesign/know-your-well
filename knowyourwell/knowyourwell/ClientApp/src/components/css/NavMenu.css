@@ -23,18 +23,23 @@
             font-weight: bold;
         }
 
-        /* Change the background color on mouse-over */
-        .header a:hover {
-            background-color: #ddd;
-            color: black;
+        header .text-dark:link {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
         }
-
-        /* Style the active/current link */
-        .header a.active {
-            background-color: dodgerblue;
+        /* Change the background color on mouse-over */
+        header .text-dark:hover {
+            background-color: #ddd;
             color: white;
         }
 
+        /* Style the active/current link */
+        header .text-dark:active {  
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white;
+        }
 
         img{
            width:120px;

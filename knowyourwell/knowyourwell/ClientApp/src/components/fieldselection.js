@@ -15,7 +15,7 @@ function responseDataToHTMLList(responseData, well_id, wellName) {
             HTMLList.push(
                 <List.Item key={element.fieldactivity_id}>
                     <List.Content>
-                        <a href={`/classlab?field_id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}&well_id=${well_id}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} </a>
+                        <a href={`/classlab?field_id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}&well_id=${well_id}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} (Field ID: {element.fieldactivity_id}) </a>
                     </List.Content>
                     <br />
                 </List.Item>

@@ -13,6 +13,7 @@ import renderField from './reusable/renderfield';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [selectedFile, setSelectedFile] = useState(null);
     const well_id = parseInt(searchParams.get("id"));
 
     let initialFieldData;
@@ -166,6 +167,10 @@ export default function Field() {
         }
     }
 
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
     return (
         <form id="submissionAlert">
             <h2>{wellName}: Field</h2>
@@ -209,6 +214,17 @@ export default function Field() {
                 <div key={prompt.id}>{renderField(
                     prompt, fieldData, handleChange)}</div>
             ))}
+            <div>
+                <h4>Upload a Photo</h4>
+                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+
+                {selectedFile && (
+                    <div>
+                        <h4>Preview:</h4>
+                        <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
+                    </div>
+                )}
+            </div>
             <div className="css">
                 <label htmlFor="dateentered">
                     Date Entered:
