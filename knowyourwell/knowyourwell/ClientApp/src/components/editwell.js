@@ -3,14 +3,14 @@ import { List } from 'semantic-ui-react'
 import { useSearchParams } from "react-router-dom";
 import Axios from 'axios'
 import moment from 'moment'
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function EditWell() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const wellName = searchParams.get("wellName");
-    const FieldRedirect  = searchParams.get("FieldRedirect")
+    const FieldRedirect = searchParams.get("FieldRedirect")
     const id = searchParams.get("id");
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function EditWell() {
             responseType: "json"
         }).then(function (response) {
             let displayname = response.data.displayn;
-            if(displayname == ""){
+            if (displayname == "" && process.env.NODE_ENV === "production") {
                 window.alert("You are not yet logged in. Please log in.");
                 navigate("/");
             }
@@ -31,7 +31,7 @@ export default function EditWell() {
 
 
 
-    if (localStorage.getItem("fieldData"+id) && !FieldRedirect) {
+    if (localStorage.getItem("fieldData" + id) && !FieldRedirect) {
         const viewSavedForm = window.confirm("You have a saved field form.\n Would you like to view it?");
         if (viewSavedForm) {
             window.location.href = `/Field?id=${id}&wellName=${wellName}&sessionContinued=True`
