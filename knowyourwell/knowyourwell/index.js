@@ -446,7 +446,7 @@ app.get('/GetLabEntry', async (req, res) => {
 
 app.get('/sso/redirect', async (req, res) => {
 
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', {forceAuthn: "true"});
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
 
