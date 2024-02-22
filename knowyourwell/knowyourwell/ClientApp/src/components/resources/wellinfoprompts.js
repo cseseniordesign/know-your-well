@@ -90,7 +90,7 @@ const wellInfoPrompts = [
         id: "phone",
         value: "phone",
         errorMessage: "Please use XXX-XXX-XXXX",
-        pattern: "^\d{3}-\d{3}-\d{4}$",
+        pattern: "^[0-9]{3}-[0-9]{3}-[0-9]{4}$",
         title: "Please enter a valid US phone number in the format XXX-XXX-XXXX.",
     },
     {
