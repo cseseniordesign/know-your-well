@@ -1,7 +1,6 @@
 ﻿﻿const assignEntity = require('./middleware/saml.js');
 
-const { Constants } = require('samlify');
-
+const { Constants, SamlLib } = require('samlify');
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -14,6 +13,7 @@ const path = require("path");
 
 let kywmemValue = "";
 let displayName = "";
+let priv_username = ""
 
 
 app.use(cors({    origin: '*'}));
@@ -445,27 +445,50 @@ app.get('/GetLabEntry', async (req, res) => {
     })
 })
 
+function insertTagProperty(xmlTag, property) {
+    return xmlTag.replace('>', ` ${property}>`);
+}
+ 
 app.get('/sso/redirect', async (req, res) => {
 
-    // const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
-    // defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
-    
-    // function insertTagProperty(xmlTag, property){
-    //   return xmlTag.replace('>', ` ${property}>`);
-    // }    
 
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', {forceAuthn: "true"});
+    const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
+    defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
+
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
+
 
     return res.status(200).send(redirectUrl)
 });
 
-app.get('/logout', async (req, res) => {
-    kywmemValue = ""
-    displayName = ""
+// app.get('/logout', async (req, res) => {
+//     kywmemValue = ""
+//     displayName = ""
 
-    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+//     res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+// })
+app.get('/logout', async (req, res) => {
+    try{
+        const { id, context: redirectUrl } = await req.sp.createLogoutRequest(req.idp, 'post', { email: priv_username });
+        return res.status(200).send(redirectUrl)
+    } catch (error){
+        console.log(error)
+        return res.status(500).send("An error occured in index.js line 473-474")
+    }
+    
+})
+
+app.post('/saml/logout', async (req, res) => { // receives logout request
+    console.log("saml logout");
+    await req.sp.parseLogoutResponse(req.idp, 'post', req).then(parseResult => {
+        console.log(parseResult)
+    });
+    kywmemValue = "";
+    displayName = "";
+    priv_username = "";
+    res.redirect("/")
 })
 
 app.get('/userinfo', async (req, res) => {
@@ -529,10 +552,13 @@ app.post("/saml/acs", async (req, res) => {
     await req.sp.parseLoginResponse(req.idp, 'post', req)
     .then(parseResult => {
         // Use the parseResult can do customized action
+        console.log(parseResult.extract.attributes)
 
-        kywmemValue = parseResult.extract.attributes.kywmem
-        displayName = parseResult.extract.attributes.displayName
-
+        kywmemValue = parseResult.extract.attributes.kywmem;
+        displayName = parseResult.extract.attributes.displayName;
+        priv_username = parseResult.extract.attributes.mail;
+        
+        console.log('mail:', priv_username);
         console.log('kywmem Value:', kywmemValue);
         console.log(' displayName Value:', displayName);
         });

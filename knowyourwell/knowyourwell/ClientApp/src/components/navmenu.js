@@ -19,14 +19,36 @@ const NavMenu = () => {
     })
 
     const initLogout = () => {
-        Axios.get('/logout', {
-            responseType: "json"
-        }).then(function (response) {
-            setSchool(response.data.kywmem);
-            setName(response.data.displayn);
-        })
-        window.location.href = '/';
+        const options = {
+            method: 'GET',
+            mode: 'no-cors'
+          };
+        fetch("/logout", options)
+            .then(function(response) {
+
+                if (!response.ok) {
+                    throw new Error("Logout Network response was not ok");
+                }
+                return response.text()
+            })
+            .then(function(data) {
+                window.location.href = data;
+            })
+            .catch(function(error) {
+                console.log("ERROR")
+                console.error("Error:", error);
+            });
     };
+
+    // const initLogout = () => {
+    //     Axios.get('/logout', {
+    //         responseType: "json"
+    //     }).then(function (response) {
+    //         setSchool(response.data.kywmem);
+    //         setName(response.data.displayn);
+    //     })
+    //     window.location.href = '/';
+    // };
 
 
     return (
