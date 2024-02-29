@@ -125,46 +125,44 @@ export default function WellInfo() {
             localStorage.setItem('queuedData', JSON.stringify(queuedData));
             console.log('Data queued as the user is offline');
         } else { //Making post request if the user is online
-
+            debugger;
             Axios.post('/createwellinfo', {
-                address: wellInfo.address,
-                aquiferclass: wellInfo.aquiferclass,
-                aquifertype: wellInfo.aquifertype,
-                boreholediameter: Number(wellInfo.boreholediameter),
-                city: wellInfo.city,
-                countyid: wellInfo.county,
-                datacollector: wellInfo.datacollector,
-                dateentered: wellInfo.dateentered,
-                dnrId: wellInfo.dnrId,
-                email: wellInfo.email,
-                estlatitude: wellInfo.estlatitude,
-                estlongitude: wellInfo.estlongitude,
-                installyear: parseInt(wellInfo.installyear),
-                landuse5yr: wellInfo.landuse5yr,
-                maintenance5yr: wellInfo.maintenance5yr,
-                nrdid: wellInfo.nrd,
-                numberwelluser: wellInfo.numberwelluser,
-                observation: wellInfo.observation,
-                pestmanure: wellInfo.pestmanure,
-                phone: wellInfo.phone,
-                registNum: wellInfo.registNum,
-                school_id: schoolid,
-                // school_id: wellInfo.school_id,
-                smelltaste: wellInfo.smelltaste,
-                smelltastedescription: wellInfo.smelltastedescription,
-                state: wellInfo.state,
-                totaldepth: Number(wellInfo.totaldepth),
-                wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
-                wellcasematerial: wellInfo.wellcasematerial,
-                // wellcode: wellInfo.wellcode,
-                wellcode: wellcode,
-                welldry: wellInfo.welldry,
-                welldrydescription: wellInfo.welldrydescription,
-                wellname: wellInfo.wellname,
-                wellowner: wellInfo.wellowner,
-                welltype: wellInfo.welltype,
-                welluser: wellInfo.welluser,
-                zipcode: wellInfo.zipcode,
+                wiAddress: wellInfo.address,
+                wiAquiferclass: wellInfo.aquiferclass,
+                wiAquifertype: wellInfo.aquifertype,
+                wiBoreholediameter: Number(wellInfo.boreholediameter),
+                wiCity: wellInfo.city,
+                countyId: wellInfo.county, //countyId
+                wiDatacollector: wellInfo.datacollector, //wiDatacollector
+                wiDateentered: wellInfo.dateentered,
+                wiDnrWellId: wellInfo.dnrId, //wiDnrWellId
+                wiEmailWellUser: wellInfo.email, //wiEmailWellUser
+                wiEstlatitude: wellInfo.estlatitude,
+                wiEstlongitude: wellInfo.estlongitude,
+                wiInstallyear: parseInt(wellInfo.installyear),
+                wiLanduse5yr: wellInfo.landuse5yr,
+                wiMaintenance5yr: wellInfo.maintenance5yr,
+                nrdId: wellInfo.nrd,
+                wiNumberwelluser: wellInfo.numberwelluser,
+                wiObservation: wellInfo.observation,
+                wiPestmanure: wellInfo.pestmanure,
+                wiPhoneWellUser: wellInfo.phone, //wiPhoneWellUser
+                wiRegistrationNumber: wellInfo.registNum, //wiRegistrationNumber
+                school: schoolid, //school
+                wiSmelltaste: wellInfo.smelltaste,
+                wiSmelltasteDescription: wellInfo.smelltastedescription, //wiSmelltasteDescription
+                wiState: wellInfo.state,
+                wiTotaldepth: Number(wellInfo.totaldepth),
+                wiWaterleveldepth: Number(wellInfo.wellwaterleveldepth), //wiWaterleveldepth
+                wiWellcasematerial: wellInfo.wellcasematerial,
+                wiWellcode: wellInfo.wellcode,
+                wiWelldry: wellInfo.welldry,
+                wiWelldryDescription: wellInfo.welldrydescription, //wiWelldryDescription
+                wiWellname: wellInfo.wellname,
+                wiWellOwner: wellInfo.wellowner, //wiWellOwner
+                wiWelltype: wellInfo.welltype,
+                wiWellUser: wellInfo.welluser, //wiWellUser
+                wiZipcode: wellInfo.zipcode,
             })
                 .then(() => {
                     console.log("success");

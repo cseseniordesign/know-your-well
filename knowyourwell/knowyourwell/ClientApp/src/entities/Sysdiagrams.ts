@@ -5,17 +5,17 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 @Entity("sysdiagrams", { schema: "dbo" })
 export class Sysdiagrams {
   @Column("nvarchar", { name: "name", unique: true, length: 128 })
-  name: string;
+  name!: string;
 
   @Column("int", { name: "principal_id", unique: true })
-  principalId: number;
+  principalId!: number;
 
   @PrimaryGeneratedColumn({ type: "int", name: "diagram_id" })
-  diagramId: number;
+  diagramId!: number;
 
   @Column("int", { name: "version", nullable: true })
-  version: number | null;
+  version: number | null | undefined;
 
   @Column("varbinary", { name: "definition", nullable: true })
-  definition: Buffer | null;
+  definition: Buffer | null | undefined;
 }

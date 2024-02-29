@@ -11,80 +11,80 @@ import { TblFieldActivity } from "./TblFieldActivity";
 @Entity("tblWaterScienceLab", { schema: "dbo" })
 export class TblWaterScienceLab {
   @PrimaryGeneratedColumn({ type: "int", name: "watersciencelab_id" })
-  watersciencelabId: number;
+  watersciencelabId!: number;
 
   @Column("nvarchar", { name: "wsl_samplecode", length: 255 })
-  wslSamplecode: string;
+  wslSamplecode!: string;
 
   @Column("decimal", { name: "wsl_nh4n", precision: 8, scale: 2 })
-  wslNh4n: number;
+  wslNh4n!: number;
 
   @Column("decimal", { name: "wsl_no3no2n", precision: 8, scale: 2 })
-  wslNo3no2n: number;
+  wslNo3no2n!: number;
 
   @Column("decimal", { name: "wsl_conductivity", precision: 8, scale: 2 })
-  wslConductivity: number;
+  wslConductivity!: number;
 
   @Column("decimal", { name: "wsl_ph", precision: 8, scale: 2 })
-  wslPh: number;
+  wslPh!: number;
 
   @Column("nvarchar", { name: "wsl_pesticides", nullable: true, length: 255 })
-  wslPesticides: string | null;
+  wslPesticides: string | null | undefined;
 
   @Column("decimal", { name: "wsl_chloride", precision: 8, scale: 2 })
-  wslChloride: number;
+  wslChloride!: number;
 
   @Column("decimal", { name: "wsl_orthophosphate", precision: 8, scale: 2 })
-  wslOrthophosphate: number;
+  wslOrthophosphate!: number;
 
   @Column("decimal", { name: "wsl_sulfate", precision: 8, scale: 2 })
-  wslSulfate: number;
+  wslSulfate!: number;
 
   @Column("decimal", { name: "wsl_bromide", precision: 8, scale: 2 })
-  wslBromide: number;
+  wslBromide!: number;
 
   @Column("decimal", { name: "wsl_fluoride", precision: 8, scale: 2 })
-  wslFluoride: number;
+  wslFluoride!: number;
 
   @Column("decimal", { name: "wsl_copper", precision: 8, scale: 2 })
-  wslCopper: number;
+  wslCopper!: number;
 
   @Column("decimal", { name: "wsl_iron", precision: 8, scale: 2 })
-  wslIron: number;
+  wslIron!: number;
 
   @Column("decimal", { name: "wsl_manganese", precision: 8, scale: 2 })
-  wslManganese: number;
+  wslManganese!: number;
 
   @Column("decimal", { name: "wsl_uranium", precision: 8, scale: 2 })
-  wslUranium: number;
+  wslUranium!: number;
 
   @Column("decimal", { name: "wsl_arsenic", precision: 8, scale: 2 })
-  wslArsenic: number;
+  wslArsenic!: number;
 
   @Column("decimal", { name: "wsl_hardness", precision: 8, scale: 2 })
-  wslHardness: number;
+  wslHardness!: number;
 
   @Column("decimal", { name: "wsl_calcium", precision: 8, scale: 2 })
-  wslCalcium: number;
+  wslCalcium!: number;
 
   @Column("nvarchar", { name: "wsl_magnesium", length: 255 })
-  wslMagnesium: string;
+  wslMagnesium!: string;
 
   @Column("nvarchar", { name: "wsl_totalcoliform", length: 255 })
-  wslTotalcoliform: string;
+  wslTotalcoliform!: string;
 
   @Column("nvarchar", { name: "wsl_ecoli", length: 255 })
-  wslEcoli: string;
+  wslEcoli!: string;
 
   @Column("nvarchar", { name: "wsl_comments", nullable: true })
-  wslComments: string | null;
+  wslComments: string | null | undefined;
 
   @Column("datetime", { name: "wsl_dateentered", default: () => "getdate()" })
-  wslDateentered: Date;
+  wslDateentered!: Date;
 
   @OneToMany(
     () => TblFieldActivity,
     (tblFieldActivity) => tblFieldActivity.watersciencelab
   )
-  tblFieldActivities: TblFieldActivity[];
+  tblFieldActivities!: TblFieldActivity[];
 }

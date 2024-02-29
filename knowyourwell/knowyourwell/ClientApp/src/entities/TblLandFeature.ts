@@ -12,39 +12,39 @@ import { TblWellInfo } from "./TblWellInfo";
 @Entity("tblLandFeature", { schema: "dbo" })
 export class TblLandFeature {
   @PrimaryGeneratedColumn({ type: "int", name: "landfeature_id" })
-  landfeatureId: number;
+  landfeatureId!: number;
 
   @Column("nvarchar", { name: "lf_type", length: 100 })
-  lfType: string;
+  lfType!: string;
 
   @Column("decimal", { name: "lf_latitude", precision: 10, scale: 5 })
-  lfLatitude: number;
+  lfLatitude!: number;
 
   @Column("decimal", { name: "lf_longitude", precision: 10, scale: 5 })
-  lfLongitude: number;
+  lfLongitude!: number;
 
   @Column("decimal", { name: "lf_genlatitude", precision: 10, scale: 3 })
-  lfGenlatitude: number;
+  lfGenlatitude!: number;
 
   @Column("decimal", { name: "lf_genlongitude", precision: 10, scale: 3 })
-  lfGenlongitude: number;
+  lfGenlongitude!: number;
 
   @Column("nvarchar", { name: "lf_datacollector", nullable: true, length: 255 })
-  lfDatacollector: string | null;
+  lfDatacollector: string | null | undefined;
 
   @Column("nvarchar", { name: "lf_observation", nullable: true })
-  lfObservation: string | null;
+  lfObservation: string | null | undefined;
 
   @Column("nvarchar", { name: "lf_filename", nullable: true, length: 255 })
-  lfFilename: string | null;
+  lfFilename: string | null | undefined;
 
   @Column("nvarchar", { name: "lf_comments", nullable: true })
-  lfComments: string | null;
+  lfComments: string | null | undefined;
 
   @Column("datetime", { name: "lf_datecollected", default: () => "getdate()" })
-  lfDatecollected: Date;
+  lfDatecollected!: Date;
 
   @ManyToOne(() => TblWellInfo, (tblWellInfo) => tblWellInfo.tblLandFeatures)
   @JoinColumn([{ name: "well_id", referencedColumnName: "wellId" }])
-  well: TblWellInfo;
+  well!: TblWellInfo;
 }

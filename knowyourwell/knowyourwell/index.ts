@@ -1,4 +1,7 @@
-﻿﻿const assignEntity = require('./middleware/saml.js');
+﻿﻿import { AppDataSource } from "./ClientApp/src/data-source";
+import { TblWellInfo } from "./ClientApp/src/entities/TblWellInfo";
+
+const assignEntity = require('./middleware/saml.js');
 
 const { Constants } = require('samlify');
 
@@ -63,8 +66,13 @@ catch (error) {
     console.error(error)
 }
 
+app.post('/createwellinfo', async (req: { body: any; }, res: any) => {
+    const wellInfoRepository = (await AppDataSource).getRepository(TblWellInfo);
+    await wellInfoRepository.save(req.body);
+});
+
 // well info
-app.post('/createwellinfo', (req: { body: { wellcode: any; wellname: any; school_id: any; registNum: any; dnrId: any; welluser: any; address: any; city: any; state: any; zipcode: any; countyid: any; nrdid: any; phone: any; email: any; wellowner: any; installyear: any; smelltaste: any; smelltastedescription: any; welldry: any; welldrydescription: any; maintenance5yr: any; landuse5yr: any; numberwelluser: any; pestmanure: any; estlatitude: any; estlongitude: any; boreholediameter: any; totaldepth: any; wellwaterleveldepth: any; aquifertype: any; aquiferclass: any; welltype: any; wellcasematerial: any; datacollector: any; observation: any; dateentered: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; }) => {
+/* app.post('/createwellinfo', (req: { body: { wellcode: any; wellname: any; school_id: any; registNum: any; dnrId: any; welluser: any; address: any; city: any; state: any; zipcode: any; countyid: any; nrdid: any; phone: any; email: any; wellowner: any; installyear: any; smelltaste: any; smelltastedescription: any; welldry: any; welldrydescription: any; maintenance5yr: any; landuse5yr: any; numberwelluser: any; pestmanure: any; estlatitude: any; estlongitude: any; boreholediameter: any; totaldepth: any; wellwaterleveldepth: any; aquifertype: any; aquiferclass: any; welltype: any; wellcasematerial: any; datacollector: any; observation: any; dateentered: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; }) => {
     const transaction = appPool.transaction();
     transaction.begin((err: any) => {
         if (err)
@@ -153,7 +161,7 @@ app.post('/createwellinfo', (req: { body: { wellcode: any; wellname: any; school
                     }
                 })
     })
-});
+}); */
 
 app.post('/api/insert', (req: { body: { well_id: any; fa_latitude: any; fa_longitude: any; fa_genlatitude: any; fa_genlongitude: any; weather: any; wellcovercondition: any; wellcoverdescription: any; topography: any; surfacerunoff: any; pooling: any; groundwatertemp: any; ph: any; conductivity: string; name: any; observations: any; datecollected: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; }) => {
     const transaction = appPool.transaction();

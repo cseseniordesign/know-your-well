@@ -15,16 +15,16 @@ import { TblWellInfo } from "./TblWellInfo";
 @Entity("tblSchool", { schema: "dbo" })
 export class TblSchool {
   @PrimaryGeneratedColumn({ type: "int", name: "school_id" })
-  schoolId: number;
+  schoolId!: number;
 
   @Column("nvarchar", { name: "sch_name", length: 255 })
-  schName: string;
+  schName!: string;
 
   @Column("nvarchar", { name: "sch_code", length: 3 })
-  schCode: string;
+  schCode!: string;
 
   @Column("nvarchar", { name: "sch_address", nullable: true, length: 255 })
-  schAddress: string | null;
+  schAddress: string | null | undefined;
 
   @Column("decimal", {
     name: "sch_latitude",
@@ -32,7 +32,7 @@ export class TblSchool {
     precision: 10,
     scale: 5,
   })
-  schLatitude: number | null;
+  schLatitude: number| null | undefined;
 
   @Column("decimal", {
     name: "sch_longitude",
@@ -40,27 +40,27 @@ export class TblSchool {
     precision: 10,
     scale: 5,
   })
-  schLongitude: number | null;
+  schLongitude: number| null | undefined;
 
   @Column("bit", { name: "sch_activeflag", default: () => "(1)" })
-  schActiveflag: boolean;
+  schActiveflag!: boolean;
 
   @Column("datetime", { name: "sch_datedeactivated", nullable: true })
-  schDatedeactivated: Date | null;
+  schDatedeactivated: Date | null | undefined;
 
   @Column("nvarchar", { name: "sch_comments", nullable: true })
-  schComments: string | null;
+  schComments: string | null | undefined;
 
   @Column("datetime", { name: "sch_dateentered", default: () => "getdate()" })
-  schDateentered: Date;
+  schDateentered!: Date;
 
   @OneToMany(() => TblClassroom, (tblClassroom) => tblClassroom.school)
-  tblClassrooms: TblClassroom[];
+  tblClassrooms!: TblClassroom[];
 
   @ManyToOne(() => TblNrdLookup, (tblNrdLookup) => tblNrdLookup.tblSchools)
   @JoinColumn([{ name: "nrd_id", referencedColumnName: "nrdId" }])
-  nrd: TblNrdLookup;
+  nrd!: TblNrdLookup;
 
   @OneToMany(() => TblWellInfo, (tblWellInfo) => tblWellInfo.school)
-  tblWellInfos: TblWellInfo[];
+  tblWellInfos!: TblWellInfo[];
 }

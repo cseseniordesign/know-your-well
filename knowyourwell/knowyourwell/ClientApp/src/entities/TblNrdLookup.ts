@@ -5,14 +5,14 @@ import { TblSchool } from "./TblSchool";
 @Entity("tblNRDLookup", { schema: "dbo" })
 export class TblNrdLookup {
   @Column("int", { primary: true, name: "nrd_id" })
-  nrdId: number;
+  nrdId!: number;
 
   @Column("nvarchar", { name: "nrd_name", length: 255 })
-  nrdName: string;
+  nrdName!: string;
 
   @Column("nvarchar", { name: "nrd_abbr", length: 10 })
-  nrdAbbr: string;
+  nrdAbbr!: string;
 
   @OneToMany(() => TblSchool, (tblSchool) => tblSchool.nrd)
-  tblSchools: TblSchool[];
+  tblSchools: TblSchool[] | undefined;
 }

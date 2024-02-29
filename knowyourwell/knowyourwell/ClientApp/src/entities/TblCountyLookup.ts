@@ -4,8 +4,8 @@ import { Column, Entity, Index } from "typeorm";
 @Entity("tblCountyLookup", { schema: "dbo" })
 export class TblCountyLookup {
   @Column("int", { primary: true, name: "county_id" })
-  countyId: number;
+  countyId!: number;
 
   @Column("nvarchar", { name: "county_name", length: 255 })
-  countyName: string;
+  countyName!: string;
 }

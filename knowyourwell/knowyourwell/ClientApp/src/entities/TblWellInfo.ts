@@ -17,162 +17,162 @@ import { TblSchool } from "./TblSchool";
 @Entity("tblWellInfo", { schema: "dbo" })
 export class TblWellInfo {
   @PrimaryGeneratedColumn({ type: "int", name: "well_id" })
-  wellId: number;
+  wellId!: number;
 
   @Column("nvarchar", { name: "wi_wellcode", length: 100 })
-  wiWellcode: string;
+  wiWellcode!: string;
 
   @Column("nvarchar", { name: "wi_wellname", length: 255 })
-  wiWellname: string;
+  wiWellname!: string;
 
   @Column("nvarchar", { name: "wi_well_user", nullable: true, length: 255 })
-  wiWellUser: string | null;
+  wiWellUser: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_address", nullable: true, length: 255 })
-  wiAddress: string | null;
+  wiAddress: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_city", nullable: true, length: 255 })
-  wiCity: string | null;
+  wiCity: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_state", nullable: true, length: 2 })
-  wiState: string | null;
+  wiState: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_zipcode", nullable: true, length: 100 })
-  wiZipcode: string | null;
+  wiZipcode: string | null | undefined;
 
   @Column("int", { name: "county_id" })
-  countyId: number;
+  countyId!: number;
 
   @Column("int", { name: "nrd_id" })
-  nrdId: number;
+  nrdId!: number;
 
   @Column("nvarchar", {
     name: "wi_phone_well_user",
     nullable: true,
     length: 255,
   })
-  wiPhoneWellUser: string | null;
+  wiPhoneWellUser: string | null | undefined;
 
   @Column("nvarchar", {
     name: "wi_email_well_user",
     nullable: true,
     length: 255,
   })
-  wiEmailWellUser: string | null;
+  wiEmailWellUser: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_well_owner", nullable: true, length: 255 })
-  wiWellOwner: string | null;
+  wiWellOwner: string | null | undefined;
 
   @Column("int", { name: "wi_installyear" })
-  wiInstallyear: number;
+  wiInstallyear!: number;
 
   @Column("nvarchar", { name: "wi_maintenance5yr", length: 255 })
-  wiMaintenance5yr: string;
+  wiMaintenance5yr!: string;
 
   @Column("nvarchar", { name: "wi_landuse5yr", length: 255 })
-  wiLanduse5yr: string;
+  wiLanduse5yr!: string;
 
   @Column("int", { name: "wi_numberwelluser", nullable: true })
-  wiNumberwelluser: number | null;
+  wiNumberwelluser: number | null | undefined;
 
   @Column("nvarchar", { name: "wi_pestmanure", length: 255 })
-  wiPestmanure: string;
+  wiPestmanure!: string;
 
   @Column("decimal", { name: "wi_estlatitude", precision: 10, scale: 5 })
-  wiEstlatitude: number;
+  wiEstlatitude!: number;
 
   @Column("decimal", { name: "wi_estlongitude", precision: 10, scale: 5 })
-  wiEstlongitude: number;
+  wiEstlongitude!: number;
 
   @Column("decimal", { name: "wi_boreholediameter", precision: 8, scale: 2 })
-  wiBoreholediameter: number;
+  wiBoreholediameter!: number;
 
   @Column("decimal", { name: "wi_totaldepth", precision: 8, scale: 2 })
-  wiTotaldepth: number;
+  wiTotaldepth!: number;
 
   @Column("decimal", { name: "wi_waterleveldepth", precision: 8, scale: 2 })
-  wiWaterleveldepth: number;
+  wiWaterleveldepth!: number;
 
   @Column("nvarchar", { name: "wi_aquifertype", length: 100 })
-  wiAquifertype: string;
+  wiAquifertype!: string;
 
   @Column("nvarchar", { name: "wi_aquiferclass", length: 100 })
-  wiAquiferclass: string;
+  wiAquiferclass!: string;
 
   @Column("nvarchar", { name: "wi_welltype", length: 100 })
-  wiWelltype: string;
+  wiWelltype!: string;
 
   @Column("nvarchar", { name: "wi_datacollector", nullable: true, length: 255 })
-  wiDatacollector: string | null;
+  wiDatacollector: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_topography", nullable: true, length: 100 })
-  wiTopography: string | null;
+  wiTopography: string | null | undefined;
 
   @Column("int", { name: "wi_commonid", nullable: true })
-  wiCommonid: number | null;
+  wiCommonid: number | null | undefined;
 
   @Column("datetime", { name: "wi_dateentered", default: () => "getdate()" })
-  wiDateentered: Date;
+  wiDateentered!: Date;
 
   @Column("nvarchar", {
     name: "wi_registration_number",
     nullable: true,
     length: 100,
   })
-  wiRegistrationNumber: string | null;
+  wiRegistrationNumber: string | null | undefined;
 
   @Column("int", { name: "wi_dnr_well_id", nullable: true })
-  wiDnrWellId: number | null;
+  wiDnrWellId: number | null | undefined;
 
   @Column("nvarchar", { name: "wi_smelltaste", nullable: true, length: 255 })
-  wiSmelltaste: string | null;
+  wiSmelltaste: string | null | undefined;
 
   @Column("nvarchar", {
     name: "wi_smelltaste_description",
     nullable: true,
     length: 255,
   })
-  wiSmelltasteDescription: string | null;
+  wiSmelltasteDescription: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_welldry", nullable: true, length: 255 })
-  wiWelldry: string | null;
+  wiWelldry: string | null | undefined;
 
   @Column("nvarchar", {
     name: "wi_welldry_description",
     nullable: true,
     length: 255,
   })
-  wiWelldryDescription: string | null;
+  wiWelldryDescription: string | null | undefined;
 
   @Column("nvarchar", {
     name: "wi_wellcasematerial",
     length: 255,
     default: () => "'default'",
   })
-  wiWellcasematerial: string;
+  wiWellcasematerial!: string;
 
   @Column("nvarchar", { name: "wi_observation", nullable: true, length: 255 })
-  wiObservation: string | null;
+  wiObservation: string | null | undefined;
 
   @Column("nvarchar", { name: "wi_comments", nullable: true, length: 255 })
-  wiComments: string | null;
+  wiComments: string | null | undefined;
 
   @OneToMany(
     () => TblFieldActivity,
     (tblFieldActivity) => tblFieldActivity.well
   )
-  tblFieldActivities: TblFieldActivity[];
+  tblFieldActivities: TblFieldActivity[] | undefined;
 
   @OneToMany(() => TblLandFeature, (tblLandFeature) => tblLandFeature.well)
-  tblLandFeatures: TblLandFeature[];
+  tblLandFeatures: TblLandFeature[] | undefined;
 
   @OneToMany(() => TblWellFeature, (tblWellFeature) => tblWellFeature.well)
-  tblWellFeatures: TblWellFeature[];
+  tblWellFeatures: TblWellFeature[] | undefined;
 
   @OneToMany(() => TblWellForm, (tblWellForm) => tblWellForm.well)
-  tblWellForms: TblWellForm[];
+  tblWellForms: TblWellForm[] | undefined;
 
   @ManyToOne(() => TblSchool, (tblSchool) => tblSchool.tblWellInfos)
   @JoinColumn([{ name: "school_id", referencedColumnName: "schoolId" }])
-  school: TblSchool;
+  school!: TblSchool;
 }

@@ -12,34 +12,34 @@ import { TblWellInfo } from "./TblWellInfo";
 @Entity("tblWellForm", { schema: "dbo" })
 export class TblWellForm {
   @PrimaryGeneratedColumn({ type: "int", name: "wellform_id" })
-  wellformId: number;
+  wellformId!: number;
 
   @Column("nvarchar", { name: "wform_type", length: 100 })
-  wformType: string;
+  wformType!: string;
 
   @Column("nvarchar", {
     name: "wform_datacollector",
     nullable: true,
     length: 255,
   })
-  wformDatacollector: string | null;
+  wformDatacollector: string | null | undefined;
 
   @Column("nvarchar", { name: "wform_observation", nullable: true })
-  wformObservation: string | null;
+  wformObservation: string | null | undefined;
 
   @Column("nvarchar", { name: "wform_filename", nullable: true, length: 255 })
-  wformFilename: string | null;
+  wformFilename: string | null | undefined;
 
   @Column("nvarchar", { name: "wform_comments", nullable: true })
-  wformComments: string | null;
+  wformComments: string | null | undefined;
 
   @Column("datetime", {
     name: "wform_datecollected",
     default: () => "getdate()",
   })
-  wformDatecollected: Date;
+  wformDatecollected!: Date;
 
   @ManyToOne(() => TblWellInfo, (tblWellInfo) => tblWellInfo.tblWellForms)
   @JoinColumn([{ name: "well_id", referencedColumnName: "wellId" }])
-  well: TblWellInfo;
+  well!: TblWellInfo;
 }

@@ -14,66 +14,66 @@ import { TblWaterScienceLab } from "./TblWaterScienceLab";
 @Entity("tblFieldActivity", { schema: "dbo" })
 export class TblFieldActivity {
   @PrimaryGeneratedColumn({ type: "int", name: "fieldactivity_id" })
-  fieldactivityId: number;
+  fieldactivityId!: number;
 
   @Column("decimal", { name: "fa_latitude", precision: 10, scale: 5 })
-  faLatitude: number;
+  faLatitude!: number;
 
   @Column("decimal", { name: "fa_longitude", precision: 10, scale: 5 })
-  faLongitude: number;
+  faLongitude!: number;
 
   @Column("decimal", { name: "fa_genlatitude", precision: 8, scale: 3 })
-  faGenlatitude: number;
+  faGenlatitude!: number;
 
   @Column("decimal", { name: "fa_genlongitude", precision: 8, scale: 3 })
-  faGenlongitude: number;
+  faGenlongitude!: number;
 
-  @Column("nvarchar", { name: "fa_weather" })
-  faWeather: string;
+  @Column("nvarchar", { name: "fa_weather", length: 255 })
+  faWeather!: string;  
 
   @Column("nvarchar", { name: "fa_wellcovercondition", length: 255 })
-  faWellcovercondition: string;
+  faWellcovercondition!: string;
 
   @Column("nvarchar", { name: "fa_wellcoverdescription", nullable: true })
-  faWellcoverdescription: string | null;
+  faWellcoverdescription: string | null | undefined;
 
   @Column("nvarchar", { name: "fa_surfacerunoff", length: 255 })
-  faSurfacerunoff: string;
+  faSurfacerunoff!: string;
 
   @Column("nvarchar", { name: "fa_pooling", length: 255 })
-  faPooling: string;
+  faPooling!: string;
 
   @Column("decimal", { name: "fa_groundwatertemp", precision: 8, scale: 2 })
-  faGroundwatertemp: number;
+  faGroundwatertemp!: number;
 
   @Column("decimal", { name: "fa_ph", precision: 8, scale: 2 })
-  faPh: number;
+  faPh!: number;
 
   @Column("decimal", { name: "fa_conductivity", precision: 8, scale: 2 })
-  faConductivity: number;
+  faConductivity!: number;
 
   @Column("nvarchar", { name: "fa_datacollector", nullable: true, length: 255 })
-  faDatacollector: string | null;
+  faDatacollector: string | null | undefined;
 
   @Column("nvarchar", { name: "fa_observation", nullable: true })
-  faObservation: string | null;
+  faObservation: string | null | undefined;
 
   @Column("nvarchar", { name: "fa_comments", nullable: true })
-  faComments: string | null;
+  faComments: string | null | undefined;
 
   @Column("datetime", { name: "fa_datecollected" })
-  faDatecollected: Date;
+  faDatecollected!: Date;
 
   @ManyToOne(() => TblWellInfo, (tblWellInfo) => tblWellInfo.tblFieldActivities)
   @JoinColumn([{ name: "well_id", referencedColumnName: "wellId" }])
-  well: TblWellInfo;
+  well!: TblWellInfo;
 
   @ManyToOne(
     () => TblClassroomLab,
     (tblClassroomLab) => tblClassroomLab.tblFieldActivities
   )
   @JoinColumn([{ name: "classlab_id", referencedColumnName: "classlabId" }])
-  classlab: TblClassroomLab;
+  classlab!: TblClassroomLab;
 
   @ManyToOne(
     () => TblWaterScienceLab,
@@ -82,5 +82,5 @@ export class TblFieldActivity {
   @JoinColumn([
     { name: "watersciencelab_id", referencedColumnName: "watersciencelabId" },
   ])
-  watersciencelab: TblWaterScienceLab;
+  watersciencelab!: TblWaterScienceLab;
 }
