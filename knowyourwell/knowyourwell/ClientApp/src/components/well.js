@@ -108,7 +108,17 @@ export default function Well() {
             queryParams.sortBy = sort;
         }
 
-        // queryParams.schoolid = schoolid
+// if (isLoading && wellList.length > 0) {
+//     return (
+//         <List style={{ textAlign: 'center' }}>
+//             <h2> <strong> Wells from localStorage</strong></h2>
+//             {wellList}
+//         </List>
+//     );
+// }
+if (isLoading) {
+    return <h1>Loading</h1>
+}
 
         Axios.get("/Wells", {
             params: queryParams,
