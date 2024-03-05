@@ -100,8 +100,36 @@ export default function Well() {
 
         const queryParams = {};
 
-        if (filter) {
-            queryParams.filterBy = filter;
+    if (filter) {
+        queryParams.filterBy = filter;
+    }
+
+    if (sort) {
+        queryParams.sortBy = sort;
+    }
+
+    // queryParams.schoolid = schoolid
+
+    Axios.get("/Wells", {
+        params: queryParams,
+        responseType: "json",
+    })
+        .then(function (response) {
+            localStorage.setItem("wellData", JSON.stringify(response.data))
+            setWells(responseDataToHTMLList(response.data.Wells));
+            setLoading(false);
+        }).catch(function (error) {
+            console.error("An error occurred while fetching the wells:", error);
+            // Here, you can also set isLoading to false to stop the loading indicator
+            setLoading(true);
+            // Optionally, handle the error more gracefully, such as showing an error message to the user
+        });
+
+    const wellCookie = localStorage.getItem("wellData");
+    if (wellCookie && !wellList) {
+        try {
+            const wellData = JSON.parse(wellCookie)
+            setWells(responseDataToHTMLList(wellData.Wells));
         }
 
         if (sort) {
