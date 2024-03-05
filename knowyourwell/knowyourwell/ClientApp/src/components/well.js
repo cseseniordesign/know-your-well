@@ -89,13 +89,16 @@ useEffect(() => {
     }
 }, [filter, sort]);
 
-if (isLoading && wellList.length > 0) {
-    return (
-        <List style={{ textAlign: 'center' }}>
-            <h2> <strong> Wells from localStorage</strong></h2>
-            {wellList}
-        </List>
-    );
+// if (isLoading && wellList.length > 0) {
+//     return (
+//         <List style={{ textAlign: 'center' }}>
+//             <h2> <strong> Wells from localStorage</strong></h2>
+//             {wellList}
+//         </List>
+//     );
+// }
+if (isLoading) {
+    return <h1>Loading</h1>
 }
 
 const handleBlur = (event) => {
