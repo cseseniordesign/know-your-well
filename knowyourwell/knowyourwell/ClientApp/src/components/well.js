@@ -147,6 +147,8 @@ export default function Well() {
     const wellCookie = localStorage.getItem("wellData");
     const wellData = JSON.parse(wellCookie);
     setWells(responseDataToHTMLList(wellData.Wells));
+    responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)
+
 }, [filter, sort]);
 
 // if (isLoading && wellList.length > 0) {
@@ -218,7 +220,7 @@ else {
                         </List.Content>
                         <br />
                     </List.Item>
-                    {wellList}
+                    {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
                 </List>
             </div>
     
