@@ -4,9 +4,7 @@ import { useState, useEffect } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
-import countyOptions from './resources/counties';
-import nrdOptions from './resources/nrds';
-import devWellInfo from './resources/devwellinfo';
+import devWellInfo from './resources/devwellinfo.ts';
 import prodWellInfo from './resources/prodwellinfo';
 import wellInfoPrompts from './resources/wellinfoprompts';
 import renderField from './reusable/renderfield';
@@ -21,6 +19,8 @@ export default function WellInfo() {
     }
 
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
+    const [isValidEmail, setIsValidEmail] = useState(false);
+    const [isValidPhone, setIsValidPhone] = useState(false);
     const [schoolid, setSchoolid] = useState("");
     const [wellcode, setWellCode] = useState("");
 
@@ -59,14 +59,14 @@ export default function WellInfo() {
     const handleChange = (fieldName, value) => {
         const emailPattern = /\S+@\S+\.\S+/;
         const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-        if (fieldName === 'smelltaste' && (value === 'No' || value === 'Unknown')) {
-            updateWellInfo('smelltastedescription', "");
-        } else if (fieldName === 'welldry' && (value === 'No' || value === 'Unknown')) {
-            updateWellInfo('welldrydescription', "");
-        } else if (fieldName === 'phone') {
-            updateWellInfo('isValidPhone', phonePattern.test(value));
-        } else if (fieldName === 'email') {
-            updateWellInfo('isValidEmail', emailPattern.test(value));
+        if (fieldName === 'wiSmelltaste' && (value === 'No' || value === 'Unknown')) {
+            updateWellInfo('wiSmelltasteDescription', "");
+        } else if (fieldName === 'wiWelldry' && (value === 'No' || value === 'Unknown')) {
+            updateWellInfo('wiWelldryDescription', "");
+        } else if (fieldName === 'wiPhoneWellUser') {
+            setIsValidPhone(phonePattern.test(value));
+        } else if (fieldName === 'wiEmailWellUser') {
+            setIsValidEmail(emailPattern.test(value));
         }
         updateWellInfo(fieldName, value);
     }
@@ -125,45 +125,7 @@ export default function WellInfo() {
             localStorage.setItem('queuedData', JSON.stringify(queuedData));
             console.log('Data queued as the user is offline');
         } else { //Making post request if the user is online
-            debugger;
-            Axios.post('/createwellinfo', {
-                wiAddress: wellInfo.address,
-                wiAquiferclass: wellInfo.aquiferclass,
-                wiAquifertype: wellInfo.aquifertype,
-                wiBoreholediameter: Number(wellInfo.boreholediameter),
-                wiCity: wellInfo.city,
-                countyId: wellInfo.county, //countyId
-                wiDatacollector: wellInfo.datacollector, //wiDatacollector
-                wiDateentered: wellInfo.dateentered,
-                wiDnrWellId: wellInfo.dnrId, //wiDnrWellId
-                wiEmailWellUser: wellInfo.email, //wiEmailWellUser
-                wiEstlatitude: wellInfo.estlatitude,
-                wiEstlongitude: wellInfo.estlongitude,
-                wiInstallyear: parseInt(wellInfo.installyear),
-                wiLanduse5yr: wellInfo.landuse5yr,
-                wiMaintenance5yr: wellInfo.maintenance5yr,
-                nrdId: wellInfo.nrd,
-                wiNumberwelluser: wellInfo.numberwelluser,
-                wiObservation: wellInfo.observation,
-                wiPestmanure: wellInfo.pestmanure,
-                wiPhoneWellUser: wellInfo.phone, //wiPhoneWellUser
-                wiRegistrationNumber: wellInfo.registNum, //wiRegistrationNumber
-                school: schoolid, //school
-                wiSmelltaste: wellInfo.smelltaste,
-                wiSmelltasteDescription: wellInfo.smelltastedescription, //wiSmelltasteDescription
-                wiState: wellInfo.state,
-                wiTotaldepth: Number(wellInfo.totaldepth),
-                wiWaterleveldepth: Number(wellInfo.wellwaterleveldepth), //wiWaterleveldepth
-                wiWellcasematerial: wellInfo.wellcasematerial,
-                wiWellcode: wellInfo.wellcode,
-                wiWelldry: wellInfo.welldry,
-                wiWelldryDescription: wellInfo.welldrydescription, //wiWelldryDescription
-                wiWellname: wellInfo.wellname,
-                wiWellOwner: wellInfo.wellowner, //wiWellOwner
-                wiWelltype: wellInfo.welltype,
-                wiWellUser: wellInfo.welluser, //wiWellUser
-                wiZipcode: wellInfo.zipcode,
-            })
+            Axios.post('/createwellinfo', {wellInfo})
                 .then(() => {
                     console.log("success");
                 })
@@ -215,16 +177,16 @@ export default function WellInfo() {
                 </div>
             ))}
             <div className="css">
-                <label htmlFor="dateentered">
+                <label htmlFor="wiDateentered">
                     Date Entered:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
                 </label>
-                <div id="dateentered">
+                <div id="wiDateentered">
                     <DatePicker
-                        value={wellInfo.dateentered}
+                        value={wellInfo.wiDateentered}
                         dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
-                        onChange={(value) => updateWellInfo('dateentered', value)}
+                        onChange={(value) => updateWellInfo('wiDateentered', value)}
                         inputProps={{
                             style: {
                                 width: 300,
@@ -238,10 +200,10 @@ export default function WellInfo() {
             <br />
             <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg"
                 onClick={() => {
-                    if (checkDepthValidation(wellInfo.totaldepth, wellInfo.wellwaterleveldepth)) {
+                    if (checkDepthValidation(wellInfo.wiTotaldepth, wellInfo.wiWaterleveldepth)) {
                         submitForm();
                     } else {
-                        updateWellInfo('waterleveldepth', "");
+                        updateWellInfo('wiWaterleveldepth', "");
                         window.alert("Well water depth CANNOT be greater than total well depth.");
                     }
                 }}

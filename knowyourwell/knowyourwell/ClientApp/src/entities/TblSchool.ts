@@ -59,7 +59,7 @@ export class TblSchool {
 
   @ManyToOne(() => TblNrdLookup, (tblNrdLookup) => tblNrdLookup.tblSchools)
   @JoinColumn([{ name: "nrd_id", referencedColumnName: "nrdId" }])
-  nrd!: TblNrdLookup;
+  nrd: TblNrdLookup | undefined;
 
   @OneToMany(() => TblWellInfo, (tblWellInfo) => tblWellInfo.school)
   tblWellInfos!: TblWellInfo[];
