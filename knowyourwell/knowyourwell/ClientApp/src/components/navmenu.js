@@ -24,6 +24,8 @@ const NavMenu = () => {
         }).then(function (response) {
             setSchool(response.data.kywmem);
             setName(response.data.displayn);
+            localStorage.setItem("kywmem", school)
+            localStorage.setItem("name", name)
         })
         window.location.href = '/';
     };
