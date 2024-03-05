@@ -58,7 +58,7 @@ export default function WellInfo() {
 
     const handleChange = (fieldName, value) => {
         const emailPattern = /\S+@\S+\.\S+/;
-        const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
+        const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
         if (fieldName === 'smelltaste' && (value === 'No' || value === 'Unknown')) {
             updateWellInfo('smelltastedescription', "");
         } else if (fieldName === 'welldry' && (value === 'No' || value === 'Unknown')) {

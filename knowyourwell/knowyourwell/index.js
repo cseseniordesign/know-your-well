@@ -1,6 +1,5 @@
 ﻿﻿const assignEntity = require('./middleware/saml.js');
 
-
 const { Constants } = require('samlify');
 
 const express = require("express");
@@ -290,6 +289,8 @@ app.get('/Wells', async (req, res) => {
 
 
 app.get('/GetWellInfo', async (req, res) => {
+
+
     const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)
@@ -446,13 +447,26 @@ app.get('/GetLabEntry', async (req, res) => {
 
 app.get('/sso/redirect', async (req, res) => {
 
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect');
+    // const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
+    // defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
+    
+    // function insertTagProperty(xmlTag, property){
+    //   return xmlTag.replace('>', ` ${property}>`);
+    // }    
+
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', {forceAuthn: "true"});
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
 
     return res.status(200).send(redirectUrl)
-    
 });
+
+app.get('/logout', async (req, res) => {
+    kywmemValue = ""
+    displayName = ""
+
+    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+})
 
 app.get('/userinfo', async (req, res) => {
     res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
@@ -485,7 +499,6 @@ app.get('/wellcode', async (req, res) => {
 
     let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE '${sch_code}%'`
     // let query2 = `SELECT MAX(wi_wellcode) AS MAXWELLCODE FROM dbo.tblWellInfo WHERE wi_wellcode LIKE 'abc%'`
-    console.log(query2)
     appPool.query(query2, function (err, recordset) {
         if (err) {
             console.log(err)
@@ -495,13 +508,10 @@ app.get('/wellcode', async (req, res) => {
         let prev_max_wellcode = recordset.recordset[0].MAXWELLCODE
         if (prev_max_wellcode == null) {
             //well code could not be found with this school code meaning this school has not created a well before
-            console.log("Correctly found undefined")
             const firstWellCode = sch_code + "001"
             res.status(200).json({ wellcode: firstWellCode})
         } else {
             // well code could be found for this school
-            // console.log("Correctly found well code")
-            console.log(prev_max_wellcode)
             const match = prev_max_wellcode.match(/([a-zA-Z]*)(\d*)/);
             const oldNumber = match[2]
             const newNumber = Number(oldNumber) + 1

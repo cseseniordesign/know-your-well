@@ -10,8 +10,6 @@ const NavMenu = () => {
     const [school, setSchool] = useState("");
     const [name, setName] = useState("");
     
-
-    //  { user } = useUser() || { user: { name: "" } };
     
     Axios.get('/userinfo', {
         responseType: "json"
@@ -20,14 +18,16 @@ const NavMenu = () => {
         setName(response.data.displayn);
     })
 
-    // let { user } = useUser();
-    // if (user == null) {
-    //     user = { name: ""}
-    // }
+    const initLogout = () => {
+        Axios.get('/logout', {
+            responseType: "json"
+        }).then(function (response) {
+            setSchool(response.data.kywmem);
+            setName(response.data.displayn);
+        })
+        window.location.href = '/';
+    };
 
-
-    // console.log(school)
-    // console.log(name)
 
     return (
         <header>
@@ -35,13 +35,16 @@ const NavMenu = () => {
                 <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
+                {name && <button onClick={initLogout} style={{marginLeft: '10px', background: 'none',border: 'none',padding: 0,cursor: 'pointer'}}><strong>Logout</strong></button>}
+                <div>  </div>
                 <div style={{ float: 'right' }}><strong>{name}</strong></div>
                     <ul className="navbar-nav flex-grow">
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink>
+                            {name && <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink>}
+                            {/* <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink> */}
                         </NavItem>
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="AboutProject">About Project</NavLink>
