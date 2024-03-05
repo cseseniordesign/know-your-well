@@ -115,10 +115,17 @@ export default function Well() {
         responseType: "json",
     })
         .then(function (response) {
-            localStorage.setItem("wellData", JSON.stringify(response.data))
-            setWells(responseDataToHTMLList(response.data.Wells));
-            console.log("Wells")
-            console.log(wellList)
+            let lengthOfWells = response.data.Wells.length;
+            if (lengthOfWells == 0) {
+                console.log("WELL LENGTH 0")
+            }
+            if (lengthOfWells != 0){
+                localStorage.setItem("wellData", JSON.stringify(response.data))
+                setWells(responseDataToHTMLList(response.data.Wells));
+                console.log("Wells")
+                console.log(wellList)
+            }
+
             setLoading(false);
         }).catch(function (error) {
             console.error("An error occurred while fetching the wells:", error);
@@ -127,25 +134,29 @@ export default function Well() {
             // Optionally, handle the error more gracefully, such as showing an error message to the user
         });
 
+    // const wellCookie = localStorage.getItem("wellData");
+    // if (wellCookie && !wellList) {
+    //     try {
+    //         const wellData = JSON.parse(wellCookie)
+    //         setWells(responseDataToHTMLList(wellData.Wells));
+    //     }
+    //     catch (e) {
+    //         console.log("wellData is Invalid JSON")
+    //     }
+    // }
     const wellCookie = localStorage.getItem("wellData");
-    if (wellCookie && !wellList) {
-        try {
-            const wellData = JSON.parse(wellCookie)
-            setWells(responseDataToHTMLList(wellData.Wells));
-        }
+    const wellData = JSON.parse(wellCookie);
+    setWells(responseDataToHTMLList(wellData.Wells));
+}, [filter, sort]);
 
-        if (sort) {
-            queryParams.sortBy = sort;
-        }
-
-if (isLoading && wellList.length > 0) {
-    return (
-        <List style={{ textAlign: 'center' }}>
-            <h2> <strong> Wells from localStorage</strong></h2>
-            {wellList}
-        </List>
-    );
-}
+// if (isLoading && wellList.length > 0) {
+//     return (
+//         <List style={{ textAlign: 'center' }}>
+//             <h2> <strong> Wells from localStorage</strong></h2>
+//             {wellList}
+//         </List>
+//     );
+// }
 
 
 const handleBlur = (event) => {
