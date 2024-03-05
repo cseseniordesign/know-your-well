@@ -74,6 +74,8 @@ useEffect(() => {
         .then(function (response) {
             localStorage.setItem("wellData", JSON.stringify(response.data))
             setWells(responseDataToHTMLList(response.data.Wells));
+            console.log("Wells")
+            console.log(wellList)
             setLoading(false);
         }).catch(function (error) {
             console.error("An error occurred while fetching the wells:", error);
@@ -94,14 +96,14 @@ useEffect(() => {
     }
 }, [filter, sort]);
 
-// if (isLoading && wellList.length > 0) {
-//     return (
-//         <List style={{ textAlign: 'center' }}>
-//             <h2> <strong> Wells from localStorage</strong></h2>
-//             {wellList}
-//         </List>
-//     );
-// }
+if (isLoading && wellList.length > 0) {
+    return (
+        <List style={{ textAlign: 'center' }}>
+            <h2> <strong> Wells from localStorage</strong></h2>
+            {wellList}
+        </List>
+    );
+}
 
 
 const handleBlur = (event) => {
