@@ -197,7 +197,7 @@ else {
                         </List.Content>
                         <br />
                     </List.Item>
-                    {wellList}
+                    {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
                 </List>
                 <button onClick={exportCSV}>Export Data</button>
             </div>
