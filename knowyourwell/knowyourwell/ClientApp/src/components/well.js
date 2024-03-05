@@ -124,7 +124,12 @@ const handleBlur = (event) => {
     }
 };
 if (isLoading) {
-    return <h1>Loading</h1>
+    return (
+        <List style={{ textAlign: 'center' }}>
+            <h2> <strong> Wells from localStorage</strong></h2>
+            {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+        </List>
+    );
 }
 else {
     return (
