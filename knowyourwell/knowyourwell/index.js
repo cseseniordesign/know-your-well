@@ -14,8 +14,8 @@ const path = require("path");
 
 //require('dotenv').config()
 
-let kywmemValue = "";
-let displayName = "";
+let kywmemValue = "1";
+let displayName = "haters";
 
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: true }));
