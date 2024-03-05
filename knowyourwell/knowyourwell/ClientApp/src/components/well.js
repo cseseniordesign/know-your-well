@@ -128,6 +128,9 @@ useEffect(() => {
 
     }, [filter, sort]);
 
+if (isLoading) {
+    return <h1>Loading</h1>
+}
 
 const handleBlur = (event) => {
     if (containerRef.current && !containerRef.current.contains(event.relatedTarget)) {
