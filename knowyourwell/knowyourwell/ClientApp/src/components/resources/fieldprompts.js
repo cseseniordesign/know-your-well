@@ -25,7 +25,7 @@ const fieldPrompts = [
         type: "dropdownentry",
         fieldTitle: "Topography of the well location:",
         id: "topography",
-        options: ["HillTop", "HillSlope", "LevelLand", "Depression"],
+        options: ["Hill Top", "Hill Slope", "Level Land", "Depression"],
         value: "topography",
         required: true,
     },
