@@ -72,31 +72,42 @@ useEffect(() => {
         responseType: "json",
     })
         .then(function (response) {
-            localStorage.setItem("wellData", JSON.stringify(response.data))
-            setWells(responseDataToHTMLList(response.data.Wells));
+            let lengthOfWells = response.data.Wells.length;
+            if (lengthOfWells == 0) {
+                console.log("WELL LENGTH 0")
+            }
+            if (lengthOfWells != 0){
+                localStorage.setItem("wellData", JSON.stringify(response.data))
+                setWells(responseDataToHTMLList(response.data.Wells));
+                // console.log("Wells")
+                // console.log(wellList)
+            }
+
             setLoading(false);
+        }).catch(function (error) {
+            console.error("An error occurred while fetching the wells:", error);
+            // Here, you can also set isLoading to false to stop the loading indicator
+            setLoading(true);
+            // Optionally, handle the error more gracefully, such as showing an error message to the user
         });
 
-    const wellCookie = localStorage.getItem("wellData");
-    if (wellCookie && !wellList) {
-        try {
-            const wellData = JSON.parse(wellCookie)
+            // const wellCookie = localStorage.getItem("wellData");
+            // if (wellCookie && !wellList) {
+            //     try {
+            //         const wellData = JSON.parse(wellCookie)
+            //         setWells(responseDataToHTMLList(wellData.Wells));
+            //     }
+            //     catch (e) {
+            //         console.log("wellData is Invalid JSON")
+            //     }
+            // }
+            const wellCookie = localStorage.getItem("wellData");
+            const wellData = JSON.parse(wellCookie);
             setWells(responseDataToHTMLList(wellData.Wells));
-        }
-        catch (e) {
-            console.log("wellData is Invalid JSON")
-        }
-    }
-}, [filter, sort]);
+            responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)
 
-if (isLoading && wellList.length > 0) {
-    return (
-        <List style={{ textAlign: 'center' }}>
-            <h2> <strong> Wells from localStorage</strong></h2>
-            {wellList}
-        </List>
-    );
-}
+    }, [filter, sort]);
+
 
 const handleBlur = (event) => {
     if (containerRef.current && !containerRef.current.contains(event.relatedTarget)) {
@@ -104,60 +115,69 @@ const handleBlur = (event) => {
     }
 };
 
-return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-        <div style={{ flex: 30, textAlign: 'center' }}>
-            <div ref={containerRef}>
-                <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
-                {isSortDropdownVisible && (
-                    <div style={{
-                        border: '1px solid #ccc',
-                        marginTop: '10px',
-                        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-                        boxSizing: 'border-box'
-                    }}>
-                        <button onClick={() => setSort("undefined")} style={{ backgroundColor: sort === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Sort</button>
-                        <button onClick={() => setSort("well_id")} style={{ backgroundColor: sort === "well_id" ? 'yellow' : 'transparent' }} className="dropdown-item">Oldest-Newest</button>
-                        <button onClick={() => setSort("well_id DESC")} style={{ backgroundColor: sort === "well_id DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Newest-Oldest</button>
-                    </div>
-                )}
-                <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); }} className="btn btn-primary">Filter By County</button>
-                {isFilterDropdownVisible && (
-                    <div
-                        style={{
+if (isLoading) {
+    return (
+        <List style={{ textAlign: 'center' }}>
+            <h2> <strong> Wells from localStorage</strong></h2>
+            {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+        </List>
+    );
+}
+else {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    
+            <div style={{ flex: 30, textAlign: 'center' }}>
+                <div ref={containerRef}>
+                    <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
+                    {isSortDropdownVisible && (
+                        <div style={{
                             border: '1px solid #ccc',
                             marginTop: '10px',
                             boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-                            boxSizing: 'border-box',
-                            maxHeight: '150px',
-                            overflow: 'auto'
+                            boxSizing: 'border-box'
                         }}>
-                        <button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
-                        {countyOptions.map(county => (
-                            <button key={county.key}
-                                onClick={() => setFilter(`county_id = '${county.key}'`)}
-                                style={{ backgroundColor: filter === `county_id = '${county.key}'` ? 'yellow' : 'transparent' }}
-                                className="dropdown-item">
-                                {county.value}
-                            </button>
-                        ))}
-                    </div>
-                )}
+                            <button onClick={() => setSort("undefined")} style={{ backgroundColor: sort === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Sort</button>
+                            <button onClick={() => setSort("well_id")} style={{ backgroundColor: sort === "well_id" ? 'yellow' : 'transparent' }} className="dropdown-item">Oldest-Newest</button>
+                            <button onClick={() => setSort("well_id DESC")} style={{ backgroundColor: sort === "well_id DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Newest-Oldest</button>
+                        </div>
+                    )}
+                    <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); }} className="btn btn-primary">Filter By County</button>
+                    {isFilterDropdownVisible && (
+                        <div
+                            style={{
+                                border: '1px solid #ccc',
+                                marginTop: '10px',
+                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+                                boxSizing: 'border-box',
+                                maxHeight: '150px',
+                                overflow: 'auto'
+                            }}>
+                            <button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
+                            {countyOptions.map(county => (
+                                <button key={county.key}
+                                    onClick={() => setFilter(`county_id = '${county.key}'`)}
+                                    style={{ backgroundColor: filter === `county_id = '${county.key}'` ? 'yellow' : 'transparent' }}
+                                    className="dropdown-item">
+                                    {county.value}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+    
+                <List>
+                    <h2><strong>Wells</strong></h2>
+                    <List.Item key={-1}>
+                        <List.Content>
+                            <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
+                        </List.Content>
+                        <br />
+                    </List.Item>
+                    {wellList}
+                </List>
             </div>
-
-            <List>
-                <h2><strong>Wells</strong></h2>
-                <List.Item key={-1}>
-                    <List.Content>
-                        <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
-                    </List.Content>
-                    <br />
-                </List.Item>
-                {wellList}
-            </List>
+    
         </div>
-
-    </div>
-);
-}
+    );
+}}
