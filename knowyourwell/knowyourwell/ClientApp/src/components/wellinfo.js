@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
-import countyOptions from './resources/counties';
-import nrdOptions from './resources/nrds';
+import { useContext } from 'react';
+import WellFieldLabContext from './reusable/WellFieldLabContext';
 import devWellInfo from './resources/devwellinfo';
 import prodWellInfo from './resources/prodwellinfo';
 import wellInfoPrompts from './resources/wellinfoprompts';
@@ -23,25 +23,26 @@ export default function WellInfo() {
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
     const [schoolid, setSchoolid] = useState("");
     const [wellcode, setWellCode] = useState("");
+    const { wellInfoQueue, setWellInfoQueue } = useContext(WellFieldLabContext);
 
     useEffect(() => { // very inefficient solution, may have to come back to this and use user contexts
         Axios.get('/userinfo', {
-                responseType: "json"
-            }).then(function (response) {
-                setSchoolid(response.data.kywmem);
-            }).catch(function (error) {
-                console.error("Failed to fetch school id:", error);
-            });
-        
+            responseType: "json"
+        }).then(function (response) {
+            setSchoolid(response.data.kywmem);
+        }).catch(function (error) {
+            console.error("Failed to fetch school id:", error);
+        });
+
         Axios.get('/wellcode', {
-            }).then(function (response) {
-                // response should be well code
-                console.log(response.data.wellcode)
-                setWellCode(response.data.wellcode)
-            }).catch(function (error) {
-                console.error("Failed to generate well code:", error);
-            });
-        
+        }).then(function (response) {
+            // response should be well code
+            console.log(response.data.wellcode)
+            setWellCode(response.data.wellcode)
+        }).catch(function (error) {
+            console.error("Failed to generate well code:", error);
+        });
+
     }, []);
 
 
@@ -82,31 +83,6 @@ export default function WellInfo() {
             }
         }
     }, []);
-    useEffect(() => {
-        const handleOnline = () => {
-            console.log('Online');
-            const queuedData = JSON.parse(localStorage.getItem('queuedData')) || [];
-            queuedData.forEach(data => {
-                Axios.post('/createwellinfo', data)
-                    .then(() => {
-                        console.log("Queued data sent successfully");
-                        // Remove the data from the queue after successful submission
-                    })
-                    .catch(error => console.log(error));
-            });
-            localStorage.removeItem('queuedData');
-        };
-        const handleOffline = () => {
-            console.log('Offline');
-
-        };
-        window.addEventListener('online', handleOnline);
-        window.addEventListener('offline', handleOffline);
-        return () => {
-            window.removeEventListener('online', handleOnline);
-            window.removeEventListener('offline', handleOffline);
-        };
-    }, []);
 
     function cacheWellInfo() {
         localStorage.setItem('wellInfo', JSON.stringify(wellInfo));
@@ -118,14 +94,12 @@ export default function WellInfo() {
     }
 
     function addWellInfo() {
-        //Checking to see if user is offline - if so then we cache the data that would have been submitted
-        if (!navigator.onLine) {
-            const queuedData = JSON.parse(localStorage.getItem('queuedData')) || [];
-            queuedData.push(wellInfo);
-            localStorage.setItem('queuedData', JSON.stringify(queuedData));
-            console.log('Data queued as the user is offline');
-        } else { //Making post request if the user is online
+        const updatedQueue = [...wellInfoQueue, { ...wellInfo, schoolid: schoolid, wellcode: wellcode }];
 
+        setWellInfoQueue(updatedQueue);
+
+        //Checking to see if user is offline - if so then we cache the data that would have been submitted
+        if (navigator.onLine) {
             Axios.post('/createwellinfo', {
                 address: wellInfo.address,
                 aquiferclass: wellInfo.aquiferclass,
@@ -169,6 +143,9 @@ export default function WellInfo() {
                 .then(() => {
                     console.log("success");
                 })
+            alert("Successfully submitted Well Info Form!");
+        } else {
+            alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection")
         }
     };
 
@@ -193,7 +170,6 @@ export default function WellInfo() {
             addWellInfo();
             //clearing cached data after making the post request
             clearLocalStorage();
-            alert("Successfully submitted Well Info Form!");
             window.location.href = `/well`;
 
         }

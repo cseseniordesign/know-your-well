@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import './components/css/custom.css';
 import './components/css/style.css';
-//pages
-import Login from "./components/login"; 
+import Axios from 'axios'
+import Login from "./components/login";
 import NavMenu from './components/navmenu';
 import Well from './components/well';
 import EditWell from './components/editwell';
@@ -17,28 +17,92 @@ import ViewClassLab from './components/viewclasslab';
 import ViewWell from './components/viewwell';
 import FieldSelection from './components/fieldselection';
 import FormSubmission from './components/formsubmission';
+import WellFieldLabContext from './components/reusable/WellFieldLabContext'
+import { useState, useEffect } from 'react';
 
 
-export default function App() { 
-    return ( 
+export default function App() {
+    const [wellInfoQueue, setWellInfoQueue] = useState(() => {
+        const storedQueue = localStorage.getItem('wellInfoQueue');
+        return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
+
+    });
+    const [fieldQueue, setFieldQueue] = useState([]);
+    const [labQueue, setLabQueue] = useState([]);
+    const handleOnline = () => {
+        console.log('Online');
+        wellInfoQueue?.forEach(wellInfo => {
+            Axios.post('/createwellinfo', {
+                address: wellInfo.address,
+                aquiferclass: wellInfo.aquiferclass,
+                aquifertype: wellInfo.aquifertype,
+                boreholediameter: Number(wellInfo.boreholediameter),
+                city: wellInfo.city,
+                countyid: wellInfo.county,
+                datacollector: wellInfo.datacollector,
+                dateentered: wellInfo.dateentered,
+                dnrId: wellInfo.dnrId,
+                email: wellInfo.email,
+                estlatitude: wellInfo.estlatitude,
+                estlongitude: wellInfo.estlongitude,
+                installyear: parseInt(wellInfo.installyear),
+                landuse5yr: wellInfo.landuse5yr,
+                maintenance5yr: wellInfo.maintenance5yr,
+                nrdid: wellInfo.nrd,
+                numberwelluser: wellInfo.numberwelluser,
+                observation: wellInfo.observation,
+                pestmanure: wellInfo.pestmanure,
+                phone: wellInfo.phone,
+                registNum: wellInfo.registNum,
+                school_id: wellInfo.schoolid,
+                // school_id: wellInfo.school_id,
+                smelltaste: wellInfo.smelltaste,
+                smelltastedescription: wellInfo.smelltastedescription,
+                state: wellInfo.state,
+                totaldepth: Number(wellInfo.totaldepth),
+                wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
+                wellcasematerial: wellInfo.wellcasematerial,
+                // wellcode: wellInfo.wellcode,
+                wellcode: wellInfo.wellcode,
+                welldry: wellInfo.welldry,
+                welldrydescription: wellInfo.welldrydescription,
+                wellname: wellInfo.wellname,
+                wellowner: wellInfo.wellowner,
+                welltype: wellInfo.welltype,
+                welluser: wellInfo.welluser,
+                zipcode: wellInfo.zipcode,
+            })
+                .then(() => {
+                    console.log("success");
+                })
+        });
+        setWellInfoQueue([]);
+        console.log(wellInfoQueue);
+    };
+    window.addEventListener('online', handleOnline);
+    useEffect(() => {
+        localStorage.setItem('wellInfoQueue', JSON.stringify(wellInfoQueue));
+    }, [wellInfoQueue]);
+    return (
         <>
             <NavMenu />
-            <Routes>  
-                <Route exact path="/" element={<Login />} />
-                <Route exact path="/well" element={<Well />} />
-                <Route exact path="/editwell" element={<EditWell />} />
-                <Route exact path="/wellinfo" element={<WellInfo />} />
-                <Route exact path="/field" element={<Field />} />
-                <Route exact path="/classlab" element={<ClassLab />} />
-                <Route exact path="/previousentries" element={<PreviousEntries />} />
-                <Route exact path="/aboutproject" element={<AboutProject />} />
-                <Route exact path="/viewfield" element={<ViewField />} />
-                <Route exact path="/viewclasslab" element={<ViewClassLab />} />
-                <Route exact path="/viewwell" element={<ViewWell />} />
-                <Route exact path="/fieldselection" element={<FieldSelection />} />
-                <Route exact path="/formsubmission" element={<FormSubmission />} />
-            </Routes>
+            <WellFieldLabContext.Provider value={{ wellInfoQueue, setWellInfoQueue, fieldQueue, labQueue }}>
+                <Routes>
+                    <Route exact path="/" element={<Login />} />
+                    <Route exact path="/well" element={<Well />} />
+                    <Route exact path="/editwell" element={<EditWell />} />
+                    <Route exact path="/wellinfo" element={<WellInfo />} />
+                    <Route exact path="/field" element={<Field />} />
+                    <Route exact path="/classlab" element={<ClassLab />} />
+                    <Route exact path="/previousentries" element={<PreviousEntries />} />
+                    <Route exact path="/aboutproject" element={<AboutProject />} />
+                    <Route exact path="/viewfield" element={<ViewField />} />
+                    <Route exact path="/viewclasslab" element={<ViewClassLab />} />
+                    <Route exact path="/viewwell" element={<ViewWell />} />
+                    <Route exact path="/fieldselection" element={<FieldSelection />} />
+                    <Route exact path="/formsubmission" element={<FormSubmission />} />
+                </Routes>
+            </WellFieldLabContext.Provider>
         </>
     );
 }
- 
