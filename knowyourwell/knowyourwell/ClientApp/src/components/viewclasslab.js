@@ -71,7 +71,7 @@ export default function ViewLab() {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
             if (firstColumnName == "Date Entered:")
-                firstColumnValue = moment(firstColumnValue).add(12, 'hour').format("MM-DD-YYYY hh:mm A")
+                firstColumnValue = moment(firstColumnValue).add(6, 'hour').format("MM-DD-YYYY hh:mm A")
             let secondColumnValue = ""
             let secondColumnName = ""
             if (i < labelList.length + 1) {
@@ -79,7 +79,7 @@ export default function ViewLab() {
                 secondColumnValue = formElements[keyList[i + 1]]
             }
             if (secondColumnName == "Date Entered:")
-                secondColumnValue = moment(secondColumnValue).format("MM-DD-YYYY hh:mm A")
+                secondColumnValue = moment(secondColumnValue).add(6, 'hour').format("MM-DD-YYYY hh:mm A")
 
             columnList.push(
                 <div class="row">
