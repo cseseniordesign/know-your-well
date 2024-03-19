@@ -5,7 +5,6 @@ import Axios from 'axios'
 import DatePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import { useContext } from 'react';
-import WellFieldLabContext from './reusable/WellFieldLabContext';
 import devWellInfo from './resources/devwellinfo';
 import prodWellInfo from './resources/prodwellinfo';
 import wellInfoPrompts from './resources/wellinfoprompts';

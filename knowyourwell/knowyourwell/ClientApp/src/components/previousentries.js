@@ -24,8 +24,8 @@ function generatelistElements(previousEntries, well_id, name) {
                 </List.Item >
                 <List.Item key={key}>
                     <List.Content>
-                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class="btn btn-primary btn-lg">Field (Field ID: {entry.fieldID})</a>
-                        <a href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} class={buttonClass} aria-disabled={entry.labID == null}>Class Lab {entry.labID != null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}</a>
+                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} className="btn btn-primary btn-lg">Field (Field ID: {entry.fieldID})</a>
+                        <a href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} className={buttonClass} aria-disabled={entry.labID == null}>Class Lab {entry.labID != null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}</a>
                     </List.Content>
                     <br />
                 </List.Item>

@@ -82,11 +82,11 @@ export default function ViewLab() {
                 secondColumnValue = moment(secondColumnValue).add(6, 'hour').format("MM-DD-YYYY hh:mm A")
 
             columnList.push(
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <p style={{ textAlign: "center" }}><b>{firstColumnName}</b> {firstColumnValue}</p>
                     </div>
-                    <div class="col">
+                    <div className="col">
                         <p style={{ textAlign: "center" }}><b>{secondColumnName}</b> {secondColumnValue}</p>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ export default function ViewLab() {
             <div className="css">
                 <h2>{wellName}: Class Lab</h2>
                 <br />
-                <div class="container" style={{ textAlign: "center" }}>
+                <div className="container" style={{ textAlign: "center" }}>
                     {columnList}
                     <br />
                     <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
