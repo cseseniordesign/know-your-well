@@ -9,7 +9,7 @@ import devWellInfo from './resources/devwellinfo';
 import prodWellInfo from './resources/prodwellinfo';
 import wellInfoPrompts from './resources/wellinfoprompts';
 import renderField from './reusable/renderfield';
-
+import WellFieldLabContext from './path/to/WellFieldLabContext';
 export default function WellInfo() {
     let initialWellInfo;
 
