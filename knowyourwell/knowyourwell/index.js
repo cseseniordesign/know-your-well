@@ -43,9 +43,9 @@ try {
 } catch (e) {
     config = {
         user: "kywAdmin",
-        password: "KJ6vcCG2",
+        password: process.env.APPSETTING_MSSQL_PASSWORD,
         database: "kyw",
-        server: 'localhost',
+        server: 'kyw.database.windows.net',
         pool: {
             max: 10,
             min: 0,
@@ -53,7 +53,7 @@ try {
         },
         options: {
             encrypt: true, // for azure
-            trustServerCertificate: true // change to true for local dev / self-signed certs
+            trustServerCertificate: false // change to true for local dev / self-signed certs
         }
     }
 }
