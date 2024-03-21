@@ -9,7 +9,7 @@ import devWellInfo from './resources/devwellinfo';
 import prodWellInfo from './resources/prodwellinfo';
 import wellInfoPrompts from './resources/wellinfoprompts';
 import renderField from './reusable/renderfield';
-import WellFieldLabContext from './path/to/WellFieldLabContext';
+import WellFieldLabContext from './reusable/WellFieldLabContext';
 export default function WellInfo() {
     let initialWellInfo;
 
@@ -122,14 +122,12 @@ export default function WellInfo() {
                 phone: wellInfo.phone,
                 registNum: wellInfo.registNum,
                 school_id: schoolid,
-                // school_id: wellInfo.school_id,
                 smelltaste: wellInfo.smelltaste,
                 smelltastedescription: wellInfo.smelltastedescription,
                 state: wellInfo.state,
                 totaldepth: Number(wellInfo.totaldepth),
                 wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
                 wellcasematerial: wellInfo.wellcasematerial,
-                // wellcode: wellInfo.wellcode,
                 wellcode: wellcode,
                 welldry: wellInfo.welldry,
                 welldrydescription: wellInfo.welldrydescription,
