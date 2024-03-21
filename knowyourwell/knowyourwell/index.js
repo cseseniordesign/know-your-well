@@ -3,6 +3,7 @@
 const { Constants } = require('samlify');
 
 const express = require("express");
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -18,7 +19,6 @@ if (process.env.NODE_ENV !== "production") {
     kywmemValue = "1";
     displayName = "display name";
 }
-
 
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,9 +40,9 @@ try {
 } catch (e) {
     config = {
         user: "kywAdmin",
-        password: process.env.APPSETTING_MSSQL_PASSWORD,
+        password: "KJ6vcCG2",
         database: "kyw",
-        server: 'kyw.database.windows.net',
+        server: 'localhost',
         pool: {
             max: 10,
             min: 0,
@@ -50,7 +50,7 @@ try {
         },
         options: {
             encrypt: true, // for azure
-            trustServerCertificate: false // change to true for local dev / self-signed certs
+            trustServerCertificate: true // change to true for local dev / self-signed certs
         }
     }
 }
@@ -262,6 +262,7 @@ app.post('/createwellinfo', (req, res) => {
 
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
+    kywmemValue = req.session.kywmem;
 
 
     if (kywmemValue && kywmemValue != "") {
@@ -460,8 +461,11 @@ app.get('/sso/redirect', async (req, res) => {
 });
 
 app.get('/logout', async (req, res) => {
-    kywmemValue = ""
-    displayName = ""
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Session destruction error:', err);
+            return res.status(500).send('Could not log out, please try again.');
+        }
 
     res.status(200).json({ kywmem: kywmemValue, displayn: displayName })
 })
@@ -475,6 +479,7 @@ app.get('/wellcode', async (req, res) => {
     // find the school code using the school id
     // find the largest well code for that school
     // add 1 to the largest well code and return
+    kywmemValue = req.session.kywmem
     let query1 = `SELECT sch_code FROM dbo.tblSchool WHERE school_id = ${kywmemValue}`
 
     let sch_code = ''
