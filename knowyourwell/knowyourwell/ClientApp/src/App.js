@@ -25,10 +25,11 @@ export default function App() {
     const [wellInfoQueue, setWellInfoQueue] = useState(() => {
         const storedQueue = localStorage.getItem('wellInfoQueue');
         return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
-
     });
-    const [fieldQueue, setFieldQueue] = useState([]);
-    const [labQueue, setLabQueue] = useState([]);
+    const [fieldQueue, setFieldQueue] = useState(() => {
+        const storedQueue = localStorage.getItem('fieldQueue');
+        return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
+    });
     const handleOnline = () => {
         console.log('Online');
         wellInfoQueue?.forEach(wellInfo => {
@@ -55,14 +56,12 @@ export default function App() {
                 phone: wellInfo.phone,
                 registNum: wellInfo.registNum,
                 school_id: wellInfo.schoolid,
-                // school_id: wellInfo.school_id,
                 smelltaste: wellInfo.smelltaste,
                 smelltastedescription: wellInfo.smelltastedescription,
                 state: wellInfo.state,
                 totaldepth: Number(wellInfo.totaldepth),
                 wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
                 wellcasematerial: wellInfo.wellcasematerial,
-                // wellcode: wellInfo.wellcode,
                 wellcode: wellInfo.wellcode,
                 welldry: wellInfo.welldry,
                 welldrydescription: wellInfo.welldrydescription,
@@ -77,16 +76,41 @@ export default function App() {
                 })
         });
         setWellInfoQueue([]);
-        console.log(wellInfoQueue);
+        
+        fieldQueue?.forEach(field => {
+            Axios.post('/api/insert', {
+                well_id: field.well_id,
+                fa_latitude: field.fa_latitude,
+                fa_longitude: field.fa_longitude,
+                fa_genlatitude: field.fa_genlatitude,
+                fa_genlongitude: fieldfa_genlongitude,
+                weather: field.conditions,
+                wellcovercondition: field.wellcover,
+                wellcoverdescription: field.wellcoverdescription,
+                topography: field.topography,
+                surfacerunoff: field.evidence,
+                pooling: field.pooling,
+                groundwatertemp: field.temp,
+                ph: field.ph,
+                conductivity: field.conductivity,
+                name: field.name,
+                observations: field.observations,
+                datecollected: field.dateentered,
+            })
+                .then(() => {
+                    console.log("success");
+                })
+        });
     };
     window.addEventListener('online', handleOnline);
     useEffect(() => {
         localStorage.setItem('wellInfoQueue', JSON.stringify(wellInfoQueue));
+        localStorage.setItem('fieldQueue', JSON.stringify(fieldQueue))
     }, [wellInfoQueue]);
     return (
         <>
             <NavMenu />
-            <WellFieldLabContext.Provider value={{ wellInfoQueue, setWellInfoQueue, fieldQueue, labQueue }}>
+            <WellFieldLabContext.Provider value={{ wellInfoQueue, setWellInfoQueue, fieldQueue }}>
                 <Routes>
                     <Route exact path="/" element={<Login />} />
                     <Route exact path="/well" element={<Well />} />
