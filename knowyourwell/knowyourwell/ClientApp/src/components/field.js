@@ -216,7 +216,7 @@ export default function Field() {
             ))}
             <div>
                 <h4>Upload a Photo</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <input type="file" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>
