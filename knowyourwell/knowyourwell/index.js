@@ -523,7 +523,6 @@ app.get('/wellcode', async (req, res) => {
 
 // receive the idp response
 app.post("/saml/acs", async (req, res) => {
-    console.log("HEere")
     await req.sp.parseLoginResponse(req.idp, 'post', req)
         .then(parseResult => {
             // Use the parseResult can do customized action
@@ -555,3 +554,102 @@ app.get("/health", (req, res) => {
     console.log("hit")
     res.status(200).send("Healthy")
 });
+
+const query1Function = (request) => {
+    debugger;
+    const query = "SELECT * FROM dbo.tblWellInfo";
+    request.query(query, (err, recordset) => {
+        if (err) {
+            console.log("Im here")
+            console.error("Im here");
+            reject(err);
+            return;
+        } else {
+            return recordset;
+        }
+    });
+};
+
+const query2Function = (request) => {
+    debugger;
+    const query = "SELECT * FROM dbo.FieldActivity";
+    request.query(query, (err, recordset) => {
+        if (err) {
+            console.log("Im here")
+            console.error("Im here");
+            reject(err);
+            return;
+        } else {
+            return recordset;
+        }
+    });
+};
+
+const query3Function = (request) => {
+    debugger;
+    const query = "SELECT * FROM dbo.ClassroomLab";
+    request.query(query, (err, recordset) => {
+        if (err) {
+            console.log("Im here")
+            console.error("Im here");
+            reject(err);
+            return;
+        } else {
+            return recordset;
+        }
+    });
+};
+
+// Define your route handler
+app.get('/csvqueries', async (req, res) => {
+    let query = 'SELECT * FROM dbo.tblWellInfo';
+
+
+    if (kywmemValue && kywmemValue != "") {
+        query = query + ` WHERE school_id = ${kywmemValue}`
+    }
+    if (req.query.filterBy && req.query.filterBy != "undefined") {
+        query = query + ` WHERE ${req.query.filterBy}`
+    }
+
+    if (req.query.sortBy && req.query.sortBy != "undefined") {
+        query = query + ` ORDER BY ${req.query.sortBy}`
+    }
+
+    appPool.query(query, function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return;
+        }
+        res.status(200).json({ Wells: recordset.recordset });
+    });
+    /*
+        let request = appPool;
+        try {
+            // Perform multiple queries concurrently
+            //const result1 = query1Function(request);
+            const result1 = query1Function(request);
+            const result2 = query2Function(request);
+            const result3 = query3Function(request);
+
+            // Once all queries are done, you can save the results into different fieldsets or data structures
+            const data = {
+                WellData: result1,
+                FieldData: result2,
+                ClassroomData: result3
+            };
+
+            // Send the response back to the client
+            res.status(200).json({ data });
+        } catch (error) {
+            // If any error occurs during the queries, handle it here
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+        */
+    })
+
