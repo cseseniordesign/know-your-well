@@ -472,14 +472,7 @@ app.get('/GetLabEntry', async (req, res) => {
 
 app.get('/sso/redirect', async (req, res) => {
 
-    // const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
-    // defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
-
-    // function insertTagProperty(xmlTag, property){
-    //   return xmlTag.replace('>', ` ${property}>`);
-    // }    
-
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', { forceAuthn: "true" });
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', {forceAuthn: "true"});
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
 
@@ -503,7 +496,9 @@ app.get('/logout', async (req, res) => {
 })
 
 app.get('/userinfo', async (req, res) => {
-    if (req.session && req.session.kywmem && req.session.displayName){
+    if(process.env.NODE_ENV === "develop"){
+        res.status(200).json({ kywmem: "1", displayn : "TEST USER"})
+    }else if (req.session && req.session.kywmem && req.session.displayName){
         res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName})
     } else {
         console.log("Not logged in")
