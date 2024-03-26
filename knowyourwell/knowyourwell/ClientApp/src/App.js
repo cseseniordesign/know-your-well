@@ -83,7 +83,7 @@ export default function App() {
                 fa_latitude: field.fa_latitude,
                 fa_longitude: field.fa_longitude,
                 fa_genlatitude: field.fa_genlatitude,
-                fa_genlongitude: fieldfa_genlongitude,
+                fa_genlongitude: field.fa_genlongitude,
                 weather: field.conditions,
                 wellcovercondition: field.wellcover,
                 wellcoverdescription: field.wellcoverdescription,
