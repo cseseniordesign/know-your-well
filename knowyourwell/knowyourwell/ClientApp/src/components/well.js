@@ -3,6 +3,8 @@ import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios'
+import Papa from 'papaparse';
+//const [csv, setCSV] = useState([]);
 
 
 function responseDataToHTMLList(responseData) {
@@ -23,6 +25,24 @@ function responseDataToHTMLList(responseData) {
         console.log("Error Parsing Data into HTML List.")
     }
     return HTMLList
+}
+
+function exportCSV() {
+    let csv = null;
+    Axios.get('/csvqueries', {
+        responseType: "json",
+    })
+        .then(function (response) {
+            csv = Papa.unparse(response.data.Wells);
+        })
+        .catch(function (error) {
+            // Handle error
+            console.error("Error fetching data:", error);
+        });
+    //const csv = Papa.unparse(wellData);
+    //console.log(csv);
+    console.log(csv);
+
 }
 
 export default function Well() {
@@ -176,8 +196,8 @@ else {
                     </List.Item>
                     {wellList}
                 </List>
+                <button onClick={exportCSV}>Export Data</button>
             </div>
-    
         </div>
     );
 }}
