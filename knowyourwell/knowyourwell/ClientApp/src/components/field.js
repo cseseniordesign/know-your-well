@@ -251,8 +251,8 @@ export default function Field() {
                     prompt, fieldData, handleChange)}</div>
             ))}
             <div>
-                <h4>Upload a Photo of the Well Head</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <h4>Upload a Photo</h4>
+                <input type="file" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>
