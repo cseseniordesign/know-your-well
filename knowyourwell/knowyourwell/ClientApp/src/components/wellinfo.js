@@ -28,7 +28,11 @@ export default function WellInfo() {
         Axios.get('/userinfo', {
             responseType: "json"
         }).then(function (response) {
-            setSchoolid(response.data.kywmem);
+            if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
+                // setSchoolid("1");
+            }else{
+                setSchoolid(response.data.kywmem);
+            }
         }).catch(function (error) {
             console.error("Failed to fetch school id:", error);
         });
