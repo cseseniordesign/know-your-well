@@ -74,16 +74,10 @@ export default function Well() {
             responseType: "json",
         })
             .then(function (response) {
-            let lengthOfWells = response.data.Wells.length;
-            if (lengthOfWells == 0) {
-                console.log("WELL LENGTH 0")
-            }
-            if (lengthOfWells != 0){
                 localStorage.setItem("wellData", JSON.stringify(response.data))
                 setWells(responseDataToHTMLList(response.data.Wells));
                 console.log("Wells")
                 console.log(wellList)
-            }
 
                 setLoading(false);
             }).catch(function (error) {

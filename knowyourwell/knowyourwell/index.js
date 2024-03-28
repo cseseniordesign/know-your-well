@@ -593,7 +593,6 @@ app.get("/health", (req, res) => {
 });
 
 const query1Function = (request) => {
-    debugger;
     const query = "SELECT * FROM dbo.tblWellInfo";
     request.query(query, (err, recordset) => {
         if (err) {
@@ -608,7 +607,6 @@ const query1Function = (request) => {
 };
 
 const query2Function = (request) => {
-    debugger;
     const query = "SELECT * FROM dbo.FieldActivity";
     request.query(query, (err, recordset) => {
         if (err) {
@@ -623,7 +621,6 @@ const query2Function = (request) => {
 };
 
 const query3Function = (request) => {
-    debugger;
     const query = "SELECT * FROM dbo.ClassroomLab";
     request.query(query, (err, recordset) => {
         if (err) {

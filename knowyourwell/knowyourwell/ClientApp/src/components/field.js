@@ -16,7 +16,7 @@ import WellFieldLabContext from './reusable/WellFieldLabContext';
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedFile, setSelectedFile] = useState(null);
-    const { fieldDataQueue, setFieldDataQueue } = useContext(WellFieldLabContext);
+    const { fieldQueue, setFieldQueue } = useContext(WellFieldLabContext);
     const well_id = parseInt(searchParams.get("id"));
 
     let initialFieldData;
@@ -111,10 +111,7 @@ export default function Field() {
     }, []);
 
     function addFieldData() {
-        const updatedQueue = [...fieldDataQueue, { ...fieldData, well_id: fieldData.well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
-
-        setFieldDataQueue(updatedQueue);
-
+        const updatedQueue = [...fieldQueue, { ...fieldData, well_id: fieldData.well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
         if (navigator.onLine) {
             fieldData.well_id = well_id;
             Axios.post('/api/insert', {
@@ -141,6 +138,8 @@ export default function Field() {
                 })
             alert("Successfully submitted Well Info Form!");
         } else {
+            setFieldQueue(updatedQueue);
+
             alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection")
         }
     };
