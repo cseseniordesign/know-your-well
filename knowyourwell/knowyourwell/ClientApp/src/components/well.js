@@ -151,52 +151,33 @@ export default function Well() {
 
 }, [filter, sort]);
 
-// if (isLoading && wellList.length > 0) {
-//     return (
-//         <List style={{ textAlign: 'center' }}>
-//             <h2> <strong> Wells from localStorage</strong></h2>
-//             {wellList}
-//         </List>
-//     );
-// }
+    // if (isLoading) {
+    //     return <h1>Loading</h1>
+    // }
 
+    const handleBlur = (event) => {
+        if (containerRef.current && !containerRef.current.contains(event.relatedTarget)) {
+            setFilterDropdownVisibility(false);
+        }
+    };
 
-const handleBlur = (event) => {
-    if (containerRef.current && !containerRef.current.contains(event.relatedTarget)) {
-        setFilterDropdownVisibility(false);
+    if (isLoading) {
+        return (
+            <List style={{ textAlign: 'center' }}>
+                <h2> <strong> Wells from localStorage</strong></h2>
+                {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+            </List>
+        );
     }
-};
-if (isLoading) {
-    return (
-        <List style={{ textAlign: 'center' }}>
-            <h2> <strong> Wells from localStorage</strong></h2>
-            {/* {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)} */}
-        </List>
-    );
-}
-else {
-    return (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-    
-            <div style={{ flex: 30, textAlign: 'center' }}>
-                <div ref={containerRef}>
-                    <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
-                    {isSortDropdownVisible && (
-                        <div style={{
-                            border: '1px solid #ccc',
-                            marginTop: '10px',
-                            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-                            boxSizing: 'border-box'
-                        }}>
-                            <button onClick={() => setSort("undefined")} style={{ backgroundColor: sort === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Sort</button>
-                            <button onClick={() => setSort("well_id")} style={{ backgroundColor: sort === "well_id" ? 'yellow' : 'transparent' }} className="dropdown-item">Oldest-Newest</button>
-                            <button onClick={() => setSort("well_id DESC")} style={{ backgroundColor: sort === "well_id DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Newest-Oldest</button>
-                        </div>
-                    )}
-                    <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); }} className="btn btn-primary">Filter By County</button>
-                    {isFilterDropdownVisible && (
-                        <div
-                            style={{
+    else {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+                <div style={{ flex: 30, textAlign: 'center' }}>
+                    <div ref={containerRef}>
+                        <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
+                        {isSortDropdownVisible && (
+                            <div style={{
                                 border: '1px solid #ccc',
                                 marginTop: '10px',
                                 boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
