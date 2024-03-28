@@ -100,6 +100,7 @@ export default function App() {
                 .then(() => {
                     console.log("success");
                 })
+            setFieldQueue([]);
         });
     };
     window.addEventListener('online', handleOnline);
@@ -110,7 +111,7 @@ export default function App() {
     return (
         <>
             <NavMenu />
-            <WellFieldLabContext.Provider value={{ wellInfoQueue, setWellInfoQueue, fieldQueue }}>
+            <WellFieldLabContext.Provider value={{ wellInfoQueue, setWellInfoQueue, fieldQueue, setFieldQueue }}>
                 <Routes>
                     <Route exact path="/" element={<Login />} />
                     <Route exact path="/well" element={<Well />} />
