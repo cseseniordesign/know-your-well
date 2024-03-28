@@ -109,8 +109,11 @@ export default function Well() {
             setFilterDropdownVisibility(false);
         }
     };
-
-    if (isLoading) {
+    if(isLoading && JSON.parse(localStorage.getItem("wellData")) == null){
+        return (
+            <h1>Loading</h1>
+        );
+    } else if (isLoading) {
         return (
             <List style={{ textAlign: 'center' }}>
                 <h2> <strong> Wells from localStorage</strong></h2>
