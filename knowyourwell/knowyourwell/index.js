@@ -3,7 +3,6 @@
 const { Constants } = require('samlify');
 
 const express = require("express");
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -14,15 +13,15 @@ const path = require("path");
 
 //require('dotenv').config()
 
-// let kywmemValue = "1";
-// let displayName = "EXAMPLE STUDENT";
+let kywmemValue = "1";
+let displayName = "EXAMPLE STUDENT";
 
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false }
-}));
+// app.use(session({
+//     secret: 'your_secret_key',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { secure: false, httpOnly: false }
+// }));
 app.use(cors({    origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -265,7 +264,7 @@ app.post('/createwellinfo', (req, res) => {
 
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
-    kywmemValue = req.session.kywmem;
+    // kywmemValue = req.session.kywmem;
 
     if (kywmemValue && kywmemValue != "" && kywmemValue != "undefined") {
         query = query + ` WHERE school_id = ${kywmemValue}`
@@ -480,33 +479,35 @@ app.get('/sso/redirect', async (req, res) => {
 });
 
 app.get('/logout', async (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            console.error('Session destruction error:', err);
-            return res.status(500).send('Could not log out, please try again.');
-        }
+    // req.session.destroy(err => {
+    //     if (err) {
+    //         console.error('Session destruction error:', err);
+    //         return res.status(500).send('Could not log out, please try again.');
+    //     }
 
-        // Optionally clear the client-side cookie
-        res.clearCookie('connect.sid'); // The name of the cookie used for session management ('connect.sid' is default for express-session)
+    //     // Optionally clear the client-side cookie
+    //     res.clearCookie('connect.sid'); // The name of the cookie used for session management ('connect.sid' is default for express-session)
 
-        res.status(200).json({ kywmem: "", displayn : ""})
-    });
+    //     res.status(200).json({ kywmem: "", displayn : ""})
+    // });
+    kywmemValue = ""
+    displayName = ""
 
-    // res.status(200).json({ kywmem: "", displayn : ""})
+    res.status(200).json({ kywmem: "", displayn : ""})
 })
 
 app.get('/userinfo', async (req, res) => {
-    if(process.env.NODE_ENV === "develop"){
-        res.status(200).json({ kywmem: "1", displayn : "TEST USER"})
-    }else if (req.session && req.session.kywmem && req.session.displayName){
-        res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName})
-    } else {
-        console.log("Not logged in")
-        res.status(200).json({ kywmem: "", displayn : ""})
-    }
+    // if(process.env.NODE_ENV === "develop"){
+    //     res.status(200).json({ kywmem: "1", displayn : "TEST USER"})
+    // }else if (req.session && req.session.kywmem && req.session.displayName){
+    //     res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName})
+    // } else {
+    //     console.log("Not logged in")
+    //     res.status(200).json({ kywmem: "", displayn : ""})
+    // }
     
 
-    // res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 })
 
 app.get('/wellcode', async (req, res) => {
@@ -514,7 +515,7 @@ app.get('/wellcode', async (req, res) => {
     // find the school code using the school id
     // find the largest well code for that school
     // add 1 to the largest well code and return
-    kywmemValue = req.session.kywmem
+    // kywmemValue = req.session.kywmem
     let query1 = `SELECT sch_code FROM dbo.tblSchool WHERE school_id = ${kywmemValue}`
 
     let sch_code = ''
@@ -567,11 +568,11 @@ app.post("/saml/acs", async (req, res) => {
         .then(parseResult => {
             // Use the parseResult can do customized action
 
-        const kywmemValue = parseResult.extract.attributes.kywmem;
-        const displayName = parseResult.extract.attributes.displayName;
+        kywmemValue = parseResult.extract.attributes.kywmem;
+        displayName = parseResult.extract.attributes.displayName;
 
-        req.session.kywmem = kywmemValue;
-        req.session.displayName = displayName;
+        // req.session.kywmem = kywmemValue;
+        // req.session.displayName = displayName;
 
         console.log('kywmem Value: ', kywmemValue);
         console.log(' displayName Value: ', displayName);
