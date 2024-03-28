@@ -3,7 +3,7 @@ import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios'
-import Papa from 'papaparse';
+// import Papa from 'papaparse';
 //const [csv, setCSV] = useState([]);
 
 
@@ -27,23 +27,23 @@ function responseDataToHTMLList(responseData) {
     return HTMLList
 }
 
-function exportCSV() {
-    let csv = null;
-    Axios.get('/csvqueries', {
-        responseType: "json",
-    })
-        .then(function (response) {
-            csv = Papa.unparse(response.data.Wells);
-        })
-        .catch(function (error) {
-            // Handle error
-            console.error("Error fetching data:", error);
-        });
-    //const csv = Papa.unparse(wellData);
-    //console.log(csv);
-    console.log(csv);
+// function exportCSV() {
+//     let csv = null;
+//     Axios.get('/csvqueries', {
+//         responseType: "json",
+//     })
+//         .then(function (response) {
+//             csv = Papa.unparse(response.data.Wells);
+//         })
+//         .catch(function (error) {
+//             // Handle error
+//             console.error("Error fetching data:", error);
+//         });
+//     //const csv = Papa.unparse(wellData);
+//     //console.log(csv);
+//     console.log(csv);
 
-}
+// }
 
 export default function Well() {
     const [isLoading, setLoading] = useState(true);
@@ -62,11 +62,16 @@ export default function Well() {
         Axios.get('/userinfo', {
             responseType: "json"
         }).then(function (response) {
-            let displayname = response.data.displayn;
-            if (displayname == "") {
-                window.alert("You are not yet logged in. Please log in.");
-                navigate("/");
-            }
+            if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
+                // setSchool("1");
+                // setName("EXAMPLE STUDENT");
+            }else {            
+                let displayname = response.data.displayn;
+                if (displayname == "") {
+                    window.alert("You are not yet logged in. Please log in.");
+                    navigate("/");
+                }}
+
         }).catch(function (error) {
             console.error("Failed to fetch school id:", error);
         });
@@ -199,7 +204,7 @@ export default function Well() {
                         </List.Item>
                         {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
                     </List>
-                    <button onClick={exportCSV}>Export Data</button>
+                    {/* <button onClick={exportCSV}>Export Data</button> */}
                 </div>
             </div>
         );
