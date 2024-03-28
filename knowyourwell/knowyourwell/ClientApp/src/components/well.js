@@ -42,7 +42,7 @@ export default function Well() {
     useEffect(() => { // login check
         Axios.get('/userinfo', {
             responseType: "json"
-        }).then(function (response) {       
+        }).then(function (response) {
             let displayname = response.data.displayn;
             if (displayname == "") {
                 window.alert("You are not yet logged in. Please log in.");
@@ -74,16 +74,10 @@ export default function Well() {
             responseType: "json",
         })
             .then(function (response) {
-            let lengthOfWells = response.data.Wells.length;
-            if (lengthOfWells == 0) {
-                console.log("WELL LENGTH 0")
-            }
-            if (lengthOfWells != 0){
                 localStorage.setItem("wellData", JSON.stringify(response.data))
                 setWells(responseDataToHTMLList(response.data.Wells));
                 console.log("Wells")
                 console.log(wellList)
-            }
 
                 setLoading(false);
             }).catch(function (error) {
@@ -110,10 +104,6 @@ export default function Well() {
 
     }, [filter, sort]);
 
-    if (isLoading) {
-        return <h1>Loading</h1>
-    }
-
     const handleBlur = (event) => {
         if (containerRef.current && !containerRef.current.contains(event.relatedTarget)) {
             setFilterDropdownVisibility(false);
@@ -127,8 +117,7 @@ export default function Well() {
                 {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
             </List>
         );
-    }
-    else {
+    } else {
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
