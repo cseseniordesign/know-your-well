@@ -7,6 +7,7 @@ export default function Login() {
 
     const navigate = useNavigate();
     const initRedirectRequest = () => {
+        console.log(process.env.NODE_ENV)
         if(process.env.NODE_ENV == "development"){
             Axios.get('/createDevSession',{
                 responseType: "json"
