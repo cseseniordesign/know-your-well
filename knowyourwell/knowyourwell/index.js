@@ -3,6 +3,7 @@
 const { Constants } = require('samlify');
 
 const express = require("express");
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -12,13 +13,12 @@ const path = require("path");
 
 //require('dotenv').config()
 
-let kywmemValue = "";
-let displayName = "";
-if (process.env.NODE_ENV !== "production") {
-    kywmemValue = "1";
-    displayName = "display name";
-}
-
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, httpOnly: false }
+}));
 
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -262,6 +262,7 @@ app.post('/createwellinfo', (req, res) => {
 
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
+    kywmemValue = req.session.kywmem;
 
 
     if (kywmemValue && kywmemValue != "") {
@@ -460,14 +461,35 @@ app.get('/sso/redirect', async (req, res) => {
 });
 
 app.get('/logout', async (req, res) => {
-    kywmemValue = ""
-    displayName = ""
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Session destruction error:', err);
+            return res.status(500).send('Could not log out, please try again.');
+        }
 
-    res.status(200).json({ kywmem: kywmemValue, displayn: displayName })
+        // Optionally clear the client-side cookie
+        res.clearCookie('connect.sid'); // The name of the cookie used for session management ('connect.sid' is default for express-session)
+
+        res.status(200).json({ kywmem: "", displayn: "" })
+    });
+
 })
 
 app.get('/userinfo', async (req, res) => {
-    res.status(200).json({ kywmem: kywmemValue, displayn: displayName })
+    // console.log(process.env.PORT)
+    // if(process.env.NODE_ENV === "development"){
+    //     console.log("development")
+    //     res.status(200).json({ kywmem: "1", displayn : "TEST USER"})
+    // }else
+    if (req.session && req.session.kywmem && req.session.displayName) {
+        res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName })
+    } else {
+        console.log("Not logged in")
+        res.status(200).json({ kywmem: "", displayn: "" })
+    }
+
+
+    // res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 })
 
 app.get('/wellcode', async (req, res) => {
@@ -475,6 +497,7 @@ app.get('/wellcode', async (req, res) => {
     // find the school code using the school id
     // find the largest well code for that school
     // add 1 to the largest well code and return
+    let kywmemValue = req.session.kywmem
     let query1 = `SELECT sch_code FROM dbo.tblSchool WHERE school_id = ${kywmemValue}`
 
     let sch_code = ''
@@ -527,11 +550,14 @@ app.post("/saml/acs", async (req, res) => {
         .then(parseResult => {
             // Use the parseResult can do customized action
 
-            kywmemValue = parseResult.extract.attributes.kywmem
-            displayName = parseResult.extract.attributes.displayName
+            const kywmemValue = parseResult.extract.attributes.kywmem;
+            const displayName = parseResult.extract.attributes.displayName;
 
-            console.log('kywmem Value:', kywmemValue);
-            console.log(' displayName Value:', displayName);
+            req.session.kywmem = kywmemValue;
+            req.session.displayName = displayName;
+
+            console.log('kywmem Value: ', kywmemValue);
+            console.log(' displayName Value: ', displayName);
         });
     res.redirect("/Well")
 
@@ -624,32 +650,4 @@ app.get('/csvqueries', async (req, res) => {
         }
         res.status(200).json({ Wells: recordset.recordset });
     });
-    /*
-        let request = appPool;
-        try {
-            // Perform multiple queries concurrently
-            //const result1 = query1Function(request);
-            const result1 = query1Function(request);
-            const result2 = query2Function(request);
-            const result3 = query3Function(request);
-
-            // Once all queries are done, you can save the results into different fieldsets or data structures
-            const data = {
-                WellData: result1,
-                FieldData: result2,
-                ClassroomData: result3
-            };
-
-            // Send the response back to the client
-            res.status(200).json({ data });
-        } catch (error) {
-            // If any error occurs during the queries, handle it here
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-        transaction.on('rollback', aborted => {
-            rolledBack = true
-        })
-        */
-    })
-
+})
