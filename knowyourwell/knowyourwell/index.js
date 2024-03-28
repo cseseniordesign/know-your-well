@@ -264,13 +264,17 @@ app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
     kywmemValue = req.session.kywmem;
 
-
     if (kywmemValue && kywmemValue != "") {
         query = query + ` WHERE school_id = ${kywmemValue}`
+        if (req.query.filterBy && req.query.filterBy != "undefined") {
+            query = query + ` AND ${req.query.filterBy}`
+        }
+    } else {
+        if (req.query.filterBy && req.query.filterBy != "undefined") {
+            query = query + ` WHERE ${req.query.filterBy}`
+        }
     }
-    if (req.query.filterBy && req.query.filterBy != "undefined") {
-        query = query + ` WHERE ${req.query.filterBy}`
-    }
+
 
     if (req.query.sortBy && req.query.sortBy != "undefined") {
         query = query + ` ORDER BY ${req.query.sortBy}`
