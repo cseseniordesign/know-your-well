@@ -127,7 +127,7 @@ if (isLoading) {
     return (
         <List style={{ textAlign: 'center' }}>
             <h2> <strong> Wells from localStorage</strong></h2>
-            {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+            {/* {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)} */}
         </List>
     );
 }
