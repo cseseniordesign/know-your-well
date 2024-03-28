@@ -81,6 +81,7 @@ export default function Well() {
 
                 setLoading(false);
             }).catch(function (error) {
+                localStorage.setItem("wellData", [])
                 console.error("An error occurred while fetching the wells:", error);
                 // Here, you can also set isLoading to false to stop the loading indicator
                 setLoading(true);
