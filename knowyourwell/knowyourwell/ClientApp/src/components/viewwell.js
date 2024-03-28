@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/forms.css'
 import moment from 'moment';
 import Axios from 'axios'
@@ -56,9 +56,9 @@ export default function ViewWell() {
     useEffect(() => { // login check
         Axios.get('/userinfo', {
             responseType: "json"
-        }).then(function (response) {
+        }).then(function (response) {          
             let displayname = response.data.displayn;
-            if (displayname == "" && process.env.NODE_ENV === "production") {
+            if (displayname == "") {
                 window.alert("You are not yet logged in. Please log in.");
                 navigate("/");
             }
@@ -140,7 +140,7 @@ export default function ViewWell() {
                     {columnList}
                     <div key="dateentered" className="row">
                         <div className="col">
-                        <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).add(6, 'hour').format('MM-DD-YYYY hh:mm A')}</p>
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).add(6, 'hour').format('MM-DD-YYYY hh:mm A')}</p>
                         </div>
                     </div>
                     <br />

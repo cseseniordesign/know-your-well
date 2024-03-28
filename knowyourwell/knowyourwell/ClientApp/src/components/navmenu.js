@@ -13,10 +13,10 @@ const NavMenu = () => {
     
     Axios.get('/userinfo', {
         responseType: "json"
-    }).then(function (response) {
-        setSchool(response.data.kywmem);
-        setName(response.data.displayn);
-    })
+    }).then(function (response) { // dev nav menu
+            setSchool(response.data.kywmem);
+            setName(response.data.displayn);
+    });
 
     const initLogout = () => {
         Axios.get('/logout', {
@@ -52,7 +52,7 @@ const NavMenu = () => {
                     </ul>
                 </Collapse>
             </Navbar>
-            <div class="displayname">
+            <div className="displayname">
             </div>
         </header>
     );

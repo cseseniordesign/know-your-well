@@ -18,11 +18,13 @@ export default function EditWell() {
         Axios.get('/userinfo', {
             responseType: "json"
         }).then(function (response) {
+           
             let displayname = response.data.displayn;
-            if (displayname == "" && process.env.NODE_ENV === "production") {
+            if (displayname == "") {
                 window.alert("You are not yet logged in. Please log in.");
                 navigate("/");
             }
+
         }).catch(function (error) {
             console.error("Failed to fetch school id:", error);
         });

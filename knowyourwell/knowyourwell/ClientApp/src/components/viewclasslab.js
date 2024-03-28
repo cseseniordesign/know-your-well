@@ -32,12 +32,13 @@ export default function ViewLab() {
     useEffect(() => { // login check
         Axios.get('/userinfo', {
             responseType: "json"
-        }).then(function (response) {
+        }).then(function (response) {          
             let displayname = response.data.displayn;
-            if (displayname == "" && process.env.NODE_ENV === "production") {
+            if (displayname == "") {
                 window.alert("You are not yet logged in. Please log in.");
                 navigate("/");
             }
+
         }).catch(function (error) {
             console.error("Failed to fetch school id:", error);
         });
@@ -71,7 +72,7 @@ export default function ViewLab() {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
             if (firstColumnName == "Date Entered:")
-                firstColumnValue = moment(firstColumnValue).format("MM-DD-YYYY hh:mm A")
+                firstColumnValue = moment(firstColumnValue).add(6, 'hour').format("MM-DD-YYYY hh:mm A")
             let secondColumnValue = ""
             let secondColumnName = ""
             if (i < labelList.length + 1) {
@@ -79,14 +80,14 @@ export default function ViewLab() {
                 secondColumnValue = formElements[keyList[i + 1]]
             }
             if (secondColumnName == "Date Entered:")
-                secondColumnValue = moment(secondColumnValue).format("MM-DD-YYYY hh:mm A")
+                secondColumnValue = moment(secondColumnValue).add(6, 'hour').format("MM-DD-YYYY hh:mm A")
 
             columnList.push(
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <p style={{ textAlign: "center" }}><b>{firstColumnName}</b> {firstColumnValue}</p>
                     </div>
-                    <div class="col">
+                    <div className="col">
                         <p style={{ textAlign: "center" }}><b>{secondColumnName}</b> {secondColumnValue}</p>
                     </div>
                 </div>
@@ -97,7 +98,7 @@ export default function ViewLab() {
             <div className="css">
                 <h2>{wellName}: Class Lab</h2>
                 <br />
-                <div class="container" style={{ textAlign: "center" }}>
+                <div className="container" style={{ textAlign: "center" }}>
                     {columnList}
                     <br />
                     <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>

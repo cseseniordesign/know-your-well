@@ -11,7 +11,7 @@ const devFieldData = {
     observations: "sample dev observations",
     wellcover: "Damaged",
     wellcoverdescription: "sample dev well cover description",
-    topography: "HillSlope",
+    topography: "Hill Slope",
     well_id: "dev123",
     dateentered: moment().format('L, h:mm a'),
     evidence: "Yes",
