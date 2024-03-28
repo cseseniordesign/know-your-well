@@ -14,16 +14,9 @@ const NavMenu = () => {
     Axios.get('/userinfo', {
         responseType: "json"
     }).then(function (response) { // dev nav menu
-        if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
-            // console.log("dev nav menu")
-            setSchool("1");
-            setName("EXAMPLE STUDENT");
-        }else{ //prod nav menu
-            console.log("prod nav menu")
             setSchool(response.data.kywmem);
             setName(response.data.displayn);
-        }
-    })
+    });
 
     const initLogout = () => {
         Axios.get('/logout', {

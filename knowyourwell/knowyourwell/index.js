@@ -40,9 +40,9 @@ try {
 } catch (e) {
     config = {
         user: "kywAdmin",
-        password: process.env.APPSETTING_MSSQL_PASSWORD,
+        password: "KJ6vcCG2",
         database: "kyw",
-        server: 'kyw.database.windows.net',
+        server: 'localhost',
         pool: {
             max: 10,
             min: 0,
@@ -50,7 +50,7 @@ try {
         },
         options: {
             encrypt: true, // for azure
-            trustServerCertificate: false // change to true for local dev / self-signed certs
+            trustServerCertificate: true // change to true for local dev / self-signed certs
         }
     }
 }
@@ -264,7 +264,7 @@ app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
     kywmemValue = req.session.kywmem;
 
-    if (kywmemValue && kywmemValue != "") {
+    if (kywmemValue && kywmemValue != "" && kywmemValue != "undefined") {
         query = query + ` WHERE school_id = ${kywmemValue}`
         if (req.query.filterBy && req.query.filterBy != "undefined") {
             query = query + ` AND ${req.query.filterBy}`
@@ -494,7 +494,14 @@ app.get('/userinfo', async (req, res) => {
 
 
     // res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
-})
+});
+
+app.get('/createDevSession', async (req, res) => {
+    // console.log("hit dev sesh")
+    req.session.kywmem = "1";
+    req.session.displayName = "EXAMPLE STUDENT";
+    res.status(200).json({success: "success"})
+});
 
 app.get('/wellcode', async (req, res) => {
     // get the school id from the request

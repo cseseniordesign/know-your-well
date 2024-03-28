@@ -28,20 +28,21 @@ export default function WellInfo() {
         Axios.get('/userinfo', {
             responseType: "json"
         }).then(function (response) {
-            if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
-                // setSchoolid("1");
-            }else{
-                setSchoolid(response.data.kywmem);
-            }
+            setSchoolid(response.data.kywmem);
         }).catch(function (error) {
             console.error("Failed to fetch school id:", error);
         });
 
         Axios.get('/wellcode', {
         }).then(function (response) {
-            // response should be well code
-            console.log(response.data.wellcode)
-            setWellCode(response.data.wellcode)
+            if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
+                // setSchoolid("1");
+                setWellCode("abc123")
+            }else {
+                // response should be well code
+                // console.log(response.data.wellcode)
+                setWellCode(response.data.wellcode)
+            }
         }).catch(function (error) {
             console.error("Failed to generate well code:", error);
         });

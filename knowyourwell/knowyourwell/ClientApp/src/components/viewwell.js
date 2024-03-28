@@ -56,15 +56,12 @@ export default function ViewWell() {
     useEffect(() => { // login check
         Axios.get('/userinfo', {
             responseType: "json"
-        }).then(function (response) {
-            if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
-            }else {            
-                let displayname = response.data.displayn;
-                if (displayname == "") {
-                    window.alert("You are not yet logged in. Please log in.");
-                    navigate("/");
-                }}
-
+        }).then(function (response) {          
+            let displayname = response.data.displayn;
+            if (displayname == "") {
+                window.alert("You are not yet logged in. Please log in.");
+                navigate("/");
+            }
         }).catch(function (error) {
             console.error("Failed to fetch school id:", error);
         });

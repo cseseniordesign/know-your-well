@@ -1,28 +1,44 @@
 import React from 'react';
 import './css/login_signup.css';
+import Axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
+    const navigate = useNavigate();
     const initRedirectRequest = () => {
-        const options = {
-            method: 'GET',
-            mode: 'no-cors'
-          };
-        fetch("/sso/redirect", options)
-            .then(function(response) {
-
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
+        if(process.env.NODE_ENV == "development"){
+            Axios.get('/createDevSession',{
+                responseType: "json"
+            }).then(function (response) {
+                if(response.data.success == "success"){
+                    console.log("navigating")
+                    navigate("/Well");
                 }
-                return response.text()
-            })
-            .then(function(data) {
-                window.location.href = data;
-            })
-            .catch(function(error) {
-                console.log("ERROR")
-                console.error("Error:", error);
+            }).catch(function (error) {
+                console.error("Failed to create dev sesh:", error);
             });
+        }else {
+            const options = {
+                method: 'GET',
+                mode: 'no-cors'
+            };
+            fetch("/sso/redirect", options)
+                .then(function(response) {
+
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.text()
+                })
+                .then(function(data) {
+                    window.location.href = data;
+                })
+                .catch(function(error) {
+                    console.log("ERROR")
+                    console.error("Error:", error);
+                });
+        }
     };
 
     return (
