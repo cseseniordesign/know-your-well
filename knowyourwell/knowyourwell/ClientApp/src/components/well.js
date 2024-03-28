@@ -98,10 +98,10 @@ export default function Well() {
         //         console.log("wellData is Invalid JSON")
         //     }
         // }
-        const wellCookie = localStorage.getItem("wellData");
-        const wellData = JSON.parse(wellCookie);
-        setWells(responseDataToHTMLList(wellData.Wells));
-        responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)
+        // const wellCookie = localStorage.getItem("wellData");
+        // const wellData = JSON.parse(wellCookie);
+        // setWells(responseDataToHTMLList(wellData.Wells));
+        // responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)
 
     }, [filter, sort]);
 
