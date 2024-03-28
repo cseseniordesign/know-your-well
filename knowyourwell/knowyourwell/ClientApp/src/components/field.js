@@ -5,15 +5,18 @@ import DatePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
 import NumberEntry from './reusable/numberentry';
+import { useContext } from 'react';
 import FormFooter from './reusable/formfooter';
 import devFieldData from './resources/devfielddata';
 import prodFieldData from './resources/prodfielddata';
 import fieldPrompts from './resources/fieldprompts';
 import renderField from './reusable/renderfield';
+import WellFieldLabContext from './reusable/WellFieldLabContext';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedFile, setSelectedFile] = useState(null);
+    const { fieldDataQueue, setFieldDataQueue } = useContext(WellFieldLabContext);
     const well_id = parseInt(searchParams.get("id"));
 
     let initialFieldData;
@@ -59,6 +62,26 @@ export default function Field() {
             [fieldName]: value,
         }));
     }
+    useEffect(() => {
+        const savedFieldData = localStorage.getItem('fieldData');
+        if (savedFieldData) {
+            const confirmContinue = window.confirm('Continue with saved data?');
+            if (confirmContinue) {
+                fieldData(JSON.parse(savedFieldData));
+            } else {
+                localStorage.removeItem('fieldData');
+            }
+        }
+    }, []);
+
+    function cacheWellInfo() {
+        localStorage.setItem('fieldData', JSON.stringify(fieldData));
+        alert('Field Data has been saved!');
+    }
+
+    function clearLocalStorage() {
+        localStorage.removeItem('fieldData');
+    }
 
     const handleChange = (fieldName, value) => {
         if (fieldName === 'wellcover' && value === 'Intact') {
@@ -87,31 +110,41 @@ export default function Field() {
         }
     }, []);
 
-    function addField() {
-        fieldData.well_id = well_id;
-        Axios.post('/api/insert', {
-            well_id: fieldData.well_id,
-            fa_latitude: fieldData.fa_latitude,
-            fa_longitude: fieldData.fa_longitude,
-            fa_genlatitude: fa_genlatitude,
-            fa_genlongitude: fa_genlongitude,
-            weather: fieldData.conditions,
-            wellcovercondition: fieldData.wellcover,
-            wellcoverdescription: fieldData.wellcoverdescription,
-            topography: fieldData.topography,
-            surfacerunoff: fieldData.evidence,
-            pooling: fieldData.pooling,
-            groundwatertemp: fieldData.temp,
-            ph: fieldData.ph,
-            conductivity: fieldData.conductivity,
-            name: fieldData.name,
-            observations: fieldData.observations,
-            datecollected: fieldData.dateentered,
-        })
-            .then(() => {
-                console.log("success");
+    function addFieldData() {
+        const updatedQueue = [...fieldDataQueue, { ...fieldData, well_id: fieldData.well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
+
+        setFieldDataQueue(updatedQueue);
+
+        if (navigator.onLine) {
+            fieldData.well_id = well_id;
+            Axios.post('/api/insert', {
+                well_id: fieldData.well_id,
+                fa_latitude: fieldData.fa_latitude,
+                fa_longitude: fieldData.fa_longitude,
+                fa_genlatitude: fa_genlatitude,
+                fa_genlongitude: fa_genlongitude,
+                weather: fieldData.conditions,
+                wellcovercondition: fieldData.wellcover,
+                wellcoverdescription: fieldData.wellcoverdescription,
+                topography: fieldData.topography,
+                surfacerunoff: fieldData.evidence,
+                pooling: fieldData.pooling,
+                groundwatertemp: fieldData.temp,
+                ph: fieldData.ph,
+                conductivity: fieldData.conductivity,
+                name: fieldData.name,
+                observations: fieldData.observations,
+                datecollected: fieldData.dateentered,
             })
+                .then(() => {
+                    console.log("success");
+                })
+            alert("Successfully submitted Well Info Form!");
+        } else {
+            alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection")
+        }
     };
+
 
     const idList = ["fa_latitude", "fa_longitude", "conditions", "wellcover", "temp", "ph", "conductivity", "name", "observations"];
     // caching - local storage
@@ -160,7 +193,8 @@ export default function Field() {
 
     function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
-            addField();
+            addFieldData()
+            clearLocalStorage();
             handleClearLocalStorage();
             alert("Succesfully submitted Field Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
@@ -248,7 +282,7 @@ export default function Field() {
                 </div>
             </div>
             <br />
-            <FormFooter submitForm={submitForm} backButton={backButton} cacheForm={cacheFieldForm} />
+            <FormFooter submitForm={submitForm} onClick={cacheWellInfo} backButton={backButton} cacheForm={cacheFieldForm} />
             <br />
         </form >
     );

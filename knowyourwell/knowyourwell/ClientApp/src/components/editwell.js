@@ -19,7 +19,7 @@ export default function EditWell() {
             responseType: "json"
         }).then(function (response) {
             let displayname = response.data.displayn;
-            if (displayname == "" && process.env.NODE_ENV === "production") {
+            if (displayname == "") {
                 window.alert("You are not yet logged in. Please log in.");
                 navigate("/");
             }

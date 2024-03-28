@@ -52,7 +52,7 @@ const NavMenu = () => {
                     </ul>
                 </Collapse>
             </Navbar>
-            <div class="displayname">
+            <div className="displayname">
             </div>
         </header>
     );

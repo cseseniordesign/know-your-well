@@ -3,6 +3,7 @@
 const { Constants } = require('samlify');
 
 const express = require("express");
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 const sql = require('mssql')
@@ -12,11 +13,14 @@ const path = require("path");
 
 //require('dotenv').config()
 
-let kywmemValue = "";
-let displayName = "";
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, httpOnly: false }
+}));
 
-
-app.use(cors({    origin: '*'}));
+app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
@@ -176,7 +180,7 @@ app.post('/createwellinfo', (req, res) => {
         transaction.on('rollback', aborted => {
             rolledBack = true
         })
-        
+
         request.input('wellcode', sql.NVarChar, req.body.wellcode);
         request.input('wellname', sql.NVarChar, req.body.wellname);
         request.input('school_id', sql.Int, req.body.school_id);
@@ -234,44 +238,39 @@ app.post('/createwellinfo', (req, res) => {
                 '@wellwaterleveldepth, @aquifertype, @aquiferclass, @welltype, ' +
                 '@wellcasematerial, @datacollector, @observation, ' +
                 '@dateentered)', function (err, recordset) {
-                if (err) {
-                    console.log(err)
-                    res.status(500).send('Query does not execute.')
-                    if (!rolledBack) {
-                        transaction.rollback(err => {
-                            // ... error checks
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('Query does not execute.')
+                        if (!rolledBack) {
+                            transaction.rollback(err => {
+                                // ... error checks
+                            })
+                        }
+                    } else {
+                        transaction.commit(err => {
+                            if (err) {
+                                console.log(err)
+                                res.status(500).send('500: Server Error.')
+                            }
+                            else
+                                res.status(500).send('Values Inserted')
                         })
                     }
-                } else {
-                    transaction.commit(err => {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send('500: Server Error.')
-                        }
-                        else
-                            res.status(500).send('Values Inserted')
-                    })
-                }
-            })
+                })
     })
 });
 
 app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
+    kywmemValue = req.session.kywmem;
 
 
     if (kywmemValue && kywmemValue != "") {
-        query = query +  ` WHERE school_id = ${kywmemValue}`
-        if (req.query.filterBy && req.query.filterBy != "undefined") {
-            query = query + ` AND ${req.query.filterBy}`
-        }
-    } else if (req.query.filterBy && req.query.filterBy != "undefined") {
-        query = query + ` Where ${req.query.filterBy}`
+        query = query + ` WHERE school_id = ${kywmemValue}`
     }
-
-    // if (req.query.filterBy && req.query.filterBy != "undefined") {
-    //     query = query + ` AND ${req.query.filterBy}`
-    // }
+    if (req.query.filterBy && req.query.filterBy != "undefined") {
+        query = query + ` WHERE ${req.query.filterBy}`
+    }
 
     if (req.query.sortBy && req.query.sortBy != "undefined") {
         query = query + ` ORDER BY ${req.query.sortBy}`
@@ -449,12 +448,12 @@ app.get('/sso/redirect', async (req, res) => {
 
     // const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
     // defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
-    
+
     // function insertTagProperty(xmlTag, property){
     //   return xmlTag.replace('>', ` ${property}>`);
     // }    
 
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', {forceAuthn: "true"});
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', { forceAuthn: "true" });
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
 
@@ -462,14 +461,35 @@ app.get('/sso/redirect', async (req, res) => {
 });
 
 app.get('/logout', async (req, res) => {
-    kywmemValue = ""
-    displayName = ""
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Session destruction error:', err);
+            return res.status(500).send('Could not log out, please try again.');
+        }
 
-    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+        // Optionally clear the client-side cookie
+        res.clearCookie('connect.sid'); // The name of the cookie used for session management ('connect.sid' is default for express-session)
+
+        res.status(200).json({ kywmem: "", displayn: "" })
+    });
+
 })
 
 app.get('/userinfo', async (req, res) => {
-    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+    // console.log(process.env.PORT)
+    // if(process.env.NODE_ENV === "development"){
+    //     console.log("development")
+    //     res.status(200).json({ kywmem: "1", displayn : "TEST USER"})
+    // }else
+    if (req.session && req.session.kywmem && req.session.displayName) {
+        res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName })
+    } else {
+        console.log("Not logged in")
+        res.status(200).json({ kywmem: "", displayn: "" })
+    }
+
+
+    // res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 })
 
 app.get('/wellcode', async (req, res) => {
@@ -477,8 +497,9 @@ app.get('/wellcode', async (req, res) => {
     // find the school code using the school id
     // find the largest well code for that school
     // add 1 to the largest well code and return
+    let kywmemValue = req.session.kywmem
     let query1 = `SELECT sch_code FROM dbo.tblSchool WHERE school_id = ${kywmemValue}`
-    
+
     let sch_code = ''
 
     const getSchoolCode = () => {
@@ -509,7 +530,7 @@ app.get('/wellcode', async (req, res) => {
         if (prev_max_wellcode == null) {
             //well code could not be found with this school code meaning this school has not created a well before
             const firstWellCode = sch_code + "001"
-            res.status(200).json({ wellcode: firstWellCode})
+            res.status(200).json({ wellcode: firstWellCode })
         } else {
             // well code could be found for this school
             const match = prev_max_wellcode.match(/([a-zA-Z]*)(\d*)/);
@@ -517,24 +538,26 @@ app.get('/wellcode', async (req, res) => {
             const newNumber = Number(oldNumber) + 1
             const paddedNumber = newNumber.toString().padStart(oldNumber.length, '0');
             const finalWellCode = sch_code + paddedNumber
-            res.status(200).json({ wellcode: finalWellCode})
+            res.status(200).json({ wellcode: finalWellCode })
         }
-        
+
     });
 });
 
 // receive the idp response
 app.post("/saml/acs", async (req, res) => {
-    console.log("HEere")
     await req.sp.parseLoginResponse(req.idp, 'post', req)
-    .then(parseResult => {
-        // Use the parseResult can do customized action
+        .then(parseResult => {
+            // Use the parseResult can do customized action
 
-        kywmemValue = parseResult.extract.attributes.kywmem
-        displayName = parseResult.extract.attributes.displayName
+            const kywmemValue = parseResult.extract.attributes.kywmem;
+            const displayName = parseResult.extract.attributes.displayName;
 
-        console.log('kywmem Value:', kywmemValue);
-        console.log(' displayName Value:', displayName);
+            req.session.kywmem = kywmemValue;
+            req.session.displayName = displayName;
+
+            console.log('kywmem Value: ', kywmemValue);
+            console.log(' displayName Value: ', displayName);
         });
     res.redirect("/Well")
 
@@ -557,3 +580,74 @@ app.get("/health", (req, res) => {
     console.log("hit")
     res.status(200).send("Healthy")
 });
+
+const query1Function = (request) => {
+    debugger;
+    const query = "SELECT * FROM dbo.tblWellInfo";
+    request.query(query, (err, recordset) => {
+        if (err) {
+            console.log("Im here")
+            console.error("Im here");
+            reject(err);
+            return;
+        } else {
+            return recordset;
+        }
+    });
+};
+
+const query2Function = (request) => {
+    debugger;
+    const query = "SELECT * FROM dbo.FieldActivity";
+    request.query(query, (err, recordset) => {
+        if (err) {
+            console.log("Im here")
+            console.error("Im here");
+            reject(err);
+            return;
+        } else {
+            return recordset;
+        }
+    });
+};
+
+const query3Function = (request) => {
+    debugger;
+    const query = "SELECT * FROM dbo.ClassroomLab";
+    request.query(query, (err, recordset) => {
+        if (err) {
+            console.log("Im here")
+            console.error("Im here");
+            reject(err);
+            return;
+        } else {
+            return recordset;
+        }
+    });
+};
+
+// Define your route handler
+app.get('/csvqueries', async (req, res) => {
+    let query = 'SELECT * FROM dbo.tblWellInfo';
+
+
+    if (kywmemValue && kywmemValue != "") {
+        query = query + ` WHERE school_id = ${kywmemValue}`
+    }
+    if (req.query.filterBy && req.query.filterBy != "undefined") {
+        query = query + ` WHERE ${req.query.filterBy}`
+    }
+
+    if (req.query.sortBy && req.query.sortBy != "undefined") {
+        query = query + ` ORDER BY ${req.query.sortBy}`
+    }
+
+    appPool.query(query, function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return;
+        }
+        res.status(200).json({ Wells: recordset.recordset });
+    });
+})

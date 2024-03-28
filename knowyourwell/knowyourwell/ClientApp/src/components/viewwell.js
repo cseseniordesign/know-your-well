@@ -58,7 +58,7 @@ export default function ViewWell() {
             responseType: "json"
         }).then(function (response) {
             let displayname = response.data.displayn;
-            if (displayname == "" && process.env.NODE_ENV === "production") {
+            if (displayname == "") {
                 window.alert("You are not yet logged in. Please log in.");
                 navigate("/");
             }
@@ -140,7 +140,7 @@ export default function ViewWell() {
                     {columnList}
                     <div key="dateentered" className="row">
                         <div className="col">
-                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).format('MM-DD-YYYY hh:mm A')}</p>
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).add(6, 'hour').format('MM-DD-YYYY hh:mm A')}</p>
                         </div>
                     </div>
                     <br />
