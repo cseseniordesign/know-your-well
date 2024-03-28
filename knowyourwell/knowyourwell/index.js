@@ -40,9 +40,9 @@ try {
 } catch (e) {
     config = {
         user: "kywAdmin",
-        password: process.env.APPSETTING_MSSQL_PASSWORD,
+        password: "KJ6vcCG2",
         database: "kyw",
-        server: 'kyw.database.windows.net',
+        server: 'localhost',
         pool: {
             max: 10,
             min: 0,
@@ -50,7 +50,7 @@ try {
         },
         options: {
             encrypt: true, // for azure
-            trustServerCertificate: false // change to true for local dev / self-signed certs
+            trustServerCertificate: true // change to true for local dev / self-signed certs
         }
     }
 }
@@ -264,13 +264,17 @@ app.get('/Wells', async (req, res) => {
     let query = 'SELECT * FROM dbo.tblWellInfo';
     kywmemValue = req.session.kywmem;
 
-
     if (kywmemValue && kywmemValue != "") {
         query = query + ` WHERE school_id = ${kywmemValue}`
+        if (req.query.filterBy && req.query.filterBy != "undefined") {
+            query = query + ` AND ${req.query.filterBy}`
+        }
+    } else {
+        if (req.query.filterBy && req.query.filterBy != "undefined") {
+            query = query + ` WHERE ${req.query.filterBy}`
+        }
     }
-    if (req.query.filterBy && req.query.filterBy != "undefined") {
-        query = query + ` WHERE ${req.query.filterBy}`
-    }
+
 
     if (req.query.sortBy && req.query.sortBy != "undefined") {
         query = query + ` ORDER BY ${req.query.sortBy}`
