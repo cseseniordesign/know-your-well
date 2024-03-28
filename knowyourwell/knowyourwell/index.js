@@ -625,29 +625,3 @@ const query3Function = (request) => {
         }
     });
 };
-
-// Define your route handler
-app.get('/csvqueries', async (req, res) => {
-    let query = 'SELECT * FROM dbo.tblWellInfo';
-
-
-    if (kywmemValue && kywmemValue != "") {
-        query = query + ` WHERE school_id = ${kywmemValue}`
-    }
-    if (req.query.filterBy && req.query.filterBy != "undefined") {
-        query = query + ` WHERE ${req.query.filterBy}`
-    }
-
-    if (req.query.sortBy && req.query.sortBy != "undefined") {
-        query = query + ` ORDER BY ${req.query.sortBy}`
-    }
-
-    appPool.query(query, function (err, recordset) {
-        if (err) {
-            console.log(err)
-            res.status(500).send('SERVER ERROR')
-            return;
-        }
-        res.status(200).json({ Wells: recordset.recordset });
-    });
-})
