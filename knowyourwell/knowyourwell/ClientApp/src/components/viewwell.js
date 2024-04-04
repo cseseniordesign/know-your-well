@@ -142,7 +142,8 @@ export default function ViewWell() {
                     <div key="dateentered" className="row">
                         <div className="col">
                             {/* <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).add(6, 'hour').format('MM-DD-YYYY hh:mm A')}</p> */}
-                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {format(parseISO(formElements["wi_dateentered"]), 'MM-dd-yyyy hh:mm a')}</p>
+                            {/* <p style={{ textAlign: "center" }}><b>Date Entered:</b> {format(parseISO(formElements["wi_dateentered"]), 'MM-dd-yyyy hh:mm a')}</p> */}
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {formElements["wi_dateentered"]}</p>
                         </div>
                     </div>
                     <br />
