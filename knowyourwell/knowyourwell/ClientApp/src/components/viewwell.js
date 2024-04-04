@@ -2,7 +2,6 @@
 import './css/forms.css'
 import moment from 'moment';
 import { parseISO, format } from 'date-fns';
-import { DateTime } from 'luxon';
 import Axios from 'axios'
 import { useSearchParams } from "react-router-dom";
 import countyOptions from './resources/counties';
@@ -144,7 +143,7 @@ export default function ViewWell() {
                         <div className="col">
                             {/* <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment(formElements["wi_dateentered"]).add(6, 'hour').format('MM-DD-YYYY hh:mm A')}</p> */}
                             {/* <p style={{ textAlign: "center" }}><b>Date Entered:</b> {format(parseISO(formElements["wi_dateentered"]), 'MM-dd-yyyy hh:mm a')}</p> */}
-                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {(DateTime.fromISO(formElements["wi_dateentered"], { zone: 'utc' })).toFormat('MM-dd-yyyy hh:mm a')}</p>
+                            <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment.utc(formElements["wi_dateentered"]).format('MM-DD-YYYY hh:mm A')}</p>
                             {/* <p style={{ textAlign: "center" }}><b>Date Entered:</b> {formElements["wi_dateentered"]}</p> */}
                         </div>
                     </div>
