@@ -127,7 +127,7 @@ export default function Well() {
 
                 <div style={{ flex: 30, textAlign: 'center' }}>
                     <div ref={containerRef}>
-                        <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
+                        <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); setSort("undefined");}} className="btn btn-primary">Sort Wells</button>
                         {isSortDropdownVisible && (
                             <div style={{
                                 border: '1px solid #ccc',
@@ -140,7 +140,7 @@ export default function Well() {
                                 <button onClick={() => setSort("well_id DESC")} style={{ backgroundColor: sort === "well_id DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Newest-Oldest</button>
                             </div>
                         )}
-                        <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); }} className="btn btn-primary">Filter By County</button>
+                        <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); setFilter("undefined"); }} className="btn btn-primary">Filter By County</button>
                         {isFilterDropdownVisible && (
                             <div
                                 style={{
