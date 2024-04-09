@@ -136,11 +136,10 @@ export default function Field() {
                 .then(() => {
                     console.log("success");
                 })
-            alert("Successfully submitted Well Info Form!");
         } else {
             setFieldQueue(updatedQueue);
 
-            alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection")
+            alert("You are offline, Field Form will automatically be submitted when you regain an internet connection")
         }
     };
 
@@ -195,7 +194,7 @@ export default function Field() {
             addFieldData()
             clearLocalStorage();
             handleClearLocalStorage();
-            alert("Succesfully submitted Field Form!");
+            alert("Successfully submitted Field Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }

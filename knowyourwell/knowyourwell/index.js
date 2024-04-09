@@ -321,7 +321,6 @@ app.get('/GetWellInfo', async (req, res) => {
                         res.status(500).send('500: Server Error.')
                     }
                     else {
-                        console.log(recordset)
                         res.status(200).json({ WellInfo: recordset.recordset })
                     }
                 })
