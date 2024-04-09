@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@authenio/samlify-node-xmllint": "^2.0.0",
+    "axios": "^1.6.8",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
     "concurrently": "^8.0.1",
@@ -28,7 +29,12 @@
     "react-bootstrap": "^2.9.1",
     "react-datetime": "^3.2.0",
     "react-detect-offline": "^2.4.5",
-    "samlify": "^2.8.10"
+    "react-router-dom": "^6.22.3",
+    "react-scripts": "^5.0.1",
+    "reactstrap": "^9.2.2",
+    "samlify": "^2.8.11",
+    "semantic-ui-react": "^2.1.5",
+    "web-vitals": "^3.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",

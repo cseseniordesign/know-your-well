@@ -69,7 +69,45 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Any other custom service worker logic can go here.
+const putInCache = async (request, response) => {
+  const cache = await caches.open("v1");
+  await cache.put(request, response);
+};
 
+const cacheFirst = async ({ request, fallbackUrl }) => {
+  const responseFromCache = await caches.match(request);
+  if (responseFromCache) {
+    return responseFromCache;
+  }
 
- 
+  try {
+    const responseFromNetwork = await fetch(request);
+    // If the network request succeeded, clone the response:
+    // - put one copy in the cache, for the next time
+    // - return the original to the app
+    // Cloning is needed because a response can only be consumed once.
+    putInCache(request, responseFromNetwork.clone());
+    return responseFromNetwork;
+  } catch (error) {
+    // If the network request failed,
+    // get the fallback response from the cache.
+    const fallbackResponse = await caches.match(fallbackUrl);
+    if (fallbackResponse) {
+      return fallbackResponse;
+    }
+    return new Response("Network error happened", {
+      status: 408,
+      headers: { "Content-Type": "text/plain" },
+    });
+  }
+};
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    cacheFirst({
+      request: event.request,
+      fallbackUrl: "/fallback.html",
+    }),
+  );
+});
+

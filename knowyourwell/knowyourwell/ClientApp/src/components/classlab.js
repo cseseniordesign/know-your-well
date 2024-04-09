@@ -158,7 +158,7 @@ export default function ClassLab() {
         if (validForm() && window.confirm("Submitted data is final and Can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
             addClassLab();
             handleClearLocalStorage();
-            alert("Succesfully submitted Class Lab Form!");
+            alert("Successfully submitted Class Lab Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
         }
     }
