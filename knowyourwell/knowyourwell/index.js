@@ -500,21 +500,12 @@ app.get('/logout', async (req, res) => {
 })
 
 app.get('/userinfo', async (req, res) => {
-    console.log(process.env.PORT)
-    if(process.env.NODE_ENV === "development"){
-        console.log("development")
-        res.status(200).json({ kywmem: "1", displayn : "TEST USER"})
+    if (req.session && req.session.kywmem && req.session.displayName) {
+        res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName })
+    } else {
+        console.log("Not logged in")
+        res.status(200).json({ kywmem: "", displayn: "" })
     }
-    // }else
-    // if (req.session && req.session.kywmem && req.session.displayName) {
-    //     res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName })
-    // } else {
-    //     console.log("Not logged in")
-    //     res.status(200).json({ kywmem: "", displayn: "" })
-    // }
-
-
-    // res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 });
 
 app.get('/createDevSession', async (req, res) => {
