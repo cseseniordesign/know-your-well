@@ -171,7 +171,7 @@ export default function ClassLab() {
             </div>
             <NumberEntry
                 id="ammonia"
-                fieldTitle="Ammonia - N"
+                fieldTitle="Ammonia"
                 value={ammonia}
                 min="0"
                 max="10"
@@ -230,14 +230,14 @@ export default function ClassLab() {
                 setValue={setManganese}
                 required={true} />
             <NumberEntry
-                fieldTitle="Nitrate"
+                fieldTitle="Nitrate - N"
                 value={nitrate}
                 min="0"
                 max="45"
                 label="ppm(mg/L)"
                 setValue={setNitrate}
                 required={true} />
-<div className="css">
+{/* <div className="css">
                 <label htmlFor="wslSample">
                     WSL Sample ID:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
@@ -247,7 +247,7 @@ export default function ClassLab() {
                         setSample(event.target.value);
                     }}
                 />
-            </div>
+            </div> */}
             <ShortTextEntry
                 fieldTitle="Data Collector's Name:"
                 value={name}
