@@ -26,27 +26,27 @@ function responseDataToHTMLList(responseData) {
 }
 
 function exportCSV() {
-    let csv = [];
     Axios.get('/csvqueries', {
         responseType: "json",
     })
         .then(function (response) {
-            let csv = []
+            let csv = [""]
             let flag = 0;
             for(let i = 0; i < response.data.Data.length; i++)
             {
+                csv[i+1] = ""
                 for (const [key, value] of Object.entries(response.data.Data[i])) {
                     if(flag == 0) {
-                        csv[0] += key
-                        csv[i+1] = value
+                        csv[0] += key + ","
                     }
-                    console.log(`${key}: ${value}`);
+                    csv[i+1] += value + ","
                 }
+                csv[i+1] += "\n"
                 flag = 1;
             }
-            
-            const file = new File(csv, 'test.txt', {
-                type: 'text/plain',
+            csv[0] += "\n"
+            const file = new File(csv, 'test.csv', {
+                type: 'text/csv',
             })
             const link = document.createElement('a')
             const url = URL.createObjectURL(file)
