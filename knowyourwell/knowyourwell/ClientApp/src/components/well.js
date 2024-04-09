@@ -25,6 +25,47 @@ function responseDataToHTMLList(responseData) {
     return HTMLList
 }
 
+function exportCSV() {
+    let csv = [];
+    Axios.get('/csvqueries', {
+        responseType: "json",
+    })
+        .then(function (response) {
+            let csv = []
+            let flag = 0;
+            for(let i = 0; i < response.data.Data.length; i++)
+            {
+                for (const [key, value] of Object.entries(response.data.Data[i])) {
+                    if(flag == 0) {
+                        csv[0] += key
+                        csv[i+1] = value
+                    }
+                    console.log(`${key}: ${value}`);
+                }
+                flag = 1;
+            }
+            
+            const file = new File(csv, 'test.txt', {
+                type: 'text/plain',
+            })
+            const link = document.createElement('a')
+            const url = URL.createObjectURL(file)
+          
+            link.href = url
+            link.download = file.name
+            document.body.appendChild(link)
+            link.click()
+          
+            document.body.removeChild(link)
+            window.URL.revokeObjectURL(url)
+        })
+        .catch(function (error) {
+            // Handle error
+            console.error("Error fetching data:", error);
+        });
+
+}
+
 
 export default function Well() {
     const [isLoading, setLoading] = useState(true);
@@ -174,6 +215,7 @@ export default function Well() {
                         </List.Item>
                         {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
                     </List>
+                    <button onClick={exportCSV}>Export Data</button>
                 </div>
             </div>
         );
