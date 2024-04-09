@@ -1,6 +1,7 @@
 ﻿import './css/forms.css'
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
+import moment from 'moment';
 import DatePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
@@ -45,6 +46,9 @@ export default function Field() {
     let pullCachedData = sessionContinued;
 
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData" + well_id)) : null;
+    if (sessionContinued && cachedData && cachedData.dateentered) {
+        cachedData.dateentered = moment(cachedData.dateentered).format('MM-DD-YYYY hh:mm A');
+    }
     const wellName = searchParams.get("wellName");
     const [fieldData, setFieldData] = useState(sessionContinued ? cachedData : initialFieldData);
     const fa_genlatitude = Math.round(fieldData.fa_latitude * 100) / 100; // rounds to third decimal place
