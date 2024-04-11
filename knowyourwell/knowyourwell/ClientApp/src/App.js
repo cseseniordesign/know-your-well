@@ -46,7 +46,7 @@ export default function App() {
 
     const handleOnline = () => {
         setIsOnline(true);
-        setFieldQueue(localStorage.getItem("wellInfoQueue"));
+        setWellInfoQueue(localStorage.getItem("wellInfoQueue"));
         wellInfoQueue?.forEach(wellInfo => {
             Axios.post('/createwellinfo', {
                 address: wellInfo.address,
