@@ -354,7 +354,7 @@ app.get('/idp/metadata', (req, res) => {
     res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
 })
 
-app.get('/FieldList', async (req, res) => {
+app.get('/previousentries', async (req, res) => {
     const transaction = appPool.transaction();
     transaction.begin(err => {
         if (err)

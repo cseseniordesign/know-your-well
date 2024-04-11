@@ -129,21 +129,6 @@ export default function Well() {
                 // Optionally, handle the error more gracefully, such as showing an error message to the user
             });
 
-        // const wellCookie = localStorage.getItem("wellData");
-        // if (wellCookie && !wellList) {
-        //     try {
-        //         const wellData = JSON.parse(wellCookie)
-        //         setWells(responseDataToHTMLList(wellData.Wells));
-        //     }
-        //     catch (e) {
-        //         console.log("wellData is Invalid JSON")
-        //     }
-        // }
-        // const wellCookie = localStorage.getItem("wellData");
-        // const wellData = JSON.parse(wellCookie);
-        // setWells(responseDataToHTMLList(wellData.Wells));
-        // responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)
-
     }, [filter, sort]);
 
     const handleBlur = (event) => {

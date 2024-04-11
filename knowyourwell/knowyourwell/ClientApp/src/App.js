@@ -22,6 +22,8 @@ import { useState, useEffect } from 'react';
 
 
 export default function App() {
+    const [isOnline, setIsOnline] = useState(navigator.onLine);
+
     const [wellInfoQueue, setWellInfoQueue] = useState(() => {
         const storedQueue = localStorage.getItem('wellInfoQueue');
         return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
@@ -31,7 +33,7 @@ export default function App() {
         return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
     });
     const handleOnline = () => {
-        console.log('Online');
+        setIsOnline(true);
         wellInfoQueue?.forEach(wellInfo => {
             Axios.post('/createwellinfo', {
                 address: wellInfo.address,
@@ -102,8 +104,12 @@ export default function App() {
                 })
             setFieldQueue([]);
         });
+        setFieldQueue([]);
     };
+
     window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', () => setIsOnline(false));
+    
     useEffect(() => {
         localStorage.setItem('wellInfoQueue', JSON.stringify(wellInfoQueue));
         localStorage.setItem('fieldQueue', JSON.stringify(fieldQueue))
@@ -119,7 +125,7 @@ export default function App() {
                     <Route exact path="/wellinfo" element={<WellInfo />} />
                     <Route exact path="/field" element={<Field />} />
                     <Route exact path="/classlab" element={<ClassLab />} />
-                    <Route exact path="/previousentries" element={<PreviousEntries />} />
+                    <Route exact path="/previousentries" element={isOnline ? <PreviousEntries /> : <CachedPreviousEntries />} />
                     <Route exact path="/aboutproject" element={<AboutProject />} />
                     <Route exact path="/viewfield" element={<ViewField />} />
                     <Route exact path="/viewclasslab" element={<ViewClassLab />} />
@@ -130,4 +136,36 @@ export default function App() {
             </WellFieldLabContext.Provider>
         </>
     );
-}
+};
+
+const CachedPreviousEntries = () => {
+    const [cachedData, setCachedData] = useState(null);
+  
+    useEffect(() => {
+      const getCachedData = async () => {
+        const cache = await caches.open('previous-entries');
+        const cachedResponse = await cache.match('/previousentries');
+  
+        if (cachedResponse) {
+          const data = await cachedResponse.json();
+          setCachedData(data);
+        }
+      };
+  
+      getCachedData();
+    }, []);
+  
+    return (
+      <div>
+        <h2>Previous Entries (Cached)</h2>
+        {cachedData && (
+          <ul>
+            {cachedData.map((entry, index) => (
+              <li key={index}>{entry}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+  

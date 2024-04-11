@@ -43,7 +43,7 @@ export default function FieldSelection() {
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
     useEffect(() => {
         Axios
-            .get("/FieldList", {
+            .get("/previousentries", {
                 responseType: "json",
                 params: {
                     well_id: well_id,
