@@ -126,30 +126,14 @@ export default function Well() {
                 console.log(wellList)
             }
 
-            setLoading(false);
-        }).catch(function (error) {
-            console.error("An error occurred while fetching the wells:", error);
-            // Here, you can also set isLoading to false to stop the loading indicator
-            setLoading(true);
-            // Optionally, handle the error more gracefully, such as showing an error message to the user
-        });
-
-    // const wellCookie = localStorage.getItem("wellData");
-    // if (wellCookie && !wellList) {
-    //     try {
-    //         const wellData = JSON.parse(wellCookie)
-    //         setWells(responseDataToHTMLList(wellData.Wells));
-    //     }
-    //     catch (e) {
-    //         console.log("wellData is Invalid JSON")
-    //     }
-    // }
-    const wellCookie = localStorage.getItem("wellData");
-    const wellData = JSON.parse(wellCookie);
-    setWells(responseDataToHTMLList(wellData.Wells));
-    responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)
-
-}, [filter, sort]);
+                setLoading(false);
+            }).catch(function (error) {
+                console.error("An error occurred while fetching the wells:", error);
+                // Here, you can also set isLoading to false to stop the loading indicator
+                setLoading(true);
+                // Optionally, handle the error more gracefully, such as showing an error message to the user
+            });
+    }, [filter, sort]);
 
     // if (isLoading) {
     //     return <h1>Loading</h1>
@@ -206,7 +190,7 @@ export default function Well() {
                         </List.Content>
                         <br />
                     </List.Item>
-                    {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+                    {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
                 </List>
             </div>
     

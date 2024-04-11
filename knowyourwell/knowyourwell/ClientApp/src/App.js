@@ -34,16 +34,6 @@ export default function App() {
         localStorage.setItem('fieldQueue', JSON.stringify(newValue));
     };
 
-    const [wellInfoQueue, setWellInfoQueue] = useState(() => {
-        const storedQueue = localStorage.getItem('wellInfoQueue');
-        return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
-    });
-
-    const setLocalWellInfoQueue = (newValue) => {
-        setFieldQueue(newValue);
-        localStorage.setItem('wellInfoQueue', JSON.stringify(newValue));
-    };
-
     const handleOnline = () => {
         setIsOnline(true);
         setFieldQueue(localStorage.getItem("fieldQueue"));
