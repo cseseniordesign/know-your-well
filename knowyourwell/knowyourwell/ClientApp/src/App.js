@@ -24,61 +24,18 @@ import { useState, useEffect } from 'react';
 export default function App() {
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-    const [wellInfoQueue, setWellInfoQueue] = useState(() => {
-        const storedQueue = localStorage.getItem('wellInfoQueue');
-        return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
-    });
     const [fieldQueue, setFieldQueue] = useState(() => {
         const storedQueue = localStorage.getItem('fieldQueue');
         return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
     });
+
+    const setLocalFieldQueue = (newValue) => {
+        setFieldQueue(newValue);
+        localStorage.setItem('fieldQueue', JSON.stringify(newValue));
+    };
     const handleOnline = () => {
         setIsOnline(true);
-        wellInfoQueue?.forEach(wellInfo => {
-            Axios.post('/createwellinfo', {
-                address: wellInfo.address,
-                aquiferclass: wellInfo.aquiferclass,
-                aquifertype: wellInfo.aquifertype,
-                boreholediameter: Number(wellInfo.boreholediameter),
-                city: wellInfo.city,
-                countyid: wellInfo.county,
-                datacollector: wellInfo.datacollector,
-                dateentered: wellInfo.dateentered,
-                dnrId: wellInfo.dnrId,
-                email: wellInfo.email,
-                estlatitude: wellInfo.estlatitude,
-                estlongitude: wellInfo.estlongitude,
-                installyear: parseInt(wellInfo.installyear),
-                landuse5yr: wellInfo.landuse5yr,
-                maintenance5yr: wellInfo.maintenance5yr,
-                nrdid: wellInfo.nrd,
-                numberwelluser: wellInfo.numberwelluser,
-                observation: wellInfo.observation,
-                pestmanure: wellInfo.pestmanure,
-                phone: wellInfo.phone,
-                registNum: wellInfo.registNum,
-                school_id: wellInfo.schoolid,
-                smelltaste: wellInfo.smelltaste,
-                smelltastedescription: wellInfo.smelltastedescription,
-                state: wellInfo.state,
-                totaldepth: Number(wellInfo.totaldepth),
-                wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
-                wellcasematerial: wellInfo.wellcasematerial,
-                wellcode: wellInfo.wellcode,
-                welldry: wellInfo.welldry,
-                welldrydescription: wellInfo.welldrydescription,
-                wellname: wellInfo.wellname,
-                wellowner: wellInfo.wellowner,
-                welltype: wellInfo.welltype,
-                welluser: wellInfo.welluser,
-                zipcode: wellInfo.zipcode,
-            })
-                .then(() => {
-                    console.log("success");
-                })
-        });
-        setWellInfoQueue([]);
-        
+        setFieldQueue(localStorage.getItem("fieldQueue"));
         fieldQueue?.forEach(field => {
             Axios.post('/api/insert', {
                 well_id: field.well_id,
@@ -117,7 +74,7 @@ export default function App() {
     return (
         <>
             <NavMenu />
-            <WellFieldLabContext.Provider value={{ wellInfoQueue, setWellInfoQueue, fieldQueue, setFieldQueue }}>
+            <WellFieldLabContext.Provider value={{ fieldQueue, setLocalFieldQueue }}>
                 <Routes>
                     <Route exact path="/" element={<Login />} />
                     <Route exact path="/well" element={<Well />} />
@@ -125,7 +82,7 @@ export default function App() {
                     <Route exact path="/wellinfo" element={<WellInfo />} />
                     <Route exact path="/field" element={<Field />} />
                     <Route exact path="/classlab" element={<ClassLab />} />
-                    <Route exact path="/previousentries" element={isOnline ? <PreviousEntries /> : <CachedPreviousEntries />} />
+                    <Route exact path="/previousentries" element={<PreviousEntries />} />
                     <Route exact path="/aboutproject" element={<AboutProject />} />
                     <Route exact path="/viewfield" element={<ViewField />} />
                     <Route exact path="/viewclasslab" element={<ViewClassLab />} />

@@ -17,7 +17,7 @@ import WellFieldLabContext from './reusable/WellFieldLabContext';
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedFile, setSelectedFile] = useState(null);
-    const { fieldQueue, setFieldQueue } = useContext(WellFieldLabContext);
+    const { fieldQueue, setLocalFieldQueue } = useContext(WellFieldLabContext);
     const well_id = parseInt(searchParams.get("id"));
 
     let initialFieldData;
@@ -141,7 +141,7 @@ export default function Field() {
                     console.log("success");
                 })
         } else {
-            setFieldQueue(updatedQueue);
+            setLocalFieldQueue(updatedQueue);
 
             alert("You are offline, Field Form will automatically be submitted when you regain an internet connection")
         }
