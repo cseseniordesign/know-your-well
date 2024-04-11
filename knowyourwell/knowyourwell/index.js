@@ -479,35 +479,34 @@ app.get('/sso/redirect', async (req, res) => {
 });
 
 app.get('/logout', async (req, res) => {
-    // req.session.destroy(err => {
-    //     if (err) {
-    //         console.error('Session destruction error:', err);
-    //         return res.status(500).send('Could not log out, please try again.');
-    //     }
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Session destruction error:', err);
+            return res.status(500).send('Could not log out, please try again.');
+        }
 
-    //     // Optionally clear the client-side cookie
-    //     res.clearCookie('connect.sid'); // The name of the cookie used for session management ('connect.sid' is default for express-session)
+        // Optionally clear the client-side cookie
+        res.clearCookie('connect.sid'); // The name of the cookie used for session management ('connect.sid' is default for express-session)
 
-    //     res.status(200).json({ kywmem: "", displayn : ""})
-    // });
-    kywmemValue = ""
-    displayName = ""
+        res.status(200).json({ kywmem: "", displayn : ""})
+    });
 
-    res.status(200).json({ kywmem: "", displayn : ""})
+
 })
 
 app.get('/userinfo', async (req, res) => {
     // if(process.env.NODE_ENV === "develop"){
     //     res.status(200).json({ kywmem: "1", displayn : "TEST USER"})
-    // }else if (req.session && req.session.kywmem && req.session.displayName){
-    //     res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName})
-    // } else {
-    //     console.log("Not logged in")
-    //     res.status(200).json({ kywmem: "", displayn : ""})
-    // }
+    // }else 
+    if (req.session && req.session.kywmem && req.session.displayName){
+        res.status(200).json({ kywmem: req.session.kywmem, displayn: req.session.displayName})
+    } else {
+        console.log("Not logged in")
+        res.status(200).json({ kywmem: "", displayn : ""})
+    }
     
 
-    res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
+    // res.status(200).json({ kywmem: kywmemValue, displayn : displayName})
 })
 
 app.get('/wellcode', async (req, res) => {
