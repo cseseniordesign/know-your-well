@@ -226,13 +226,14 @@ export default function WellInfo() {
                     }
                 }}
             >Submit</button>
-            <button type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
             <button
                 type="button"
                 style={{ width: "180px", height: "17%" }}
                 className="btn btn-secondary btn-lg"
                 onClick={cacheWellInfo}
             >Save</button>
+            <button
+                type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
         </form>
     );
 }

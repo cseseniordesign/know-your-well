@@ -33,6 +33,17 @@ export default function App() {
         setFieldQueue(newValue);
         localStorage.setItem('fieldQueue', JSON.stringify(newValue));
     };
+
+    const [wellInfoQueue, setWellInfoQueue] = useState(() => {
+        const storedQueue = localStorage.getItem('wellInfoQueue');
+        return storedQueue && storedQueue !== "undefined" ? JSON.parse(storedQueue) : [];
+    });
+
+    const setLocalWellInfoQueue = (newValue) => {
+        setFieldQueue(newValue);
+        localStorage.setItem('wellInfoQueue', JSON.stringify(newValue));
+    };
+
     const handleOnline = () => {
         setIsOnline(true);
         setFieldQueue(localStorage.getItem("fieldQueue"));
@@ -62,19 +73,17 @@ export default function App() {
             setFieldQueue([]);
         });
         setFieldQueue([]);
+        localStorage.setItem("fieldQueue", "")
+        setWellInfoQueue([]);
     };
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', () => setIsOnline(false));
     
-    useEffect(() => {
-        localStorage.setItem('wellInfoQueue', JSON.stringify(wellInfoQueue));
-        localStorage.setItem('fieldQueue', JSON.stringify(fieldQueue))
-    }, [wellInfoQueue]);
     return (
         <>
             <NavMenu />
-            <WellFieldLabContext.Provider value={{ fieldQueue, setLocalFieldQueue }}>
+            <WellFieldLabContext.Provider value={{ wellInfoQueue, setLocalWellInfoQueue, fieldQueue, setLocalFieldQueue }}>
                 <Routes>
                     <Route exact path="/" element={<Login />} />
                     <Route exact path="/well" element={<Well />} />
