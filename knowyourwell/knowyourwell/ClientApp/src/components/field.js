@@ -13,6 +13,7 @@ import prodFieldData from './resources/prodfielddata';
 import fieldPrompts from './resources/fieldprompts';
 import renderField from './reusable/renderfield';
 import WellFieldLabContext from './reusable/WellFieldLabContext';
+import uploadPhotos from './reusable/photoUpload';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -193,8 +194,9 @@ export default function Field() {
         }
     }
 
-    function submitForm() {
+    async function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
+            await uploadPhotos(document.getElementById("FileUpload").files[0]);
             addFieldData()
             clearLocalStorage();
             handleClearLocalStorage();
@@ -252,7 +254,7 @@ export default function Field() {
             ))}
             <div>
                 <h4>Upload a Photo of the Well Head</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <input id="FileUpload" type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>
