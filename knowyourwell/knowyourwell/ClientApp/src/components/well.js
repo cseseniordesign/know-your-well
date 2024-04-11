@@ -198,11 +198,12 @@ export default function Well() {
                             </List.Content>
                             <br />
                         </List.Item>
-                        {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+                        {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
                     </List>
                     <button onClick={exportCSV}>Export Data</button>
                 </div>
             </div>
+            
         );
     }
 }
