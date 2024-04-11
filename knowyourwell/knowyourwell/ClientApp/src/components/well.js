@@ -44,7 +44,7 @@ function exportCSV() {
                 flag = 1;
             }
             csv[0] += "\n"
-            const file = new File(csv, 'test.csv', {
+            const file = new File(csv, 'welldata.csv', {
                 type: 'text/csv',
             })
             const link = document.createElement('a')
