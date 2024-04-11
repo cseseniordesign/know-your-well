@@ -2,8 +2,8 @@
 import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
 import { useNavigate } from 'react-router-dom';
-import Axios from 'axios'
-
+import Axios from 'axios';
+import csvKey from './resources/csvkey';
 
 function responseDataToHTMLList(responseData) {
     let HTMLList = []
@@ -23,6 +23,47 @@ function responseDataToHTMLList(responseData) {
         console.log("Error Parsing Data into HTML List.")
     }
     return HTMLList
+}
+
+function exportCSV() {
+    Axios.get('/csvqueries', {
+        responseType: "json",
+    })
+        .then(function (response) {
+            let csv = [""]
+            let flag = 0;
+            for(let i = 0; i < response.data.Data.length; i++)
+            {
+                csv[i+1] = ""
+                for (const [key, value] of Object.entries(response.data.Data[i])) {
+                    if(flag == 0) {
+                        csv[0] += csvKey[key] + ","
+                    }
+                    csv[i+1] += value + ","
+                }
+                csv[i+1] += "\n"
+                flag = 1;
+            }
+            csv[0] += "\n"
+            const file = new File(csv, 'test.csv', {
+                type: 'text/csv',
+            })
+            const link = document.createElement('a')
+            const url = URL.createObjectURL(file)
+          
+            link.href = url
+            link.download = file.name
+            document.body.appendChild(link)
+            link.click()
+          
+            document.body.removeChild(link)
+            window.URL.revokeObjectURL(url)
+        })
+        .catch(function (error) {
+            // Handle error
+            console.error("Error fetching data:", error);
+        });
+
 }
 
 
@@ -88,21 +129,6 @@ export default function Well() {
                 // Optionally, handle the error more gracefully, such as showing an error message to the user
             });
 
-        // const wellCookie = localStorage.getItem("wellData");
-        // if (wellCookie && !wellList) {
-        //     try {
-        //         const wellData = JSON.parse(wellCookie)
-        //         setWells(responseDataToHTMLList(wellData.Wells));
-        //     }
-        //     catch (e) {
-        //         console.log("wellData is Invalid JSON")
-        //     }
-        // }
-        // const wellCookie = localStorage.getItem("wellData");
-        // const wellData = JSON.parse(wellCookie);
-        // setWells(responseDataToHTMLList(wellData.Wells));
-        // responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)
-
     }, [filter, sort]);
 
     const handleBlur = (event) => {
@@ -127,7 +153,7 @@ export default function Well() {
 
                 <div style={{ flex: 30, textAlign: 'center' }}>
                     <div ref={containerRef}>
-                        <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
+                        <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); setSort("undefined");}} className="btn btn-primary">Sort Wells</button>
                         {isSortDropdownVisible && (
                             <div style={{
                                 border: '1px solid #ccc',
@@ -140,7 +166,7 @@ export default function Well() {
                                 <button onClick={() => setSort("well_id DESC")} style={{ backgroundColor: sort === "well_id DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Newest-Oldest</button>
                             </div>
                         )}
-                        <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); }} className="btn btn-primary">Filter By County</button>
+                        <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); setFilter("undefined"); }} className="btn btn-primary">Filter By County</button>
                         {isFilterDropdownVisible && (
                             <div
                                 style={{
@@ -172,10 +198,12 @@ export default function Well() {
                             </List.Content>
                             <br />
                         </List.Item>
-                        {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+                        {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
                     </List>
+                    <button onClick={exportCSV}>Export Data</button>
                 </div>
             </div>
+            
         );
     }
 }

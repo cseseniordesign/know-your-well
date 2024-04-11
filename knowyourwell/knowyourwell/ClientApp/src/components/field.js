@@ -1,6 +1,7 @@
 ﻿import './css/forms.css'
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
+import moment from 'moment';
 import DatePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom';
@@ -16,7 +17,7 @@ import WellFieldLabContext from './reusable/WellFieldLabContext';
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedFile, setSelectedFile] = useState(null);
-    const { fieldQueue, setFieldQueue } = useContext(WellFieldLabContext);
+    const { fieldQueue, setLocalFieldQueue } = useContext(WellFieldLabContext);
     const well_id = parseInt(searchParams.get("id"));
 
     let initialFieldData;
@@ -45,6 +46,9 @@ export default function Field() {
     let pullCachedData = sessionContinued;
 
     const cachedData = pullCachedData ? JSON.parse(localStorage.getItem("fieldData" + well_id)) : null;
+    if (sessionContinued && cachedData && cachedData.dateentered) {
+        cachedData.dateentered = moment(cachedData.dateentered).format('MM-DD-YYYY hh:mm A');
+    }
     const wellName = searchParams.get("wellName");
     const [fieldData, setFieldData] = useState(sessionContinued ? cachedData : initialFieldData);
     const fa_genlatitude = Math.round(fieldData.fa_latitude * 100) / 100; // rounds to third decimal place
@@ -136,11 +140,10 @@ export default function Field() {
                 .then(() => {
                     console.log("success");
                 })
-            alert("Successfully submitted Well Info Form!");
         } else {
-            setFieldQueue(updatedQueue);
+            setLocalFieldQueue(updatedQueue);
 
-            alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection")
+            alert("You are offline, Field Form will automatically be submitted when you regain an internet connection")
         }
     };
 
@@ -195,7 +198,7 @@ export default function Field() {
             addFieldData()
             clearLocalStorage();
             handleClearLocalStorage();
-            alert("Succesfully submitted Field Form!");
+            alert("Successfully submitted Field Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }
@@ -248,7 +251,7 @@ export default function Field() {
                     prompt, fieldData, handleChange)}</div>
             ))}
             <div>
-                <h4>Upload a Photo</h4>
+                <h4>Upload a Photo of the Well Head</h4>
                 <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (

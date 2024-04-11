@@ -145,7 +145,7 @@ export default function WellInfo() {
                 })
             alert("Successfully submitted Well Info Form!");
         } else {
-            setWellInfoQueue(updatedQueue);
+            localStorage.setItem("wellInfoQueue", updatedQueue);
 
             alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection")
         }

@@ -30,6 +30,10 @@ export default function EditWell() {
         });
     }, [navigate]);
 
+    const backToWells = () => {
+        window.location.href = '/well';
+    }
+
 
 
 
@@ -74,6 +78,11 @@ export default function EditWell() {
                 <br />
             </List.Item>
             {*/}
+        <button
+            type="button" style={{ width: "180px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backToWells}>
+            Back
+        </button>
         </List>
+        
     );
 }

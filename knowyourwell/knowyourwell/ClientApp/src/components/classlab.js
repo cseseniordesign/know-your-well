@@ -50,7 +50,8 @@ export default function ClassLab() {
     const [wslSample, setSample] = useState(pullCachedData ? cachedData.Datacollector : "");
     const [name, setName] = useState(pullCachedData ? cachedData.Datacollector : "");
     const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
-    const [dateentered, setDateentered] = useState(pullCachedData ? cachedData.Dateentered : moment().format('L, h:mm a'));
+    const [dateentered, setDateentered] = useState(pullCachedData ? moment(cachedData.Dateentered) : moment().format('L, h:mm a'));
+    
 
 
     // Updating if user decides to load session
@@ -68,7 +69,7 @@ export default function ClassLab() {
         setName(sessionContinued ? cachedData.Datacollector : "");
         setObservations(sessionContinued ? cachedData.Observations : "");
 
-        setDateentered(sessionContinued ? cachedData.Dateentered : moment());
+        setDateentered(sessionContinued ? moment(cachedData.Dateentered) : moment().format('L, h:mm a'));
     }, [sessionContinued]);
 
 
@@ -97,7 +98,7 @@ export default function ClassLab() {
             })
     };
 
-    const idList = ["ammonia", "calcium", "chloride", "copper", "iron", "manganese", "nitrate"];
+    const idList = ["ammonia", "calcium", "chloride", "bacteria", "copper", "iron", "manganese", "nitrate"];
     // caching - local storage
     function cacheLabForm() {
         let elementsValid = true;
@@ -157,7 +158,7 @@ export default function ClassLab() {
         if (validForm() && window.confirm("Submitted data is final and Can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
             addClassLab();
             handleClearLocalStorage();
-            alert("Succesfully submitted Class Lab Form!");
+            alert("Successfully submitted Class Lab Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
         }
     }
@@ -165,6 +166,8 @@ export default function ClassLab() {
     return (
         <form id="submissionAlert">
             <h2>{wellName}: Class Lab</h2>
+            <div>Conduct the classroom lab testing within 1 week of collecting the sample.</div>
+            <div>When all lab results are final, enter and submit them in the field below.</div>
             <div className="requiredField">
                 <br></br>
                 * = Required Field
@@ -182,7 +185,7 @@ export default function ClassLab() {
                 id="calcium"
                 fieldTitle="Calcium hardness"
                 value={calcium}
-                min="50"
+                min="0"
                 max="500"
                 label="ppm(mg/L)"
                 setValue={setCalcium}
@@ -207,37 +210,41 @@ export default function ClassLab() {
             />
             <NumberEntry
                 fieldTitle="Copper"
+                id="copper"
                 value={copper}
                 min="0"
-                max="10"
+                max="400"
                 label="ppm(mg/L)"
                 setValue={setCopper}
                 required={true} />
             <NumberEntry
                 fieldTitle="Iron"
+                id="iron"
                 value={iron}
                 min="0"
-                max="10"
+                max="400"
                 label="ppm(mg/L)"
                 setValue={setIron}
                 required={true} />
             <NumberEntry
-                fieldTitle="Mangenese"
+                fieldTitle="Manganese"
+                id="manganese"
                 value={manganese}
                 min="0"
-                max="50"
+                max="400"
                 label="ppm(mg/L)"
                 setValue={setManganese}
                 required={true} />
             <NumberEntry
-                fieldTitle="Nitrate"
+                fieldTitle="Nitrate - N"
+                id="nitrate"
                 value={nitrate}
                 min="0"
-                max="45"
+                max="200"
                 label="ppm(mg/L)"
                 setValue={setNitrate}
                 required={true} />
-<div className="css">
+{/* <div className="css">
                 <label htmlFor="wslSample">
                     WSL Sample ID:
                     <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
@@ -247,7 +254,7 @@ export default function ClassLab() {
                         setSample(event.target.value);
                     }}
                 />
-            </div>
+            </div> */}
             <ShortTextEntry
                 fieldTitle="Data Collector's Name:"
                 value={name}
@@ -270,6 +277,9 @@ export default function ClassLab() {
                 <div id="dateentered">
                     <DatePicker
                         value={dateentered}
+                        // value={sessionContinued ? moment(cachedData.Dateentered) : "hello"}
+                        // value={moment(cachedData.Dateentered)}
+                        // value = "04/09/2024, 4:36 pm"
                         dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
                         onChange={(val) => setDateentered(val)}

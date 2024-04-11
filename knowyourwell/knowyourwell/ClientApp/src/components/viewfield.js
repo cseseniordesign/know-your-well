@@ -85,7 +85,7 @@ export default function ViewField() {
             const firstColumnName = labelList[i]
             let firstColumnValue = formElements[keyList[i]];
             if (firstColumnName == "Date Entered:")
-                firstColumnValue = moment(firstColumnValue).add(6, 'hour').format("MM-DD-YYYY hh:mm A")
+                firstColumnValue = moment.utc(formElements["wi_dateentered"]).format('MM-DD-YYYY hh:mm A')
             let secondColumnValue = ""
             let secondColumnName = ""
             if (i < labelList.length + 1) {
@@ -93,7 +93,7 @@ export default function ViewField() {
                 secondColumnValue = formElements[keyList[i + 1]]
             }
             if (secondColumnName == "Date Entered:")
-                secondColumnValue = moment(secondColumnValue).add(6, 'hour').format("MM-DD-YYYY hh:mm A")
+                secondColumnValue = moment.utc(formElements["wi_dateentered"]).format('MM-DD-YYYY hh:mm A')
 
             columnList.push(
                 <div className="row">

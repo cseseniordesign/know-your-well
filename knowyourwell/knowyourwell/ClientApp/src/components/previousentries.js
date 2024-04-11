@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 var previousEntries = []
 var listElements = []
 
-function generatelistElements(previousEntries, well_id, name) {
+function generateListElements(previousEntries, well_id, name) {
     //console.log(previousEntries[0].date)
     for (var entry of previousEntries) {
         let key = 0
@@ -65,7 +65,7 @@ export default function PreviousEntries() {
     //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
     useEffect(() => {
         Axios
-            .get("/FieldList", {
+            .get("/previousentries", {
                 responseType: "json",
                 params: {
                     well_id: well_id
@@ -82,7 +82,7 @@ export default function PreviousEntries() {
                     const entry = { fieldDate: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: fieldEntry.classlab_id, labDate: fieldEntry.cl_datecollected }
                     previousEntries.push(entry);
                 }
-                listElements = generatelistElements(previousEntries, well_id, wellName);
+                listElements = generateListElements(previousEntries, well_id, wellName);
                 setLoading(false);
             });
     }, []);
