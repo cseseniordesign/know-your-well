@@ -1,5 +1,6 @@
 // const { DefaultAzureCredential } = require("@azure/identity");
-const { BlobServiceClient } = require("@azure/storage-blob");
+// const { BlobServiceClient } = require("@azure/storage-blob");
+import { BlobServiceClient } from "@azure/storage-blob";
 
 export default async function uploadPhotos(file) {
   const AZURE_STORAGE_CONNECTION_STRING = "BlobEndpoint=https://knowyourwell.blob.core.windows.net/;QueueEndpoint=https://knowyourwell.queue.core.windows.net/;FileEndpoint=https://knowyourwell.file.core.windows.net/;TableEndpoint=https://knowyourwell.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-04-30T16:31:47Z&st=2024-03-29T08:31:47Z&spr=https&sig=p0n52uL62ApmdV2Fry%2FT9q8xXemuZApIGGO9Ig6Pbdk%3D";
