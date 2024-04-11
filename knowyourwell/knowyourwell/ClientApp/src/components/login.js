@@ -7,7 +7,8 @@ export default function Login() {
 
     const navigate = useNavigate();
     const initRedirectRequest = () => {
-        if(process.env.NODE_ENV == "development"){
+        console.log(process.env.NODE_ENV)
+        // if(process.env.NODE_ENV == "development"){
             Axios.get('/createDevSession',{
                 responseType: "json"
             }).then(function (response) {
@@ -18,27 +19,27 @@ export default function Login() {
             }).catch(function (error) {
                 console.error("Failed to create dev sesh:", error);
             });
-        }else {
-            const options = {
-                method: 'GET',
-                mode: 'no-cors'
-            };
-            fetch("/sso/redirect", options)
-                .then(function(response) {
+        // }else {
+        //     const options = {
+        //         method: 'GET',
+        //         mode: 'no-cors'
+        //     };
+        //     fetch("/sso/redirect", options)
+        //         .then(function(response) {
 
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.text()
-                })
-                .then(function(data) {
-                    window.location.href = data;
-                })
-                .catch(function(error) {
-                    console.log("ERROR")
-                    console.error("Error:", error);
-                });
-        }
+        //             if (!response.ok) {
+        //                 throw new Error("Network response was not ok");
+        //             }
+        //             return response.text()
+        //         })
+        //         .then(function(data) {
+        //             window.location.href = data;
+        //         })
+        //         .catch(function(error) {
+        //             console.log("ERROR")
+        //             console.error("Error:", error);
+        //         });
+        // }
     };
 
     return (

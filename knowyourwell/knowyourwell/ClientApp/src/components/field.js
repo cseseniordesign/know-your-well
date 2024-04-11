@@ -13,6 +13,7 @@ import prodFieldData from './resources/prodfielddata';
 import fieldPrompts from './resources/fieldprompts';
 import renderField from './reusable/renderfield';
 import WellFieldLabContext from './reusable/WellFieldLabContext';
+import uploadPhotos from './reusable/photoUpload';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -115,7 +116,7 @@ export default function Field() {
     }, []);
 
     function addFieldData() {
-        const updatedQueue = [...fieldQueue, { ...fieldData, well_id: fieldData.well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
+        const updatedQueue = [...fieldQueue, { ...fieldData, well_id: well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
         if (navigator.onLine) {
             fieldData.well_id = well_id;
             Axios.post('/api/insert', {
@@ -193,8 +194,9 @@ export default function Field() {
         }
     }
 
-    function submitForm() {
+    async function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
+            await uploadPhotos(document.getElementById("FileUpload").files[0]);
             addFieldData()
             clearLocalStorage();
             handleClearLocalStorage();
@@ -237,12 +239,29 @@ export default function Field() {
                             setValue={(value) => updateFieldData('fa_longitude', value)}
                             required={true}
                         />
-
                     </div>
                 ) : (
                     <div>
-                        <p>Please allow this site to access your location</p>
-                        <button onClick={() => window.location.reload()}>Reload</button>
+                        <NumberEntry
+                            fieldTitle="Latitude (use 4-12 decimals):"
+                            value={fieldData.fa_latitude}
+                            min="40"
+                            max="43"
+                            id="fa_latitude"
+                            label="Degrees"
+                            setValue={(value) => updateFieldData('fa_latitude', value)}
+                            required={true}
+                        />
+                        <NumberEntry
+                            fieldTitle="Longitude (use 4-12 decimals):"
+                            value={fieldData.fa_longitude}
+                            min="-104"
+                            max="-95.417"
+                            id="fa_longitude"
+                            label="Degrees"
+                            setValue={(value) => updateFieldData('fa_longitude', value)}
+                            required={true}
+                        />
                     </div>
                 )}
             </div>
@@ -252,7 +271,7 @@ export default function Field() {
             ))}
             <div>
                 <h4>Upload a Photo of the Well Head</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <input id="FileUpload" type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>

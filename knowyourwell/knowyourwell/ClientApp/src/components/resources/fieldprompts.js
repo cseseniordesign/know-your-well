@@ -4,6 +4,7 @@ const fieldPrompts = [
         fieldTitle: "Conditions: Describe weather, temperature, or anything note-worthy about your well",
         value: "conditions",
         id: "conditions",
+        required: true,
     },
     {
         type: "dropdownentry",

@@ -22,7 +22,7 @@ export default function WellInfo() {
     const [wellInfo, setWellInfo] = useState(initialWellInfo);
     const [schoolid, setSchoolid] = useState("");
     const [wellcode, setWellCode] = useState("");
-    const { wellInfoQueue, setWellInfoQueue } = useContext(WellFieldLabContext);
+    const { wellInfoQueue, setLocalWellInfoQueue } = useContext(WellFieldLabContext);
 
     useEffect(() => { // very inefficient solution, may have to come back to this and use user contexts
         Axios.get('/userinfo', {
@@ -145,7 +145,7 @@ export default function WellInfo() {
                 })
             alert("Successfully submitted Well Info Form!");
         } else {
-            localStorage.setItem("wellInfoQueue", updatedQueue);
+            setLocalWellInfoQueue(updatedQueue);
 
             alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection")
         }

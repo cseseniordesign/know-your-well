@@ -32,30 +32,29 @@ function exportCSV() {
         .then(function (response) {
             let csv = [""]
             let flag = 0;
-            for(let i = 0; i < response.data.Data.length; i++)
-            {
-                csv[i+1] = ""
+            for (let i = 0; i < response.data.Data.length; i++) {
+                csv[i + 1] = ""
                 for (const [key, value] of Object.entries(response.data.Data[i])) {
-                    if(flag == 0) {
+                    if (flag == 0) {
                         csv[0] += csvKey[key] + ","
                     }
-                    csv[i+1] += value + ","
+                    csv[i + 1] += value + ","
                 }
-                csv[i+1] += "\n"
+                csv[i + 1] += "\n"
                 flag = 1;
             }
             csv[0] += "\n"
-            const file = new File(csv, 'test.csv', {
+            const file = new File(csv, 'welldata.csv', {
                 type: 'text/csv',
             })
             const link = document.createElement('a')
             const url = URL.createObjectURL(file)
-          
+
             link.href = url
             link.download = file.name
             document.body.appendChild(link)
             link.click()
-          
+
             document.body.removeChild(link)
             window.URL.revokeObjectURL(url)
         })
@@ -115,68 +114,55 @@ export default function Well() {
             responseType: "json",
         })
             .then(function (response) {
+                debugger;
                 localStorage.setItem("wellData", JSON.stringify(response.data))
-                setWells(responseDataToHTMLList(response.data.Wells));
-                console.log("Wells")
-                console.log(wellList)
+                if (response.data) {
+                    setWells(responseDataToHTMLList(response.data.Wells));
+                }
 
                 setLoading(false);
             }).catch(function (error) {
-                // localStorage.setItem("wellData", [])
                 console.error("An error occurred while fetching the wells:", error);
                 // Here, you can also set isLoading to false to stop the loading indicator
                 setLoading(true);
                 // Optionally, handle the error more gracefully, such as showing an error message to the user
             });
-
     }, [filter, sort]);
+
+    // if (isLoading) {
+    //     return <h1>Loading</h1>
+    // }
 
     const handleBlur = (event) => {
         if (containerRef.current && !containerRef.current.contains(event.relatedTarget)) {
             setFilterDropdownVisibility(false);
         }
     };
-    if(isLoading && JSON.parse(localStorage.getItem("wellData")) == null){
-        return (
-            <h1>Loading</h1>
-        );
-    } else if (isLoading) {
+
+    if (isLoading) {
         return (
             <List style={{ textAlign: 'center' }}>
                 <h2> <strong> Wells from localStorage</strong></h2>
-                {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+                {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
             </List>
         );
-    } else {
+    }
+    else {
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
                 <div style={{ flex: 30, textAlign: 'center' }}>
                     <div ref={containerRef}>
-                        <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); setSort("undefined");}} className="btn btn-primary">Sort Wells</button>
+                        <button onClick={() => { setSortDropdownVisibility(!isSortDropdownVisible); }} className="btn btn-primary">Sort Wells</button>
                         {isSortDropdownVisible && (
                             <div style={{
                                 border: '1px solid #ccc',
                                 marginTop: '10px',
                                 boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-                                boxSizing: 'border-box'
+                                boxSizing: 'border-box',
+                                maxHeight: '150px',
+                                overflow: 'auto'
                             }}>
-                                <button onClick={() => setSort("undefined")} style={{ backgroundColor: sort === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Sort</button>
-                                <button onClick={() => setSort("well_id")} style={{ backgroundColor: sort === "well_id" ? 'yellow' : 'transparent' }} className="dropdown-item">Oldest-Newest</button>
-                                <button onClick={() => setSort("well_id DESC")} style={{ backgroundColor: sort === "well_id DESC" ? 'yellow' : 'transparent' }} className="dropdown-item">Newest-Oldest</button>
-                            </div>
-                        )}
-                        <button onClick={() => { setFilterDropdownVisibility(!isFilterDropdownVisible); setFilter("undefined"); }} className="btn btn-primary">Filter By County</button>
-                        {isFilterDropdownVisible && (
-                            <div
-                                style={{
-                                    border: '1px solid #ccc',
-                                    marginTop: '10px',
-                                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-                                    boxSizing: 'border-box',
-                                    maxHeight: '150px',
-                                    overflow: 'auto'
-                                }}>
                                 <button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
                                 {countyOptions.map(county => (
                                     <button key={county.key}
@@ -200,10 +186,10 @@ export default function Well() {
                         </List.Item>
                         {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
                     </List>
-                    <button onClick={exportCSV}>Export Data</button>
                 </div>
+
             </div>
-            
         );
     }
+
 }
