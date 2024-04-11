@@ -165,7 +165,7 @@ const wellInfoPrompts = [
         fieldTitle: "How many people use this well?",
         id: "numberwelluser",
         value: "numberwelluser",
-        required: true,
+        required: false,
         allowDecimal: false,
     },
     {
