@@ -2,8 +2,8 @@
 import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
 import { useNavigate } from 'react-router-dom';
-import Axios from 'axios'
-
+import Axios from 'axios';
+import csvKey from './resources/csvkey';
 
 function responseDataToHTMLList(responseData) {
     let HTMLList = []
@@ -37,7 +37,7 @@ function exportCSV() {
                 csv[i+1] = ""
                 for (const [key, value] of Object.entries(response.data.Data[i])) {
                     if(flag == 0) {
-                        csv[0] += key + ","
+                        csv[0] += csvKey[key] + ","
                     }
                     csv[i+1] += value + ","
                 }
