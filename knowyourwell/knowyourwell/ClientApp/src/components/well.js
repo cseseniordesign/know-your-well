@@ -32,16 +32,15 @@ function exportCSV() {
         .then(function (response) {
             let csv = [""]
             let flag = 0;
-            for(let i = 0; i < response.data.Data.length; i++)
-            {
-                csv[i+1] = ""
+            for (let i = 0; i < response.data.Data.length; i++) {
+                csv[i + 1] = ""
                 for (const [key, value] of Object.entries(response.data.Data[i])) {
-                    if(flag == 0) {
+                    if (flag == 0) {
                         csv[0] += csvKey[key] + ","
                     }
-                    csv[i+1] += value + ","
+                    csv[i + 1] += value + ","
                 }
-                csv[i+1] += "\n"
+                csv[i + 1] += "\n"
                 flag = 1;
             }
             csv[0] += "\n"
@@ -50,12 +49,12 @@ function exportCSV() {
             })
             const link = document.createElement('a')
             const url = URL.createObjectURL(file)
-          
+
             link.href = url
             link.download = file.name
             document.body.appendChild(link)
             link.click()
-          
+
             document.body.removeChild(link)
             window.URL.revokeObjectURL(url)
         })
@@ -100,31 +99,26 @@ export default function Well() {
 
         const queryParams = {};
 
-    if (filter) {
-        queryParams.filterBy = filter;
-    }
+        if (filter) {
+            queryParams.filterBy = filter;
+        }
 
-    if (sort) {
-        queryParams.sortBy = sort;
-    }
+        if (sort) {
+            queryParams.sortBy = sort;
+        }
 
-    // queryParams.schoolid = schoolid
+        // queryParams.schoolid = schoolid
 
-    Axios.get("/Wells", {
-        params: queryParams,
-        responseType: "json",
-    })
-        .then(function (response) {
-            let lengthOfWells = response.data.Wells.length;
-            if (lengthOfWells == 0) {
-                console.log("WELL LENGTH 0")
-            }
-            if (lengthOfWells != 0){
+        Axios.get("/Wells", {
+            params: queryParams,
+            responseType: "json",
+        })
+            .then(function (response) {
+                debugger;
                 localStorage.setItem("wellData", JSON.stringify(response.data))
-                setWells(responseDataToHTMLList(response.data.Wells));
-                console.log("Wells")
-                console.log(wellList)
-            }
+                if (response.data) {
+                    setWells(responseDataToHTMLList(response.data.Wells));
+                }
 
                 setLoading(false);
             }).catch(function (error) {
@@ -149,7 +143,7 @@ export default function Well() {
         return (
             <List style={{ textAlign: 'center' }}>
                 <h2> <strong> Wells from localStorage</strong></h2>
-                {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData")).Wells)}
+                {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
             </List>
         );
     }
@@ -169,33 +163,33 @@ export default function Well() {
                                 maxHeight: '150px',
                                 overflow: 'auto'
                             }}>
-                            <button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
-                            {countyOptions.map(county => (
-                                <button key={county.key}
-                                    onClick={() => setFilter(`county_id = '${county.key}'`)}
-                                    style={{ backgroundColor: filter === `county_id = '${county.key}'` ? 'yellow' : 'transparent' }}
-                                    className="dropdown-item">
-                                    {county.value}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                                <button onClick={() => setFilter("undefined")} style={{ backgroundColor: filter === "undefined" ? 'yellow' : 'transparent' }} className="dropdown-item">Clear Filter</button>
+                                {countyOptions.map(county => (
+                                    <button key={county.key}
+                                        onClick={() => setFilter(`county_id = '${county.key}'`)}
+                                        style={{ backgroundColor: filter === `county_id = '${county.key}'` ? 'yellow' : 'transparent' }}
+                                        className="dropdown-item">
+                                        {county.value}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <List>
+                        <h2><strong>Wells</strong></h2>
+                        <List.Item key={-1}>
+                            <List.Content>
+                                <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
+                            </List.Content>
+                            <br />
+                        </List.Item>
+                        {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
+                    </List>
                 </div>
-    
-                <List>
-                    <h2><strong>Wells</strong></h2>
-                    <List.Item key={-1}>
-                        <List.Content>
-                            <a href={`/WellInfo`} style={{ width: "45%", height: "17%", border: "dashed" }} className="btn btn-light btn-lg btn-block">Create New Well</a>
-                        </List.Content>
-                        <br />
-                    </List.Item>
-                    {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
-                </List>
+
             </div>
-    
-        </div>
-    );
-}
+        );
+    }
 
 }
