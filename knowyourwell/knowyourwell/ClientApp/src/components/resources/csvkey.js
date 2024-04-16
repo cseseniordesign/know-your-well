@@ -20,7 +20,7 @@ const csvKey = {
     wi_maintenance5yr: "Any maintenance done to well in last 5 years",
     wi_landuse5yr: "Any major land use/development changes around well in last 5 years",
     wi_numberwelluser: "Number of well users",
-    wi_pestmanure: "Have manure, fertilizer, or pesticides been applied near well in last 5 years",
+    wi_pestmanure: "Have manure/fertilizer/pesticides been applied near well in last 5 years",
     wi_estlatitude: "Well Estimated Latitude",
     wi_estlongitude: "Well Estimated Longitude",
     wi_boreholediameter: "Well Bore hole diameter (inches)",
