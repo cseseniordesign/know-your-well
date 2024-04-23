@@ -52,6 +52,8 @@ export default function ViewWell() {
     const well_id = parseInt(searchParams.get("id"));
     const wellName = searchParams.get("wellName");
     const navigate = useNavigate();
+    const [landFeatures, setLandFeatures] = useState();
+
 
     useEffect(() => { // login check
         Axios.get('/userinfo', {
@@ -92,6 +94,46 @@ export default function ViewWell() {
                 setLoading(false);
             });
     }, []);
+
+    useEffect(() => {
+        Axios
+            .get("/LandFeatures", {
+                responseType: "json",
+                params: {
+                    well_id: well_id
+                }
+            })
+            .then(function (response) {
+                console.log(response.data.LandFeatures)
+                setLandFeatures(response.data.LandFeatures)
+            });
+    }, []);
+
+    const renderLandFeatures = () => {
+        return (
+            <div className="row">
+                {landFeatures.map((feature, index) => {
+                    // Determine column class based on the number of features
+                    let colClass = "col-6";
+                    if (landFeatures.length % 2 !== 0 && index === landFeatures.length - 1) {
+                        colClass = "col-12"; // Last single feature takes full width
+                    }
+    
+                    return (
+                        <div key={index} className={colClass} style={{ marginBottom: '20px' }}>
+                            <h3>{`${feature.lf_type} on ${moment.utc(feature.lf_datecollected).format('MM/DD/YYYY')}`}</h3>
+                            <p><b>Comments:</b> {feature.lf_comments}</p>
+                            <p><b>Data Collector:</b> {feature.lf_datacollector}</p>
+                            <p><b>Latitude:</b> {feature.lf_latitude}</p>
+                            <p><b>Longitude:</b> {feature.lf_longitude}</p>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    };
+    
+    
 
     if (formElements.length === 0) {
         const wellCookie = localStorage.getItem("wellData");
@@ -143,6 +185,8 @@ export default function ViewWell() {
                         <p style={{ textAlign: "center" }}><b>Date Entered:</b> {moment.utc(formElements["wi_dateentered"]).format('MM-DD-YYYY hh:mm A')}</p>                        
                         </div>
                     </div>
+                    <hr className="section-divider" /> 
+                    {renderLandFeatures()}
                     <br />
                     <button type="button" style={{ width: "130px", height: "17%" }} className="btn btn-primary btn-lg" onClick={backButton}>Back</button>
                     <br /><br />
