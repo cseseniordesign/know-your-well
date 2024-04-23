@@ -13,6 +13,7 @@ import prodFieldData from './resources/prodfielddata';
 import fieldPrompts from './resources/fieldprompts';
 import renderField from './reusable/renderfield';
 import WellFieldLabContext from './reusable/WellFieldLabContext';
+import LongTextEntry from './reusable/longtextentry';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -54,7 +55,16 @@ export default function Field() {
     const fa_genlatitude = Math.round(fieldData.fa_latitude * 100) / 100; // rounds to third decimal place
     const fa_genlongitude = Math.round(fieldData.fa_longitude * 100) / 100; // rounds to third decimal place
 
-
+    const [cropLatitude, setCropLatitude] = useState("");
+    const [cropLongitude, setCropLongitude] = useState("");
+    const [cropComments, setCropComments] = useState("");
+    const [pastureLatitude, setPastureLatitude] = useState("");
+    const [pastureLongitude, setPastureLongitude] = useState("");
+    const [pastureComments, setPastureComments] = useState("");
+    const [septicLatitude, setSepticLatitude] = useState("");
+    const [septicLongitude, setSepticLongitude] = useState("");
+    const [septicComments, setSepticComments] = useState("");
+    
     // Updating if user decides to load session
     useEffect(() => {
         setFieldData(sessionContinued ? cachedData : initialFieldData)
@@ -114,6 +124,72 @@ export default function Field() {
         }
     }, []);
 
+    function submitCropFeature(){
+        // if(navigator.online){
+        if(true){
+            Axios.post('/feature/crop', {
+                well_id: well_id,
+                cropLatitude: cropLatitude,
+                cropGenLatitude: (Math.round(cropLatitude * 100) / 100),
+                cropLongitude: cropLongitude,
+                cropGenLongitude: (Math.round(cropLongitude * 100) / 100),
+                cropComments: cropComments,
+                datecollected: fieldData.dateentered,
+                observer: fieldData.name,
+
+            }).then(() => {
+                console.log("success");
+            })
+        
+        } else {
+            console.log("Offline, cannot submit land features.")
+        }
+    }
+
+    function submitPastureFeature() {
+        // if(navigator.online){
+        if(true){
+            Axios.post('/feature/pasture', {
+                well_id: well_id,
+                pastureLatitude: pastureLatitude,
+                pastureGenLatitude: (Math.round(pastureLatitude * 100) / 100),
+                pastureLongitude: pastureLongitude,
+                pastureGenLongitude: (Math.round(pastureLongitude * 100) / 100),
+                pastureComments: pastureComments,
+                datecollected: fieldData.dateentered,
+                observer: fieldData.name,
+
+            }).then(() => {
+                console.log("success");
+            })
+        
+        } else {
+            console.log("Offline, cannot submit land features.")
+        }
+    }
+
+    function submitSepticFeature() {
+        // if(navigator.online){
+        if(true){
+            Axios.post('/feature/septic', {
+                well_id: well_id,
+                septicLatitude: septicLatitude,
+                septicGenLatitude: (Math.round(septicLatitude * 100) / 100),
+                septicLongitude: septicLongitude,
+                septicGenLongitude: (Math.round(septicLongitude * 100) / 100),
+                septicComments: septicComments,
+                datecollected: fieldData.dateentered,
+                observer: fieldData.name,
+
+            }).then(() => {
+                console.log("success");
+            })
+        
+        } else {
+            console.log("Offline, cannot submit land features.")
+        }
+    }
+
     function addFieldData() {
         const updatedQueue = [...fieldQueue, { ...fieldData, well_id: fieldData.well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
         if (navigator.onLine) {
@@ -146,6 +222,7 @@ export default function Field() {
             alert("You are offline, Field Form will automatically be submitted when you regain an internet connection")
         }
     };
+
 
 
     const idList = ["fa_latitude", "fa_longitude", "conditions", "wellcover", "temp", "ph", "conductivity", "name", "observations"];
@@ -196,6 +273,9 @@ export default function Field() {
     function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
             addFieldData()
+            submitCropFeature();
+            submitPastureFeature();
+            submitSepticFeature();
             clearLocalStorage();
             handleClearLocalStorage();
             alert("Successfully submitted Field Form!");
@@ -261,6 +341,143 @@ export default function Field() {
                     </div>
                 )}
             </div>
+            <hr className="section-divider" /> 
+            <div>
+                <h4>Upload a Photo of the Nearest Crop Land</h4>
+                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+
+                {selectedFile && (
+                    <div>
+                        <h4>Preview:</h4>
+                        <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
+                    </div>
+                )}
+            </div>
+
+            <div>
+                <NumberEntry
+                    fieldTitle="Latitude of nearest crop land(use 4-12 decimals):"
+                    value={cropLatitude}
+                    min="40"
+                    max="43"
+                    id="crop_latitude"
+                    label="Degrees"
+                    setValue={(value) => setCropLatitude(value)}
+                    required={true}
+                />
+                <NumberEntry
+                    fieldTitle="Longitude of nearest crop land(use 4-12 decimals):"
+                    value={cropLongitude}
+                    min="-104"
+                    max="-95.417"
+                    id="crop_longitude"
+                    label="Degrees"
+                    setValue={(value) => setCropLongitude(value)}
+                    required={true}
+                />
+                <LongTextEntry
+                    fieldTitle="Crop Land Comments"
+                    value={cropComments}
+                    id="croplandcomments"
+                    setValue={(value) => setCropComments(value)}
+                    required={false}
+                />
+            </div>
+            <hr className="section-divider" /> 
+
+
+            <div>
+                <h4>Upload a Photo of the Nearest Barn Yard/Pasture</h4>
+                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+
+                {selectedFile && (
+                    <div>
+                        <h4>Preview:</h4>
+                        <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
+                    </div>
+                )}
+            </div>
+
+            <div>
+                        <NumberEntry
+                            fieldTitle="Latitude of Nearest Barn Yard/Pasture (use 4-12 decimals):"
+                            value={pastureLatitude}
+                            min="40"
+                            max="43"
+                            id="fa_latitude"
+                            label="Degrees"
+                            setValue={(value) => setPastureLatitude(value)}
+                            required={true}
+                        />
+                        <NumberEntry
+                            fieldTitle="Longitude of Nearest Barn Yard/Pasture (use 4-12 decimals):"
+                            value={pastureLongitude}
+                            min="-104"
+                            max="-95.417"
+                            id="fa_longitude"
+                            label="Degrees"
+                            setValue={(value) => setPastureLongitude(value)}
+                            required={true}
+                        />
+                        <LongTextEntry
+                            fieldTitle="Barn Yard/Pasture Comments"
+                            value={pastureComments}
+                            id="pasturecomments"
+                            setValue={(value) => setPastureComments(value)}
+                            required={false}
+                        />
+                    </div>
+                    <hr className="section-divider" /> 
+
+            <div>
+                <h4>Upload a Photo of the of Nearest Septic Tank</h4>
+                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+
+                {selectedFile && (
+                    <div>
+                        <h4>Preview:</h4>
+                        <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
+                    </div>
+                )}
+            </div>
+
+            <div>
+                        <NumberEntry
+                            fieldTitle="Latitude of Nearest Septic Tank (use 4-12 decimals):"
+                            value={septicLatitude}
+                            min="40"
+                            max="43"
+                            id="fa_latitude"
+                            label="Degrees"
+                            setValue={(value) => setSepticLatitude(value)}
+                            required={true}
+                        />
+                        <NumberEntry
+                            fieldTitle="Longitude of Nearest Septic Tank (use 4-12 decimals):"
+                            value={septicLongitude}
+                            min="-104"
+                            max="-95.417"
+                            id="fa_longitude"
+                            label="Degrees"
+                            setValue={(value) => setSepticLongitude(value)}
+                            required={true}
+                        />
+                        <LongTextEntry
+                            fieldTitle="Septic Tank Comments"
+                            value={septicComments}
+                            id="septictankcomments"
+                            setValue={(value) => setSepticComments(value)}
+                            required={false}
+                        />
+                    </div>
+                    <hr className="section-divider" /> 
+
+
+
+
+
+
+
             <div className="css">
                 <label htmlFor="dateentered">
                     Date Entered:
