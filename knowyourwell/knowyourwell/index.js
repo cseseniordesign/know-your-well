@@ -64,6 +64,163 @@ catch (error) {
     console.error(error)
 }
 
+app.get('/LandFeatures', async (req, res) => {
+    well_id = req.query.well_id
+    let query = `SELECT * FROM dbo.tblLandFeature WHERE well_id = ${well_id}`;
+
+    appPool.query(query, function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return;
+        }
+        res.status(200).json({ LandFeatures: recordset.recordset });
+    });
+});
+
+app.post('/feature/crop', (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        let request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('well_id', sql.Int, req.body.well_id);
+        request.input('lf_type', sql.NVarChar, "Crop Land");
+        request.input('lf_latitude', sql.Decimal(10, 5), req.body.cropLatitude);
+        request.input('lf_longitude', sql.Decimal(10, 5), req.body.cropLongitude);
+        request.input('lf_genlatitude', sql.Decimal(8, 3), req.body.cropGenLatitude);
+        request.input('lf_genlongitude', sql.Decimal(8, 3), req.body.cropGenLongitude);
+        request.input('lf_datacollector', sql.NVarChar, req.body.observer);
+        request.input('lf_comments', sql.NVarChar, req.body.cropComments);
+        // request.input('file_name')
+        request.input('lf_datecollected', sql.DateTime, req.body.datecollected);
+
+        request
+        .query('INSERT INTO dbo.tblLandFeature(well_id, lf_type, lf_latitude, lf_longitude, lf_genlatitude, lf_genlongitude, lf_datecollected, lf_datacollector, lf_comments) VALUES(@well_id, @lf_type, @lf_latitude, @lf_longitude, @lf_genlatitude, @lf_genlongitude, @lf_datecollected, @lf_datacollector, @lf_comments)', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else
+                        res.status(200).send('Values Inserted')
+                })
+            }
+        })
+    })
+});
+
+app.post('/feature/pasture', (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        let request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('well_id', sql.Int, req.body.well_id);
+        request.input('lf_type', sql.NVarChar, "Barn Yard/Pasture");
+        request.input('lf_latitude', sql.Decimal(10, 5), req.body.pastureLatitude);
+        request.input('lf_longitude', sql.Decimal(10, 5), req.body.pastureLongitude);
+        request.input('lf_genlatitude', sql.Decimal(8, 3), req.body.pastureGenLatitude);
+        request.input('lf_genlongitude', sql.Decimal(8, 3), req.body.pastureGenLongitude);
+        request.input('lf_datacollector', sql.NVarChar, req.body.observer);
+        request.input('lf_comments', sql.NVarChar, req.body.pastureComments);
+        // request.input('file_name')
+        request.input('lf_datecollected', sql.DateTime, req.body.datecollected);
+
+        request
+        .query('INSERT INTO dbo.tblLandFeature(well_id, lf_type, lf_latitude, lf_longitude, lf_genlatitude, lf_genlongitude, lf_datecollected, lf_datacollector, lf_comments) VALUES(@well_id, @lf_type, @lf_latitude, @lf_longitude, @lf_genlatitude, @lf_genlongitude, @lf_datecollected, @lf_datacollector, @lf_comments)', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else
+                        res.status(200).send('Values Inserted')
+                })
+            }
+        })
+    })
+});
+
+
+app.post('/feature/septic', (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        let request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('well_id', sql.Int, req.body.well_id);
+        request.input('lf_type', sql.NVarChar, "Septic Tank");
+        request.input('lf_latitude', sql.Decimal(10, 5), req.body.septicLatitude);
+        request.input('lf_longitude', sql.Decimal(10, 5), req.body.septicLongitude);
+        request.input('lf_genlatitude', sql.Decimal(8, 3), req.body.septicGenLatitude);
+        request.input('lf_genlongitude', sql.Decimal(8, 3), req.body.septicGenLongitude);
+        request.input('lf_datacollector', sql.NVarChar, req.body.observer);
+        request.input('lf_comments', sql.NVarChar, req.body.septicComments);
+        // request.input('file_name')
+        request.input('lf_datecollected', sql.DateTime, req.body.datecollected);
+
+        request
+        .query('INSERT INTO dbo.tblLandFeature(well_id, lf_type, lf_latitude, lf_longitude, lf_genlatitude, lf_genlongitude, lf_datecollected, lf_datacollector, lf_comments) VALUES(@well_id, @lf_type, @lf_latitude, @lf_longitude, @lf_genlatitude, @lf_genlongitude, @lf_datecollected, @lf_datacollector, @lf_comments)', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else
+                        res.status(200).send('Values Inserted')
+                })
+            }
+        })
+    })
+});
+
+
 app.post('/api/insert', (req, res) => {
     const transaction = appPool.transaction();
     transaction.begin(err => {
