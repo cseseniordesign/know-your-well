@@ -630,11 +630,45 @@ app.get('/sso/redirect', async (req, res) => {
     // const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
     // defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
 
-    // function insertTagProperty(xmlTag, property){
+    // function insertTagProperty(xmlTag, property){s
     //   return xmlTag.replace('>', ` ${property}>`);
     // }    
+    // const crypto = require('crypto'); // Node.js crypto module for generating secure random IDs
 
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', { forceAuthn: "true" });
+    const generateSecureId = () => {
+        // Generates a secure random ID. SAML IDs typically start with an underscore.
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 20; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    };
+
+    const getCurrentIsoDateTime = () => {
+        // Returns the current date and time in ISO 8601 format, suitable for IssueInstant
+        return new Date().toISOString();
+    };
+
+    const newId = generateSecureId();
+    const issueInstant = getCurrentIsoDateTime();
+    // req.sp.entityMeta.meta.AllowCreate = 'false';
+    // // const loginRequestTemplate1 = req.sp.entitySetting.loginRequestTemplate;
+    // console.log(req.sp)
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', loginRequestTemplate => {
+        // console.log(loginRequestTemplate.context);
+        // const modifiedTemplate = { ...loginRequestTemplate, additionalField: 'value' }; // example modification
+        // console.log(typeof loginRequestTemplate.context)
+        let modifiedTemplate = loginRequestTemplate.context.replace("{ID}", newId).replace("{IssueInstant}", issueInstant);
+        // let modifiedTemplate = ""
+
+        // console.log(modifiedTemplate)
+        return { 
+            id: newId, // ensure this is unique or correctly generated
+            context: modifiedTemplate,
+        }; 
+    }); 
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
 
