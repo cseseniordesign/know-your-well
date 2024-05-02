@@ -363,7 +363,7 @@ export default function Field() {
                     id="crop_latitude"
                     label="Degrees"
                     setValue={(value) => setCropLatitude(value)}
-                    required={true}
+                    required={false}
                 />
                 <NumberEntry
                     fieldTitle="Longitude of nearest crop land(use 4-12 decimals):"
@@ -373,7 +373,7 @@ export default function Field() {
                     id="crop_longitude"
                     label="Degrees"
                     setValue={(value) => setCropLongitude(value)}
-                    required={true}
+                    required={false}
                 />
                 <LongTextEntry
                     fieldTitle="Crop Land Comments"
@@ -407,7 +407,7 @@ export default function Field() {
                             id="fa_latitude"
                             label="Degrees"
                             setValue={(value) => setPastureLatitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <NumberEntry
                             fieldTitle="Longitude of Nearest Barn Yard/Pasture (use 4-12 decimals):"
@@ -417,7 +417,7 @@ export default function Field() {
                             id="fa_longitude"
                             label="Degrees"
                             setValue={(value) => setPastureLongitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <LongTextEntry
                             fieldTitle="Barn Yard/Pasture Comments"
@@ -450,7 +450,7 @@ export default function Field() {
                             id="fa_latitude"
                             label="Degrees"
                             setValue={(value) => setSepticLatitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <NumberEntry
                             fieldTitle="Longitude of Nearest Septic Tank (use 4-12 decimals):"
@@ -460,7 +460,7 @@ export default function Field() {
                             id="fa_longitude"
                             label="Degrees"
                             setValue={(value) => setSepticLongitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <LongTextEntry
                             fieldTitle="Septic Tank Comments"
