@@ -315,7 +315,7 @@ app.post('/api/insert', (req, res) => {
                             res.status(500).send('500: Server Error.')
                         }
                         else
-                            res.status(500).send('Values Inserted')
+                            res.status(200).send('Values Inserted')
                     })
                 }
             })
@@ -366,7 +366,7 @@ app.post('/createclasslab', (req, res) => {
                             res.status(500).send('500: Server Error.')
                         }
                         else
-                            res.status(500).send('Values Inserted')
+                            res.status(200).send('Values Inserted')
                     })
                 }
             })
@@ -458,7 +458,7 @@ app.post('/createwellinfo', (req, res) => {
                                 res.status(500).send('500: Server Error.')
                             }
                             else
-                                res.status(500).send('Values Inserted')
+                                res.status(200).send('Values Inserted')
                         })
                     }
                 })
