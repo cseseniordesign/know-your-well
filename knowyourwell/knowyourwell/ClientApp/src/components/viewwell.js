@@ -110,6 +110,11 @@ export default function ViewWell() {
     }, []);
 
     const renderLandFeatures = () => {
+        // Check if landFeatures is undefined or null
+        if (!landFeatures) {
+            return <div></div>; // or return <div>No data available</div> if you want to display a message
+        }
+    
         return (
             <div className="row">
                 {landFeatures.map((feature, index) => {
@@ -132,6 +137,7 @@ export default function ViewWell() {
             </div>
         );
     };
+    
     
     
 
