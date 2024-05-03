@@ -186,7 +186,7 @@ export default function ClassLab() {
                 fieldTitle="Calcium hardness"
                 value={calcium}
                 min="0"
-                max="500"
+                max="1000"
                 label="ppm(mg/L)"
                 setValue={setCalcium}
                 required={true} />
