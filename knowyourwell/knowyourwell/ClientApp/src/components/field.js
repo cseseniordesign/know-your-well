@@ -13,13 +13,16 @@ import prodFieldData from './resources/prodfielddata';
 import fieldPrompts from './resources/fieldprompts';
 import renderField from './reusable/renderfield';
 import WellFieldLabContext from './reusable/WellFieldLabContext';
+import uploadPhoto from './reusable/photoUpload';
 import LongTextEntry from './reusable/longtextentry';
 
 export default function Field() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedFile, setSelectedFile] = useState(null);
     const { fieldQueue, setLocalFieldQueue } = useContext(WellFieldLabContext);
+    const [wellcode, setWellCode] = useState("");
     const well_id = parseInt(searchParams.get("id"));
+    
 
     let initialFieldData;
 
@@ -296,8 +299,58 @@ export default function Field() {
         }
     }
 
-    function submitForm() {
+    function getExtension(file) {
+        const fileName = file.name;
+        const fileExtension = "." + fileName.split('.').pop();
+        return fileExtension;
+    }
+
+    async function uploadPhotos() {
+        // Axios.get("/GetWellInfo", {
+        //     responseType: "json",
+        //     params: {
+        //         well_id: well_id
+        //     },
+        //     headers: {
+        //         'Accept-Encoding': 'application/json'
+        //     }
+        // })
+        // .then(function (response) {
+        //     setWellCode(response.data.WellInfo[0].wellcode);
+        //     console.log("===========================================================\n")
+        //     console.log(response.data)
+        //     console.log("\n===========================================================\n")
+        //     // alert("HERE : : " + response.data.WellInfo[0].well_code)
+           
+        // });
+
+        let uploads = "";
+        if( document.getElementById("wellHead").files.length !== 0 ){
+            let file = document.getElementById("wellHead").files[0]
+            await uploadPhoto(file, well_id, "Well " + well_id + " - Well Head" + getExtension(file));
+            uploads += "Well Head, ";
+        }
+        if( document.getElementById("cropLand").files.length !== 0 ){
+            let file = document.getElementById("cropLand").files[0];
+            await uploadPhoto(file, well_id,"Well " + well_id + " - Crop Land" + getExtension(file));
+            uploads += "Crop Land, ";
+        }
+        if( document.getElementById("barnyardPasture").files.length !== 0 ){
+            let file = document.getElementById("barnyardPasture").files[0]
+            await uploadPhoto(file, well_id, "Well " + well_id + " - Barnyard Pasture" + getExtension(file));
+            uploads += "Barnyard Pasture, ";
+        }
+        if( document.getElementById("septicTank").files.length !== 0 ){
+            let file = document.getElementById("septicTank").files[0];
+            await uploadPhoto(file, well_id, "Well " + well_id + " - Septic Tank" + getExtension(file))
+            uploads += "Septic Tank, ";
+        }
+        alert("Successfully uploaded images for: " + uploads.slice(0, -1) + " to wellid-"+well_id)
+    }
+
+    async function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
+            await uploadPhotos();
             addFieldData()
             submitCropFeature();
             submitPastureFeature();
@@ -359,7 +412,7 @@ export default function Field() {
             ))}
             <div>
                 <h4>Upload a Photo of the Well Head</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <input type="file" id="wellHead"accept="image/*" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>
@@ -371,7 +424,7 @@ export default function Field() {
             <hr className="section-divider" /> 
             <div>
                 <h4>Upload a Photo of the Nearest Crop Land</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <input type="file" id="cropLand" accept="image/*" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>
@@ -415,7 +468,7 @@ export default function Field() {
 
             <div>
                 <h4>Upload a Photo of the Nearest Barn Yard/Pasture</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <input type="file" id="barnyardPasture" accept="image/*" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>
@@ -458,7 +511,7 @@ export default function Field() {
 
             <div>
                 <h4>Upload a Photo of the of Nearest Septic Tank</h4>
-                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+                <input type="file" id="septicTank" accept="image/*" capture="camera" onChange={handleFileChange} />
 
                 {selectedFile && (
                     <div>

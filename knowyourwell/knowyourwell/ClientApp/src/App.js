@@ -40,12 +40,16 @@ export default function App() {
     });
 
     const setLocalWellInfoQueue = (newValue) => {
-        setFieldQueue(newValue);
+        setWellInfoQueue(newValue);
         localStorage.setItem('wellInfoQueue', JSON.stringify(newValue));
     };
 
     const handleOnline = () => {
         setIsOnline(true);
+        setWellInfoQueue(localStorage.getItem("wellInfoQueue"));
+        wellInfoQueue?.forEach(wellInfo => {
+            console.log(wellInfo);
+        })
         setFieldQueue(localStorage.getItem("fieldQueue"));
         fieldQueue?.forEach(field => {
             Axios.post('/api/insert', {
@@ -73,8 +77,9 @@ export default function App() {
             setFieldQueue([]);
         });
         setFieldQueue([]);
-        localStorage.setItem("fieldQueue", "")
+        localStorage.setItem("fieldQueue", "");
         setWellInfoQueue([]);
+        localStorage.setItem("wellInfoQueue", "");
     };
 
     window.addEventListener('online', handleOnline);
