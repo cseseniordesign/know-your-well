@@ -220,6 +220,53 @@ app.post('/feature/septic', (req, res) => {
     })
 });
 
+app.post('/feature/surfaceWater', (req, res) => {
+    const transaction = appPool.transaction();
+    transaction.begin(err => {
+        if (err)
+            console.error("Transaction Failed")
+        let request = appPool.request(transaction)
+        let rolledBack = false
+
+        transaction.on('rollback', aborted => {
+            rolledBack = true
+        })
+
+        request.input('well_id', sql.Int, req.body.well_id);
+        request.input('lf_type', sql.NVarChar, "Surface Water");
+        request.input('lf_latitude', sql.Decimal(10, 5), req.body.surfaceWaterLatitude);
+        request.input('lf_longitude', sql.Decimal(10, 5), req.body.surfaceWaterLongitude);
+        request.input('lf_genlatitude', sql.Decimal(8, 3), req.body.surfaceWaterGenLatitude);
+        request.input('lf_genlongitude', sql.Decimal(8, 3), req.body.surfaceWaterGenLongitude);
+        request.input('lf_datacollector', sql.NVarChar, req.body.observer);
+        request.input('lf_comments', sql.NVarChar, req.body.surfaceWaterComments);
+        // request.input('file_name')
+        request.input('lf_datecollected', sql.DateTime, req.body.datecollected);
+
+        request
+        .query('INSERT INTO dbo.tblLandFeature(well_id, lf_type, lf_latitude, lf_longitude, lf_genlatitude, lf_genlongitude, lf_datecollected, lf_datacollector, lf_comments) VALUES(@well_id, @lf_type, @lf_latitude, @lf_longitude, @lf_genlatitude, @lf_genlongitude, @lf_datecollected, @lf_datacollector, @lf_comments)', function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Query does not execute.')
+                if (!rolledBack) {
+                    transaction.rollback(err => {
+                        // ... error checks
+                    })
+                }
+            } else {
+                transaction.commit(err => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('500: Server Error.')
+                    }
+                    else
+                        res.status(200).send('Values Inserted')
+                })
+            }
+        })
+    })
+});
+
 
 app.post('/api/insert', (req, res) => {
     const transaction = appPool.transaction();
@@ -268,7 +315,7 @@ app.post('/api/insert', (req, res) => {
                             res.status(500).send('500: Server Error.')
                         }
                         else
-                            res.status(500).send('Values Inserted')
+                            res.status(200).send('Values Inserted')
                     })
                 }
             })
@@ -319,7 +366,7 @@ app.post('/createclasslab', (req, res) => {
                             res.status(500).send('500: Server Error.')
                         }
                         else
-                            res.status(500).send('Values Inserted')
+                            res.status(200).send('Values Inserted')
                     })
                 }
             })
@@ -411,7 +458,7 @@ app.post('/createwellinfo', (req, res) => {
                                 res.status(500).send('500: Server Error.')
                             }
                             else
-                                res.status(500).send('Values Inserted')
+                                res.status(200).send('Values Inserted')
                         })
                     }
                 })
@@ -452,7 +499,7 @@ app.get('/csvqueries', async (req, res) => {
     try {
         // Perform multiple queries concurrently
         //const result1 = query1Function(request);
-        let query = 'SELECT dbo.tblSchool.sch_name, dbo.tblWellInfo.wi_wellcode, dbo.tblWellInfo.wi_wellname, dbo.tblWellInfo.wi_well_user, dbo.tblWellInfo.wi_address, dbo.tblWellInfo.wi_city, dbo.tblWellInfo.wi_state, dbo.tblWellInfo.wi_zipcode, dbo.tblCountyLookup.county_name, dbo.tblNRDLookup.nrd_name, dbo.tblWellInfo.wi_phone_well_user, dbo.tblWellInfo.wi_email_well_user, dbo.tblWellInfo.wi_well_owner, dbo.tblWellInfo.wi_installyear, dbo.tblWellInfo.wi_smelltaste, dbo.tblWellInfo.wi_smelltaste_description, dbo.tblWellInfo.wi_welldry, dbo.tblWellInfo.wi_welldry_description, dbo.tblWellInfo.wi_maintenance5yr, dbo.tblWellInfo.wi_landuse5yr, dbo.tblWellInfo.wi_numberwelluser, dbo.tblWellInfo.wi_pestmanure, dbo.tblWellInfo.wi_estlatitude, dbo.tblWellInfo.wi_estlongitude, dbo.tblWellInfo.wi_boreholediameter, dbo.tblWellInfo.wi_totaldepth, dbo.tblWellInfo.wi_waterleveldepth, dbo.tblWellInfo.wi_aquifertype, dbo.tblWellInfo.wi_aquiferclass, dbo.tblWellInfo.wi_welltype, dbo.tblWellInfo.wi_wellcasematerial, dbo.tblWellInfo.wi_dnr_well_id, dbo.tblWellInfo.wi_registration_number, dbo.tblWellInfo.wi_datacollector, dbo.tblWellInfo.wi_observation, dbo.tblWellInfo.wi_dateentered, dbo.tblFieldActivity.fa_latitude, dbo.tblFieldActivity.fa_longitude, dbo.tblFieldActivity.fa_weather, dbo.tblFieldActivity.fa_wellcovercondition, dbo.tblFieldActivity.fa_wellcoverdescription, dbo.tblFieldActivity.fa_surfacerunoff, dbo.tblFieldActivity.fa_pooling, dbo.tblFieldActivity.fa_groundwatertemp, dbo.tblFieldActivity.fa_ph, dbo.tblFieldActivity.fa_conductivity, dbo.tblFieldActivity.fa_topography, dbo.tblFieldActivity.fa_datacollector, dbo.tblFieldActivity.fa_observation, dbo.tblFieldActivity.fa_datecollected, dbo.tblClassroomLab.cl_ammonia, dbo.tblClassroomLab.cl_calciumhardness, dbo.tblClassroomLab.cl_chloride, dbo.tblClassroomLab.cl_bacteria, dbo.tblClassroomLab.cl_copper, dbo.tblClassroomLab.cl_iron, dbo.tblClassroomLab.cl_manganese, dbo.tblClassroomLab.cl_nitrate, dbo.tblClassroomLab.cl_observation, dbo.tblClassroomLab.cl_nitrite, dbo.tblClassroomLab.cl_datacollector, dbo.tblClassroomLab.cl_datecollected FROM dbo.tblCountyLookup RIGHT OUTER JOIN dbo.tblSchool INNER JOIN dbo.tblWellInfo ON dbo.tblSchool.school_id = dbo.tblWellInfo.school_id LEFT OUTER JOIN dbo.tblNRDLookup ON dbo.tblWellInfo.nrd_id = dbo.tblNRDLookup.nrd_id ON dbo.tblCountyLookup.county_id = dbo.tblWellInfo.county_id LEFT OUTER JOIN dbo.tblClassroomLab RIGHT OUTER JOIN dbo.tblFieldActivity ON dbo.tblClassroomLab.fieldactivity_id = dbo.tblFieldActivity.fieldactivity_id ON dbo.tblWellInfo.well_id = dbo.tblFieldActivity.well_id'
+        let query = `SELECT dbo.tblSchool.sch_name, dbo.tblWellInfo.wi_wellcode, dbo.tblWellInfo.wi_wellname, dbo.tblWellInfo.wi_well_user, dbo.tblWellInfo.wi_address, dbo.tblWellInfo.wi_city, dbo.tblWellInfo.wi_state, dbo.tblWellInfo.wi_zipcode, dbo.tblCountyLookup.county_name, dbo.tblNRDLookup.nrd_name, dbo.tblWellInfo.wi_phone_well_user, dbo.tblWellInfo.wi_email_well_user, dbo.tblWellInfo.wi_well_owner, dbo.tblWellInfo.wi_installyear, dbo.tblWellInfo.wi_smelltaste, dbo.tblWellInfo.wi_smelltaste_description, dbo.tblWellInfo.wi_welldry, dbo.tblWellInfo.wi_welldry_description, dbo.tblWellInfo.wi_maintenance5yr, dbo.tblWellInfo.wi_landuse5yr, dbo.tblWellInfo.wi_numberwelluser, dbo.tblWellInfo.wi_pestmanure, dbo.tblWellInfo.wi_estlatitude, dbo.tblWellInfo.wi_estlongitude, dbo.tblWellInfo.wi_boreholediameter, dbo.tblWellInfo.wi_totaldepth, dbo.tblWellInfo.wi_waterleveldepth, dbo.tblWellInfo.wi_aquifertype, dbo.tblWellInfo.wi_aquiferclass, dbo.tblWellInfo.wi_welltype, dbo.tblWellInfo.wi_wellcasematerial, dbo.tblWellInfo.wi_dnr_well_id, dbo.tblWellInfo.wi_registration_number, dbo.tblWellInfo.wi_datacollector, dbo.tblWellInfo.wi_observation, dbo.tblWellInfo.wi_dateentered, dbo.tblFieldActivity.fa_latitude, dbo.tblFieldActivity.fa_longitude, dbo.tblFieldActivity.fa_weather, dbo.tblFieldActivity.fa_wellcovercondition, dbo.tblFieldActivity.fa_wellcoverdescription, dbo.tblFieldActivity.fa_surfacerunoff, dbo.tblFieldActivity.fa_pooling, dbo.tblFieldActivity.fa_groundwatertemp, dbo.tblFieldActivity.fa_ph, dbo.tblFieldActivity.fa_conductivity, dbo.tblFieldActivity.fa_topography, dbo.tblFieldActivity.fa_datacollector, dbo.tblFieldActivity.fa_observation, dbo.tblFieldActivity.fa_datecollected, dbo.tblClassroomLab.cl_ammonia, dbo.tblClassroomLab.cl_calciumhardness, dbo.tblClassroomLab.cl_chloride, dbo.tblClassroomLab.cl_bacteria, dbo.tblClassroomLab.cl_copper, dbo.tblClassroomLab.cl_iron, dbo.tblClassroomLab.cl_manganese, dbo.tblClassroomLab.cl_nitrate, dbo.tblClassroomLab.cl_observation, dbo.tblClassroomLab.cl_nitrite, dbo.tblClassroomLab.cl_datacollector, dbo.tblClassroomLab.cl_datecollected FROM dbo.tblCountyLookup RIGHT OUTER JOIN dbo.tblSchool INNER JOIN dbo.tblWellInfo ON dbo.tblSchool.school_id = dbo.tblWellInfo.school_id LEFT OUTER JOIN dbo.tblNRDLookup ON dbo.tblWellInfo.nrd_id = dbo.tblNRDLookup.nrd_id ON dbo.tblCountyLookup.county_id = dbo.tblWellInfo.county_id LEFT OUTER JOIN dbo.tblClassroomLab RIGHT OUTER JOIN dbo.tblFieldActivity ON dbo.tblClassroomLab.fieldactivity_id = dbo.tblFieldActivity.fieldactivity_id ON dbo.tblWellInfo.well_id = dbo.tblFieldActivity.well_id WHERE dbo.tblSchool.school_id = ${kywmemValue};`
 
         appPool.query(query, function (err, recordset) {
             if (err) {
@@ -630,11 +677,45 @@ app.get('/sso/redirect', async (req, res) => {
     // const defaultTemplate = SamlLib.defaultLoginRequestTemplate;
     // defaultTemplate.context = insertTagProperty(defaultTemplate.context, 'ForceAuthn="true"');
 
-    // function insertTagProperty(xmlTag, property){
+    // function insertTagProperty(xmlTag, property){s
     //   return xmlTag.replace('>', ` ${property}>`);
     // }    
+    // const crypto = require('crypto'); // Node.js crypto module for generating secure random IDs
 
-    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', { forceAuthn: "true" });
+    const generateSecureId = () => {
+        // Generates a secure random ID. SAML IDs typically start with an underscore.
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 20; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    };
+
+    const getCurrentIsoDateTime = () => {
+        // Returns the current date and time in ISO 8601 format, suitable for IssueInstant
+        return new Date().toISOString();
+    };
+
+    const newId = generateSecureId();
+    const issueInstant = getCurrentIsoDateTime();
+    // req.sp.entityMeta.meta.AllowCreate = 'false';
+    // // const loginRequestTemplate1 = req.sp.entitySetting.loginRequestTemplate;
+    // console.log(req.sp)
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect', loginRequestTemplate => {
+        // console.log(loginRequestTemplate.context);
+        // const modifiedTemplate = { ...loginRequestTemplate, additionalField: 'value' }; // example modification
+        // console.log(typeof loginRequestTemplate.context)
+        let modifiedTemplate = loginRequestTemplate.context.replace("{ID}", newId).replace("{IssueInstant}", issueInstant);
+        // let modifiedTemplate = ""
+
+        // console.log(modifiedTemplate)
+        return { 
+            id: newId, // ensure this is unique or correctly generated
+            context: modifiedTemplate,
+        }; 
+    }); 
     console.log("id: " + id)
     console.log("Context returned: " + redirectUrl + "\n");
 

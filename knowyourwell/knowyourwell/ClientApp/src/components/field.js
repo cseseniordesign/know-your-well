@@ -65,6 +65,10 @@ export default function Field() {
     const [septicLatitude, setSepticLatitude] = useState("");
     const [septicLongitude, setSepticLongitude] = useState("");
     const [septicComments, setSepticComments] = useState("");
+    const [surfaceWaterLatitude, setSurfaceWaterLatitude] = useState("");
+    const [surfaceWaterLongitude, setSurfaceWaterLongitude] = useState("");
+    const [surfaceWaterComments, setSurfaceWaterComments] = useState("");
+
     
     // Updating if user decides to load session
     useEffect(() => {
@@ -191,6 +195,28 @@ export default function Field() {
         }
     }
 
+    function submitSurfaceWaterFeature() {
+        // if(navigator.online){
+        if(true){
+            Axios.post('/feature/surfaceWater', {
+                well_id: well_id,
+                surfaceWaterLatitude: surfaceWaterLatitude,
+                surfaceWaterGenLatitude: (Math.round(surfaceWaterLatitude * 100) / 100),
+                surfaceWaterLongitude: surfaceWaterLongitude,
+                surfaceWaterGenLongitude: (Math.round(surfaceWaterLongitude * 100) / 100),
+                surfaceWaterComments: surfaceWaterComments,
+                datecollected: fieldData.dateentered,
+                observer: fieldData.name,
+
+            }).then(() => {
+                console.log("success");
+            })
+        
+        } else {
+            console.log("Offline, cannot submit land features.")
+        }
+    }
+
     function addFieldData() {
         const updatedQueue = [...fieldQueue, { ...fieldData, well_id: fieldData.well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
         if (navigator.onLine) {
@@ -278,6 +304,7 @@ export default function Field() {
             submitCropFeature();
             submitPastureFeature();
             submitSepticFeature();
+            submitSurfaceWaterFeature();
             clearLocalStorage();
             handleClearLocalStorage();
             alert("Successfully submitted Field Form!");
@@ -365,7 +392,7 @@ export default function Field() {
                     id="crop_latitude"
                     label="Degrees"
                     setValue={(value) => setCropLatitude(value)}
-                    required={true}
+                    required={false}
                 />
                 <NumberEntry
                     fieldTitle="Longitude of nearest crop land(use 4-12 decimals):"
@@ -375,7 +402,7 @@ export default function Field() {
                     id="crop_longitude"
                     label="Degrees"
                     setValue={(value) => setCropLongitude(value)}
-                    required={true}
+                    required={false}
                 />
                 <LongTextEntry
                     fieldTitle="Crop Land Comments"
@@ -409,7 +436,7 @@ export default function Field() {
                             id="fa_latitude"
                             label="Degrees"
                             setValue={(value) => setPastureLatitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <NumberEntry
                             fieldTitle="Longitude of Nearest Barn Yard/Pasture (use 4-12 decimals):"
@@ -419,7 +446,7 @@ export default function Field() {
                             id="fa_longitude"
                             label="Degrees"
                             setValue={(value) => setPastureLongitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <LongTextEntry
                             fieldTitle="Barn Yard/Pasture Comments"
@@ -452,7 +479,7 @@ export default function Field() {
                             id="fa_latitude"
                             label="Degrees"
                             setValue={(value) => setSepticLatitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <NumberEntry
                             fieldTitle="Longitude of Nearest Septic Tank (use 4-12 decimals):"
@@ -462,13 +489,55 @@ export default function Field() {
                             id="fa_longitude"
                             label="Degrees"
                             setValue={(value) => setSepticLongitude(value)}
-                            required={true}
+                            required={false}
                         />
                         <LongTextEntry
                             fieldTitle="Septic Tank Comments"
                             value={septicComments}
                             id="septictankcomments"
                             setValue={(value) => setSepticComments(value)}
+                            required={false}
+                        />
+                    </div>
+                    <hr className="section-divider" /> 
+                    <div>
+                <h4>Upload a Photo of the of Nearest Surface Water</h4>
+                <input type="file" accept="image/*" capture="camera" onChange={handleFileChange} />
+
+                {selectedFile && (
+                    <div>
+                        <h4>Preview:</h4>
+                        <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
+                    </div>
+                )}
+            </div>
+
+            <div>
+                        <NumberEntry
+                            fieldTitle="Latitude of Nearest Surface Water (use 4-12 decimals):"
+                            value={surfaceWaterLatitude}
+                            min="40"
+                            max="43"
+                            id="fa_latitude"
+                            label="Degrees"
+                            setValue={(value) => setSurfaceWaterLatitude(value)}
+                            required={false}
+                        />
+                        <NumberEntry
+                            fieldTitle="Longitude of Nearest Surface Water (use 4-12 decimals):"
+                            value={surfaceWaterLongitude}
+                            min="-104"
+                            max="-95.417"
+                            id="fa_longitude"
+                            label="Degrees"
+                            setValue={(value) => setSurfaceWaterLongitude(value)}
+                            required={false}
+                        />
+                        <LongTextEntry
+                            fieldTitle="Surface Water Comments"
+                            value={surfaceWaterComments}
+                            id="septictankcomments"
+                            setValue={(value) => setSurfaceWaterComments(value)}
                             required={false}
                         />
                     </div>
