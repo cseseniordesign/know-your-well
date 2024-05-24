@@ -3,7 +3,6 @@ import { List } from 'semantic-ui-react'
 import countyOptions from './resources/counties';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import csvKey from './resources/csvkey';
 
 function responseDataToHTMLList(responseData) {
     let HTMLList = []
@@ -25,46 +24,7 @@ function responseDataToHTMLList(responseData) {
     return HTMLList
 }
 
-function exportCSV() {
-    Axios.get('/csvqueries', {
-        responseType: "json",
-    })
-        .then(function (response) {
-            let csv = [""]
-            let flag = 0;
-            for(let i = 0; i < response.data.Data.length; i++)
-            {
-                csv[i+1] = ""
-                for (const [key, value] of Object.entries(response.data.Data[i])) {
-                    if(flag == 0) {
-                        csv[0] += csvKey[key] + ","
-                    }
-                    csv[i+1] += value + ","
-                }
-                csv[i+1] += "\n"
-                flag = 1;
-            }
-            csv[0] += "\n"
-            const file = new File(csv, 'welldata.csv', {
-                type: 'text/csv',
-            })
-            const link = document.createElement('a')
-            const url = URL.createObjectURL(file)
-          
-            link.href = url
-            link.download = file.name
-            document.body.appendChild(link)
-            link.click()
-          
-            document.body.removeChild(link)
-            window.URL.revokeObjectURL(url)
-        })
-        .catch(function (error) {
-            // Handle error
-            console.error("Error fetching data:", error);
-        });
 
-}
 
 
 export default function Well() {
@@ -200,7 +160,6 @@ export default function Well() {
                         </List.Item>
                         {responseDataToHTMLList(JSON.parse(localStorage.getItem("wellData"))?.Wells)}
                     </List>
-                    <button onClick={exportCSV}>Export Data</button>
                 </div>
             </div>
             

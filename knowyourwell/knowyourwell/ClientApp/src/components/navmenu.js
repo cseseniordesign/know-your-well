@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Axios from 'axios'
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import csvKey from './resources/csvkey';
 import './css/NavMenu.css';
 
 const NavMenu = () => {
@@ -9,7 +10,47 @@ const NavMenu = () => {
     const toggleNavbar = () => setCollapsed(!collapsed);
     const [school, setSchool] = useState("");
     const [name, setName] = useState("");
+
+    function exportCSV() {
+        Axios.get('/csvqueries', {
+            responseType: "json",
+        })
+            .then(function (response) {
+                let csv = [""]
+                let flag = 0;
+                for(let i = 0; i < response.data.Data.length; i++)
+                {
+                    csv[i+1] = ""
+                    for (const [key, value] of Object.entries(response.data.Data[i])) {
+                        if(flag == 0) {
+                            csv[0] += csvKey[key] + ","
+                        }
+                        csv[i+1] += value + ","
+                    }
+                    csv[i+1] += "\n"
+                    flag = 1;
+                }
+                csv[0] += "\n"
+                const file = new File(csv, 'welldata.csv', {
+                    type: 'text/csv',
+                })
+                const link = document.createElement('a')
+                const url = URL.createObjectURL(file)
+              
+                link.href = url
+                link.download = file.name
+                document.body.appendChild(link)
+                link.click()
+              
+                document.body.removeChild(link)
+                window.URL.revokeObjectURL(url)
+            })
+            .catch(function (error) {
+                // Handle error
+                console.error("Error fetching data:", error);
+            });
     
+    }
     
     Axios.get('/userinfo', {
         responseType: "json"
@@ -39,6 +80,9 @@ const NavMenu = () => {
                 <div>  </div>
                 <div style={{ float: 'right' }}><strong>{name}</strong></div>
                     <ul className="navbar-nav flex-grow">
+                        <NavItem>
+                            <button onClick={exportCSV}>Export Data</button>          
+                        </NavItem>
                         <NavItem>
                             <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
                         </NavItem>
