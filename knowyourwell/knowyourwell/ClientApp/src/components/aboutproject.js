@@ -53,7 +53,7 @@ export default function AboutProject() {
             </a>
             <a href="https://environmentaltrust.nebraska.gov/">
                 <div className="mb-3">
-                    <img src={require('./images/NETseal_color.png')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
+                    <img src={require('./images/NETseal_color.jpg')} alt="" style={{ objectFit: 'contain', width: 250, height: 100 }} />
                 </div>
             </a>
         </form>

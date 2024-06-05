@@ -11,23 +11,22 @@ const NavMenu = () => {
     const [school, setSchool] = useState("");
     const [name, setName] = useState("");
 
-    function exportCSV() {
+    const exportCSV = () => {
         Axios.get('/csvqueries', {
             responseType: "json",
         })
             .then(function (response) {
                 let csv = [""]
                 let flag = 0;
-                for(let i = 0; i < response.data.Data.length; i++)
-                {
-                    csv[i+1] = ""
+                for (let i = 0; i < response.data.Data.length; i++) {
+                    csv[i + 1] = ""
                     for (const [key, value] of Object.entries(response.data.Data[i])) {
-                        if(flag == 0) {
+                        if (flag == 0) {
                             csv[0] += csvKey[key] + ","
                         }
-                        csv[i+1] += value + ","
+                        csv[i + 1] += value + ","
                     }
-                    csv[i+1] += "\n"
+                    csv[i + 1] += "\n"
                     flag = 1;
                 }
                 csv[0] += "\n"
@@ -36,12 +35,12 @@ const NavMenu = () => {
                 })
                 const link = document.createElement('a')
                 const url = URL.createObjectURL(file)
-              
+
                 link.href = url
                 link.download = file.name
                 document.body.appendChild(link)
                 link.click()
-              
+
                 document.body.removeChild(link)
                 window.URL.revokeObjectURL(url)
             })
@@ -49,14 +48,14 @@ const NavMenu = () => {
                 // Handle error
                 console.error("Error fetching data:", error);
             });
-    
+
     }
-    
+
     Axios.get('/userinfo', {
         responseType: "json"
     }).then(function (response) { // dev nav menu
-            setSchool(response.data.kywmem);
-            setName(response.data.displayn);
+        setSchool(response.data.kywmem);
+        setName(response.data.displayn);
     });
 
     const initLogout = () => {
@@ -76,16 +75,19 @@ const NavMenu = () => {
                 <NavbarBrand tag={Link} to="/" className="banner"></NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-                {name && <button onClick={initLogout} style={{marginLeft: '10px', background: 'none',border: 'none',padding: 0,cursor: 'pointer'}}><strong>Logout</strong></button>}
-                <div>  </div>
-                <div style={{ float: 'right' }}><strong>{name}</strong></div>
+                    {name && <button onClick={initLogout} style={{ marginLeft: '10px', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}><strong>Logout</strong></button>}
+                    <div>  </div>
+                    <div style={{ float: 'right' }}><strong>{name}</strong></div>
                     <ul className="navbar-nav flex-grow">
-                        <NavItem>
-                            <button onClick={exportCSV}>Export Data</button>          
-                        </NavItem>
-                        <NavItem>
-                            <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
-                        </NavItem>
+                        {name ? (
+                            <NavItem>
+                                <NavLink className="text-dark" onClick={exportCSV}>Export Data</NavLink>
+                            </NavItem>
+                        ) : (
+                            <NavItem>
+                                <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
+                            </NavItem>
+                        )}
                         <NavItem>
                             {name && <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink>}
                             {/* <NavLink tag={Link} className="text-dark" to="Well">Well</NavLink> */}
