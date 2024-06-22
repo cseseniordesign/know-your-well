@@ -12,13 +12,13 @@ var listElements = []
 function generateListElements(previousEntries, well_id, name) {
     //console.log(previousEntries[0].date)
     for (var entry of previousEntries) {
-        let key = 0
+        let key = 1
 
         //console.log(entry)
         const buttonClass = entry.labID == null ? "btn btn-primary btn-lg disabled" : "btn btn-primary btn-lg"
         listElements.push(
             <>
-                < List.Item >
+                < List.Item>
                     <h4>Field Activity Date: {moment.utc(entry.fieldDate).format('MM-DD-YYYY hh:mm A')}</h4>
                     <h4>Class Lab Date: {moment.utc(entry.labDate).format('MM-DD-YYYY hh:mm A')}</h4>
                 </List.Item >

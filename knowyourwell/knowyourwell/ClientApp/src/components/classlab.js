@@ -2,17 +2,24 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './css/forms.css'
 import DatePicker from 'react-datetime';
-import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useSearchParams } from 'react-router-dom'
-import NumberEntry from './reusable/numberentry';
-import DropDownEntry from './reusable/dropdownentry';
 import FormFooter from './reusable/formfooter';
-import ShortTextEntry from './reusable/shorttextentry';
-import LongTextEntry from './reusable/longtextentry';
+import devClassLab from './resources/devclasslab.js'
+import prodClassLab from './resources/prodclasslab.js'
+import classLabPrompts from './resources/classlabprompts.js';
+import renderField from './reusable/renderfield.js';
 
 
 export default function ClassLab() {
+
+    let initialClassLab;
+
+    if (process.env.NODE_ENV === "development") {
+        initialClassLab = devClassLab;
+    } else {
+        initialClassLab = prodClassLab;
+    }
 
     const [searchParams, setSearchParams] = useSearchParams();
     const fa_id = parseInt(searchParams.get("field_id"));
@@ -39,59 +46,35 @@ export default function ClassLab() {
 
     const well_id = searchParams.get("well_id");
     const wellName = searchParams.get("wellName");
-    const [ammonia, setAmmonia] = useState(pullCachedData ? cachedData.Ammonia : "");
-    const [calcium, setCalcium] = useState(pullCachedData ? cachedData.Calciumhardness : "");
-    const [chloride, setChloride] = useState(pullCachedData ? cachedData.Chloride : "");
-    const [copper, setCopper] = useState(pullCachedData ? cachedData.Copper : "");
-    const [iron, setIron] = useState(pullCachedData ? cachedData.Iron : "");
-    const [manganese, setManganese] = useState(pullCachedData ? cachedData.Manganese : "");
-    const [nitrate, setNitrate] = useState(pullCachedData ? cachedData.Nitrate : "");
-    const [bacteria, setBacteria] = useState(pullCachedData ? cachedData.Bacteria : "");
-    const [wslSample, setSample] = useState(pullCachedData ? cachedData.Datacollector : "");
-    const [name, setName] = useState(pullCachedData ? cachedData.Datacollector : "");
-    const [observations, setObservations] = useState(pullCachedData ? cachedData.Observations : "");
-    const [dateentered, setDateentered] = useState(pullCachedData ? moment(cachedData.Dateentered) : moment().format('L, h:mm a'));
-    
+    const [classLab, setClassLab] = useState(pullCachedData ? cachedData : initialClassLab);
 
 
     // Updating if user decides to load session
     useEffect(() => {
-        setAmmonia(sessionContinued ? cachedData.Ammonia : "");
-        setCalcium(sessionContinued ? cachedData.Calciumhardness : "");
-        setChloride(sessionContinued ? cachedData.Chloride : "");
-        setCopper(sessionContinued ? cachedData.Copper : "");
-        setIron(sessionContinued ? cachedData.Iron : "");
-        setManganese(sessionContinued ? cachedData.Manganese : "");
-        setNitrate(sessionContinued ? cachedData.Nitrate : "");
-        setBacteria(sessionContinued ? cachedData.Bacteria : "");
-        setSample(sessionContinued ? cachedData.Observations : "");
-        setObservations(sessionContinued ? cachedData.Observations : "");
-        setName(sessionContinued ? cachedData.Datacollector : "");
-        setObservations(sessionContinued ? cachedData.Observations : "");
-
-        setDateentered(sessionContinued ? moment(cachedData.Dateentered) : moment().format('L, h:mm a'));
+        setClassLab(sessionContinued ? cachedData : initialClassLab);
     }, [sessionContinued]);
 
-
-    const handleChange_Bacteria = (event) => {
-        setBacteria(event.target.value);
+    function updateClassLab(fieldName, value) {
+        setClassLab((prevData) => ({
+            ...prevData,
+            [fieldName]: value,
+        }))
     };
 
     function addClassLab() {
         Axios.post('/createclasslab', {
             fa_id: fa_id,
-            ammonia: ammonia,
-            calciumhardness: calcium,
-            chloride: chloride,
-            copper: copper,
-            bacteria: bacteria,
-            iron: iron,
-            manganese: manganese,
-            nitrate: nitrate,
-            wslSample : wslSample,
-            observations: observations,
-            datacollector: name,
-            dateentered: dateentered,
+            ammonia: classLab.ammonia,
+            calciumhardness: classLab.calcium,
+            chloride: classLab.chloride,
+            copper: classLab.copper,
+            bacteria: classLab.bacteria,
+            iron: classLab.iron,
+            manganese: classLab.manganese,
+            nitrate: classLab.nitrate,
+            observations: classLab.observations,
+            datacollector: classLab.name,
+            dateentered: classLab.dateentered,
         })
             .then(() => {
                 console.log("success");
@@ -113,21 +96,21 @@ export default function ClassLab() {
         }
 
         if (elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")) {
-            const labData = {
-                Ammonia: ammonia,
-                Calciumhardness: calcium,
-                Chloride: chloride,
-                Copper: copper,
-                Bacteria: bacteria,
-                Iron: iron,
-                Manganese: manganese,
-                Nitrate: nitrate,
-                SampleID: wslSample,
-                Observations: observations,
-                Datacollector: name,
-                Dateentered: dateentered,
-            };
-            localStorage.setItem("labData" + fa_id, JSON.stringify(labData));
+            // const labData = {
+            //     Ammonia: ammonia,
+            //     Calciumhardness: calcium,
+            //     Chloride: chloride,
+            //     Copper: copper,
+            //     Bacteria: bacteria,
+            //     Iron: iron,
+            //     Manganese: manganese,
+            //     Nitrate: nitrate,
+            //     SampleID: wslSample,
+            //     Observations: observations,
+            //     Datacollector: name,
+            //     Dateentered: dateentered,
+            // };
+            localStorage.setItem("labData" + fa_id, JSON.stringify(classLab));
             alert("Information Saved!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
         }
@@ -172,103 +155,10 @@ export default function ClassLab() {
                 <br></br>
                 * = Required Field
             </div>
-            <NumberEntry
-                id="ammonia"
-                fieldTitle="Ammonia - N"
-                value={ammonia}
-                min="0"
-                max="10"
-                label="ppm(mg/L)"
-                setValue={setAmmonia}
-                required={true} />
-            <NumberEntry
-                id="calcium"
-                fieldTitle="Calcium hardness"
-                value={calcium}
-                min="0"
-                max="1000"
-                label="ppm(mg/L)"
-                setValue={setCalcium}
-                required={true} />
-            <NumberEntry
-                id="chloride"
-                fieldTitle="Chloride"
-                value={chloride}
-                min="0"
-                max="400"
-                label="ppm(mg/L)"
-                setValue={setChloride}
-                required={true} />
-            <DropDownEntry
-                fieldTitle="Bacteria (Colilert)"
-                id="bacteria"
-                options={["Clear", "Yellow with fluorescent rim", "Yellow without fluorescent rim"]}
-                value={bacteria}
-                onChange={handleChange_Bacteria}
-                setValue={setBacteria}
-                required={true}
-            />
-            <NumberEntry
-                fieldTitle="Copper"
-                id="copper"
-                value={copper}
-                min="0"
-                max="400"
-                label="ppm(mg/L)"
-                setValue={setCopper}
-                required={true} />
-            <NumberEntry
-                fieldTitle="Iron"
-                id="iron"
-                value={iron}
-                min="0"
-                max="400"
-                label="ppm(mg/L)"
-                setValue={setIron}
-                required={true} />
-            <NumberEntry
-                fieldTitle="Manganese"
-                id="manganese"
-                value={manganese}
-                min="0"
-                max="400"
-                label="ppm(mg/L)"
-                setValue={setManganese}
-                required={true} />
-            <NumberEntry
-                fieldTitle="Nitrate - N"
-                id="nitrate"
-                value={nitrate}
-                min="0"
-                max="200"
-                label="ppm(mg/L)"
-                setValue={setNitrate}
-                required={true} />
-{/* <div className="css">
-                <label htmlFor="wslSample">
-                    WSL Sample ID:
-                    <span className="requiredField" data-testid="requiredFieldIndicator"> *</span>
-                </label>
-                <input type="text" value={wslSample} className="textarea resize-ta" id="wslSample" name="wslSample" required
-                    onChange={(event) => {
-                        setSample(event.target.value);
-                    }}
-                />
-            </div> */}
-            <ShortTextEntry
-                fieldTitle="Data Collector's Name:"
-                value={name}
-                id="name"
-                setValue={setName}
-                required={true}
-            />
-            <LongTextEntry
-                fieldTitle="Observations"
-                value={observations}
-                id="observations"
-                setValue={setObservations}
-                required={false}
-            />
+            {classLabPrompts.map((prompt) => (
+                <div key={prompt.id}>{renderField(prompt, classLab, updateClassLab)}
+                </div>
+            ))}
             <div className="css">
                 <label htmlFor="dateentered">
                     Date Entered:
@@ -276,13 +166,13 @@ export default function ClassLab() {
                 </label>
                 <div id="dateentered">
                     <DatePicker
-                        value={dateentered}
+                        value={classLab.dateentered}
                         // value={sessionContinued ? moment(cachedData.Dateentered) : "hello"}
                         // value={moment(cachedData.Dateentered)}
                         // value = "04/09/2024, 4:36 pm"
                         dateFormat="MM-DD-YYYY"
                         timeFormat="hh:mm A"
-                        onChange={(val) => setDateentered(val)}
+                        onChange={(val) => updateClassLab('dateentered', val)}
                         inputProps={{
                             style: {
                                 width: 300,
