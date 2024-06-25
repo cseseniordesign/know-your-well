@@ -24,9 +24,6 @@ function responseDataToHTMLList(responseData) {
     return HTMLList
 }
 
-
-
-
 export default function Well() {
     const [isLoading, setLoading] = useState(true);
     const [isSortDropdownVisible, setSortDropdownVisibility] = useState(false);
