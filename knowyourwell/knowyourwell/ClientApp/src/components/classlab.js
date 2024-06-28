@@ -153,7 +153,8 @@ export default function ClassLab() {
             <div>When all lab results are final, enter and submit them in the field below.</div>
             <div className="requiredField">
                 <br></br>
-                * = Required Field
+                <p>* = Required Field</p>
+               <p>No punctuation or special characters, such as ,.[]();’/\!@#) in text fields.</p>
             </div>
             {classLabPrompts.map((prompt) => (
                 <div key={prompt.id}>{renderField(prompt, classLab, updateClassLab)}
