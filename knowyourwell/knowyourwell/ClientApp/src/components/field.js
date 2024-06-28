@@ -54,6 +54,7 @@ export default function Field() {
         cachedData.dateentered = moment(cachedData.dateentered).format('MM-DD-YYYY hh:mm A');
     }
     const wellName = searchParams.get("wellName");
+    const wellCode = searchParams.get("wellCode");
     const [fieldData, setFieldData] = useState(sessionContinued ? cachedData : initialFieldData);
     const fa_genlatitude = Math.round(fieldData.fa_latitude * 100) / 100; // rounds to third decimal place
     const fa_genlongitude = Math.round(fieldData.fa_longitude * 100) / 100; // rounds to third decimal place
@@ -369,10 +370,11 @@ export default function Field() {
 
     return (
         <form id="submissionAlert">
-            <h2>{wellName}: Field</h2>
+            <h2>{wellCode} - {wellName}: Field</h2>
             <div className="requiredField">
                 <br></br>
-                * = Required Field
+               <p>* = Required Field</p>
+               <p>No punctuation or special characters, such as ,.[]();’/\!@#) in text fields.</p>
             </div>
             <div>
                 {location || sessionContinued ? (
