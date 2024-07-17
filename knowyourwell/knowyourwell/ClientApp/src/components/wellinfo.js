@@ -34,7 +34,7 @@ export default function WellInfo() {
             console.error("Failed to fetch school id:", error);
         });
 
-        Axios.get('/wellcode', {
+        Axios.get('/newwellcode', {
         }).then(function (response) {
             if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
                 // setSchoolid("1");

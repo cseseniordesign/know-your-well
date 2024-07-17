@@ -12,6 +12,7 @@ export default function EditWell() {
     const wellName = searchParams.get("wellName");
     const FieldRedirect = searchParams.get("FieldRedirect")
     const id = searchParams.get("id");
+    const wellcode = searchParams.get("wellcode");
     const navigate = useNavigate();
 
     useEffect(() => { // login check
@@ -45,7 +46,7 @@ export default function EditWell() {
     }
     return (
         <List style={{ textAlign: 'center' }}>
-            <h2>{wellName}</h2>
+            <h2>{wellcode}: {wellName}</h2>
             <List.Item>
                 <List.Content>
                     <a href={`/ViewWell?id=${id}&wellName=${wellName}`} /* change to "/ViewWell" */ style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>

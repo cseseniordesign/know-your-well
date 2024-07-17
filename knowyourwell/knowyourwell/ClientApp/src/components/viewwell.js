@@ -104,7 +104,6 @@ export default function ViewWell() {
                 }
             })
             .then(function (response) {
-                console.log(response.data.LandFeatures)
                 setLandFeatures(response.data.LandFeatures)
             });
     }, []);
@@ -182,7 +181,7 @@ export default function ViewWell() {
 
         return (
             <div className="css">
-                <h2>{wellName}: Well Info</h2>
+                <h2>{formElements['wi_wellcode']} {wellName}: Well Info</h2>
                 <br />
                 <div className="container" style={{ textAlign: "center" }}>
                     {columnList}

@@ -11,7 +11,7 @@ function responseDataToHTMLList(responseData) {
             HTMLList.push(
                 <List.Item key={element.well_id}>
                     <List.Content>
-                        <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{element.wi_wellname} </a>
+                        <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{element.wi_wellcode}: {element.wi_wellname} </a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -77,8 +77,6 @@ export default function Well() {
             .then(function (response) {
                 localStorage.setItem("wellData", JSON.stringify(response.data))
                 setWells(responseDataToHTMLList(response.data.Wells));
-                console.log("Wells")
-                console.log(wellList)
 
                 setLoading(false);
             }).catch(function (error) {

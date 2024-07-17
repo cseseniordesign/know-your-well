@@ -776,7 +776,21 @@ app.get('/createDevSession', async (req, res) => {
     res.status(200).json({success: "success"})
 });
 
-app.get('/wellcode', async (req, res) => {
+app.get('/getwellcode', async (req, res) => {
+    well_id = req.query.well_id
+    let query = `SELECT wi_wellcode FROM dbo.TblWellInfo WHERE well_id = ${well_id}`;
+
+    appPool.query(query, function (err, recordset) {
+        if (err) {
+            console.log(err)
+            res.status(500).send('SERVER ERROR')
+            return;
+        }
+        res.status(200).json({ wellcode: recordset.recordset });
+    });
+});
+
+app.get('/newwellcode', async (req, res) => {
     // get the school id from the request
     // find the school code using the school id
     // find the largest well code for that school
