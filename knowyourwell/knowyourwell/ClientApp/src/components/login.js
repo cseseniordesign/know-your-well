@@ -7,12 +7,11 @@ export default function Login() {
 
     const navigate = useNavigate();
     const initRedirectRequest = () => {
-        if(process.env.NODE_ENV != "production"){
+        if(window.location.href.indexOf("kywtest") > -1 || process.env.NODE_ENV != "production"){
             Axios.get('/createDevSession',{
                 responseType: "json"
             }).then(function (response) {
                 if(response.data.success == "success"){
-                    console.log("navigating")
                     navigate("/Well");
                 }
             }).catch(function (error) {
@@ -50,7 +49,6 @@ export default function Login() {
                 <h3 style={{ textAlign: "center", paddingBottom: "1em" }}>
                     Welcome to Know Your Well
                 </h3>
-                <h3>{process.env.NODE_ENV}</h3>
                 <div className="d-grid">
                 <button type="button"  className="btn btn-primary btn-lg" onClick={initRedirectRequest}>Login with School Credentials</button>
                 </div>
