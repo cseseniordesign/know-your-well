@@ -21,6 +21,7 @@ export default function Field() {
     const [selectedFile, setSelectedFile] = useState(null);
     const { fieldQueue, setLocalFieldQueue } = useContext(WellFieldLabContext);
     const well_id = parseInt(searchParams.get("id"));
+    const [photosFeatureFlag, setPhotosFeatureFlag] = useState(false);
 
 
     let initialFieldData;
@@ -409,6 +410,7 @@ export default function Field() {
                 <div key={prompt.id}>{renderField(
                     prompt, fieldData, handleChange)}</div>
             ))}
+            {!photosFeatureFlag ? <div>Photo upload coming soon</div> : <>
             <div>
                 <h4>Upload a Photo of the Well Head</h4>
                 <input type="file" id="wellHead" accept="image/*" capture="camera" onChange={handleFileChange} />
@@ -591,6 +593,7 @@ export default function Field() {
                     required={false}
                 />
             </div>
+            </>}
             <hr className="section-divider" />
             <div className="css">
                 <label htmlFor="dateentered">

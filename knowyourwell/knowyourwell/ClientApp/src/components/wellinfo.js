@@ -34,20 +34,6 @@ export default function WellInfo() {
             console.error("Failed to fetch school id:", error);
         });
 
-        Axios.get('/newwellcode', {
-        }).then(function (response) {
-            if(response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development"){
-                // setSchoolid("1");
-                setWellCode("abc123")
-            }else {
-                // response should be well code
-                // console.log(response.data.wellcode)
-                setWellCode(response.data.wellcode)
-            }
-        }).catch(function (error) {
-            console.error("Failed to generate well code:", error);
-        });
-
     }, []);
 
 
@@ -103,6 +89,19 @@ export default function WellInfo() {
 
         //Checking to see if user is offline - if so then we cache the data that would have been submitted
         if (navigator.onLine) {
+            Axios.get('/newwellcode', {}).then(function (response) {
+                if (response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development") {
+                    // setSchoolid("1");
+                    setWellCode("abc123")
+                } else {
+                    // response should be well code
+                    // console.log(response.data.wellcode)
+                    setWellCode(response.data.wellcode)
+                }
+            }).catch(function (error) {
+                console.error("Failed to generate well code:", error);
+            });
+
             Axios.post('/createwellinfo', {
                 address: wellInfo.address,
                 aquiferclass: wellInfo.aquiferclass,
