@@ -26,7 +26,7 @@ export default function Field() {
 
     let initialFieldData;
 
-    if (process.env.NODE_ENV === "development") {
+    if(window.location.href.indexOf("kywtest") > -1 || process.env.NODE_ENV != "production"){
         initialFieldData = devFieldData;
     } else {
         initialFieldData = prodFieldData;

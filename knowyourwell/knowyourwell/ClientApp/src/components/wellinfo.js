@@ -14,7 +14,7 @@ import WellFieldLabContext from './reusable/WellFieldLabContext';
 export default function WellInfo() {
     let initialWellInfo;
 
-    if (process.env.NODE_ENV === "development") {
+    if(window.location.href.indexOf("kywtest") > -1 || process.env.NODE_ENV != "production"){
         initialWellInfo = devWellInfo;
     } else {
         initialWellInfo = prodWellInfo;
@@ -158,7 +158,7 @@ export default function WellInfo() {
             return true;
         } else {
             form.reportValidity();
-            return process.env.NODE_ENV === 'development';
+            return window.location.href.indexOf("kywtest") > -1 || process.env.NODE_ENV != "production";
         }
     }
 
