@@ -247,7 +247,7 @@ export default function Field() {
         } else {
             setLocalFieldQueue(updatedQueue);
 
-            alert("You are offline, Field Form will automatically be submitted when you regain an internet connection")
+            alert("You are offline, Field Form will submit automatically when you regain an internet connection")
         }
     };
 
@@ -304,52 +304,52 @@ export default function Field() {
         return fileExtension;
     }
 
-    async function uploadPhotos() {
-        // Axios.get("/GetWellInfo", {
-        //     responseType: "json",
-        //     params: {
-        //         well_id: well_id
-        //     },
-        //     headers: {
-        //         'Accept-Encoding': 'application/json'
-        //     }
-        // })
-        // .then(function (response) {
-        //     setWellCode(response.data.WellInfo[0].wellcode);
-        //     console.log("===========================================================\n")
-        //     console.log(response.data)
-        //     console.log("\n===========================================================\n")
-        //     // alert("HERE : : " + response.data.WellInfo[0].well_code)
+    // async function uploadPhotos() {
+    //     // Axios.get("/GetWellInfo", {
+    //     //     responseType: "json",
+    //     //     params: {
+    //     //         well_id: well_id
+    //     //     },
+    //     //     headers: {
+    //     //         'Accept-Encoding': 'application/json'
+    //     //     }
+    //     // })
+    //     // .then(function (response) {
+    //     //     setWellCode(response.data.WellInfo[0].wellcode);
+    //     //     console.log("===========================================================\n")
+    //     //     console.log(response.data)
+    //     //     console.log("\n===========================================================\n")
+    //     //     // alert("HERE : : " + response.data.WellInfo[0].well_code)
 
-        // });
+    //     // });
 
-        let uploads = "";
-        if (document.getElementById("wellHead").files.length !== 0) {
-            let file = document.getElementById("wellHead").files[0]
-            await uploadPhoto(file, well_id, "Well " + well_id + " - Well Head" + getExtension(file));
-            uploads += "Well Head, ";
-        }
-        if (document.getElementById("cropLand").files.length !== 0) {
-            let file = document.getElementById("cropLand").files[0];
-            await uploadPhoto(file, well_id, "Well " + well_id + " - Crop Land" + getExtension(file));
-            uploads += "Crop Land, ";
-        }
-        if (document.getElementById("barnyardPasture").files.length !== 0) {
-            let file = document.getElementById("barnyardPasture").files[0]
-            await uploadPhoto(file, well_id, "Well " + well_id + " - Barnyard Pasture" + getExtension(file));
-            uploads += "Barnyard Pasture, ";
-        }
-        if (document.getElementById("septicTank").files.length !== 0) {
-            let file = document.getElementById("septicTank").files[0];
-            await uploadPhoto(file, well_id, "Well " + well_id + " - Septic Tank" + getExtension(file))
-            uploads += "Septic Tank, ";
-        }
-        alert("Successfully uploaded images for: " + uploads.slice(0, -1) + " to wellid-" + well_id)
-    }
+    //     let uploads = "";
+    //     if (document.getElementById("wellHead").files.length !== 0) {
+    //         let file = document.getElementById("wellHead").files[0]
+    //         await uploadPhoto(file, well_id, "Well " + well_id + " - Well Head" + getExtension(file));
+    //         uploads += "Well Head, ";
+    //     }
+    //     if (document.getElementById("cropLand").files.length !== 0) {
+    //         let file = document.getElementById("cropLand").files[0];
+    //         await uploadPhoto(file, well_id, "Well " + well_id + " - Crop Land" + getExtension(file));
+    //         uploads += "Crop Land, ";
+    //     }
+    //     if (document.getElementById("barnyardPasture").files.length !== 0) {
+    //         let file = document.getElementById("barnyardPasture").files[0]
+    //         await uploadPhoto(file, well_id, "Well " + well_id + " - Barnyard Pasture" + getExtension(file));
+    //         uploads += "Barnyard Pasture, ";
+    //     }
+    //     if (document.getElementById("septicTank").files.length !== 0) {
+    //         let file = document.getElementById("septicTank").files[0];
+    //         await uploadPhoto(file, well_id, "Well " + well_id + " - Septic Tank" + getExtension(file))
+    //         uploads += "Septic Tank, ";
+    //     }
+    //     alert("Successfully uploaded images for: " + uploads.slice(0, -1) + " to wellid-" + well_id)
+    // }
 
     async function submitForm() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
-            await uploadPhotos();
+            // await uploadPhotos();
             addFieldData()
             submitCropFeature();
             submitPastureFeature();
