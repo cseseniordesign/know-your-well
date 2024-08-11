@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 var previousEntries = []
 var listElements = []
 
-function generateListElements(previousEntries, well_id, name) {
+function generateListElements(previousEntries, well_id, name, wellcode) {
     //console.log(previousEntries[0].date)
     for (var entry of previousEntries) {
         let key = 1
@@ -24,8 +24,8 @@ function generateListElements(previousEntries, well_id, name) {
                 </List.Item >
                 <List.Item key={key}>
                     <List.Content>
-                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} className="btn btn-primary btn-lg">Field (Field ID: {entry.fieldID})</a>
-                        <a href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} className={buttonClass} aria-disabled={entry.labID == null}>Class Lab {entry.labID != null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}</a>
+                        <a href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} className="btn btn-primary btn-lg">Field (Field ID: {entry.fieldID})</a>
+                        <a href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`} style={{ width: "22.5%", height: "17%" }} className={buttonClass} aria-disabled={entry.labID == null}>Class Lab {entry.labID != null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}</a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -39,7 +39,8 @@ function generateListElements(previousEntries, well_id, name) {
 export default function PreviousEntries() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
-    const wellName = searchParams.get("wellName")
+    const wellName = searchParams.get("wellName");
+    const wellcode = searchParams.get("wellcode");
     const navigate = useNavigate();
 
     useEffect(() => { // login check
@@ -57,7 +58,7 @@ export default function PreviousEntries() {
     }, [navigate]);
 
     const backButton = () => {
-        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;
     }
 
     const [isLoading, setLoading] = useState(true);
@@ -82,7 +83,7 @@ export default function PreviousEntries() {
                     const entry = { fieldDate: fieldEntry.fa_datecollected, fieldID: fieldEntry.fieldactivity_id, labID: fieldEntry.classlab_id, labDate: fieldEntry.cl_datecollected }
                     previousEntries.push(entry);
                 }
-                listElements = generateListElements(previousEntries, well_id, wellName);
+                listElements = generateListElements(previousEntries, well_id, wellName, wellcode);
                 setLoading(false);
             });
     }, []);

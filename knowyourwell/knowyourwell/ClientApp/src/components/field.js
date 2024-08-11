@@ -22,6 +22,7 @@ export default function Field() {
     const { fieldQueue, setLocalFieldQueue } = useContext(WellFieldLabContext);
     const well_id = parseInt(searchParams.get("id"));
     const [photosFeatureFlag, setPhotosFeatureFlag] = useState(false);
+    const wellcode = searchParams.get("wellcode");
 
 
     let initialFieldData;
@@ -357,7 +358,6 @@ export default function Field() {
             submitSurfaceWaterFeature();
             clearLocalStorage();
             handleClearLocalStorage();
-            alert("Successfully submitted Field Form!");
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
         }
     }

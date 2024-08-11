@@ -23,6 +23,7 @@ export default function ClassLab() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const fa_id = parseInt(searchParams.get("field_id"));
+    const wellcode = searchParams.get("wellcode");
 
     // Checking for saved sessions
     const [sessionContinued, setSessionContinued] = useState(searchParams.get("sessionContinued"));
@@ -112,7 +113,7 @@ export default function ClassLab() {
             // };
             localStorage.setItem("labData" + fa_id, JSON.stringify(classLab));
             alert("Information Saved!");
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
+            window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}&FieldRedirect=True`;
         }
     };
 
@@ -133,7 +134,7 @@ export default function ClassLab() {
 
     const backButton = () => {
         if (window.confirm("Any unsaved data will be lost.\nWould you like to continue?")) {
-            window.location.href = `/fieldselection?id=${well_id}&wellName=${wellName}`;
+            window.location.href = `/fieldselection?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;
         }
     }
 
@@ -142,7 +143,7 @@ export default function ClassLab() {
             addClassLab();
             handleClearLocalStorage();
             alert("Successfully submitted Class Lab Form!");
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+            window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;
         }
     }
 

@@ -51,6 +51,7 @@ export default function ViewWell() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
     const wellName = searchParams.get("wellName");
+    const wellcode = searchParams.get("wellcode");
     const navigate = useNavigate();
     const [landFeatures, setLandFeatures] = useState();
 
@@ -70,7 +71,7 @@ export default function ViewWell() {
     }, [navigate]);
 
     const backButton = () => {
-        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;
     }
 
     const backToWellsButton = () => {
@@ -181,7 +182,7 @@ export default function ViewWell() {
 
         return (
             <div className="css">
-                <h2>{formElements['wi_wellcode']} {wellName}: Well Info</h2>
+                <h2>{formElements['wi_wellcode']} {wellcode}: {wellName}: Well Info</h2>
                 <br />
                 <div className="container" style={{ textAlign: "center" }}>
                     {columnList}
