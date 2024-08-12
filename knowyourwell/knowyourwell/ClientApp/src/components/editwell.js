@@ -41,7 +41,7 @@ export default function EditWell() {
     if (localStorage.getItem("fieldData" + id) && !FieldRedirect) {
         const viewSavedForm = window.confirm("You have a saved field form.\n Would you like to view it?");
         if (viewSavedForm) {
-            window.location.href = `/Field?id=${id}&wellcode=${wellcode}&wellName=${wellName}&sessionContinued=True`
+            window.location.href = `/Field?id=${id}&wellName=${wellName}&wellcode=${wellcode}&sessionContinued=True`
         }
     }
     return (
@@ -49,25 +49,25 @@ export default function EditWell() {
             <h2>{wellcode}: {wellName}</h2>
             <List.Item>
                 <List.Content>
-                    <a href={`/ViewWell?id=${id}&wellcode=${wellcode}&wellName=${wellName}`} /* change to "/ViewWell" */ style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>
+                    <a href={`/ViewWell?id=${id}&wellName=${wellName}&wellcode=${wellcode}`} /* change to "/ViewWell" */ style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Well Info</a>
                 </List.Content>
                 <br />
             </List.Item>
             <List.Item>
                 <List.Content>
-                    <a href={`/Field?id=${id}&wellcode=${wellcode}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Field</a>
+                    <a href={`/Field?id=${id}&wellName=${wellName}&wellcode=${wellcode}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Field</a>
                 </List.Content>
                 <br />
             </List.Item>
             <List.Item >
                 <List.Content>
-                    <a href={`/fieldselection?id=${id}&wellcode=${wellcode}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Class Lab</a>
+                    <a href={`/fieldselection?id=${id}&wellName=${wellName}&wellcode=${wellcode}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Class Lab</a>
                 </List.Content>
                 <br />
             </List.Item>
             <List.Item>
                 <List.Content >
-                    <a href={`/PreviousEntries?id=${id}&wellcode=${wellcode}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Previous Entries</a>
+                    <a href={`/PreviousEntries?id=${id}&wellName=${wellName}&wellcode=${wellcode}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">Previous Entries</a>
                 </List.Content>
                 <br />
             </List.Item>

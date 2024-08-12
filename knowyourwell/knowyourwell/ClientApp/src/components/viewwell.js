@@ -182,7 +182,7 @@ export default function ViewWell() {
 
         return (
             <div className="css">
-                <h2>{formElements['wi_wellcode']} {wellcode}: {wellName}: Well Info</h2>
+                <h2> {wellcode}: {wellName}: Well Info</h2>
                 <br />
                 <div className="container" style={{ textAlign: "center" }}>
                     {columnList}
