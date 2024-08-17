@@ -24,8 +24,9 @@ const keyList = [
 export default function ViewField() {
     const [searchParams, setSearchParams] = useSearchParams();
     const fieldactivity_id = parseInt(searchParams.get("fieldactivity_id"));
-    const wellName = searchParams.get("wellName")
-    const well_id = searchParams.get("well_id")
+    const wellName = searchParams.get("wellName");
+    const well_id = searchParams.get("well_id");
+    const wellcode = searchParams.get("wellcode");
     const navigate = useNavigate();
 
     useEffect(() => { // login check
@@ -44,7 +45,7 @@ export default function ViewField() {
     }, [navigate]);
 
     const backButton = () => {
-        window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}`;
+        window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`;
     }
 
     const [isLoading, setLoading] = useState(true);

@@ -271,7 +271,7 @@ export default function Field() {
         if (elementsValid && window.confirm("Any previously saved data will be overwritten.\nWould you like to continue?")) {
             localStorage.setItem("fieldData" + well_id, JSON.stringify(fieldData));
             alert("Information Saved!");
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True`;
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True&wellcode=${wellcode}`;
         }
     };
 
@@ -292,7 +292,7 @@ export default function Field() {
     const backButton = () => {
         if (window.confirm("Any unsaved data will be lost.\nWould you like to continue?")) {
             if (well_id != null) {
-                window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+                window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`;
             } else {
                 window.location.href = `/Well`;
             }
@@ -358,7 +358,7 @@ export default function Field() {
             submitSurfaceWaterFeature();
             clearLocalStorage();
             handleClearLocalStorage();
-            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`
+            window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`
         }
     }
 

@@ -27,6 +27,7 @@ export default function ViewLab() {
     const wellName = searchParams.get("wellName")
     const classlab_id = searchParams.get("classlab_id")
     const well_id = searchParams.get("well_id");
+    const wellcode = searchParams.get("wellcode");
     const navigate = useNavigate();
 
     useEffect(() => { // login check
@@ -45,7 +46,7 @@ export default function ViewLab() {
     }, [navigate]);
 
     const backButton = () => {
-        window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}`;
+        window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`;
     }
 
     const [isLoading, setLoading] = useState(true);

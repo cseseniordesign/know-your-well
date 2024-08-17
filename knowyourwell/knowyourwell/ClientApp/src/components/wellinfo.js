@@ -84,20 +84,21 @@ export default function WellInfo() {
         localStorage.removeItem('wellInfo');
     }
 
-    function addWellInfo() {
-        const updatedQueue = [...wellInfoQueue, { ...wellInfo, schoolid: schoolid, wellcode: wellcode }];
+    async function addWellInfo() {
+        const updatedQueue = [...wellInfoQueue, { ...wellInfo, schoolid: schoolid }];
 
         //Checking to see if user is offline - if so then we cache the data that would have been submitted
+        let generatedWellcode;
         if (navigator.onLine) {
-            Axios.get('/newwellcode', {}).then(function (response) {
+            await Axios.get('/newwellcode', {}).then(function (response) {
                 if (response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development") {
                     // setSchoolid("1");
-                    setWellCode("abc123")
+                    generatedWellcode = "abc123";
                 } else {
                     // response should be well code
-                    // console.log(response.data.wellcode)
-                    setWellCode(response.data.wellcode)
+                    generatedWellcode = response.data.wellcode;
                 }
+            setWellCode(generatedWellcode);
             }).catch(function (error) {
                 console.error("Failed to generate well code:", error);
             });
@@ -131,7 +132,7 @@ export default function WellInfo() {
                 totaldepth: Number(wellInfo.totaldepth),
                 wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
                 wellcasematerial: wellInfo.wellcasematerial,
-                wellcode: wellcode,
+                wellcode: generatedWellcode,
                 welldry: wellInfo.welldry,
                 welldrydescription: wellInfo.welldrydescription,
                 wellname: wellInfo.wellname,

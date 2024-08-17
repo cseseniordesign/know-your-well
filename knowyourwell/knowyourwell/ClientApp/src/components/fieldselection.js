@@ -7,7 +7,7 @@ import Well from './well';
 
 var fieldList = [];
 
-function responseDataToHTMLList(responseData, well_id, wellName) {
+function responseDataToHTMLList(responseData, well_id, wellName, wellcode) {
     let HTMLList = []
     try {
         for (const element of responseData) {
@@ -15,7 +15,7 @@ function responseDataToHTMLList(responseData, well_id, wellName) {
             HTMLList.push(
                 <List.Item key={element.fieldactivity_id}>
                     <List.Content>
-                        <a href={`/classlab?field_id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}&well_id=${well_id}&wellName=${wellName}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} (Field ID: {element.fieldactivity_id}) </a>
+                        <a href={`/classlab?field_id=${element.fieldactivity_id}&dateCollected=${element.fa_datecollected}&well_id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`} style={{ width: "45%", height: "17%" }} className="btn btn-primary btn-lg btn-block">{fieldEntryDate} (Field ID: {element.fieldactivity_id}) </a>
                     </List.Content>
                     <br />
                 </List.Item>
@@ -33,9 +33,10 @@ export default function FieldSelection() {
     const [searchParams, setSearchParams] = useSearchParams();
     const well_id = parseInt(searchParams.get("id"));
     const wellName = searchParams.get("wellName")
+    const wellcode = searchParams.get("wellcode");
 
     const backButton = () => {
-        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}`;
+        window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`;
     }
 
     const [isLoading, setLoading] = useState(true);
@@ -53,7 +54,7 @@ export default function FieldSelection() {
             .then(function (response) {
                 console.log(response)
                 localStorage.setItem("fieldListData" + well_id, JSON.stringify(response.data))
-                fieldList = responseDataToHTMLList(response.data.FieldList, well_id, wellName)
+                fieldList = responseDataToHTMLList(response.data.FieldList, well_id, wellName, wellcode)
                 setLoading(false);
             });
     }, []);
@@ -63,7 +64,7 @@ export default function FieldSelection() {
         if (fieldCookie) {
             try {
                 const fieldData = JSON.parse(fieldCookie)
-                fieldList = responseDataToHTMLList(fieldData.FieldList, well_id, wellName);
+                fieldList = responseDataToHTMLList(fieldData.FieldList, well_id, wellName, wellcode);
             }
             catch (e) {
                 console.log("fieldData is Invalid JSON")
