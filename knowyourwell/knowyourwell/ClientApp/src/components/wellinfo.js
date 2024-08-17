@@ -34,6 +34,20 @@ export default function WellInfo() {
             console.error("Failed to fetch school id:", error);
         });
 
+        let generatedWellcode;
+        Axios.get('/newwellcode', {}).then(function (response) {
+            if (response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development") {
+                // setSchoolid("1");
+                generatedWellcode = "abc123";
+            } else {
+                // response should be well code
+                generatedWellcode = response.data.wellcode;
+            }
+        setWellCode(generatedWellcode);
+        }).catch(function (error) {
+            console.error("Failed to generate well code:", error);
+        });
+
     }, []);
 
 
@@ -88,20 +102,7 @@ export default function WellInfo() {
         const updatedQueue = [...wellInfoQueue, { ...wellInfo, schoolid: schoolid }];
 
         //Checking to see if user is offline - if so then we cache the data that would have been submitted
-        let generatedWellcode;
         if (navigator.onLine) {
-            await Axios.get('/newwellcode', {}).then(function (response) {
-                if (response.data.kywmem == "" && response.data.displayn == "" && process.env.NODE_ENV == "development") {
-                    // setSchoolid("1");
-                    generatedWellcode = "abc123";
-                } else {
-                    // response should be well code
-                    generatedWellcode = response.data.wellcode;
-                }
-            setWellCode(generatedWellcode);
-            }).catch(function (error) {
-                console.error("Failed to generate well code:", error);
-            });
 
             Axios.post('/createwellinfo', {
                 address: wellInfo.address,
@@ -132,7 +133,7 @@ export default function WellInfo() {
                 totaldepth: Number(wellInfo.totaldepth),
                 wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
                 wellcasematerial: wellInfo.wellcasematerial,
-                wellcode: generatedWellcode,
+                wellcode: wellcode,
                 welldry: wellInfo.welldry,
                 welldrydescription: wellInfo.welldrydescription,
                 wellname: wellInfo.wellname,

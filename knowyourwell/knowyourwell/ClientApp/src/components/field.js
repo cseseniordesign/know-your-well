@@ -220,9 +220,9 @@ export default function Field() {
     }
 
     function addFieldData() {
+        fieldData.well_id = well_id;
         const updatedQueue = [...fieldQueue, { ...fieldData, well_id: fieldData.well_id, fa_genlatitude: fa_genlatitude, fa_genlongitude: fa_genlongitude }];
         if (navigator.onLine) {
-            fieldData.well_id = well_id;
             Axios.post('/api/insert', {
                 well_id: fieldData.well_id,
                 fa_latitude: fieldData.fa_latitude,
@@ -352,10 +352,10 @@ export default function Field() {
         if (validForm() && window.confirm("Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?")) {
             // await uploadPhotos();
             addFieldData()
-            submitCropFeature();
-            submitPastureFeature();
-            submitSepticFeature();
-            submitSurfaceWaterFeature();
+            // submitCropFeature();
+            // submitPastureFeature();
+            // submitSepticFeature();
+            // submitSurfaceWaterFeature();
             clearLocalStorage();
             handleClearLocalStorage();
             window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`
@@ -375,7 +375,7 @@ export default function Field() {
                <p>No punctuation or special characters, such as ,.[]();’/\!@#) in text fields.</p>
             </div>
             <div>
-                {location || sessionContinued ? (
+                {location || sessionContinued || !navigator.onLine ? (
                     <div>
                         <NumberEntry
                             fieldTitle="Latitude (use 4-12 decimals):"
