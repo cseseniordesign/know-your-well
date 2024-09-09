@@ -16,7 +16,7 @@
 * [Connection to DB](#connection-to-db)
 * [Database Endpoints (Get and Post Functions)](#database-endpoints-get-and-post-functions)
     * [Creating Data](#creating-data)
-    * [Reviwing Data](#reviwing-data)
+    * [Reviewing Data](#reviewing-data)
 
 ## Listening for Incoming Requests
 app.listen() listens on a specified port for connections coming to our domain. The only thing worth noting for our specific implementation of app.listen() is that our value for the port argument can be process.env.PORT or 7193. process.env.PORT is Node's method of accessing Azure's PORT [environment variable](https://learn.microsoft.com/en-us/azure/app-service/reference-app-settings?tabs=kudu%2Cdotnet) if it can't be found (as is the case with local development), then 7193 is the default fall-back.
@@ -44,7 +44,7 @@ If this query is not correctly formatted, it sends the failed status back to the
 ![request.query](DocumentationImages/response.PNG "request.query")<br />
 
 
-### Reviwing Data
+### Reviewing Data
 Reviewing data is very similar to creating data with two exceptions.
 1. The user inputs are used in the WHERE clause of the SQL query.
 0. The information sent back to the user includes the DB's response as well as the execution code.
