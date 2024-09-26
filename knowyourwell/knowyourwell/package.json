@@ -9,7 +9,8 @@
     "server": "nodemon index.js",
     "client": "cd ClientApp && npm start && cd ..",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
-    "test": "jest"
+    "test": "jest",
+    "pretty": "prettier --write \"**/*.js\""
   },
   "keywords": [],
   "author": "",
@@ -45,7 +46,8 @@
     "@testing-library/react": "^14.1.2",
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.3.3"
   },
   "jest": {
     "testEnvironment": "jest-environment-jsdom",

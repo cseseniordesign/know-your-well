@@ -1,16 +1,14 @@
-const samlify = require('samlify') ;
-const fs = require('fs');
-const validator = require('@authenio/samlify-node-xmllint');
-
+const samlify = require("samlify");
+const fs = require("fs");
+const validator = require("@authenio/samlify-node-xmllint");
 
 samlify.setSchemaValidator(validator);
 
 // Configure identity provider from metadata, currently using https://samltest.id/ as idp
 const idp = samlify.IdentityProvider({
-    metadata: fs.readFileSync(__dirname + '/../metadata/idp.xml'),
-    wantLogoutRequestSigned: true
+  metadata: fs.readFileSync(__dirname + "/../metadata/idp.xml"),
+  wantLogoutRequestSigned: true,
 });
-
 
 let hitemplate = `<samlp:AuthnRequest 
 xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"     
@@ -29,22 +27,22 @@ AssertionConsumerServiceURL="https://knowyourwell.azurewebsites.net/saml/acs">
     
 </samlp:AuthnRequest>`;
 
-    const path = require('path');
-    const filePath = path.join(__dirname, 'customLoginRequest.xml');
+const path = require("path");
+const filePath = path.join(__dirname, "customLoginRequest.xml");
 // Configure service provider from this app's metadata
 const sp = samlify.ServiceProvider({
-    loginRequestTemplate: {
-        context: hitemplate,
-      },
-    metadata: fs.readFileSync(__dirname + '/../metadata/sp.xml'),
+  loginRequestTemplate: {
+    context: hitemplate,
+  },
+  metadata: fs.readFileSync(__dirname + "/../metadata/sp.xml"),
 });
 
 // Creates idp and sp objects
 const assignEntity = (req, res, next) => {
-    req.idp = idp;
-    req.sp = sp;
+  req.idp = idp;
+  req.sp = sp;
 
-    return next();
+  return next();
 };
 
 module.exports = assignEntity;
