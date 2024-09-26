@@ -39,3 +39,10 @@ GO
 ALTER TABLE [dbo].[tblSchool]  CHECK CONSTRAINT [FK_tblSchool_tblNRDLookup]
 GO
 
+set IDENTITY_INSERT tblSchool ON
+GO
+
+insert into tblSchool (school_id, sch_name, sch_code, sch_address, nrd_id, sch_latitude, sch_longitude, sch_activeflag, sch_datedeactivated, sch_comments)
+    values (1, 'testSchool', 'UNL', '1400 R Street Lincoln, NE 68588', '2', 40.817640, -96.700000, 1, null, null);
+
+set IDENTITY_INSERT tblSchool OFF

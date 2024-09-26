@@ -34,7 +34,7 @@ REFERENCES [dbo].[tblSchool] ([school_id])
 GO
 
 ALTER TABLE [dbo].[tblClassroom]  CHECK CONSTRAINT [FK_tblClassroom_tblSchool]
-GO
+GO 
 
 
 

@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[tblImage](
 	[im_filename] [nvarchar](255) NULL,
 	[im_comments] [nvarchar](max) NULL,
 	[im_datecollected] [datetime] NOT NULL,	
-	[im_dateentered][datetime] NOT NULL,
+	[im_databaseentered][datetime] NOT NULL,
 
  CONSTRAINT [PK_tblImage] PRIMARY KEY CLUSTERED 
 (
@@ -33,7 +33,7 @@ GO
 ALTER TABLE [dbo].[tblImage] ADD  CONSTRAINT [DF_tblImage_im_datecollected]  DEFAULT (getdate()) FOR [im_datecollected]
 GO
 
-ALTER TABLE [dbo].[tblImage] ADD  CONSTRAINT [DF_tblImage_im_dateentered]  DEFAULT (getdate()) FOR [im_dateentered]
+ALTER TABLE [dbo].[tblImage] ADD  CONSTRAINT [DF_tblImage_im_databaseentered]  DEFAULT (getdate()) FOR [im_databaseentered]
 GO
 
 
@@ -43,5 +43,3 @@ GO
 
 ALTER TABLE [dbo].[tblImage] CHECK CONSTRAINT [FK_tblImage_tblWellInfo]
 GO
-
-

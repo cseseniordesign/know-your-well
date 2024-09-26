@@ -8,8 +8,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[tblCountyLookup]
-
 CREATE TABLE [dbo].[tblCountyLookup](
 	[county_id] [int] NOT NULL,
 	[county_name] [nvarchar](255) NOT NULL,

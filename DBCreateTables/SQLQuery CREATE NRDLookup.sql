@@ -8,8 +8,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-DROP TABLE IF EXISTS [dbo].[tblNRDLookup]
-
 CREATE TABLE [dbo].[tblNRDLookup](
 	[nrd_id] [int] NOT NULL,
 	[nrd_name] [nvarchar](255) NOT NULL,

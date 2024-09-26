@@ -43,7 +43,7 @@ REFERENCES [dbo].[tblFieldActivity] ([fieldactivity_id])
 GO
 
 ALTER TABLE [dbo].[tblClassroomLab] CHECK CONSTRAINT [FK_tblClassroomLab_tblFieldActivity]
-GO
+GO 
 
 
 

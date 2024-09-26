@@ -41,5 +41,5 @@ REFERENCES [dbo].[tblWellInfo] ([well_id])
 GO
 
 ALTER TABLE [dbo].[tblFieldActivity] CHECK CONSTRAINT [FK_tblFieldActivity_tblWellInfo]
-GO
+GO 
 
