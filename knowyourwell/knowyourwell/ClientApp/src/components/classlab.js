@@ -78,7 +78,7 @@ export default function ClassLab() {
       iron: classLab.iron,
       manganese: classLab.manganese,
       nitrate: classLab.nitrate,
-      observations: classLab.observations,
+      observations: classLab.observation,
       datacollector: classLab.name,
       dateentered: classLab.dateentered,
     }).then(() => {
@@ -94,7 +94,7 @@ export default function ClassLab() {
     "copper",
     "iron",
     "manganese",
-    "nitrate",
+    "nitrate"
   ];
   // caching - local storage
   function cacheLabForm() {
