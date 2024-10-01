@@ -16,7 +16,7 @@ export default function WellInfo() {
 
   if (
     window.location.href.indexOf("kywtest") > -1 ||
-    process.env.NODE_ENV != "production"
+    process.env.NODE_ENV !== "production"
   ) {
     initialWellInfo = devWellInfo;
   } else {
@@ -45,9 +45,9 @@ export default function WellInfo() {
     Axios.get("/newwellcode", {})
       .then(function (response) {
         if (
-          response.data.kywmem == "" &&
-          response.data.displayn == "" &&
-          process.env.NODE_ENV == "development"
+          response.data.kywmem === "" &&
+          response.data.displayn === "" &&
+          process.env.NODE_ENV === "development"
         ) {
           // setSchoolid("1");
           generatedWellcode = "abc123";
@@ -179,7 +179,7 @@ export default function WellInfo() {
       form.reportValidity();
       return (
         window.location.href.indexOf("kywtest") > -1 ||
-        process.env.NODE_ENV != "production"
+        process.env.NODE_ENV !== "production"
       );
     }
   };
