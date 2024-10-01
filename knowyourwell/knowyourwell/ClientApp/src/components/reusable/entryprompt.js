@@ -1,9 +1,37 @@
-const EntryPrompt = ({ id, fieldTitle, required }) => {
+import React from "react";
+import Modal from 'react-modal'
+
+const EntryPrompt = ({ id, fieldTitle, required, tooltip }) => {
+  const [modalIsOpen, setIsOpen] = React.useState(false)
   const insertLineBreaks = (fieldTitle) => {
     if (fieldTitle.length <= 60) {
       return (
         <div>
           {fieldTitle}
+          {tooltip && (
+          <>
+            {" "}
+            {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              className="tooltipButton"
+              data-testid="tooltipButton"
+              onClick={() => setIsOpen(true)}
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0);"
+            >
+              ⓘ
+            </a>
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={() => setIsOpen(false)}
+            >
+              <h2>Info</h2>
+              <button onClick={() => setIsOpen(false)}>x</button>
+              <p>Info Body</p>
+            </Modal>
+          </>
+          )}
           {required && (
             <span
               className="requiredField"

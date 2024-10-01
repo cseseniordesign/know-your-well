@@ -7,6 +7,7 @@ const ShortTextEntry = ({
   setValue,
   maxLength,
   required,
+  tooltip,
   errorMessage,
   pattern,
   title,
@@ -14,7 +15,7 @@ const ShortTextEntry = ({
 }) => {
   return (
     <div className="css">
-      <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} />
+      <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} tooltip={tooltip} />
       <input
         type="text"
         value={value}

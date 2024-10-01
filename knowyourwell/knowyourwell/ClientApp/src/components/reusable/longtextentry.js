@@ -7,10 +7,11 @@ const LongTextEntry = ({
   setValue,
   maxLength,
   required,
+  tooltip,
 }) => {
   return (
     <div className="css">
-      <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} />
+      <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} tooltip={tooltip} />
       <textarea
         type="text"
         value={value}

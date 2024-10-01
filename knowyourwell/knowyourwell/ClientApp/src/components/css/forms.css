@@ -33,6 +33,12 @@ textarea {
     color: #AD5248;
 }
 
+.tooltipButton,
+.tooltipButton:hover {
+    color: #0000EE;
+    text-decoration: none;
+}
+
 #dateentered {
     display: flex;
     justify-content: center;
