@@ -50,7 +50,7 @@ export default function Well() {
     })
       .then(function (response) {
         let displayname = response.data.displayn;
-        if (displayname == "") {
+        if (displayname === "") {
           window.alert("You are not yet logged in. Please log in.");
           navigate("/");
         }

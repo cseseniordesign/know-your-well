@@ -35,6 +35,7 @@ export default function WellInfo() {
       responseType: "json",
     })
       .then(function (response) {
+        console.log(response.data);
         setSchoolid(response.data.kywmem);
       })
       .catch(function (error) {
@@ -202,7 +203,6 @@ export default function WellInfo() {
       )
     ) {
       addWellInfo();
-      //clearing cached data after making the post request
       clearLocalStorage();
       window.location.href = `/well`;
     }
@@ -211,9 +211,7 @@ export default function WellInfo() {
     if (totaldepth === "" && wellwaterleveldepth >= 0) {
       return true;
     } else {
-      if (Number(totaldepth) >= Number(wellwaterleveldepth)) {
-        return true;
-      } else return false;
+      return Number(totaldepth) >= Number(wellwaterleveldepth);
     }
   }
 

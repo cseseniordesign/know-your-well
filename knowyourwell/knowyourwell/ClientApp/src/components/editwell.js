@@ -22,7 +22,7 @@ export default function EditWell() {
       .then(function (response) {
         // console.log(response.data);
         let displayname = response.data.displayn;
-        if (displayname == "") {
+        if (displayname === "") {
           window.alert("You are not yet logged in. Please log in.");
           navigate("/");
         }
