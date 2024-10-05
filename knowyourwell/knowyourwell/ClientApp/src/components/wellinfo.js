@@ -118,8 +118,6 @@ export default function WellInfo() {
     //Checking to see if user is offline - if so then we cache the data that would have been submitted
     if (navigator.onLine) {
       const wellcode = await generateWellcode();
-      //delete this after testing! will also have to test any caching interactions
-      console.log(wellcode);
 
       Axios.post("/createwellinfo", {
         address: wellInfo.address,
@@ -206,8 +204,7 @@ export default function WellInfo() {
       //clearing cached data after making the post request
       clearLocalStorage();
 
-      // TODO: put this back after testing
-      //window.location.href = `/well`;
+      window.location.href = `/well`;
     }
   }
   function checkDepthValidation(totaldepth, wellwaterleveldepth) {
