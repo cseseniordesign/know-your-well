@@ -35,8 +35,7 @@ const EntryPrompt = ({ id, fieldTitle, required, tooltip }) => {
                   <h2>Lorem ipsum dolor</h2>
                   <button onClick={() => setIsOpen(false)}>&#x2715;</button>
                 </div>
-                <img alt="random cat placeholder" src="https://cataas.com/cat?type=medium" />
-                <img alt="random cat placeholder" src="https://cataas.com/cat?type=small" />
+                <img alt="random cat placeholder" src="https://cataas.com/cat" />
                 <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec faucibus risus, ut congue metus. In ornare gravida tempor. Morbi orci velit, viverra vitae enim nec, laoreet faucibus nisl. Donec quis augue a ante pulvinar lacinia id sit amet mi. Proin scelerisque felis a massa mattis, vel elementum nulla egestas. Donec et velit gravida, auctor purus vel, bibendum tellus. Aenean semper, turpis posuere condimentum blandit, felis dui suscipit velit, ac ultrices orci augue sodales arcu. Etiam vehicula, nulla sed faucibus porta, libero quam ultrices nibh, sit amet iaculis augue risus sit amet ex. Morbi metus massa, tempus at finibus eget, bibendum et tortor. Suspendisse nec lorem malesuada, aliquam felis eget, fermentum neque. Sed id arcu vel nunc consequat pulvinar sed laoreet risus. Donec tristique mi non dapibus porttitor. Duis faucibus eu magna at lobortis. Aenean sed posuere mi. Donec convallis libero sed posuere scelerisque. Suspendisse quis arcu volutpat, ultrices odio eget, sodales felis.
                 <br/><br/>

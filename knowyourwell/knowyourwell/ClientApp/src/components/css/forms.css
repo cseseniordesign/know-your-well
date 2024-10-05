@@ -45,6 +45,8 @@ textarea {
 }
 
 .tooltipContent img {
+    max-width: 80%;
+    max-height: 90%;
     width: auto;
     height: auto;
     float: left;
@@ -65,7 +67,6 @@ textarea {
     .tooltipContent img {
         max-width: 100%;
         max-height: 60%;
-
     }
 }
 
