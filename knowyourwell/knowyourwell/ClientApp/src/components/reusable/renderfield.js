@@ -17,7 +17,6 @@ const renderField = (prompt, data, handleChange, isValid = true) => {
             id={prompt.id}
             setValue={(event) => handleChange(prompt.value, event)}
             required={prompt.required}
-            tooltip={prompt.tooltip}
           />
         );
       } else {
@@ -31,7 +30,6 @@ const renderField = (prompt, data, handleChange, isValid = true) => {
           id={prompt.id}
           setValue={(event) => handleChange(prompt.value, event)}
           required={prompt.required}
-          tooltip={prompt.tooltip}
           errorMessage={prompt.errorMessage}
           pattern={prompt.pattern}
           title={prompt.title}
@@ -49,7 +47,6 @@ const renderField = (prompt, data, handleChange, isValid = true) => {
           label={prompt.label}
           setValue={(event) => handleChange(prompt.value, event)}
           required={prompt.required}
-          tooltip={prompt.tooltip}
           allowDecimal={prompt.allowDecimal}
         />
       );
@@ -61,7 +58,6 @@ const renderField = (prompt, data, handleChange, isValid = true) => {
           id={prompt.id}
           options={prompt.options}
           required={prompt.required}
-          tooltip={prompt.tooltip}
           setValue={(event) => handleChange(prompt.value, event)}
         />
       );

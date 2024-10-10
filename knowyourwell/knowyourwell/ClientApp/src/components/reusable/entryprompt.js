@@ -1,16 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal'
-import { getFromDB } from "../../App";
+import { idbName, getFromDB, getFilteredRecordsFromDB } from '../../setupIndexedDB';
 
-const EntryPrompt = ({ id, fieldTitle, required, tooltip }) => {
+const EntryPrompt = ({ id, fieldTitle, required }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [tooltipText, setTooltipText] = useState();
+  const [tooltipImages, setTooltipImages] = useState();
+  
+  useEffect(() => {
+    getFromDB(idbName, 'tblTooltips', id).then((tooltip) => {
+      setTooltipText(tooltip.text);
+    }).catch((() => {
+      setTooltipText();
+    }));
+  });
 
   useEffect(() => {
-    getFromDB('localDB', 'tooltips', id).then((tooltip) => {
-      setTooltipText(tooltip.text);
-    }).catch((error => {
-      setTooltipText(`No tooltip data found for id: ${id}`);
+    getFilteredRecordsFromDB(idbName, 'tblTooltipImages', (record) => {return record.promptId === id}).then((tooltipImages) => {
+      const images = [];
+      for (const [i, tooltipImage] of tooltipImages.entries()) {
+        images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(tooltipImage.blob)} />);
+      }
+      setTooltipImages(images);
+    }).catch((() => {
+      setTooltipImages();
     }));
   });
 
@@ -19,34 +32,35 @@ const EntryPrompt = ({ id, fieldTitle, required, tooltip }) => {
       return (
         <div>
           {fieldTitle}
-          {tooltip && (
+          {tooltipText !== undefined && (
           <>
             {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a
-              className="tooltipButton"
-              data-testid="tooltipButton"
+              className='tooltipButton'
+              data-testid={`tooltipButton-${id}`}
               onClick={() => setIsOpen(true)}
-              tabIndex="0"
+              tabIndex='0'
             >
-              {" "}
+              {' '}
               ⓘ
             </a>
             <Modal
-              appElement={document.getElementById("root") || undefined}
+              appElement={document.getElementById('root') || undefined}
               isOpen={modalIsOpen}
               onRequestClose={() => setIsOpen(false)}
             >
               <div
-                className="tooltipContent"
+                className='tooltipContent'
               >
                 <div
-                  className="titleBar"
+                  className='titleBar'
                 >
-                  <h2>{fieldTitle.substring(0, fieldTitle.length - 1)}</h2>
+                  {/* The regex pattern removes a ':' at the end of the title if one exists */}
+                  <h2>{fieldTitle.replace(/:$/, '')}</h2>
                   <button onClick={() => setIsOpen(false)}>&#x2715;</button>
                 </div>
-                <img alt="random cat placeholder" src="https://cataas.com/cat" />
+                {tooltipImages}
                 <p>{tooltipText}</p>
               </div>
             </Modal>
@@ -54,10 +68,11 @@ const EntryPrompt = ({ id, fieldTitle, required, tooltip }) => {
           )}
           {required && (
             <span
-              className="requiredField"
-              data-testid="requiredFieldIndicator"
+              className='requiredField'
+              // TODO: Make the data-testid unique for each EntryPrompt, based on `id`.
+              data-testid='requiredFieldIndicator'
             >
-              {" "}
+              {' '}
               *
             </span>
           )}
@@ -65,7 +80,7 @@ const EntryPrompt = ({ id, fieldTitle, required, tooltip }) => {
       );
     }
     const wordsOrParts = fieldTitle.split(/(?<=\s)/);
-    let currentLine = "";
+    let currentLine = '';
     const lines = [];
     for (let wordOrPart of wordsOrParts) {
       if (currentLine.length + wordOrPart.length <= 40) {
@@ -83,8 +98,8 @@ const EntryPrompt = ({ id, fieldTitle, required, tooltip }) => {
       <div key={index}>
         {line}
         {index === lines.length - 1 && required && (
-          <span className="requiredField" data-testid="requiredFieldIndicator">
-            {" "}
+          <span className='requiredField' data-testid='requiredFieldIndicator'>
+            {' '}
             *
           </span>
         )}

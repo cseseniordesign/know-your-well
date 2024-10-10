@@ -7,11 +7,10 @@ const DropDownEntry = ({
   options,
   value,
   required,
-  tooltip,
 }) => {
   return (
     <div className="css">
-      <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} tooltip={tooltip} />
+      <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} />
       <div id="App">
         <div className="select-container">
           <select

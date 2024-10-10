@@ -9,7 +9,6 @@ const wellInfoPrompts = [
     value: "wellname",
     id: "wellname",
     required: true,
-    tooltip: true,
   },
   {
     type: "shorttextentry",
@@ -17,7 +16,6 @@ const wellInfoPrompts = [
     value: "registNum",
     id: "registNum",
     required: false,
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -26,7 +24,6 @@ const wellInfoPrompts = [
     id: "dnrId",
     allowDecimal: false,
     required: false,
-    tooltip: true,
   },
   {
     type: "shorttextentry",
@@ -34,7 +31,6 @@ const wellInfoPrompts = [
     value: "welluser",
     id: "welluser",
     required: false,
-    tooltip: false,
   },
   {
     type: "shorttextentry",
@@ -42,7 +38,6 @@ const wellInfoPrompts = [
     value: "address",
     id: "address",
     required: false,
-    tooltip: false,
   },
   {
     type: "shorttextentry",
@@ -50,7 +45,6 @@ const wellInfoPrompts = [
     value: "city",
     id: "city",
     required: false,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -59,7 +53,6 @@ const wellInfoPrompts = [
     options: stateOptions,
     value: "state",
     required: false,
-    tooltip: true,
   },
   {
     type: "shorttextentry",
@@ -67,7 +60,6 @@ const wellInfoPrompts = [
     value: "zipcode",
     id: "zipcode",
     required: false,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -76,7 +68,6 @@ const wellInfoPrompts = [
     options: countyOptions,
     value: "county",
     required: true,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -85,7 +76,6 @@ const wellInfoPrompts = [
     options: nrdOptions,
     value: "nrd",
     required: true,
-    tooltip: false,
   },
   {
     type: "shorttextentry",
@@ -93,7 +83,6 @@ const wellInfoPrompts = [
     value: "wellowner",
     id: "wellowner",
     required: false,
-    tooltip: false,
   },
   {
     type: "shorttextentry",
@@ -103,7 +92,6 @@ const wellInfoPrompts = [
     errorMessage: "Please use XXX-XXX-XXXX",
     pattern: "^[0-9]{3}-[0-9]{3}-[0-9]{4}$",
     title: "Please enter a valid US phone number in the format XXX-XXX-XXXX.",
-    tooltip: false,
   },
   {
     type: "shorttextentry",
@@ -114,7 +102,6 @@ const wellInfoPrompts = [
     pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",
     title:
       "Please enter a valid email address in the format example@example.com",
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -125,7 +112,6 @@ const wellInfoPrompts = [
     max: "2100",
     allowDecimal: false,
     required: true,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -134,7 +120,6 @@ const wellInfoPrompts = [
     options: ["Yes", "No", "Unknown"],
     value: "smelltaste",
     required: true,
-    tooltip: false,
   },
   {
     dependsOn: "smelltaste",
@@ -143,7 +128,6 @@ const wellInfoPrompts = [
     fieldTitle: "Description of smell or taste of water:",
     value: "smelltastedescription",
     id: "smelltastedescription",
-    tooltip: true,
   },
   {
     type: "dropdownentry",
@@ -152,7 +136,6 @@ const wellInfoPrompts = [
     options: ["Yes", "No", "Unknown"],
     value: "welldry",
     required: true,
-    tooltip: false,
   },
   {
     dependsOn: "welldry",
@@ -161,7 +144,6 @@ const wellInfoPrompts = [
     fieldTitle: "How often/when does it go dry?",
     value: "welldrydescription",
     id: "welldrydescription",
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -171,7 +153,6 @@ const wellInfoPrompts = [
     options: ["Yes", "No", "Unknown"],
     value: "maintenance5yr",
     required: true,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -181,7 +162,6 @@ const wellInfoPrompts = [
     options: ["Yes", "No", "Unknown"],
     value: "landuse5yr",
     required: true,
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -190,7 +170,6 @@ const wellInfoPrompts = [
     value: "numberwelluser",
     allowDecimal: false,
     required: false,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -200,7 +179,6 @@ const wellInfoPrompts = [
     options: ["Yes", "No", "Unknown"],
     value: "pestmanure",
     required: true,
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -210,7 +188,6 @@ const wellInfoPrompts = [
     min: "40",
     max: "43",
     required: true,
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -220,7 +197,6 @@ const wellInfoPrompts = [
     min: "-104",
     max: "-95.417",
     required: true,
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -228,7 +204,6 @@ const wellInfoPrompts = [
     id: "boreholediameter",
     value: "boreholediameter",
     required: false,
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -236,7 +211,6 @@ const wellInfoPrompts = [
     id: "totaldepth",
     value: "totaldepth",
     required: false,
-    tooltip: false,
   },
   {
     type: "numberentry",
@@ -244,7 +218,6 @@ const wellInfoPrompts = [
     id: "wellwaterleveldepth",
     value: "wellwaterleveldepth",
     required: false,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -253,7 +226,6 @@ const wellInfoPrompts = [
     options: ["Confined", "Unconfined", "Unknown"],
     value: "aquifertype",
     required: true,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -262,7 +234,6 @@ const wellInfoPrompts = [
     options: ["Bedrock", "Sand or Gravel", "Unknown"],
     value: "aquiferclass",
     required: true,
-    tooltip: false,
   },
   {
     type: "dropdownentry",
@@ -271,7 +242,6 @@ const wellInfoPrompts = [
     options: ["Drilled", "Driven", "Dug", "Unknown"],
     value: "welltype",
     required: true,
-    tooltip: false,
   },
   {
     type: "shorttextentry",
@@ -279,7 +249,6 @@ const wellInfoPrompts = [
     id: "wellcasematerial",
     value: "wellcasematerial",
     required: false,
-    tooltip: false,
   },
   {
     type: "shorttextentry",
@@ -287,7 +256,6 @@ const wellInfoPrompts = [
     id: "datacollector",
     value: "datacollector",
     required: true,
-    tooltip: false,
   },
   {
     type: "longtextentry",
@@ -295,7 +263,6 @@ const wellInfoPrompts = [
     id: "observation",
     value: "observation",
     required: true,
-    tooltip: false,
   },
 ];
 

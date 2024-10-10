@@ -19,37 +19,13 @@ import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
 import { useState, useEffect } from "react";
-import { openDB } from 'idb';
-
-function createLocalDB() {
-  openDB('localDB', 1, {
-    upgrade(db) {
-      db.createObjectStore('tooltips');
-    }
-  });
-}
-
-export async function putInDB(database, objectStore, key, value) {
-  // Using put() rather than add() means that existing values will be overwritten
-
-  const db = await openDB(database);
-  db.put(objectStore, value, key);
-  db.close();
-}
-
-export async function getFromDB(database, objectStore, key) {
-  const db = await openDB(database);
-  const value = db.get(objectStore, key);
-  db.close();
-  return value;
-}
+import setupIndexedDB, { putFallbackValues } from "./setupIndexedDB";
 
 export default function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-  createLocalDB();
-  // TODO: Remove next line and instead set default values from a file, to be overridden by what is on remote DB
-  putInDB('localDB', 'tooltips', 'wellname', {text: 'Unique text for Well Name.'});
+  setupIndexedDB();
+  putFallbackValues();
 
   const [fieldQueue, setFieldQueue] = useState(() => {
     const storedQueue = localStorage.getItem("fieldQueue");

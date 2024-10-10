@@ -10,7 +10,6 @@ const NumberEntry = ({
   label,
   setValue,
   required,
-  tooltip,
   allowDecimal = true,
 }) => {
   const returnLabel = (min, max, label) => {
@@ -62,7 +61,7 @@ const NumberEntry = ({
   return (
     <div className="css">
       <label htmlFor={id}>
-        <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} tooltip={tooltip} />
+        <EntryPrompt id={id} fieldTitle={fieldTitle} required={required} />
         {returnLabel(min, max, label)}
       </label>
       <input
