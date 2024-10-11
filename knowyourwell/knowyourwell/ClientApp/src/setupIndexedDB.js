@@ -19,13 +19,13 @@ export async function putFallbackValues() {
   db.clear('tblTooltipImages');
   db.close();
 
-  // The URL https://justcors.com/tl_b73999a/ is a proxy that adds CORS headers to the request, allowing it to resolve. This URL needs to be changed every day for the images to be resolved - the new one can be found at https://justcors.com/. We don't need to look for a more permenant solution because the images will be pulled from the kyw database instead in the near future.
-  fetch(`https://justcors.com/tl_b73999a/${aquifertypeImageUrl}`)
+  // The URL https://justcors.com/tl_6b03a63/ is a proxy that adds CORS headers to the request, allowing it to resolve. This URL needs to be changed every day for the images to be resolved - the new one can be found at https://justcors.com/. We don't need to look for a more permenant solution because the images will be pulled from the kyw database instead in the near future.
+  fetch(`https://justcors.com/tl_6b03a63/${aquifertypeImageUrl}`)
   .then(response => response.blob())
   .then(blob => {
     putInDB(idbName, 'tblTooltipImages', { promptId: 'aquifertype', blob: blob });
   });
-  fetch(`https://justcors.com/tl_b73999a/${wellcoverImageUrl}`)
+  fetch(`https://justcors.com/tl_6b03a63/${wellcoverImageUrl}`)
   .then(response => response.blob())
   .then(blob => {
     putInDB(idbName, 'tblTooltipImages', { promptId: 'wellcover', blob: blob });
