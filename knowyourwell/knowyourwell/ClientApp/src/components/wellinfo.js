@@ -35,7 +35,6 @@ export default function WellInfo() {
       responseType: "json",
     })
       .then(function (response) {
-        console.log(response.data);
         setSchoolid(response.data.kywmem);
       })
       .catch(function (error) {
@@ -63,9 +62,9 @@ export default function WellInfo() {
       });
   }, []);
 
-  const date = new Date();
-  const futureDate = date.getDate();
-  date.setDate(futureDate);
+  // const date = new Date();
+  // const futureDate = date.getDate();
+  // date.setDate(futureDate);
 
   function updateWellInfo(fieldName, value) {
     setWellInfo((prevData) => ({
@@ -97,7 +96,16 @@ export default function WellInfo() {
     if (savedWellInfo) {
       const confirmContinue = window.confirm("Continue with saved data?");
       if (confirmContinue) {
-        setWellInfo(JSON.parse(savedWellInfo));
+        const parsedWellInfo = JSON.parse(savedWellInfo);
+        setWellInfo(parsedWellInfo);
+        // have to switch windows to make fields editable
+        // solution: create a new blank window, switch to it, switch back to the original window
+        const newWindow = window.open("", "_blank");
+        setTimeout(() => {
+          newWindow.close();
+          window.focus();
+        }, 1);
+
       } else {
         localStorage.removeItem("wellInfo");
       }
