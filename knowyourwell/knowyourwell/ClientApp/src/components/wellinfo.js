@@ -41,24 +41,6 @@ export default function WellInfo() {
       });
   }, []);
 
-  async function generateWellcode() {
-    try {
-      const response = await Axios.get("/newwellcode", {});
-      if (
-        response.data.kywmem === "" &&
-        response.data.displayn === "" &&
-        process.env.NODE_ENV === "development"
-      ) {
-        return "abc123";
-      } else {
-        return response.data.wellcode;
-      }
-    }
-    catch (error) {
-      console.error("Failed to generate well code:", error);
-    };
-  }
-
   const date = new Date();
   const futureDate = date.getDate();
   date.setDate(futureDate);
@@ -294,4 +276,23 @@ export default function WellInfo() {
       </button>
     </form>
   );
+}
+
+
+export async function generateWellcode() {
+  try {
+    const response = await Axios.get("/newwellcode", {});
+    if (
+      response.data.kywmem === "" &&
+      response.data.displayn === "" &&
+      process.env.NODE_ENV === "development"
+    ) {
+      return "abc123";
+    } else {
+      return response.data.wellcode;
+    }
+  }
+  catch (error) {
+    console.error("Failed to generate well code:", error);
+  };
 }
