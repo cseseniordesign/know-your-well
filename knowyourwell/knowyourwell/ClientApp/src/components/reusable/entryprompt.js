@@ -97,6 +97,40 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
     return lines.map((line, index) => (
       <div key={index}>
         {line}
+        {index === lines.length - 1 && tooltipText !== undefined && (
+          <>
+            {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              className='tooltipButton'
+              data-testid={`tooltipButton-${id}`}
+              onClick={() => setIsOpen(true)}
+              tabIndex='0'
+            >
+              {' '}
+              ⓘ
+            </a>
+            <Modal
+              appElement={document.getElementById('root') || undefined}
+              isOpen={modalIsOpen}
+              onRequestClose={() => setIsOpen(false)}
+            >
+              <div
+                className='tooltipContent'
+              >
+                <div
+                  className='titleBar'
+                >
+                  {/* The regex pattern removes a ':' at the end of the title if one exists */}
+                  <h2>{fieldTitle.replace(/:$/, '')}</h2>
+                  <button onClick={() => setIsOpen(false)}>&#x2715;</button>
+                </div>
+                {tooltipImages}
+                <p>{tooltipText}</p>
+              </div>
+            </Modal>
+          </>
+          )}
         {index === lines.length - 1 && required && (
           <span className='requiredField' data-testid='requiredFieldIndicator'>
             {' '}
