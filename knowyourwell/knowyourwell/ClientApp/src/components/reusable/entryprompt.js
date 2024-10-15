@@ -108,7 +108,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
   };
 
   return (
-    <label htmlFor={id} style={{ marginBottom: 0 }}>
+    <label htmlFor={id} onClick={(e) => {if (e.target.nodeName === 'A') e.preventDefault();}} style={{ marginBottom: 0 }}>
       {insertLineBreaks(fieldTitle)}
     </label>
   );
