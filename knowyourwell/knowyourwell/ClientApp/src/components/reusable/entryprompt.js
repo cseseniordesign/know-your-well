@@ -8,18 +8,18 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
   const [tooltipImages, setTooltipImages] = useState();
   
   useEffect(() => {
-    getFromDB(idbName, 'tblTooltips', id).then((tooltip) => {
-      setTooltipText(tooltip.text);
+    getFromDB(idbName, 'tblTooltip', id).then((tooltip) => {
+      if (tooltip.active) setTooltipText(tooltip.text);
     }).catch((() => {
       setTooltipText();
     }));
   });
 
   useEffect(() => {
-    getFilteredRecordsFromDB(idbName, 'tblTooltipImages', (record) => {return record.promptId === id}).then((tooltipImages) => {
+    getFilteredRecordsFromDB(idbName, 'tblTooltipImage', (record) => {return record.promptId === id}).then((tooltipImages) => {
       const images = [];
       for (const [i, tooltipImage] of tooltipImages.entries()) {
-        images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(tooltipImage.blob)} />);
+        if (tooltipImage.active) images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(tooltipImage.blob)} />);
       }
       setTooltipImages(images);
     }).catch((() => {
@@ -32,7 +32,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
       return (
         <div>
           {fieldTitle}
-          {tooltipText !== undefined && (
+          {(tooltipText !== undefined || (tooltipImages !== undefined && tooltipImages.length !== 0)) && (
           <>
             {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

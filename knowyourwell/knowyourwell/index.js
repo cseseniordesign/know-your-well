@@ -923,6 +923,27 @@ app.get("/newwellcode", async (req, res) => {
   });
 });
 
+app.get("/tooltips", async (req, res) => {
+  let tooltipJson = {};
+  await appPool.query("SELECT * FROM dbo.tblTooltip", (err, recordset) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("SERVER ERROR");
+      return;
+    }
+    tooltipJson = {...tooltipJson, tooltip: recordset.recordset};
+  });
+  appPool.query("SELECT * FROM dbo.tblTooltipImage", (err, recordset) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("SERVER ERROR");
+      return;
+    }
+    tooltipJson = {...tooltipJson, tooltipImage: recordset.recordset};
+    res.status(200).json(tooltipJson);
+  });
+});
+
 // receive the idp response
 app.post("/saml/acs", async (req, res) => {
   await req.sp.parseLoginResponse(req.idp, "post", req).then((parseResult) => {
