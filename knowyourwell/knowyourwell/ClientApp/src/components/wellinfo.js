@@ -62,10 +62,6 @@ export default function WellInfo() {
       });
   }, []);
 
-  // const date = new Date();
-  // const futureDate = date.getDate();
-  // date.setDate(futureDate);
-
   function updateWellInfo(fieldName, value) {
     setWellInfo((prevData) => ({
       ...prevData,
@@ -101,6 +97,7 @@ export default function WellInfo() {
         // have to switch windows to make fields editable
         // solution: create a new blank window, switch to it, switch back to the original window
         const newWindow = window.open("", "_blank");
+        // wait the bare minimum 1 ms then close window and return to the form
         setTimeout(() => {
           newWindow.close();
           window.focus();

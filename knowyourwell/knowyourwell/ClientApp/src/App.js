@@ -51,7 +51,44 @@ export default function App() {
     setIsOnline(true);
     setWellInfoQueue(localStorage.getItem("wellInfoQueue"));
     wellInfoQueue?.forEach((wellInfo) => {
-      console.log(wellInfo);
+      Axios.post("/createwellinfo", {
+        address: wellInfo.address,
+        aquiferclass: wellInfo.aquiferclass,
+        aquifertype: wellInfo.aquifertype,
+        boreholediameter: Number(wellInfo.boreholediameter),
+        city: wellInfo.city,
+        countyid: wellInfo.county,
+        datacollector: wellInfo.datacollector,
+        dateentered: wellInfo.dateentered,
+        dnrId: wellInfo.dnrId,
+        email: wellInfo.email,
+        estlatitude: wellInfo.estlatitude,
+        estlongitude: wellInfo.estlongitude,
+        installyear: parseInt(wellInfo.installyear),
+        landuse5yr: wellInfo.landuse5yr,
+        maintenance5yr: wellInfo.maintenance5yr,
+        nrdid: wellInfo.nrd,
+        numberwelluser: wellInfo.numberwelluser,
+        observation: wellInfo.observation,
+        pestmanure: wellInfo.pestmanure,
+        phone: wellInfo.phone,
+        registNum: wellInfo.registNum,
+        school_id: wellInfo.schoolid,
+        smelltaste: wellInfo.smelltaste,
+        smelltastedescription: wellInfo.smelltastedescription,
+        state: wellInfo.state,
+        totaldepth: Number(wellInfo.totaldepth),
+        wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
+        wellcasematerial: wellInfo.wellcasematerial,
+        wellcode: wellInfo.wellcode,
+        welldry: wellInfo.welldry,
+        welldrydescription: wellInfo.welldrydescription,
+        wellname: wellInfo.wellname,
+        wellowner: wellInfo.wellowner,
+        welltype: wellInfo.welltype,
+        welluser: wellInfo.welluser,
+        zipcode: wellInfo.zipcode,
+      });
     });
     setFieldQueue(localStorage.getItem("fieldQueue"));
     fieldQueue?.forEach((field) => {
