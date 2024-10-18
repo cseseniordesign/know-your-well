@@ -10,7 +10,7 @@ GO
 
 CREATE TABLE [dbo].[tblTooltipImage](
 	[image_id] [int] IDENTITY(1,1) NOT NULL,
-	[prompt_id] [int] NOT NULL,
+	[prompt_id] [nvarchar](255) NOT NULL,
 	[im_filename] [nvarchar](255) NULL,
 	[comments] [nvarchar](max) NULL,
 	[active] [bit] NOT NULL,

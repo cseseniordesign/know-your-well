@@ -7,6 +7,57 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
   const [tooltipText, setTooltipText] = useState();
   const [tooltipImages, setTooltipImages] = useState();
   
+  const getTooltipRequired = () => {
+    return (
+      <>
+        {(tooltipText || (tooltipImages?.length !== 0)) && (
+        <>
+          {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a
+            className='tooltipButton'
+            data-testid={`tooltipButton-${id}`}
+            onClick={() => setIsOpen(true)}
+            tabIndex='0'
+          >
+            {' '}
+            ⓘ
+          </a>
+          <Modal
+            appElement={document.getElementById('root') || undefined}
+            isOpen={modalIsOpen}
+            onRequestClose={() => setIsOpen(false)}
+          >
+            <div
+              className='tooltipContent'
+            >
+              <div
+                className='titleBar'
+              >
+                {/* The regex pattern removes a ':' at the end of the title if one exists */}
+                <h2>{fieldTitle.replace(/:$/, '')}</h2>
+                <button onClick={() => setIsOpen(false)}>&#x2715;</button>
+              </div>
+              {tooltipImages}
+              <p>{tooltipText}</p>
+            </div>
+          </Modal>
+        </>
+        )}
+        {required && (
+          <span
+            className='requiredField'
+            // TODO: Make the data-testid unique for each EntryPrompt, based on `id`.
+            data-testid='requiredFieldIndicator'
+          >
+            {' '}
+            *
+          </span>
+        )}
+      </>
+    );
+  }
+
   useEffect(() => {
     getFromDB(idbName, 'tblTooltip', id).then((tooltip) => {
       if (tooltip.active) setTooltipText(tooltip.text);
@@ -16,15 +67,26 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
   });
 
   useEffect(() => {
-    getFilteredRecordsFromDB(idbName, 'tblTooltipImage', (record) => {return record.promptId === id}).then((tooltipImages) => {
-      const images = [];
-      for (const [i, tooltipImage] of tooltipImages.entries()) {
-        if (tooltipImage.active) images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(tooltipImage.blob)} />);
+    const fetchImages = async () => {
+      try {
+        const tooltipImages = await getFilteredRecordsFromDB(idbName, 'tblTooltipImage', (record) => {return record.prompt_id === id});
+        const images = []
+        // console.log(tooltipImages);
+        for (const [i, tooltipImage] of tooltipImages.entries()) {
+          if (tooltipImage.active) {
+            const image = await getFromDB(idbName, 'tooltip-images', tooltipImage.im_filename)
+            images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(image.blob)} />);
+          }
+          // console.log(images);
+        }
+        // console.log(images);
+        setTooltipImages(images);
+      } catch (error) {
+        setTooltipImages();
       }
-      setTooltipImages(images);
-    }).catch((() => {
-      setTooltipImages();
-    }));
+    }
+
+    fetchImages();
   });
 
   const insertLineBreaks = (fieldTitle) => {
@@ -32,50 +94,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
       return (
         <div>
           {fieldTitle}
-          {(tooltipText !== undefined || (tooltipImages !== undefined && tooltipImages.length !== 0)) && (
-          <>
-            {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              className='tooltipButton'
-              data-testid={`tooltipButton-${id}`}
-              onClick={() => setIsOpen(true)}
-              tabIndex='0'
-            >
-              {' '}
-              ⓘ
-            </a>
-            <Modal
-              appElement={document.getElementById('root') || undefined}
-              isOpen={modalIsOpen}
-              onRequestClose={() => setIsOpen(false)}
-            >
-              <div
-                className='tooltipContent'
-              >
-                <div
-                  className='titleBar'
-                >
-                  {/* The regex pattern removes a ':' at the end of the title if one exists */}
-                  <h2>{fieldTitle.replace(/:$/, '')}</h2>
-                  <button onClick={() => setIsOpen(false)}>&#x2715;</button>
-                </div>
-                {tooltipImages}
-                <p>{tooltipText}</p>
-              </div>
-            </Modal>
-          </>
-          )}
-          {required && (
-            <span
-              className='requiredField'
-              // TODO: Make the data-testid unique for each EntryPrompt, based on `id`.
-              data-testid='requiredFieldIndicator'
-            >
-              {' '}
-              *
-            </span>
-          )}
+          {getTooltipRequired()}
         </div>
       );
     }
@@ -97,46 +116,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
     return lines.map((line, index) => (
       <div key={index}>
         {line}
-        {index === lines.length - 1 && tooltipText !== undefined && (
-          <>
-            {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              className='tooltipButton'
-              data-testid={`tooltipButton-${id}`}
-              onClick={() => setIsOpen(true)}
-              tabIndex='0'
-            >
-              {' '}
-              ⓘ
-            </a>
-            <Modal
-              appElement={document.getElementById('root') || undefined}
-              isOpen={modalIsOpen}
-              onRequestClose={() => setIsOpen(false)}
-            >
-              <div
-                className='tooltipContent'
-              >
-                <div
-                  className='titleBar'
-                >
-                  {/* The regex pattern removes a ':' at the end of the title if one exists */}
-                  <h2>{fieldTitle.replace(/:$/, '')}</h2>
-                  <button onClick={() => setIsOpen(false)}>&#x2715;</button>
-                </div>
-                {tooltipImages}
-                <p>{tooltipText}</p>
-              </div>
-            </Modal>
-          </>
-          )}
-        {index === lines.length - 1 && required && (
-          <span className='requiredField' data-testid='requiredFieldIndicator'>
-            {' '}
-            *
-          </span>
-        )}
+        {index === lines.length - 1 && getTooltipRequired()}
       </div>
     ));
   };
