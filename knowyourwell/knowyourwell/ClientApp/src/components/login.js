@@ -2,10 +2,12 @@ import React from "react";
 import "./css/login_signup.css";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import setupIndexedDB from "../setupIndexedDB";
 
 export default function Login() {
   const navigate = useNavigate();
   const initRedirectRequest = () => {
+    setupIndexedDB();
     if (
       window.location.href.indexOf("kywtest") > -1 ||
       process.env.NODE_ENV != "production"

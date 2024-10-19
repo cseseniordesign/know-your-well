@@ -19,12 +19,9 @@ import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
 import { useState, useEffect } from "react";
-import setupIndexedDB from "./setupIndexedDB";
 
 export default function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-
-  setupIndexedDB();
 
   const [fieldQueue, setFieldQueue] = useState(() => {
     const storedQueue = localStorage.getItem("fieldQueue");
