@@ -5,12 +5,12 @@ import { idbName, getFromDB, getFilteredRecordsFromDB } from '../../setupIndexed
 const EntryPrompt = ({ id, fieldTitle, required }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [tooltipText, setTooltipText] = useState();
-  const [tooltipImages, setTooltipImages] = useState();
+  const [tooltipImages, setTooltipImages] = useState([]);
   
   const getTooltipRequired = () => {
     return (
       <>
-        {(tooltipText || (tooltipImages?.length !== 0)) && (
+        {(tooltipText || (tooltipImages.length !== 0)) && (
         <>
           {/* Since we're effectively using a link as a button, it doesn't need an href attribute.*/}
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -71,18 +71,15 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
       try {
         const tooltipImages = await getFilteredRecordsFromDB(idbName, 'tblTooltipImage', (record) => {return record.prompt_id === id});
         const images = []
-        // console.log(tooltipImages);
         for (const [i, tooltipImage] of tooltipImages.entries()) {
           if (tooltipImage.active) {
             const image = await getFromDB(idbName, 'tooltip-images', tooltipImage.im_filename)
             images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(image.blob)} />);
           }
-          // console.log(images);
         }
-        // console.log(images);
         setTooltipImages(images);
       } catch (error) {
-        setTooltipImages();
+        setTooltipImages([]);
       }
     }
 
