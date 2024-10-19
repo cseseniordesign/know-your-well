@@ -73,15 +73,6 @@ export default function WellInfo() {
       if (confirmContinue) {
         const parsedWellInfo = JSON.parse(savedWellInfo);
         setWellInfo(parsedWellInfo);
-        // have to switch windows to make fields editable
-        // solution: create a new blank window, switch to it, switch back to the original window
-        const newWindow = window.open("", "_blank");
-        // wait the bare minimum 1 ms then close window and return to the form
-        setTimeout(() => {
-          newWindow.close();
-          window.focus();
-        }, 1);
-
       } else {
         localStorage.removeItem("wellInfo");
       }
@@ -102,7 +93,7 @@ export default function WellInfo() {
       ...wellInfoQueue,
       { ...wellInfo, schoolid: schoolid },
     ];
-    
+
     //Checking to see if user is offline - if so then we cache the data that would have been submitted
     if (navigator.onLine) {
       const wellcode = await generateWellcode();
