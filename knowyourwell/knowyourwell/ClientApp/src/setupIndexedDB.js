@@ -9,8 +9,8 @@ export const idbName = 'localDB';
 export default async function setupIndexedDB() {
   navigator.storage.persist();
   await createLocalDB();
-  getRemoteTooltipImages();
-  getTooltipDataFromSqlDatabase();
+  await getRemoteTooltipImages();
+  await getTooltipDataFromSqlDatabase();
 }
 
 async function createLocalDB() {
