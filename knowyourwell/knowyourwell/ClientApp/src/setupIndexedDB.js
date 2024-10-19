@@ -77,7 +77,7 @@ export async function getFromDB(database, objectStore, key) {
 
 export async function getFilteredRecordsFromDB(database, objectStore, filter) {
   // `filter` is an arrow function, taking a single parameter, that either returns `true` or `false`.
-  // ex. getFilteredValuesFromDB(idbName, 'tblTooltipImage', (record) => {return record.promptId === 'aquifertype'});
+  // ex. getFilteredValuesFromDB(idbName, 'tblTooltipImage', (record) => {return record.prompt_id === 'aquifertype'});
   const db = await openDB(database);
   const transaction = db.transaction(objectStore, 'readonly');
   const store = transaction.objectStore(objectStore);

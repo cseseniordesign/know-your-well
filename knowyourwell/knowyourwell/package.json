@@ -41,10 +41,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
-    "@babel/preset-env": "^7.23.9",
-    "@babel/preset-react": "^7.23.3",
-    "@testing-library/jest-dom": "^6.3.0",
-    "@testing-library/react": "^14.1.2",
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-react": "^7.25.7",
+    "@testing-library/jest-dom": "^6.6.2",
+    "@testing-library/react": "^14.3.1",
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -54,6 +54,13 @@
     "testEnvironment": "jest-environment-jsdom",
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/@azure/storage-blob(?!(lib))"
+    ],
+    "moduleNameMapper": {
+      "^react($|/.+)": "<rootDir>/node_modules/react$1",
+      "^react-router-dom($|/.+)": "<rootDir>/node_modules/react-router-dom$1"
     }
   }
 }
