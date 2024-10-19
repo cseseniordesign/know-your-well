@@ -198,6 +198,62 @@ GO
 
    - You can now run database queries. Expand the `kyw` database to view its tables, views, stored procedures, and more.
 
----
+8. **Run The Queries in Azure Data Studio:**
+  #### Order to Load Tables and Views for the Database:
+   - **NRD**
+   - **County**
+   - **School**
+   - **Well Info**
+   - **Field Activity**
+   -  **Classroom Lab**
+   -  **Land Feature**
+   -  **Water Science Lab**
+   -  **Image**
+   -  **All Well Field Class**
+   -  **All Well Field Class WSL**
 
-**Note:** Replace `'YourPassword'` with the strong password you set earlier.
+**Note:** If you encounter a proxy error, run this query to insert data into the tblNRDLookup and tblSchool tables.
+#### SQL Query to Insert Data into `tblNRDLookup` and `tblSchool`:
+
+```sql
+USE [kyw];
+
+INSERT INTO tblNRDLookup (nrd_id, nrd_name, nrd_abbr)
+VALUES (2, 'Natural Resource District', 'NRD');
+
+SET IDENTITY_INSERT tblSchool ON;
+GO
+
+INSERT INTO tblSchool (school_id, sch_name, sch_code, sch_address, nrd_id, sch_latitude, sch_longitude, sch_activeflag, sch_datedeactivated, sch_comments)
+VALUES (1, 'testSchool', 'UNL', '1400 R Street Lincoln, NE 68588', '2', 40.817640, -96.700000, 1, NULL, NULL);
+
+SET IDENTITY_INSERT tblSchool OFF;
+GO
+```
+
+
+9. Add `config.json` to the `knowyourwell` Directory
+
+After setting up the database and ensuring connectivity, create a `config.json` file in the `knowyourwell` directory with the following content:
+
+```json
+{
+    "user": "kywAdmin",
+    "password": "YourPassword",
+    "database": "kyw",
+    "server": "localhost",
+    "pool": {
+        "max": 10,
+        "min": 0,
+        "idleTimeoutMillis": 30000
+    },
+    "options": {
+        "encrypt": true,
+        "trustServerCertificate": true
+    }
+}
+```
+
+This configuration file contains the connection details necessary for accessing the SQL Server. Be sure to replace `YourPassword` with your actual password.
+
+---
