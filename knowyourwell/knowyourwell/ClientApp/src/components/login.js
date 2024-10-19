@@ -6,8 +6,8 @@ import setupIndexedDB from "../setupIndexedDB";
 
 export default function Login() {
   const navigate = useNavigate();
-  const initRedirectRequest = () => {
-    setupIndexedDB();
+  const initRedirectRequest = async () => {
+    await setupIndexedDB();
     if (
       window.location.href.indexOf("kywtest") > -1 ||
       process.env.NODE_ENV != "production"
