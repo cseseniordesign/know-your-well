@@ -198,6 +198,70 @@ GO
 
    - You can now run database queries. Expand the `kyw` database to view its tables, views, stored procedures, and more.
 
----
+8. **Run The Queries in Azure Data Studio:**
+  #### Order to Load Tables and Views for the Database:
+   - **NRD**
+   - **County**
+   - **School**
+   - **Well Info**
+   - **Field Activity**
+   -  **Classroom Lab**
+   -  **Land Feature**
+   -  **Water Science Lab**
+   -  **Image**
+   -  **Tooltip**
+   -  **Tooltip Image**
+   -  **All Well Field Class**
+   -  **All Well Field Class WSL**
 
-**Note:** Replace `'YourPassword'` with the strong password you set earlier.
+**Note:** If you encounter a proxy error, run this query to insert data into the tblNRDLookup, tblSchool, tblTooltip, and tblTooltipImage tables.
+#### SQL Query to Insert Data into `tblNRDLookup`, `tblSchool`, `tblTooltip`, and `tblTooltipImage`:
+
+```sql
+USE [kyw];
+
+INSERT INTO tblNRDLookup (nrd_id, nrd_name, nrd_abbr)
+VALUES (2, 'Natural Resource District', 'NRD');
+
+SET IDENTITY_INSERT tblSchool ON;
+GO
+
+INSERT INTO tblSchool (school_id, sch_name, sch_code, sch_address, nrd_id, sch_latitude, sch_longitude, sch_activeflag, sch_datedeactivated, sch_comments)
+VALUES (1, 'testSchool', 'UNL', '1400 R Street Lincoln, NE 68588', '2', 40.817640, -96.700000, 1, NULL, NULL);
+
+SET IDENTITY_INSERT tblSchool OFF;
+GO
+
+INSERT INTO  tblTooltip (prompt_id, text, active) values ('aquifertype', 'An unconfined aquifer is easily accessible through the unsaturated layer and starts at the top of the water table and ends when there is an impermeable layer or bedrock beneath it. A confined aquifer, sometimes called an artesian aquifer, lies between two impermeable layers, called confining layers. Confined aquifers often have increased water pressure which, when accessed, may produce flowing water without the need for a pump.', 1)
+
+INSERT INTO tblTooltip (prompt_id, text, active) values ('wellcover', 'Located at the top of the well and is usually the most visible. The head is a durable piece of PVC or metal that is capped to keep debris out of the well. A smaller pipe is attached protecting the wires attached to the pump. It is often above ground, but sometimes may be located inside a well house or well pit.', 1)
+
+INSERT INTO tblTooltipImage (prompt_id, im_filename, active) values ('aquifertype', 'aquifertype-1.jpg', 1)
+```
+
+
+9. Add `config.json` to the `knowyourwell` Directory
+
+After setting up the database and ensuring connectivity, create a `config.json` file in the `knowyourwell` directory with the following content:
+
+```json
+{
+    "user": "kywAdmin",
+    "password": "YourPassword",
+    "database": "kyw",
+    "server": "localhost",
+    "pool": {
+        "max": 10,
+        "min": 0,
+        "idleTimeoutMillis": 30000
+    },
+    "options": {
+        "encrypt": true,
+        "trustServerCertificate": true
+    }
+}
+```
+
+This configuration file contains the connection details necessary for accessing the SQL Server. Be sure to replace `YourPassword` with your actual password.
+
+---
