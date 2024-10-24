@@ -69,16 +69,15 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const tooltipImages = await getFilteredRecordsFromDB(idbName, 'tblTooltipImage', (record) => {return record.prompt_id === id});
+        const tooltipImages = await getFilteredRecordsFromDB(idbName, 'tblTooltipImage', (record) => {return record.prompt_id === id && record.active});
         const images = []
         for (const [i, tooltipImage] of tooltipImages.entries()) {
-          if (tooltipImage.active) {
-            const image = await getFromDB(idbName, 'tooltip-images', tooltipImage.im_filename)
-            images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(image.blob)} />);
-          }
+          const image = await getFromDB(idbName, 'tooltip-images', tooltipImage.im_filename)
+          images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(image.blob)} />);
         }
         setTooltipImages(images);
       } catch (error) {
+        console.log(error);
         setTooltipImages([]);
       }
     }
@@ -119,7 +118,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
   };
 
   return (
-    <label htmlFor={id} onClick={(e) => {if (e.target.nodeName === 'A') e.preventDefault();}} style={{ marginBottom: 0 }}>
+    <label htmlFor={id} onClick={(e) => {if (e.target.nodeName === 'A') e.preventDefault()}} style={{ marginBottom: 0 }}>
       {insertLineBreaks(fieldTitle)}
     </label>
   );

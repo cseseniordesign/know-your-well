@@ -25,33 +25,42 @@ async function createLocalDB() {
 }
 
 async function getRemoteTooltipImages() {
-  const AZURE_STORAGE_CONNECTION_STRING = `\
-  BlobEndpoint=https://knowyourwell.blob.core.windows.net/;\
-  QueueEndpoint=https://knowyourwell.queue.core.windows.net/;\
-  FileEndpoint=https://knowyourwell.file.core.windows.net/;\
-  TableEndpoint=https://knowyourwell.table.core.windows.net/;\
-  SharedAccessSignature=sp=rl&st=2024-10-18T20:43:54Z&se=2999-12-31T23:59:59Z&spr=https&sv=2022-11-02&sr=c&sig=aQklhPHpC%2F1rM%2FEr%2Fo8%2ByuiaRSk38CXW7wMZjuCmiig%3D`;
+  try {
+    const AZURE_STORAGE_CONNECTION_STRING = `\
+    BlobEndpoint=https://knowyourwell.blob.core.windows.net/;\
+    QueueEndpoint=https://knowyourwell.queue.core.windows.net/;\
+    FileEndpoint=https://knowyourwell.file.core.windows.net/;\
+    TableEndpoint=https://knowyourwell.table.core.windows.net/;\
+    SharedAccessSignature=sp=rl&st=2024-10-18T20:43:54Z&se=2999-12-31T23:59:59Z&spr=https&sv=2022-11-02&sr=c&sig=aQklhPHpC%2F1rM%2FEr%2Fo8%2ByuiaRSk38CXW7wMZjuCmiig%3D`;
 
-  const blobServiceClient = BlobServiceClient.fromConnectionString(
-    AZURE_STORAGE_CONNECTION_STRING,
-  );
-  const containerClient = blobServiceClient.getContainerClient("tooltip-images");
+    const blobServiceClient = BlobServiceClient.fromConnectionString(
+      AZURE_STORAGE_CONNECTION_STRING,
+    );
+    const containerClient = blobServiceClient.getContainerClient("tooltip-images");
 
-  for await (const blobMetadata of containerClient.listBlobsFlat()) {
-    const blobClient = containerClient.getBlobClient(blobMetadata.name);
-    const downloadResponse = await blobClient.download();
-    
-    let blob;
-    blob = await downloadResponse.blobBody;
+    const blobList = containerClient.listBlobsFlat();
 
-    putInDB(idbName, 'tooltip-images', { blob: blob }, blobMetadata.name);
+    clearObjectStore(idbName, 'tooltip-images');
+    for await (const blobMetadata of blobList) {
+      const blobClient = containerClient.getBlobClient(blobMetadata.name);
+      const downloadResponse = await blobClient.download();
+      
+      let blob;
+      blob = await downloadResponse.blobBody;
+
+      putInDB(idbName, 'tooltip-images', { blob: blob }, blobMetadata.name);
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
 export async function getTooltipDataFromSqlDatabase() {
   Axios.get("/tooltips", {
     responseType: "json",
-  }).then((response) => {
+  }).then(async (response) => {
+    await clearObjectStore(idbName, 'tblTooltip');
+    await clearObjectStore(idbName, 'tblTooltipImage');
     for (const tooltip of response.data.tooltip) {
       putInDB(idbName, 'tblTooltip', tooltip);
     }
@@ -61,16 +70,22 @@ export async function getTooltipDataFromSqlDatabase() {
   });
 }
 
+async function clearObjectStore(database, objectStore) {
+  const db = await openDB(database);
+  await db.clear(objectStore);
+  db.close();
+}
+
 export async function putInDB(database, objectStore, value, key = undefined) {
   // Using put() rather than add() means that existing values will be overwritten
   const db = await openDB(database);
-  db.put(objectStore, value, key);
+  await db.put(objectStore, value, key);
   db.close();
 }
 
 export async function getFromDB(database, objectStore, key) {
   const db = await openDB(database);
-  const value = db.get(objectStore, key);
+  const value = await db.get(objectStore, key);
   db.close();
   return value;
 }
