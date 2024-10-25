@@ -48,7 +48,7 @@ describe("The tool tip modal", () => {
     const user = userEvent.setup();
 
     render(
-      <EntryPrompt id="testmodal" fieldTitle="Test Field" required={true} />
+      <EntryPrompt id="testmodal" fieldTitle="Test Field" required={true} />,
     );
     await user.click(screen.getByTestId("tooltipButton-wellname"));
   });
@@ -59,7 +59,7 @@ test("renders EntryPrompt component without required indicator", () => {
 
   expect(screen.getByText("Test Field"));
   expect(
-    screen.queryByTestId("requiredFieldIndicator")
+    screen.queryByTestId("requiredFieldIndicator"),
   ).not.toBeInTheDocument();
 });
 
@@ -76,7 +76,7 @@ test("field title longer than 60 characters renders on multiple lines", () => {
       id="test3"
       fieldTitle="Test Field with a Really Long Title to Test that long Titles are rendered on multiple lines"
       required={true}
-    />
+    />,
   );
 
   expect(screen.getByText("Test Field with a Really Long Title to"));

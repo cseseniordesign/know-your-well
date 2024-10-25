@@ -1,10 +1,9 @@
-import Axios from 'axios';
-import { openDB } from 'idb';
+import Axios from "axios";
+import { openDB } from "idb";
 
 const { BlobServiceClient } = require("@azure/storage-blob");
 
-
-export const idbName = 'localDB';
+export const idbName = "localDB";
 
 export default async function setupIndexedDB() {
   navigator.storage.persist();
@@ -21,10 +20,10 @@ async function createLocalDB() {
   // If you are updating the schema of the database, you need to increment the version number or users with a local instance of the IndexedDB will not have their database restructured.
   await openDB(idbName, 1, {
     upgrade(db) {
-      db.createObjectStore('tblTooltip', { keyPath: 'prompt_id' });
-      db.createObjectStore('tblTooltipImage', { keyPath: 'image_id' });
-      db.createObjectStore('tooltip-images');
-    }
+      db.createObjectStore("tblTooltip", { keyPath: "prompt_id" });
+      db.createObjectStore("tblTooltipImage", { keyPath: "image_id" });
+      db.createObjectStore("tooltip-images");
+    },
   });
 }
 
@@ -40,19 +39,20 @@ async function getRemoteTooltipImages() {
     const blobServiceClient = BlobServiceClient.fromConnectionString(
       AZURE_STORAGE_CONNECTION_STRING,
     );
-    const containerClient = blobServiceClient.getContainerClient("tooltip-images");
+    const containerClient =
+      blobServiceClient.getContainerClient("tooltip-images");
 
     const blobList = containerClient.listBlobsFlat();
 
-    clearObjectStore(idbName, 'tooltip-images');
+    clearObjectStore(idbName, "tooltip-images");
     for await (const blobMetadata of blobList) {
       const blobClient = containerClient.getBlobClient(blobMetadata.name);
       const downloadResponse = await blobClient.download();
-      
+
       let blob;
       blob = await downloadResponse.blobBody;
 
-      putInDB(idbName, 'tooltip-images', { blob: blob }, blobMetadata.name);
+      putInDB(idbName, "tooltip-images", { blob: blob }, blobMetadata.name);
     }
   } catch (error) {
     console.log(error);
@@ -63,13 +63,13 @@ export async function getTooltipDataFromSqlDatabase() {
   Axios.get("/tooltips", {
     responseType: "json",
   }).then(async (response) => {
-    await clearObjectStore(idbName, 'tblTooltip');
-    await clearObjectStore(idbName, 'tblTooltipImage');
+    await clearObjectStore(idbName, "tblTooltip");
+    await clearObjectStore(idbName, "tblTooltipImage");
     for (const tooltip of response.data.tooltip) {
-      putInDB(idbName, 'tblTooltip', tooltip);
+      putInDB(idbName, "tblTooltip", tooltip);
     }
     for (const tooltipImage of response.data.tooltipImage) {
-      putInDB(idbName, 'tblTooltipImage', tooltipImage);
+      putInDB(idbName, "tblTooltipImage", tooltipImage);
     }
   });
 }
@@ -98,7 +98,7 @@ export async function getFilteredRecordsFromDB(database, objectStore, filter) {
   // `filter` is an arrow function, taking a single parameter, that either returns `true` or `false`.
   // ex. getFilteredValuesFromDB(idbName, 'tblTooltipImage', (record) => {return record.prompt_id === 'aquifertype'});
   const db = await openDB(database);
-  const transaction = db.transaction(objectStore, 'readonly');
+  const transaction = db.transaction(objectStore, "readonly");
   const store = transaction.objectStore(objectStore);
 
   const allRecords = await store.getAll();
