@@ -76,20 +76,20 @@ export async function getTooltipDataFromSqlDatabase() {
 
 async function clearObjectStore(database, objectStore) {
   const db = await openDB(database);
-  await db.clear(objectStore);
+  db.clear(objectStore);
   db.close();
 }
 
 export async function putInDB(database, objectStore, value, key = undefined) {
   // Using put() rather than add() means that existing values will be overwritten
   const db = await openDB(database);
-  await db.put(objectStore, value, key);
+  db.put(objectStore, value, key);
   db.close();
 }
 
 export async function getFromDB(database, objectStore, key) {
   const db = await openDB(database);
-  const value = await db.get(objectStore, key);
+  const value = db.get(objectStore, key);
   db.close();
   return value;
 }
@@ -106,5 +106,5 @@ export async function getFilteredRecordsFromDB(database, objectStore, filter) {
   const filteredRecords = allRecords.filter(filter);
 
   await transaction.done;
-  return filteredRecords
+  return filteredRecords;
 }
