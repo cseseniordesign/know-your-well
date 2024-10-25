@@ -98,7 +98,7 @@ export default function WellInfo() {
     if (navigator.onLine) {
       const wellcode = await generateWellcode();
 
-      Axios.post("/createwellinfo", {
+      await Axios.post("/createwellinfo", {
         address: wellInfo.address,
         aquiferclass: wellInfo.aquiferclass,
         aquifertype: wellInfo.aquifertype,
@@ -172,14 +172,14 @@ export default function WellInfo() {
     }
   };
 
-  function submitForm() {
+  async function submitForm() {
     if (
       validForm() &&
       window.confirm(
         "Submitted data is final and can only be edited by Nebraska Water Center Staff.\nWould you like to continue?",
       )
     ) {
-      addWellInfo();
+      await addWellInfo();
       clearLocalStorage();
 
       window.location.href = `/well`;
