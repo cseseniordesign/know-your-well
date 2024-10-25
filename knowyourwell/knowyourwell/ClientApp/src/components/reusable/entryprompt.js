@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
 import { idbName, getFromDB, getFilteredRecordsFromDB } from '../../setupIndexedDB';
 
 const EntryPrompt = ({ id, fieldTitle, required }) => {
@@ -7,7 +7,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
   const [tooltipText, setTooltipText] = useState();
   const [tooltipImages, setTooltipImages] = useState([]);
   
-  const getTooltipRequired = () => {
+  const getIndicators = () => {
     return (
       <>
         {(tooltipText || (tooltipImages.length !== 0)) && (
@@ -70,7 +70,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
     const fetchImages = async () => {
       try {
         const tooltipImages = await getFilteredRecordsFromDB(idbName, 'tblTooltipImage', (record) => {return record.prompt_id === id && record.active});
-        const images = []
+        const images = [];
         for (const [i, tooltipImage] of tooltipImages.entries()) {
           const image = await getFromDB(idbName, 'tooltip-images', tooltipImage.im_filename)
           images.push(<img key={`${tooltipImage.promptId}-img-${i}`} alt={`${tooltipImage.promptId} #${i}`} src={URL.createObjectURL(image.blob)} />);
@@ -90,7 +90,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
       return (
         <div>
           {fieldTitle}
-          {getTooltipRequired()}
+          {getIndicators()}
         </div>
       );
     }
@@ -112,16 +112,16 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
     return lines.map((line, index) => (
       <div key={index}>
         {line}
-        {index === lines.length - 1 && getTooltipRequired()}
+        {index === lines.length - 1 && getIndicators()}
       </div>
     ));
-  };
+  }
 
   return (
     <label htmlFor={id} onClick={(e) => {if (e.target.nodeName === 'A') e.preventDefault()}} style={{ marginBottom: 0 }}>
       {insertLineBreaks(fieldTitle)}
     </label>
   );
-};
+}
 
 export default EntryPrompt;
