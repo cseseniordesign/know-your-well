@@ -46,10 +46,14 @@ export default function App() {
     localStorage.setItem("wellInfoQueue", JSON.stringify(newValue));
   };
 
-  const handleOnline = () => {
-    setWellInfoQueue(localStorage.getItem("wellInfoQueue"));
-    wellInfoQueue?.forEach((wellInfo) => {
-      Axios.post("/createwellinfo", {
+  const handleOnline = async () => {
+    const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
+    const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
+
+    console.log(wellInfoQueue);
+
+    await wellInfoQueue?.forEach(async (wellInfo) => {
+      await Axios.post("/createwellinfo", {
         address: wellInfo.address,
         aquiferclass: wellInfo.aquiferclass,
         aquifertype: wellInfo.aquifertype,
@@ -88,9 +92,8 @@ export default function App() {
         zipcode: wellInfo.zipcode,
       });
     });
-    setFieldQueue(localStorage.getItem("fieldQueue"));
-    fieldQueue?.forEach((field) => {
-      Axios.post("/api/insert", {
+    await fieldQueue?.forEach(async (field) => {
+      await Axios.post("/api/insert", {
         well_id: field.well_id,
         fa_latitude: field.fa_latitude,
         fa_longitude: field.fa_longitude,
@@ -112,17 +115,17 @@ export default function App() {
         console.log("success");
       });
     });
-    setFieldQueue([]);
-    localStorage.removeItem("fieldQueue");
     setWellInfoQueue([]);
     localStorage.removeItem("wellInfoQueue");
+    setFieldQueue([]);
+    localStorage.removeItem("fieldQueue");
   };
 
   setInterval(async () => {
     // check if the user is online every 15 seconds
-    await fetch("https://example.com", { mode: "no-cors" })
+    await fetch(`https://example.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
       .then(() => {
-        if (wellInfoQueue.length > 0 || fieldQueue.length > 0) {
+        if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
           handleOnline();
         }
       })

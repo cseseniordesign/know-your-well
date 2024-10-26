@@ -95,7 +95,7 @@ export default function WellInfo() {
     ];
 
     //Checking to see if user is offline - if so then we cache the data that would have been submitted
-    const connectionCheck = await fetch("https://example.com", { mode: "no-cors" })
+    const connectionCheck = await fetch(`https://example.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
       // if the fetch fails, we know we are offline
       .catch(() => {
         return { data: "OFFLINE" };
