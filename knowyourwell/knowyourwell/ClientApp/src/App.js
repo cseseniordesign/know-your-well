@@ -50,8 +50,6 @@ export default function App() {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
     const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
 
-    console.log(wellInfoQueue);
-
     await wellInfoQueue?.forEach(async (wellInfo) => {
       await Axios.post("/createwellinfo", {
         address: wellInfo.address,
