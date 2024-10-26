@@ -21,7 +21,6 @@ import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
 import { useState, useEffect } from "react";
 
 export default function App() {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const [fieldQueue, setFieldQueue] = useState(() => {
     const storedQueue = localStorage.getItem("fieldQueue");
@@ -48,7 +47,6 @@ export default function App() {
   };
 
   const handleOnline = () => {
-    setIsOnline(true);
     setWellInfoQueue(localStorage.getItem("wellInfoQueue"));
     wellInfoQueue?.forEach((wellInfo) => {
       Axios.post("/createwellinfo", {
@@ -113,16 +111,25 @@ export default function App() {
       }).then(() => {
         console.log("success");
       });
-      setFieldQueue([]);
     });
     setFieldQueue([]);
-    localStorage.setItem("fieldQueue", "");
+    localStorage.removeItem("fieldQueue");
     setWellInfoQueue([]);
-    localStorage.setItem("wellInfoQueue", "");
+    localStorage.removeItem("wellInfoQueue");
   };
 
-  window.addEventListener("online", handleOnline);
-  window.addEventListener("offline", () => setIsOnline(false));
+  setInterval(async () => {
+    // check if the user is online every 15 seconds
+    await fetch("https://example.com", { mode: "no-cors" })
+      .then(() => {
+        if (wellInfoQueue.length > 0 || fieldQueue.length > 0) {
+          handleOnline();
+        }
+      })
+      .catch(() => {
+        return; // do nothing since the user is offline
+      });
+  }, 15000);
 
   return (
     <>
