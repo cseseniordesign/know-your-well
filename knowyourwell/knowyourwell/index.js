@@ -10,6 +10,7 @@ const sql = require("mssql");
 const cors = require("cors");
 const { response } = require("express");
 const path = require("path");
+const { error } = require("console");
 
 //require('dotenv').config()
 
@@ -921,6 +922,40 @@ app.get("/newwellcode", async (req, res) => {
       res.status(200).json({ wellcode: finalWellCode });
     }
   });
+});
+
+app.get("/tooltips", async (req, res) => {
+  const getTooltips = () => {
+    return new Promise((resolve, reject) => {
+      appPool.query("SELECT * FROM dbo.tblTooltip", (err, recordset) => {
+        if (err) {
+          console.log(err);
+          reject(new Error("SERVER ERROR"));
+        }
+        resolve({ tooltip: recordset.recordset });
+      });
+    });
+  };
+
+  const getTooltipImages = () => {
+    return new Promise((resolve, reject) => {
+      appPool.query("SELECT * FROM dbo.tblTooltipImage", (err, recordset) => {
+        if (err) {
+          console.log(err);
+          reject(new Error("SERVER ERROR"));
+        }
+        resolve({ tooltipImage: recordset.recordset });
+      });
+    });
+  };
+
+  const tooltips = await getTooltips();
+  const tooltipImages = await getTooltipImages();
+  if (tooltips instanceof Error || tooltipImages instanceof Error) {
+    res.status(500).send("SERVER ERROR");
+    return;
+  }
+  res.status(200).json({ ...tooltips, ...tooltipImages });
 });
 
 // receive the idp response

@@ -110,8 +110,8 @@ const wellInfoPrompts = [
     value: "installyear",
     min: "1800",
     max: "2100",
-    required: true,
     allowDecimal: false,
+    required: true,
   },
   {
     type: "dropdownentry",
@@ -168,8 +168,8 @@ const wellInfoPrompts = [
     fieldTitle: "How many people use this well?",
     id: "numberwelluser",
     value: "numberwelluser",
-    required: false,
     allowDecimal: false,
+    required: false,
   },
   {
     type: "dropdownentry",

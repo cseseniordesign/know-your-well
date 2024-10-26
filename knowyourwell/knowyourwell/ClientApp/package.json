@@ -78,7 +78,7 @@
     "prestart": "node aspnetcore-https && node aspnetcore-react",
     "start": "react-scripts start",
     "build": "set \"CI=false\" && react-scripts build",
-    "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "test": "cross-env CI=true react-scripts test --env=jsdom --watch",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/"
   },

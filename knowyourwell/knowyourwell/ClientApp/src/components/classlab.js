@@ -94,7 +94,7 @@ export default function ClassLab() {
     "copper",
     "iron",
     "manganese",
-    "nitrate"
+    "nitrate",
   ];
   // caching - local storage
   function cacheLabForm() {
