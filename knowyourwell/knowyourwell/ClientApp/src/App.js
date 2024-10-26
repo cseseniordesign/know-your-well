@@ -122,9 +122,13 @@ export default function App() {
   setInterval(async () => {
     // check if the user is online every 15 seconds
     await fetch(`https://www.google.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
-      .then(() => {
+      .then(async () => {
         if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
-          handleOnline();
+          await handleOnline();
+          console.log(window.location.pathname);
+          if (window.location.pathname === "/well") {
+            window.location.reload();
+          }
         }
       })
       .catch(() => {
