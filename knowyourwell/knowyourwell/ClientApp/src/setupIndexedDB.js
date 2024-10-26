@@ -60,7 +60,7 @@ async function getRemoteTooltipImages() {
 }
 
 export async function getTooltipDataFromSqlDatabase() {
-  Axios.get("/tooltips", {
+  await Axios.get("/tooltips", {
     responseType: "json",
   }).then(async (response) => {
     await clearObjectStore(idbName, "tblTooltip");
