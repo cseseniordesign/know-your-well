@@ -36,7 +36,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
                 <div className="titleBar">
                   {/* The regex pattern removes a ':' at the end of the title if one exists */}
                   <h2>{fieldTitle.replace(/:$/, "")}</h2>
-                  <button onClick={() => setIsOpen(false)}>&#x2715;</button>
+                  <button data-testid={`tooltipClose-${id}`} onClick={() => setIsOpen(false)}>&#x2715;</button>
                 </div>
                 {tooltipImages}
                 <p>{tooltipText}</p>
@@ -66,7 +66,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
       .catch(() => {
         setTooltipText();
       });
-  });
+  }, []);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -101,7 +101,7 @@ const EntryPrompt = ({ id, fieldTitle, required }) => {
     };
 
     fetchImages();
-  });
+  }, []);
 
   const insertLineBreaks = (fieldTitle) => {
     if (fieldTitle.length <= 60) {

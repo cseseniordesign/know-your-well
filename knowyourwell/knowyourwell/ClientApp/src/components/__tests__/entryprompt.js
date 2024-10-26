@@ -4,60 +4,68 @@
 
 import React from "react";
 import "@testing-library/jest-dom";
-import "fake-indexeddb/auto";
 import "core-js/stable/structured-clone";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { idbName } from "../../setupIndexedDB";
 import EntryPrompt from "../reusable/entryprompt";
+import { idbName } from '../../setupIndexedDB';
+import "fake-indexeddb/auto";
 
-global.indexedDB = new IDBFactory();
 
-const initializeDB = async () => {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(idbName, 1);
+var request = indexedDB.open(idbName, 3);
+request.onupgradeneeded = function () {
+    var db = request.result;
+    var textStore = db.createObjectStore("tblTooltip", { keyPath: "prompt_id" });
+    var imagePathStore = db.createObjectStore("tblTooltipImage", { keyPath: "image_id" });
+    var imageBlobStore = db.createObjectStore("tooltip-images");
 
-    request.onupgradeneeded = function (event) {
-      const db = event.target.result;
-      const store = db.createObjectStore("tblTooltip", {
-        keyPath: "prompt_id",
-      });
-      store.transaction.oncomplete = function () {
-        const itemTransaction = db.transaction("tblTooltip", "readwrite");
-        const objectStore = itemTransaction.objectStore("tblTooltip");
-        objectStore.add({ prompt_id: "testmodal", name: "Test tooltip text" });
-      };
-    };
+    textStore.put({prompt_id: "testId", text: "Test Text", active: 1});
+    imagePathStore.put({image_id: "testId", im_filename: "test.png", active: 1});
+    imageBlobStore.put({blob: new Blob(['mock image data'], { type: 'image/png' })}, "test.png");
+}
 
-    request.onsuccess = function (event) {
-      resolve(event.target.result);
-    };
 
-    request.onerror = function () {
-      reject("Error opening database.");
-    };
-  });
-};
+test("The tooltip is rendered when a corresponding database entry exists", async () => {
+  await act(async () => render(
+    <EntryPrompt id="testId" fieldTitle="Test Field" required={true} />
+  ));
 
-describe("The tool tip modal", () => {
-  beforeEach(async () => {
-    await initializeDB();
-  });
+  expect(await screen.findByTestId('tooltipButton-testId'));
+});
 
-  it("displays text correctly when a corresponding database entry exists", async () => {
-    const user = userEvent.setup();
 
-    render(
-      <EntryPrompt id="testmodal" fieldTitle="Test Field" required={true} />,
-    );
-    await user.click(screen.getByTestId("tooltipButton-wellname"));
-  });
+test("No tooltip is rendered when there is no corresponding database entry", async () => {
+  await act(async () => render(
+    <EntryPrompt id="fakePrompt" fieldTitle="Fake Prompt" required={true} />
+  ));
+ 
+  expect(await screen.queryByTestId('tooltipButton-fakePrompt')).not.toBeInTheDocument();
+});
+
+test("The tooltip modal can be opened properly when a corresponding database entry exists", async () => {
+    await act(() => render(
+        <EntryPrompt id="testId" fieldTitle="Test Field" required={true} />
+      ));
+    
+    const button = await screen.findByTestId('tooltipButton-testId');
+    await userEvent.click(button);
+    expect(await screen.findByTestId("tooltipClose-testId"));
+});
+
+test("The tootltip modal displays the correct associated text when a corresponding database entry exists", async () => {
+    await act(() => render(
+      <EntryPrompt id="testId" fieldTitle="Test Field" required={true} />
+    ));
+    
+    const button = await screen.findByTestId('tooltipButton-testId');
+    await userEvent.click(button);
+    expect(await screen.findByText("Test Text"));
 });
 
 test("renders EntryPrompt component without required indicator", () => {
   render(<EntryPrompt id="testId" fieldTitle="Test Field" required={false} />);
 
-  expect(screen.getByText("Test Field"));
+  expect(screen.getByText("Test Field")).toBeInTheDocument();
   expect(
     screen.queryByTestId("requiredFieldIndicator"),
   ).not.toBeInTheDocument();
@@ -65,9 +73,9 @@ test("renders EntryPrompt component without required indicator", () => {
 
 test("renders EntryPrompt component with required indicator", () => {
   render(<EntryPrompt id="testId" fieldTitle="Test Field" required={true} />);
-
-  expect(screen.getByText("Test Field"));
-  expect(screen.getByTestId("requiredFieldIndicator"));
+  
+  expect(screen.getByText("Test Field")).toBeInTheDocument();
+  expect(screen.getByTestId("requiredFieldIndicator")).toBeInTheDocument();
 });
 
 test("field title longer than 60 characters renders on multiple lines", () => {
@@ -76,10 +84,14 @@ test("field title longer than 60 characters renders on multiple lines", () => {
       id="test3"
       fieldTitle="Test Field with a Really Long Title to Test that long Titles are rendered on multiple lines"
       required={true}
-    />,
+    />
   );
 
-  expect(screen.getByText("Test Field with a Really Long Title to"));
-  expect(screen.getByText("Test that long Titles are rendered on"));
-  expect(screen.getByText("multiple lines"));
+  expect(
+    screen.getByText("Test Field with a Really Long Title to"),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText("Test that long Titles are rendered on"),
+  ).toBeInTheDocument();
+  expect(screen.getByText("multiple lines")).toBeInTheDocument();
 });
