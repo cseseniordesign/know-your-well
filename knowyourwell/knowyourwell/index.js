@@ -932,7 +932,7 @@ app.get("/tooltips", async (req, res) => {
           console.log(err);
           reject(new Error("SERVER ERROR"));
         }
-        resolve({ tooltip: recordset.recordset });
+        resolve({ tooltip: recordset?.recordset });
       });
     });
   };
@@ -944,7 +944,7 @@ app.get("/tooltips", async (req, res) => {
           console.log(err);
           reject(new Error("SERVER ERROR"));
         }
-        resolve({ tooltipImage: recordset.recordset });
+        resolve({ tooltipImage: recordset?.recordset });
       });
     });
   };
