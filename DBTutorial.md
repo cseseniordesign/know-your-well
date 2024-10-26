@@ -214,8 +214,8 @@ GO
    -  **All Well Field Class**
    -  **All Well Field Class WSL**
 
-**Note:** If you encounter a proxy error, run this query to insert data into the tblNRDLookup, tblSchool, tblTooltip, and tblTooltipImage tables.
-#### SQL Query to Insert Data into `tblNRDLookup`, `tblSchool`, `tblTooltip`, and `tblTooltipImage`:
+**Note:** If you encounter a proxy error, run this query to insert data into the tblNRDLookup and tblSchool tables.
+#### SQL Query to Insert Data into `tblNRDLookup` and `tblSchool`:
 
 ```sql
 USE [kyw];
@@ -231,6 +231,13 @@ VALUES (1, 'testSchool', 'UNL', '1400 R Street Lincoln, NE 68588', '2', 40.81764
 
 SET IDENTITY_INSERT tblSchool OFF;
 GO
+```
+
+**Note:** If you encounter issues with the tooltips feature, drop the tblTooltip and tblToolipImage tables and run this query to reset the data in them.
+#### SQL Query to Insert Data into `tblTooltip` and `tblTooltipImage`:
+
+```sql
+USE [kyw];
 
 INSERT INTO  tblTooltip (prompt_id, text, active) values ('aquifertype', 'An unconfined aquifer is easily accessible through the unsaturated layer and starts at the top of the water table and ends when there is an impermeable layer or bedrock beneath it. A confined aquifer, sometimes called an artesian aquifer, lies between two impermeable layers, called confining layers. Confined aquifers often have increased water pressure which, when accessed, may produce flowing water without the need for a pump.', 1)
 

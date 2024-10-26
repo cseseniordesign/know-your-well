@@ -61,6 +61,7 @@
       "/node_modules/@azure/storage-blob(?!(lib))"
     ],
     "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^react($|/.+)": "<rootDir>/node_modules/react$1",
       "^react-router-dom($|/.+)": "<rootDir>/node_modules/react-router-dom$1"
     }

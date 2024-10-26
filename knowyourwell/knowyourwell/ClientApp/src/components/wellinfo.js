@@ -25,7 +25,6 @@ export default function WellInfo() {
 
   const [wellInfo, setWellInfo] = useState(initialWellInfo);
   const [schoolid, setSchoolid] = useState("");
-  const [wellcode, setWellCode] = useState("");
   const { wellInfoQueue, setLocalWellInfoQueue } =
     useContext(WellFieldLabContext);
 
@@ -39,26 +38,6 @@ export default function WellInfo() {
       })
       .catch(function (error) {
         console.error("Failed to fetch school id:", error);
-      });
-
-    let generatedWellcode;
-    Axios.get("/newwellcode", {})
-      .then(function (response) {
-        if (
-          response.data.kywmem === "" &&
-          response.data.displayn === "" &&
-          process.env.NODE_ENV === "development"
-        ) {
-          // setSchoolid("1");
-          generatedWellcode = "abc123";
-        } else {
-          // response should be well code
-          generatedWellcode = response.data.wellcode;
-        }
-        setWellCode(generatedWellcode);
-      })
-      .catch(function (error) {
-        console.error("Failed to generate well code:", error);
       });
   }, []);
 
@@ -117,9 +96,11 @@ export default function WellInfo() {
       ...wellInfoQueue,
       { ...wellInfo, schoolid: schoolid },
     ];
-
+    
     //Checking to see if user is offline - if so then we cache the data that would have been submitted
     if (navigator.onLine) {
+      const wellcode = await generateWellcode();
+
       Axios.post("/createwellinfo", {
         address: wellInfo.address,
         aquiferclass: wellInfo.aquiferclass,
@@ -204,6 +185,7 @@ export default function WellInfo() {
       addWellInfo();
       //clearing cached data after making the post request
       clearLocalStorage();
+
       window.location.href = `/well`;
     }
   }
@@ -294,4 +276,23 @@ export default function WellInfo() {
       </button>
     </form>
   );
+}
+
+
+export async function generateWellcode() {
+  try {
+    const response = await Axios.get("/newwellcode", {});
+    if (
+      response.data.kywmem === "" &&
+      response.data.displayn === "" &&
+      process.env.NODE_ENV === "development"
+    ) {
+      return "abc123";
+    } else {
+      return response.data.wellcode;
+    }
+  }
+  catch (error) {
+    console.error("Failed to generate well code:", error);
+  };
 }
