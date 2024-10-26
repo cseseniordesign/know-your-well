@@ -65,10 +65,10 @@ const NavMenu = () => {
     setName(response.data.displayn);
   });
 
-  const initLogout = () => {
-    Axios.get("/logout", {
+  const initLogout = async () => {
+    await Axios.get("/logout", {
       responseType: "json",
-    }).then(function (response) {
+    }).then((response) => {
       setSchool(response.data.kywmem);
       setName(response.data.displayn);
     });
