@@ -21,7 +21,6 @@ import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
 import { useState, useEffect } from "react";
 
 export default function App() {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const [fieldQueue, setFieldQueue] = useState(() => {
     const storedQueue = localStorage.getItem("fieldQueue");
@@ -47,15 +46,52 @@ export default function App() {
     localStorage.setItem("wellInfoQueue", JSON.stringify(newValue));
   };
 
-  const handleOnline = () => {
-    setIsOnline(true);
-    setWellInfoQueue(localStorage.getItem("wellInfoQueue"));
-    wellInfoQueue?.forEach((wellInfo) => {
-      console.log(wellInfo);
+  const handleOnline = async () => {
+    const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
+    const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
+
+    await wellInfoQueue?.forEach(async (wellInfo) => {
+      await Axios.post("/createwellinfo", {
+        address: wellInfo.address,
+        aquiferclass: wellInfo.aquiferclass,
+        aquifertype: wellInfo.aquifertype,
+        boreholediameter: Number(wellInfo.boreholediameter),
+        city: wellInfo.city,
+        countyid: wellInfo.county,
+        datacollector: wellInfo.datacollector,
+        dateentered: wellInfo.dateentered,
+        dnrId: wellInfo.dnrId,
+        email: wellInfo.email,
+        estlatitude: wellInfo.estlatitude,
+        estlongitude: wellInfo.estlongitude,
+        installyear: parseInt(wellInfo.installyear),
+        landuse5yr: wellInfo.landuse5yr,
+        maintenance5yr: wellInfo.maintenance5yr,
+        nrdid: wellInfo.nrd,
+        numberwelluser: wellInfo.numberwelluser,
+        observation: wellInfo.observation,
+        pestmanure: wellInfo.pestmanure,
+        phone: wellInfo.phone,
+        registNum: wellInfo.registNum,
+        school_id: wellInfo.schoolid,
+        smelltaste: wellInfo.smelltaste,
+        smelltastedescription: wellInfo.smelltastedescription,
+        state: wellInfo.state,
+        totaldepth: Number(wellInfo.totaldepth),
+        wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
+        wellcasematerial: wellInfo.wellcasematerial,
+        wellcode: wellInfo.wellcode,
+        welldry: wellInfo.welldry,
+        welldrydescription: wellInfo.welldrydescription,
+        wellname: wellInfo.wellname,
+        wellowner: wellInfo.wellowner,
+        welltype: wellInfo.welltype,
+        welluser: wellInfo.welluser,
+        zipcode: wellInfo.zipcode,
+      });
     });
-    setFieldQueue(localStorage.getItem("fieldQueue"));
-    fieldQueue?.forEach((field) => {
-      Axios.post("/api/insert", {
+    await fieldQueue?.forEach(async (field) => {
+      await Axios.post("/api/insert", {
         well_id: field.well_id,
         fa_latitude: field.fa_latitude,
         fa_longitude: field.fa_longitude,
@@ -76,16 +112,25 @@ export default function App() {
       }).then(() => {
         console.log("success");
       });
-      setFieldQueue([]);
     });
-    setFieldQueue([]);
-    localStorage.setItem("fieldQueue", "");
     setWellInfoQueue([]);
-    localStorage.setItem("wellInfoQueue", "");
+    localStorage.removeItem("wellInfoQueue");
+    setFieldQueue([]);
+    localStorage.removeItem("fieldQueue");
   };
 
-  window.addEventListener("online", handleOnline);
-  window.addEventListener("offline", () => setIsOnline(false));
+  setInterval(async () => {
+    // check if the user is online every 15 seconds
+    await fetch(`https://www.google.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
+      .then(() => {
+        if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
+          handleOnline();
+        }
+      })
+      .catch(() => {
+        return; // do nothing since the user is offline
+      });
+  }, 15000);
 
   return (
     <>

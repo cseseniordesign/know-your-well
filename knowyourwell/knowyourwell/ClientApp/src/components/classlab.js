@@ -15,7 +15,7 @@ export default function ClassLab() {
 
   if (
     window.location.href.indexOf("kywtest") > -1 ||
-    process.env.NODE_ENV != "production"
+    process.env.NODE_ENV !== "production"
   ) {
     initialClassLab = devClassLab;
   } else {

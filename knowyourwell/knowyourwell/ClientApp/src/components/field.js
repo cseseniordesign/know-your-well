@@ -28,7 +28,7 @@ export default function Field() {
 
   if (
     window.location.href.indexOf("kywtest") > -1 ||
-    process.env.NODE_ENV != "production"
+    process.env.NODE_ENV !== "production"
   ) {
     initialFieldData = devFieldData;
   } else {
