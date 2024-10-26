@@ -123,7 +123,7 @@ export default function App() {
 
   setInterval(async () => {
     // check if the user is online every 15 seconds
-    await fetch(`https://example.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
+    await fetch(`https://www.google.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
       .then(() => {
         if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
           handleOnline();
