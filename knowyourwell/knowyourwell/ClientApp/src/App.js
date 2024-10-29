@@ -125,6 +125,7 @@ export default function App() {
       .then(async () => {
         if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
           await handleOnline();
+          alert("Your connection was restored and your offline data was successfully submitted!");
           console.log(window.location.pathname);
           if (window.location.pathname === "/well") {
             window.location.reload();
