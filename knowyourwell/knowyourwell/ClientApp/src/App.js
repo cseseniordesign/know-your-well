@@ -52,7 +52,7 @@ export default function App() {
 
     const wellInfoUpdated = wellInfoQueue.length !== 0;
 
-    await wellInfoQueue?.forEach(async (wellInfo) => {
+    for (const wellInfo of wellInfoQueue) {
       const wellcode = await generateWellcode();
       await Axios.post("/createwellinfo", {
         address: wellInfo.address,
@@ -92,8 +92,8 @@ export default function App() {
         welluser: wellInfo.welluser,
         zipcode: wellInfo.zipcode,
       });
-    });
-    await fieldQueue?.forEach(async (field) => {
+    }
+    for (const field of fieldQueue) {
       await Axios.post("/api/insert", {
         well_id: field.well_id,
         fa_latitude: field.fa_latitude,
@@ -112,10 +112,8 @@ export default function App() {
         name: field.name,
         observations: field.observations,
         datecollected: field.dateentered,
-      }).then(() => {
-        console.log("success");
       });
-    });
+    }
     setWellInfoQueue([]);
     localStorage.removeItem("wellInfoQueue");
     setFieldQueue([]);
