@@ -221,7 +221,7 @@ export default function Field() {
     }
   }
 
-  function addFieldData() {
+  async function addFieldData() {
     fieldData.well_id = well_id;
     const updatedQueue = [
       ...fieldQueue,
@@ -234,7 +234,7 @@ export default function Field() {
     ];
 
     // Checking to see if user is offline - if so then we cache the data that would have been submitted
-    Axios.get(`/heartbeat?timestamp=${Date.now()}`)
+    await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
       .then(async () => {
         await Axios.post("/api/insert", {
           well_id: fieldData.well_id,
@@ -384,7 +384,7 @@ export default function Field() {
       )
     ) {
       // await uploadPhotos();
-      addFieldData();
+      await addFieldData();
       // submitCropFeature();
       // submitPastureFeature();
       // submitSepticFeature();
