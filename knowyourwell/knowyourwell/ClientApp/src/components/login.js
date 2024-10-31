@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./css/login_signup.css";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,11 @@ import { useUser } from "./usercontext";
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useUser();
+
+  useEffect(() => {
+    setUser(null);
+  })
+
   const initRedirectRequest = async () => {
     await setupIndexedDB();
     if (
@@ -20,12 +25,6 @@ export default function Login() {
       })
         .then(async function (response) {
           if (response.data.success === "success") {
-            await Axios.get("/userinfo", {
-              responseType: "json",
-            })
-              .then(function (response) {
-                setUser(response.data);
-            });
             navigate("/Well");
           }
         })
@@ -45,12 +44,6 @@ export default function Login() {
           return response.text();
         })
         .then(async function (data) {
-          await Axios.get("/userinfo", {
-            responseType: "json",
-          })
-            .then(function (response) {
-              setUser(response.data);
-          });
           window.location.href = data;
         })
         .catch(function (error) {

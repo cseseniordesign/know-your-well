@@ -61,8 +61,6 @@ const NavMenu = () => {
   const initLogout = async () => {
     await Axios.get("/logout", {
       responseType: "json",
-    }).then((response) => {
-      setUser(null);
     });
     window.location.href = "/";
   };

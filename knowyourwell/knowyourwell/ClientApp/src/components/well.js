@@ -40,18 +40,34 @@ export default function Well() {
   const [filter, setFilter] = useState(String);
   const [sort, setSort] = useState(String);
   const [wellList, setWells] = useState([]);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const containerRef = useRef(null);
   const navigate = useNavigate();
   // const [schoolid, setSchoolid] = useState("")
 
   useEffect(() => {
-    if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
-      navigate("/");
+    const validateUser = async () => {
+      if (!user) {
+        await Axios.get("/userinfo", {
+          responseType: "json",
+        })
+          .then(function (response) {
+            setUser(response.data);
+        })
+          .catch(function (response) {
+            window.alert("The app encountered an error verifying that you are logged in.");
+            navigate("/");
+          });
+      }
+      if (user?.displayn === "") {
+        window.alert("You are not yet logged in. Please log in.");
+        navigate("/");
+      }
     }
-  }, [navigate, user]);
+    
+    validateUser();
+  }, [navigate, user, setUser]);
 
   //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {
