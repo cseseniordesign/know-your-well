@@ -88,7 +88,7 @@ export default function WellInfo() {
   async function addWellInfo() {
     const updatedQueue = [
       ...wellInfoQueue,
-      { ...wellInfo, schoolid: user?.schoolid },
+      { ...wellInfo, schoolid: user?.kywmem },
     ];
 
     // Checking to see if user is offline - if so then we cache the data that would have been submitted
@@ -117,7 +117,7 @@ export default function WellInfo() {
           pestmanure: wellInfo.pestmanure,
           phone: wellInfo.phone,
           registNum: wellInfo.registNum,
-          school_id: user?.schoolid,
+          school_id: user?.kywmem,
           smelltaste: wellInfo.smelltaste,
           smelltastedescription: wellInfo.smelltastedescription,
           state: wellInfo.state,
@@ -269,15 +269,7 @@ export default function WellInfo() {
 export async function generateWellcode() {
   try {
     const response = await Axios.get("/newwellcode", {});
-    if (
-      response.data.kywmem === "" &&
-      response.data.displayn === "" &&
-      process.env.NODE_ENV === "development"
-    ) {
-      return "abc123";
-    } else {
-      return response.data.wellcode;
-    }
+    return response.data.wellcode;
   }
   catch (error) {
     console.error("Failed to generate well code:", error);
