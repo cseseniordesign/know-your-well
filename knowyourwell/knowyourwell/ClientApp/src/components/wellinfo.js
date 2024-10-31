@@ -94,62 +94,55 @@ export default function WellInfo() {
       { ...wellInfo, schoolid: schoolid },
     ];
 
-    //Checking to see if user is offline - if so then we cache the data that would have been submitted
-    const connectionCheck = await fetch(`https://www.google.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
-      // if the fetch fails, we know we are offline
+    // Checking to see if user is offline - if so then we cache the data that would have been submitted
+    await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
+      .then(async () => {
+        const wellcode = await generateWellcode();
+        await Axios.post("/createwellinfo", {
+          address: wellInfo.address,
+          aquiferclass: wellInfo.aquiferclass,
+          aquifertype: wellInfo.aquifertype,
+          boreholediameter: Number(wellInfo.boreholediameter),
+          city: wellInfo.city,
+          countyid: wellInfo.county,
+          datacollector: wellInfo.datacollector,
+          dateentered: wellInfo.dateentered,
+          dnrId: wellInfo.dnrId,
+          email: wellInfo.email,
+          estlatitude: wellInfo.estlatitude,
+          estlongitude: wellInfo.estlongitude,
+          installyear: parseInt(wellInfo.installyear),
+          landuse5yr: wellInfo.landuse5yr,
+          maintenance5yr: wellInfo.maintenance5yr,
+          nrdid: wellInfo.nrd,
+          numberwelluser: wellInfo.numberwelluser,
+          observation: wellInfo.observation,
+          pestmanure: wellInfo.pestmanure,
+          phone: wellInfo.phone,
+          registNum: wellInfo.registNum,
+          school_id: schoolid,
+          smelltaste: wellInfo.smelltaste,
+          smelltastedescription: wellInfo.smelltastedescription,
+          state: wellInfo.state,
+          totaldepth: Number(wellInfo.totaldepth),
+          wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
+          wellcasematerial: wellInfo.wellcasematerial,
+          wellcode: wellcode,
+          welldry: wellInfo.welldry,
+          welldrydescription: wellInfo.welldrydescription,
+          wellname: wellInfo.wellname,
+          wellowner: wellInfo.wellowner,
+          welltype: wellInfo.welltype,
+          welluser: wellInfo.welluser,
+          zipcode: wellInfo.zipcode,
+        });
+        alert("Successfully submitted Well Info Form!");
+      })
+      // if the request fails, we know we are offline
       .catch(() => {
-        return { data: "OFFLINE" };
+        setLocalWellInfoQueue(updatedQueue);
+        alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection");
       });
-    if (connectionCheck.data === "OFFLINE") {
-      setLocalWellInfoQueue(updatedQueue);
-      alert(
-        "You are offline, Well Info Form will automatically be submitted when you regain an internet connection",
-      );
-      return;
-    }
-    const wellcode = await generateWellcode();
-
-    await Axios.post("/createwellinfo", {
-      address: wellInfo.address,
-      aquiferclass: wellInfo.aquiferclass,
-      aquifertype: wellInfo.aquifertype,
-      boreholediameter: Number(wellInfo.boreholediameter),
-      city: wellInfo.city,
-      countyid: wellInfo.county,
-      datacollector: wellInfo.datacollector,
-      dateentered: wellInfo.dateentered,
-      dnrId: wellInfo.dnrId,
-      email: wellInfo.email,
-      estlatitude: wellInfo.estlatitude,
-      estlongitude: wellInfo.estlongitude,
-      installyear: parseInt(wellInfo.installyear),
-      landuse5yr: wellInfo.landuse5yr,
-      maintenance5yr: wellInfo.maintenance5yr,
-      nrdid: wellInfo.nrd,
-      numberwelluser: wellInfo.numberwelluser,
-      observation: wellInfo.observation,
-      pestmanure: wellInfo.pestmanure,
-      phone: wellInfo.phone,
-      registNum: wellInfo.registNum,
-      school_id: schoolid,
-      smelltaste: wellInfo.smelltaste,
-      smelltastedescription: wellInfo.smelltastedescription,
-      state: wellInfo.state,
-      totaldepth: Number(wellInfo.totaldepth),
-      wellwaterleveldepth: Number(wellInfo.wellwaterleveldepth),
-      wellcasematerial: wellInfo.wellcasematerial,
-      wellcode: wellcode,
-      welldry: wellInfo.welldry,
-      welldrydescription: wellInfo.welldrydescription,
-      wellname: wellInfo.wellname,
-      wellowner: wellInfo.wellowner,
-      welltype: wellInfo.welltype,
-      welluser: wellInfo.welluser,
-      zipcode: wellInfo.zipcode,
-    }).then(() => {
-      console.log("success");
-    });
-    alert("Successfully submitted Well Info Form!");
   }
 
   const validForm = () => {

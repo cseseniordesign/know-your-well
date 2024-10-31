@@ -65,6 +65,10 @@ try {
   console.error(error);
 }
 
+app.get("/heartbeat", (req, res) => {
+  res.status(200).send();
+});
+
 app.get("/LandFeatures", async (req, res) => {
   well_id = req.query.well_id;
   let query = `SELECT * FROM dbo.tblLandFeature WHERE well_id = ${well_id}`;

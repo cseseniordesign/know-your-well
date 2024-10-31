@@ -107,9 +107,20 @@ export default function Well() {
     return (
       <List style={{ textAlign: "center" }}>
         <h2>
-          {" "}
-          <strong> Wells from localStorage</strong>
+          <strong>Cached Wells</strong>
         </h2>
+        <List.Item key={-1}>
+          <List.Content>
+            <a
+              href={`/WellInfo`}
+              style={{ width: "45%", height: "17%", border: "dashed" }}
+              className="btn btn-light btn-lg btn-block"
+            >
+              Create New Well
+            </a>
+          </List.Content>
+          <br />
+        </List.Item>
         {responseDataToHTMLList(
           JSON.parse(localStorage.getItem("wellData")).Wells,
         )}

@@ -120,20 +120,20 @@ export default function App() {
   };
 
   setInterval(async () => {
-    // check if the user is online every 15 seconds
-    await fetch(`https://www.google.com?noCache=${Date.now()}`, { cache: "no-store", mode: "no-cors" })
+    // Check if the user is online every 15 seconds
+    await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
       .then(async () => {
         if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
           await handleOnline();
           alert("Your connection was restored and your offline data was successfully submitted!");
-          console.log(window.location.pathname);
-          if (window.location.pathname === "/well") {
+          if (window.location.pathname.toLowerCase() === "/well") {
             window.location.reload();
           }
         }
       })
       .catch(() => {
-        return; // do nothing since the user is offline
+        // Do nothing since the user is offline
+        return;
       });
   }, 15000);
 

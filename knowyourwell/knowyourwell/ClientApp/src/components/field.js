@@ -232,35 +232,36 @@ export default function Field() {
         fa_genlongitude: fa_genlongitude,
       },
     ];
-    if (navigator.onLine) {
-      Axios.post("/api/insert", {
-        well_id: fieldData.well_id,
-        fa_latitude: fieldData.fa_latitude,
-        fa_longitude: fieldData.fa_longitude,
-        fa_genlatitude: fa_genlatitude,
-        fa_genlongitude: fa_genlongitude,
-        weather: fieldData.conditions,
-        wellcovercondition: fieldData.wellcover,
-        wellcoverdescription: fieldData.wellcoverdescription,
-        topography: fieldData.topography,
-        surfacerunoff: fieldData.evidence,
-        pooling: fieldData.pooling,
-        groundwatertemp: fieldData.temp,
-        ph: fieldData.ph,
-        conductivity: fieldData.conductivity,
-        name: fieldData.name,
-        observations: fieldData.observations,
-        datecollected: fieldData.dateentered,
-      }).then(() => {
-        console.log("success");
-      });
-    } else {
-      setLocalFieldQueue(updatedQueue);
 
-      alert(
-        "You are offline, Field Form will submit automatically when you regain an internet connection",
-      );
-    }
+    // Checking to see if user is offline - if so then we cache the data that would have been submitted
+    Axios.get(`/heartbeat?timestamp=${Date.now()}`)
+      .then(async () => {
+        await Axios.post("/api/insert", {
+          well_id: fieldData.well_id,
+          fa_latitude: fieldData.fa_latitude,
+          fa_longitude: fieldData.fa_longitude,
+          fa_genlatitude: fa_genlatitude,
+          fa_genlongitude: fa_genlongitude,
+          weather: fieldData.conditions,
+          wellcovercondition: fieldData.wellcover,
+          wellcoverdescription: fieldData.wellcoverdescription,
+          topography: fieldData.topography,
+          surfacerunoff: fieldData.evidence,
+          pooling: fieldData.pooling,
+          groundwatertemp: fieldData.temp,
+          ph: fieldData.ph,
+          conductivity: fieldData.conductivity,
+          name: fieldData.name,
+          observations: fieldData.observations,
+          datecollected: fieldData.dateentered,
+        });
+        alert("Successfully submitted Field Form!");
+      })
+      // if the request fails, we know we are offline
+      .catch(() => {
+        setLocalFieldQueue(updatedQueue);
+        alert("You are offline, Field Form will submit automatically when you regain an internet connection");
+      });
   }
 
   const idList = [

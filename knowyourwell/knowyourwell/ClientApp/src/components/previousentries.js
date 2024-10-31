@@ -89,7 +89,6 @@ export default function PreviousEntries() {
 
   const [isLoading, setLoading] = useState(true);
 
-  //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {
     Axios.get("/previousentries", {
       responseType: "json",
@@ -123,7 +122,27 @@ export default function PreviousEntries() {
   }, []);
 
   if (isLoading) {
-    return <h1>Loading</h1>;
+    // We need to add the back button here too so that the user doesn't get stuck on this page.
+    return (
+      <List style={{ textAlign: "center" }}>
+        <br />
+        <h1>Loading</h1>;
+        <br />
+        <List.Item>
+          <List.Content>
+            <br />
+            <button
+              type="button"
+              style={{ width: "130px", height: "17%" }}
+              className="btn btn-primary btn-lg"
+              onClick={backButton}
+            >
+              Back
+            </button>
+          </List.Content>
+        </List.Item>
+      </List>
+    )
   }
 
   return (
