@@ -126,7 +126,7 @@ export default function PreviousEntries() {
     return (
       <List style={{ textAlign: "center" }}>
         <br />
-        <h1>Loading</h1>;
+        <h1>Loading</h1>
         <br />
         <List.Item>
           <List.Content>

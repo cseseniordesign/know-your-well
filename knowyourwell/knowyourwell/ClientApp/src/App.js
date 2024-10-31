@@ -50,6 +50,8 @@ export default function App() {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
     const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
 
+    const wellInfoUpdated = wellInfoQueue.length !== 0;
+
     await wellInfoQueue?.forEach(async (wellInfo) => {
       await Axios.post("/createwellinfo", {
         address: wellInfo.address,
@@ -117,6 +119,8 @@ export default function App() {
     localStorage.removeItem("wellInfoQueue");
     setFieldQueue([]);
     localStorage.removeItem("fieldQueue");
+
+    return wellInfoUpdated;
   };
 
   setInterval(async () => {
@@ -124,9 +128,9 @@ export default function App() {
     await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
       .then(async () => {
         if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
-          await handleOnline();
+          const wellInfoUpdated = await handleOnline();
           alert("Your connection was restored and your offline data was successfully submitted!");
-          if (window.location.pathname.toLowerCase() === "/well") {
+          if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {
             window.location.reload();
           }
         }
