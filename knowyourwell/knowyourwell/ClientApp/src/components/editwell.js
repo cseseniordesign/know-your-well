@@ -6,6 +6,8 @@ import moment from "moment";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useUser } from "./usercontext";
+
 export default function EditWell() {
   const [searchParams, setSearchParams] = useSearchParams();
   const wellName = searchParams.get("wellName");
@@ -13,24 +15,14 @@ export default function EditWell() {
   const id = searchParams.get("id");
   const wellcode = searchParams.get("wellcode");
   const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
-    // login check
-    Axios.get("/userinfo", {
-      responseType: "json",
-    })
-      .then(function (response) {
-        // console.log(response.data);
-        let displayname = response.data.displayn;
-        if (displayname === "") {
-          window.alert("You are not yet logged in. Please log in.");
-          navigate("/");
-        }
-      })
-      .catch(function (error) {
-        console.error("Failed to fetch school id:", error);
-      });
-  }, [navigate]);
+    if (user?.displayn === "") {
+      window.alert("You are not yet logged in. Please log in.");
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const backToWells = () => {
     window.location.href = "/well";

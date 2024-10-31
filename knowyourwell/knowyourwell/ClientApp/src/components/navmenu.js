@@ -12,11 +12,12 @@ import { Link } from "react-router-dom";
 import csvKey from "./resources/csvkey";
 import "./css/NavMenu.css";
 
+import { useUser } from "./usercontext";
+
 const NavMenu = () => {
   const [collapsed, setCollapsed] = useState(true);
   const toggleNavbar = () => setCollapsed(!collapsed);
-  const [school, setSchool] = useState("");
-  const [name, setName] = useState("");
+  const { user, setUser } = useUser();
 
   const exportCSV = () => {
     Axios.get("/csvqueries", {
@@ -57,20 +58,11 @@ const NavMenu = () => {
       });
   };
 
-  Axios.get("/userinfo", {
-    responseType: "json",
-  }).then(function (response) {
-    // dev nav menu
-    setSchool(response.data.kywmem);
-    setName(response.data.displayn);
-  });
-
   const initLogout = async () => {
     await Axios.get("/logout", {
       responseType: "json",
     }).then((response) => {
-      setSchool(response.data.kywmem);
-      setName(response.data.displayn);
+      setUser(null);
     });
     window.location.href = "/";
   };
@@ -89,7 +81,7 @@ const NavMenu = () => {
           isOpen={!collapsed}
           navbar
         >
-          {name && (
+          {user && (
             <button
               onClick={initLogout}
               style={{
@@ -105,10 +97,10 @@ const NavMenu = () => {
           )}
           <div> </div>
           <div style={{ float: "right" }}>
-            <strong>{name}</strong>
+            <strong>{user?.displayn}</strong>
           </div>
           <ul className="navbar-nav flex-grow">
-            {name ? (
+            {user ? (
               <NavItem>
                 <NavLink className="text-dark" onClick={exportCSV}>
                   Export Data
@@ -122,7 +114,7 @@ const NavMenu = () => {
               </NavItem>
             )}
             <NavItem>
-              {name && (
+              {user && (
                 <NavLink tag={Link} className="text-dark" to="Well">
                   Well
                 </NavLink>

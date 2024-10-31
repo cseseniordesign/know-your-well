@@ -6,6 +6,8 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 //import FieldSelection from './fieldselection';
 
+import { useUser } from "./usercontext";
+
 var previousEntries = [];
 var listElements = [];
 
@@ -65,23 +67,14 @@ export default function PreviousEntries() {
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
   const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
-    // login check
-    Axios.get("/userinfo", {
-      responseType: "json",
-    })
-      .then(function (response) {
-        let displayname = response.data.displayn;
-        if (displayname == "") {
-          window.alert("You are not yet logged in. Please log in.");
-          navigate("/");
-        }
-      })
-      .catch(function (error) {
-        console.error("Failed to fetch school id:", error);
-      });
-  }, [navigate]);
+    if (user?.displayn === "") {
+      window.alert("You are not yet logged in. Please log in.");
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const backButton = () => {
     window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;

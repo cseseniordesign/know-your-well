@@ -19,6 +19,7 @@ import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
 import { useState, useEffect } from "react";
+import { UserProvider } from "./components/usercontext";
 
 export default function App() {
 
@@ -142,31 +143,33 @@ export default function App() {
 
   return (
     <>
-      <NavMenu />
-      <WellFieldLabContext.Provider
-        value={{
-          wellInfoQueue,
-          setLocalWellInfoQueue,
-          fieldQueue,
-          setLocalFieldQueue,
-        }}
-      >
-        <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route exact path="/well" element={<Well />} />
-          <Route exact path="/editwell" element={<EditWell />} />
-          <Route exact path="/wellinfo" element={<WellInfo />} />
-          <Route exact path="/field" element={<Field />} />
-          <Route exact path="/classlab" element={<ClassLab />} />
-          <Route exact path="/previousentries" element={<PreviousEntries />} />
-          <Route exact path="/aboutproject" element={<AboutProject />} />
-          <Route exact path="/viewfield" element={<ViewField />} />
-          <Route exact path="/viewclasslab" element={<ViewClassLab />} />
-          <Route exact path="/viewwell" element={<ViewWell />} />
-          <Route exact path="/fieldselection" element={<FieldSelection />} />
-          <Route exact path="/formsubmission" element={<FormSubmission />} />
-        </Routes>
-      </WellFieldLabContext.Provider>
+      <UserProvider>
+        <NavMenu />
+        <WellFieldLabContext.Provider
+          value={{
+            wellInfoQueue,
+            setLocalWellInfoQueue,
+            fieldQueue,
+            setLocalFieldQueue,
+          }}
+        >
+          <Routes>
+            <Route exact path="/" element={<Login />} />
+            <Route exact path="/well" element={<Well />} />
+            <Route exact path="/editwell" element={<EditWell />} />
+            <Route exact path="/wellinfo" element={<WellInfo />} />
+            <Route exact path="/field" element={<Field />} />
+            <Route exact path="/classlab" element={<ClassLab />} />
+            <Route exact path="/previousentries" element={<PreviousEntries />} />
+            <Route exact path="/aboutproject" element={<AboutProject />} />
+            <Route exact path="/viewfield" element={<ViewField />} />
+            <Route exact path="/viewclasslab" element={<ViewClassLab />} />
+            <Route exact path="/viewwell" element={<ViewWell />} />
+            <Route exact path="/fieldselection" element={<FieldSelection />} />
+            <Route exact path="/formsubmission" element={<FormSubmission />} />
+          </Routes>
+        </WellFieldLabContext.Provider>
+      </UserProvider>
     </>
   );
 }

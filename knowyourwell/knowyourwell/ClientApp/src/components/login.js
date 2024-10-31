@@ -4,19 +4,28 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import setupIndexedDB from "../setupIndexedDB";
 
+import { useUser } from "./usercontext";
+
 export default function Login() {
   const navigate = useNavigate();
+  const { user, setUser } = useUser();
   const initRedirectRequest = async () => {
     await setupIndexedDB();
     if (
       window.location.href.indexOf("kywtest") > -1 ||
-      process.env.NODE_ENV != "production"
+      process.env.NODE_ENV !== "production"
     ) {
       Axios.get("/createDevSession", {
         responseType: "json",
       })
-        .then(function (response) {
-          if (response.data.success == "success") {
+        .then(async function (response) {
+          if (response.data.success === "success") {
+            await Axios.get("/userinfo", {
+              responseType: "json",
+            })
+              .then(function (response) {
+                setUser(response.data);
+            });
             navigate("/Well");
           }
         })
@@ -35,7 +44,13 @@ export default function Login() {
           }
           return response.text();
         })
-        .then(function (data) {
+        .then(async function (data) {
+          await Axios.get("/userinfo", {
+            responseType: "json",
+          })
+            .then(function (response) {
+              setUser(response.data);
+          });
           window.location.href = data;
         })
         .catch(function (error) {

@@ -4,6 +4,8 @@ import countyOptions from "./resources/counties";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 
+import { useUser } from "./usercontext";
+
 function responseDataToHTMLList(responseData) {
   let HTMLList = [];
   try {
@@ -38,27 +40,18 @@ export default function Well() {
   const [filter, setFilter] = useState(String);
   const [sort, setSort] = useState(String);
   const [wellList, setWells] = useState([]);
+  const { user } = useUser();
 
   const containerRef = useRef(null);
   const navigate = useNavigate();
   // const [schoolid, setSchoolid] = useState("")
 
   useEffect(() => {
-    // login check
-    Axios.get("/userinfo", {
-      responseType: "json",
-    })
-      .then(function (response) {
-        let displayname = response.data.displayn;
-        if (displayname === "") {
-          window.alert("You are not yet logged in. Please log in.");
-          navigate("/");
-        }
-      })
-      .catch(function (error) {
-        console.error("Failed to fetch school id:", error);
-      });
-  }, [navigate]);
+    if (user?.displayn === "") {
+      window.alert("You are not yet logged in. Please log in.");
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {

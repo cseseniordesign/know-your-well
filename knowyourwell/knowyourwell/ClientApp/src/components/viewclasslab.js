@@ -6,6 +6,8 @@ import moment from "moment";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import { useUser } from "./usercontext";
+
 let formElements = [];
 let columnList = [];
 const labelList = [
@@ -43,23 +45,14 @@ export default function ViewLab() {
   const well_id = searchParams.get("well_id");
   const wellcode = searchParams.get("wellcode");
   const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
-    // login check
-    Axios.get("/userinfo", {
-      responseType: "json",
-    })
-      .then(function (response) {
-        let displayname = response.data.displayn;
-        if (displayname == "") {
-          window.alert("You are not yet logged in. Please log in.");
-          navigate("/");
-        }
-      })
-      .catch(function (error) {
-        console.error("Failed to fetch school id:", error);
-      });
-  }, [navigate]);
+    if (user?.displayn === "") {
+      window.alert("You are not yet logged in. Please log in.");
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const backButton = () => {
     window.location.href = `/PreviousEntries?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`;

@@ -10,6 +10,8 @@ import prodWellInfo from "./resources/prodwellinfo";
 import wellInfoPrompts from "./resources/wellinfoprompts";
 import renderField from "./reusable/renderfield";
 import WellFieldLabContext from "./reusable/WellFieldLabContext";
+import { useUser } from "./usercontext";
+import { useNavigate } from "react-router-dom";
 
 export default function WellInfo() {
   let initialWellInfo;
@@ -27,19 +29,15 @@ export default function WellInfo() {
   const [schoolid, setSchoolid] = useState("");
   const { wellInfoQueue, setLocalWellInfoQueue } =
     useContext(WellFieldLabContext);
+  const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
-    // very inefficient solution, may have to come back to this and use user contexts
-    Axios.get("/userinfo", {
-      responseType: "json",
-    })
-      .then(function (response) {
-        setSchoolid(response.data.kywmem);
-      })
-      .catch(function (error) {
-        console.error("Failed to fetch school id:", error);
-      });
-  }, []);
+    if (user?.displayn === "") {
+      window.alert("You are not yet logged in. Please log in.");
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   function updateWellInfo(fieldName, value) {
     setWellInfo((prevData) => ({

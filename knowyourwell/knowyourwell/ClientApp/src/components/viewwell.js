@@ -7,6 +7,8 @@ import countyOptions from "./resources/counties";
 import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 
+import { useUser } from "./usercontext";
+
 const firstColumn = [
   { "Well Code:": "wi_wellcode" },
   { "Data Collector:": "wi_datacollector" },
@@ -63,23 +65,14 @@ export default function ViewWell() {
   const wellcode = searchParams.get("wellcode");
   const navigate = useNavigate();
   const [landFeatures, setLandFeatures] = useState();
+  const { user } = useUser();
 
   useEffect(() => {
-    // login check
-    Axios.get("/userinfo", {
-      responseType: "json",
-    })
-      .then(function (response) {
-        let displayname = response.data.displayn;
-        if (displayname == "") {
-          window.alert("You are not yet logged in. Please log in.");
-          navigate("/");
-        }
-      })
-      .catch(function (error) {
-        console.error("Failed to fetch school id:", error);
-      });
-  }, [navigate]);
+    if (user?.displayn === "") {
+      window.alert("You are not yet logged in. Please log in.");
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const backButton = () => {
     window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;
