@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { List } from "semantic-ui-react";
 import "./css/forms.css";
 import Axios from "axios";
 import moment from "moment";
@@ -39,7 +38,7 @@ const keyList = [
 ];
 
 export default function ViewLab() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const wellName = searchParams.get("wellName");
   const classlab_id = searchParams.get("classlab_id");
   const well_id = searchParams.get("well_id");
@@ -71,15 +70,15 @@ export default function ViewLab() {
       //console.log(formElements.wi_wellcode)
       setLoading(false);
     });
-  }, []);
+  }, [classlab_id]);
 
-  if (formElements.length != 0) {
+  if (formElements.length !== 0) {
     console.log(formElements);
     //console.log(formElements)
     for (let i = 0; i < labelList.length; i += 2) {
       const firstColumnName = labelList[i];
       let firstColumnValue = formElements[keyList[i]];
-      if (firstColumnName == "Date Entered:")
+      if (firstColumnName === "Date Entered:")
         firstColumnValue = moment
           .utc(formElements["cl_datecollected"])
           .format("MM-DD-YYYY hh:mm A");
@@ -89,7 +88,7 @@ export default function ViewLab() {
         secondColumnName = labelList[i + 1];
         secondColumnValue = formElements[keyList[i + 1]];
       }
-      if (secondColumnName == "Date Entered:")
+      if (secondColumnName === "Date Entered:")
         secondColumnValue = moment
           .utc(formElements["cl_datecollected"])
           .format("MM-DD-YYYY hh:mm A");

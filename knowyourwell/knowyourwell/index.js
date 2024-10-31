@@ -540,18 +540,18 @@ app.get("/Wells", async (req, res) => {
   let query = "SELECT * FROM dbo.tblWellInfo";
   kywmemValue = req.session.kywmem;
 
-  if (kywmemValue && kywmemValue != "" && kywmemValue != "undefined") {
+  if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
     query = query + ` WHERE school_id = ${kywmemValue}`;
-    if (req.query.filterBy && req.query.filterBy != "undefined") {
+    if (req.query.filterBy && req.query.filterBy !== "undefined") {
       query = query + ` AND ${req.query.filterBy}`;
     }
   } else {
-    if (req.query.filterBy && req.query.filterBy != "undefined") {
+    if (req.query.filterBy && req.query.filterBy !== "undefined") {
       query = query + ` WHERE ${req.query.filterBy}`;
     }
   }
 
-  if (req.query.sortBy && req.query.sortBy != "undefined") {
+  if (req.query.sortBy && req.query.sortBy !== "undefined") {
     query = query + ` ORDER BY ${req.query.sortBy}`;
   }
 
@@ -912,7 +912,7 @@ app.get("/newwellcode", async (req, res) => {
       return;
     }
     let prev_max_wellcode = recordset.recordset[0].MAXWELLCODE;
-    if (prev_max_wellcode == null) {
+    if (prev_max_wellcode === null) {
       //well code could not be found with this school code meaning this school has not created a well before
       const firstWellCode = sch_code + "001";
       res.status(200).json({ wellcode: firstWellCode });

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { List } from "semantic-ui-react";
 import "./css/forms.css";
 import Axios from "axios";
 import moment from "moment";
@@ -45,7 +44,7 @@ const keyList = [
 ];
 
 export default function ViewField() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const fieldactivity_id = parseInt(searchParams.get("fieldactivity_id"));
   const wellName = searchParams.get("wellName");
   const well_id = searchParams.get("well_id");
@@ -77,7 +76,7 @@ export default function ViewField() {
       //console.log(formElements.wi_wellcode)
       setLoading(false);
     });
-  }, []);
+  }, [fieldactivity_id]);
 
   if (formElements === null) {
     /*
@@ -94,12 +93,12 @@ export default function ViewField() {
   }
 
   //console.log(formElements)
-  if (formElements.length != 0) {
+  if (formElements.length !== 0) {
     //console.log(formElements)
     for (let i = 0; i < labelList.length; i += 2) {
       const firstColumnName = labelList[i];
       let firstColumnValue = formElements[keyList[i]];
-      if (firstColumnName == "Date Entered:")
+      if (firstColumnName === "Date Entered:")
         firstColumnValue = moment
           .utc(formElements["fa_datecollected"])
           .format("MM-DD-YYYY hh:mm A");
@@ -109,7 +108,7 @@ export default function ViewField() {
         secondColumnName = labelList[i + 1];
         secondColumnValue = formElements[keyList[i + 1]];
       }
-      if (secondColumnName == "Date Entered:")
+      if (secondColumnName === "Date Entered:")
         secondColumnValue = moment
           .utc(formElements["fa_datecollected"])
           .format("MM-DD-YYYY hh:mm A");

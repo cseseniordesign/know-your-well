@@ -26,7 +26,6 @@ export default function WellInfo() {
   }
 
   const [wellInfo, setWellInfo] = useState(initialWellInfo);
-  const [schoolid, setSchoolid] = useState("");
   const { wellInfoQueue, setLocalWellInfoQueue } =
     useContext(WellFieldLabContext);
   const navigate = useNavigate();
@@ -89,7 +88,7 @@ export default function WellInfo() {
   async function addWellInfo() {
     const updatedQueue = [
       ...wellInfoQueue,
-      { ...wellInfo, schoolid: schoolid },
+      { ...wellInfo, schoolid: user?.schoolid },
     ];
 
     // Checking to see if user is offline - if so then we cache the data that would have been submitted
@@ -118,7 +117,7 @@ export default function WellInfo() {
           pestmanure: wellInfo.pestmanure,
           phone: wellInfo.phone,
           registNum: wellInfo.registNum,
-          school_id: schoolid,
+          school_id: user?.schoolid,
           smelltaste: wellInfo.smelltaste,
           smelltastedescription: wellInfo.smelltastedescription,
           state: wellInfo.state,

@@ -18,7 +18,7 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
 
     //console.log(entry)
     const buttonClass =
-      entry.labID == null
+      entry.labID === null
         ? "btn btn-primary btn-lg disabled"
         : "btn btn-primary btn-lg";
     listElements.push(
@@ -46,10 +46,10 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
               href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
               style={{ width: "22.5%", height: "17%" }}
               className={buttonClass}
-              aria-disabled={entry.labID == null}
+              aria-disabled={entry.labID === null}
             >
               Class Lab{" "}
-              {entry.labID != null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}
+              {entry.labID !== null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}
             </a>
           </List.Content>
           <br />
@@ -62,7 +62,7 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
 }
 
 export default function PreviousEntries() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
@@ -112,7 +112,7 @@ export default function PreviousEntries() {
       );
       setLoading(false);
     });
-  }, []);
+  }, [wellName, well_id, wellcode]);
 
   if (isLoading) {
     // We need to add the back button here too so that the user doesn't get stuck on this page.

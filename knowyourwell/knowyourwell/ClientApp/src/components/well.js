@@ -94,7 +94,7 @@ export default function Well() {
       setFilterDropdownVisibility(false);
     }
   };
-  if (isLoading && JSON.parse(localStorage.getItem("wellData")) == null) {
+  if (isLoading && JSON.parse(localStorage.getItem("wellData")) === null) {
     return <h1>Loading</h1>;
   } else if (isLoading) {
     return (

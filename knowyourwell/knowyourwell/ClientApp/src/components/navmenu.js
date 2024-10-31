@@ -29,7 +29,7 @@ const NavMenu = () => {
         for (let i = 0; i < response.data.Data.length; i++) {
           csv[i + 1] = "";
           for (const [key, value] of Object.entries(response.data.Data[i])) {
-            if (flag == 0) {
+            if (flag === 0) {
               csv[0] += csvKey[key] + ",";
             }
             csv[i + 1] += value + ",";

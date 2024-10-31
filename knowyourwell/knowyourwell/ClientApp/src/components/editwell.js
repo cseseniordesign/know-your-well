@@ -1,15 +1,13 @@
 ﻿import React from "react";
 import { List } from "semantic-ui-react";
 import { useSearchParams } from "react-router-dom";
-import Axios from "axios";
-import moment from "moment";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useUser } from "./usercontext";
 
 export default function EditWell() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const wellName = searchParams.get("wellName");
   const FieldRedirect = searchParams.get("FieldRedirect");
   const id = searchParams.get("id");

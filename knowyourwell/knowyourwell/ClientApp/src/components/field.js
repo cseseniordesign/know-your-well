@@ -319,7 +319,7 @@ export default function Field() {
         "Any unsaved data will be lost.\nWould you like to continue?",
       )
     ) {
-      if (well_id != null) {
+      if (well_id !== null) {
         window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&wellcode=${wellcode}`;
       } else {
         window.location.href = `/Well`;

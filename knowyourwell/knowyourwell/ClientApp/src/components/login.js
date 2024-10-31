@@ -8,7 +8,7 @@ import { useUser } from "./usercontext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
   const initRedirectRequest = async () => {
     await setupIndexedDB();
     if (
