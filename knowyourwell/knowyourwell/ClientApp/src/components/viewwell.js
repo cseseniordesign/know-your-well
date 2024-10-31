@@ -59,7 +59,7 @@ const secondColumn = [
 ];
 
 export default function ViewWell() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
@@ -107,7 +107,7 @@ export default function ViewWell() {
     }).then(function (response) {
       setLandFeatures(response.data.LandFeatures);
     });
-  }, []);
+  }, [well_id]);
 
   const renderLandFeatures = () => {
     // Check if landFeatures is undefined or null
