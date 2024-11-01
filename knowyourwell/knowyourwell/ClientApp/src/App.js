@@ -18,6 +18,7 @@ import ViewWell from "./components/viewwell";
 import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
+import Images from "./components/images";
 import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
 
@@ -167,6 +168,7 @@ export default function App() {
             <Route exact path="/viewwell" element={<ViewWell />} />
             <Route exact path="/fieldselection" element={<FieldSelection />} />
             <Route exact path="/formsubmission" element={<FormSubmission />} />
+            <Route exact path="/images" element={<Images />} />
           </Routes>
         </WellFieldLabContext.Provider>
       </UserProvider>
