@@ -35,6 +35,7 @@ export default function Images() {
   const wellcode = searchParams.get("wellcode");
 
   useEffect(() => {
+    // Note: for the sake of the prototype, I did not handle giving an alert when geolocation isn't permitted
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitude(position.coords.latitude);
@@ -60,14 +61,13 @@ export default function Images() {
   //this should be async once it's not a prototype
   function submitForm() {
     if (
-      // vv form validation is not in this prototype
       validForm() &&
       type &&
       window.confirm(
         `Submitted data is final and can only be edited by Nebraska Water Center Staff.\n\nSubmit this photo as an image of ${type}?`
       )
     ) {
-      //here we will eventually handle the storage stuff
+      //here we will eventually handle the storage stuff. for the prototype, nothing happens
       alert(
         `Photo submitted! Upload another, or press back to return to the ${wellName}.`
       );
@@ -237,6 +237,7 @@ export default function Images() {
             </div>
           </div>
           <br />
+          { /* Save button doesn't do anything in the prototype */ }
           <FormFooter submitForm={submitForm} backButton={backButton} />
         </div>
       ) : (
