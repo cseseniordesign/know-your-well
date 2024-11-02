@@ -156,15 +156,24 @@ export default function Images() {
               *
             </span>
           </h4>
-          <input
-            type="file"
-            id="cropLand"
-            accept="image/*"
-            capture="camera"
-            onChange={handleFileChange}
-            required
-          />
-
+          {isField ? (
+            <input
+              type="file"
+              id="cropLand"
+              accept="image/*"
+              capture="camera"
+              onChange={handleFileChange}
+              required
+            />
+          ) : (
+            <input
+              type="file"
+              id="cropLand"
+              accept="image/*"
+              onChange={handleFileChange}
+              required
+            />
+          )}
           {image && (
             <div>
               <h4>Preview:</h4>
@@ -237,7 +246,7 @@ export default function Images() {
             </div>
           </div>
           <br />
-          { /* Save button doesn't do anything in the prototype */ }
+          {/* Save button doesn't do anything in the prototype */}
           <FormFooter submitForm={submitForm} backButton={backButton} />
         </div>
       ) : (
