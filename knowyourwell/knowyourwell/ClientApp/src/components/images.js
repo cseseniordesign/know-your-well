@@ -159,7 +159,7 @@ export default function Images() {
           {isField ? (
             <input
               type="file"
-              id="cropLand"
+              id="uploadedImage"
               accept="image/*"
               capture="camera"
               onChange={handleFileChange}
@@ -168,7 +168,7 @@ export default function Images() {
           ) : (
             <input
               type="file"
-              id="cropLand"
+              id="uploadedImage"
               accept="image/*"
               onChange={handleFileChange}
               required
