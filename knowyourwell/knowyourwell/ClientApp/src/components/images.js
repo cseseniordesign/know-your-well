@@ -23,7 +23,7 @@ const checkFieldType = {
 
 export default function Images() {
   const [image, setImage] = useState();
-  const [type, setType] = useState();
+  const [type, setType] = useState("");
   const [date, setDate] = useState(Date.now());
   const [observations, setObservations] = useState();
   const [isField, setIsField] = useState(false);
@@ -69,7 +69,8 @@ export default function Images() {
     ) {
       //here we will eventually handle the storage stuff. for the prototype, nothing happens
       alert(
-        `Photo submitted! Upload another, or press back to return to the ${wellName}.`
+        `Photo submitted! Upload another, or press back to return to the ${wellName}.
+        \nPhoto name: ${new Date().toISOString().slice(0, 10)}-${type.replace(" ", "")}-${wellcode}.[extension]`
       );
       window.location.reload();
     }
@@ -80,8 +81,8 @@ export default function Images() {
       //If no type has been specified, the user hasn't interacted with the page and has no data to lose.
       type
         ? window.confirm(
-            "Any unsaved data will be lost.\nWould you like to continue?"
-          )
+          "Any unsaved data will be lost.\nWould you like to continue?"
+        )
         : true
     ) {
       if (well_id != null) {
