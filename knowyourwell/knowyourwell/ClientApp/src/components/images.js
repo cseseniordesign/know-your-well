@@ -255,20 +255,12 @@ export default function Images() {
             </div>
           </div>
           <br />
-          {/* Save button doesn't do anything in the prototype */}
-          <FormFooter submitForm={submitForm} backButton={backButton} />
+          <FormFooter submitForm={submitForm} backButton={backButton} saveEnabled={false} />
         </div>
       ) : (
         <div>
           <br />
-          <button
-            type="button"
-            style={{ width: "130px", height: "17%" }}
-            className="btn btn-primary btn-lg"
-            onClick={backButton}
-          >
-            Back
-          </button>
+          <FormFooter backButton={backButton} saveEnabled={false} submitEnabled={false} />
         </div>
       )}
     </form>
