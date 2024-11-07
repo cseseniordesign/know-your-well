@@ -29,8 +29,8 @@ export default function Images() {
   const [isField, setIsField] = useState(false);
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
-  const [searchParams] = useSearchParams();
 
+  const [searchParams] = useSearchParams();
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
