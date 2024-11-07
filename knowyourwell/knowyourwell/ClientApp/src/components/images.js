@@ -4,6 +4,7 @@ import DatePicker from "react-datetime";
 import LongTextEntry from "./reusable/longtextentry";
 import NumberEntry from "./reusable/numberentry";
 import FormFooter from "./reusable/formfooter";
+import uploadPhoto from "./reusable/photoUpload";
 
 /*
 The contents of this file are a protoype! They are intended to get the visuals of the image upload page working.
@@ -22,7 +23,7 @@ const checkFieldType = {
 };
 
 export default function Images() {
-  const [image, setImage] = useState();
+  const [images, setImages] = useState([]);
   const [type, setType] = useState();
   const [date, setDate] = useState(Date.now());
   const [observations, setObservations] = useState();
@@ -45,7 +46,7 @@ export default function Images() {
   }, []);
 
   const handleFileChange = (event) => {
-    setImage(event.target.files[0]);
+    setImages(Array.from(event.target.files));
   };
 
   const validForm = () => {
@@ -59,7 +60,7 @@ export default function Images() {
   };
 
   //this should be async once it's not a prototype
-  function submitForm() {
+  async function submitForm() {
     if (
       validForm() &&
       type &&
@@ -67,11 +68,55 @@ export default function Images() {
         `Submitted data is final and can only be edited by Nebraska Water Center Staff.\n\nSubmit this photo as an image of ${type}?`
       )
     ) {
-      //here we will eventually handle the storage stuff. for the prototype, nothing happens
-      alert(
-        `Photo submitted! Upload another, or press back to return to the ${wellName}.`
-      );
-      window.location.reload();
+      try {
+        for (let i = 0; i < images.length; i++) {
+          const image = images[i];
+          const containerName = `well-images-${well_id}`;
+          const dateObj = new Date(date);
+
+        const year = dateObj.getFullYear().toString();
+        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+        const day = dateObj.getDate().toString().padStart(2, '0');
+        const hour = dateObj.getHours().toString().padStart(2, '0');
+        const minute = dateObj.getMinutes().toString().padStart(2, '0');
+        const second = dateObj.getSeconds().toString().padStart(2, '0');
+
+        function sanitizeFilename(name) {
+          return name.replace(/[\\/#?%*:|"<> ]/g, '-');
+        }
+        const sanitizedType = sanitizeFilename(type.toLowerCase());
+        const fileExtension = image.name.split('.').pop();
+        const blobName = `${sanitizedType}-${year}-${month}-${day}-${hour}-${minute}-${second}.${fileExtension}`;
+
+        const metadata = {
+          observations: observations || '',
+          latitude: latitude.toString(),
+          longitude: longitude.toString(),
+          dateTaken: dateObj.toISOString(),
+          photoType: type,
+        };
+  
+          await uploadPhoto(
+            image,
+            containerName,
+            blobName,
+            metadata,
+            {
+              observations: observations || '',
+              latitude: latitude.toString(),
+              longitude: longitude.toString(),
+              dateTaken: new Date(date).toISOString(),
+              photoType: type,
+            }
+          );
+        }
+        alert(
+          `Photos submitted! Upload more, or press back to return to ${wellName}.`
+        );
+        window.location.reload();
+      } catch (err) {
+        alert(`Error uploading photos: ${err.message}`);
+      }
     }
   }
 
@@ -160,22 +205,32 @@ export default function Images() {
             type="file"
             id="cropLand"
             accept="image/*"
-            capture="camera"
+            multiple
+            capture={isField ? 'camera' : undefined}
             onChange={handleFileChange}
             required
           />
 
-          {image && (
+          {images.length > 0 && (
             <div>
-              <h4>Preview:</h4>
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Preview"
-                style={{ width: "100%", maxWidth: "300px", height: "auto" }}
-                required={true}
-              />
+            <h4>Preview:</h4>
+            <div style={{ textAlign: 'center' }}>
+              {images.map((img, index) => (
+                <img
+                  key={index}
+                  src={URL.createObjectURL(img)}
+                  alt={`Preview ${index + 1}`}
+                  style={{
+                    width: "100%",
+                    maxWidth: "300px",
+                    height: "auto",
+                    margin: "5px",
+                  }}
+                />
+              ))}
             </div>
-          )}
+          </div>
+        )}
           <LongTextEntry
             fieldTitle="Observations:"
             value={observations}
