@@ -27,20 +27,28 @@ export default function Images() {
   const [date, setDate] = useState(Date.now());
   const [observations, setObservations] = useState();
   const [isField, setIsField] = useState(false);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
   const [searchParams] = useSearchParams();
+
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
 
   useEffect(() => {
-    // Note: for the sake of the prototype, I did not handle giving an alert when geolocation isn't permitted
     if (navigator.geolocation) {
+      console.log("Geolocation enabled");
       navigator.geolocation.getCurrentPosition((position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      });
+        if (position.coords.latitude && position.coords.longitude) {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        }
+      }, (error) => {
+        console.log(error);
+        alert(
+          "Geolocation is not working right now. If uploading a photo that requires coordinates, please fill them in manually."
+        );
+      })
     }
   }, []);
 
@@ -69,7 +77,7 @@ export default function Images() {
     ) {
       //here we will eventually handle the storage stuff. for the prototype, nothing happens
       alert(
-        `Photo submitted! Upload another, or press back to return to the ${wellName}.`
+        `Photo submitted! Upload another, or press back to return to ${wellName}.`
       );
       window.location.reload();
     }
@@ -111,8 +119,9 @@ export default function Images() {
           setType(e.target.value);
           setIsField(checkFieldType[e.target.value]);
         }}
+        defaultValue={"No Selection"}
       >
-        <option disabled selected>
+        <option disabled value="No Selection">
           Select a type
         </option>
         <option id="well-owner-consent" value="Well Owner Consent Form">
