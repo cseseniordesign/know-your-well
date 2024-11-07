@@ -100,6 +100,18 @@ export default function EditWell() {
         </List.Content>
         <br />
       </List.Item>
+      <List.Item>
+        <List.Content>
+          <a
+            href={`/previousimages?id=${id}&wellName=${wellName}&wellcode=${wellcode}`}
+            style={{ width: "45%", height: "17%" }}
+            className="btn btn-primary btn-lg btn-block"
+          >
+            Previous Images
+          </a>
+        </List.Content>
+        <br />
+      </List.Item>
       {/*}
             <List.Item>
                 <List.Content >

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Axios from "axios";
+import moment from "moment";
 import { useSearchParams } from "react-router-dom";
 import DatePicker from "react-datetime";
 import LongTextEntry from "./reusable/longtextentry";
@@ -25,7 +27,7 @@ const checkFieldType = {
 export default function Images() {
   const [images, setImages] = useState([]);
   const [type, setType] = useState();
-  const [date, setDate] = useState(Date.now());
+  const [date, setDate] = useState(moment(Date.now()));
   const [observations, setObservations] = useState();
   const [isField, setIsField] = useState(false);
   const [latitude, setLatitude] = useState();
@@ -82,45 +84,58 @@ export default function Images() {
           const containerName = `well-images-${well_id}`;
           const dateObj = new Date(date);
 
-        const year = dateObj.getFullYear().toString();
-        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-        const day = dateObj.getDate().toString().padStart(2, '0');
-        const hour = dateObj.getHours().toString().padStart(2, '0');
-        const minute = dateObj.getMinutes().toString().padStart(2, '0');
-        const second = dateObj.getSeconds().toString().padStart(2, '0');
+          const year = dateObj.getFullYear().toString();
+          const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+          const day = dateObj.getDate().toString().padStart(2, '0');
+          const hour = dateObj.getHours().toString().padStart(2, '0');
+          const minute = dateObj.getMinutes().toString().padStart(2, '0');
+          const second = dateObj.getSeconds().toString().padStart(2, '0');
 
-        function sanitizeFilename(name) {
-          return name.replace(/[\\/#?%*:|"<> ]/g, '-');
-        }
-        const sanitizedType = sanitizeFilename(type.toLowerCase());
-        const fileExtension = image.name.split('.').pop();
-        const blobName = `${sanitizedType}-${year}-${month}-${day}-${hour}-${minute}-${second}.${fileExtension}`;
+          function sanitizeFilename(name) {
+            return name.replace(/[\\/#?%*:|"<> ]/g, '-');
+          }
+          const sanitizedType = sanitizeFilename(type.toLowerCase());
+          const fileExtension = image.name.split('.').pop();
+          const blobName = `${sanitizedType}-${year}-${month}-${day}-${hour}-${minute}-${second}.${fileExtension}`;
 
-        const metadata = {
-          observations: observations || '',
-          latitude: latitude.toString(),
-          longitude: longitude.toString(),
-          dateTaken: dateObj.toISOString(),
-          photoType: type,
-        };
+          const metadata = {
+            observations: observations || '',
+            latitude: latitude.toString(),
+            longitude: longitude.toString(),
+            dateTaken: dateObj.toISOString(),
+            photoType: type,
+          };
   
-          await uploadPhoto(
-            image,
-            containerName,
-            blobName,
-            metadata,
-            {
-              observations: observations || '',
-              latitude: latitude.toString(),
-              longitude: longitude.toString(),
-              dateTaken: new Date(date).toISOString(),
-              photoType: type,
-            }
-          );
+          await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
+            .then(async () => {
+              await uploadPhoto(
+                image,
+                containerName,
+                blobName,
+                metadata,
+                {
+                  observations: observations || '',
+                  latitude: latitude.toString(),
+                  longitude: longitude.toString(),
+                  dateTaken: new Date(date).toISOString(),
+                  photoType: type,
+                }
+              );
+              await Axios.post("/createimage", {
+                well_id: well_id,
+                im_type: type,
+                im_latitude: latitude,
+                im_longitude: longitude,
+                im_genlatitude: latitude,
+                im_genlongitude: longitude,
+                name: 'test',
+                observations: observations,
+                im_filename: blobName,
+                datecollected: date,
+              });
+              alert(`Photos submitted! Upload more, or press back to return to ${wellName}.`);
+            })
         }
-        alert(
-          `Photos submitted! Upload more, or press back to return to ${wellName}.`
-        );
         window.location.reload();
       } catch (err) {
         alert(`Error uploading photos: ${err.message}`);

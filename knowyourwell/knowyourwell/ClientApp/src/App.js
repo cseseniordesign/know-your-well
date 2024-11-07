@@ -19,8 +19,10 @@ import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
 import Images from "./components/images";
+import PreviousImages from "./components/previousimages";
 import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
+import ViewImage from "./components/viewImage";
 
 export default function App() {
 
@@ -169,6 +171,8 @@ export default function App() {
             <Route exact path="/fieldselection" element={<FieldSelection />} />
             <Route exact path="/formsubmission" element={<FormSubmission />} />
             <Route exact path="/images" element={<Images />} />
+            <Route exact path="/previousimages" element={<PreviousImages />} />
+            <Route exact path="/viewimage" element={<ViewImage />} />
           </Routes>
         </WellFieldLabContext.Provider>
       </UserProvider>
