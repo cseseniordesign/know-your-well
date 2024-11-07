@@ -28,20 +28,28 @@ export default function Images() {
   const [date, setDate] = useState(Date.now());
   const [observations, setObservations] = useState();
   const [isField, setIsField] = useState(false);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+
   const [searchParams] = useSearchParams();
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
 
   useEffect(() => {
-    // Note: for the sake of the prototype, I did not handle giving an alert when geolocation isn't permitted
     if (navigator.geolocation) {
+      console.log("Geolocation enabled");
       navigator.geolocation.getCurrentPosition((position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      });
+        if (position.coords.latitude && position.coords.longitude) {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        }
+      }, (error) => {
+        console.log(error);
+        alert(
+          "Geolocation is not working right now. If uploading a photo that requires coordinates, please fill them in manually."
+        );
+      })
     }
   }, []);
 
@@ -156,8 +164,9 @@ export default function Images() {
           setType(e.target.value);
           setIsField(checkFieldType[e.target.value]);
         }}
+        defaultValue={"No Selection"}
       >
-        <option disabled selected>
+        <option disabled value="No Selection">
           Select a type
         </option>
         <option id="well-owner-consent" value="Well Owner Consent Form">
@@ -292,20 +301,12 @@ export default function Images() {
             </div>
           </div>
           <br />
-          { /* Save button doesn't do anything in the prototype */ }
-          <FormFooter submitForm={submitForm} backButton={backButton} />
+          <FormFooter submitForm={submitForm} backButton={backButton} saveEnabled={false} />
         </div>
       ) : (
         <div>
           <br />
-          <button
-            type="button"
-            style={{ width: "130px", height: "17%" }}
-            className="btn btn-primary btn-lg"
-            onClick={backButton}
-          >
-            Back
-          </button>
+          <FormFooter backButton={backButton} saveEnabled={false} submitEnabled={false} />
         </div>
       )}
     </form>
