@@ -155,7 +155,7 @@ export default function Images() {
 
   return (
     <form id="submissionAlert">
-      <h2>{wellName}: Images</h2>
+      <h2>{wellName}: Upload Images</h2>
       <div className="requiredField">
         <br></br>
         <p>* = Required Field</p>
