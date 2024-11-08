@@ -8,11 +8,6 @@ import NumberEntry from "./reusable/numberentry";
 import FormFooter from "./reusable/formfooter";
 import uploadPhoto from "./reusable/photoUpload";
 
-/*
-The contents of this file are a protoype! They are intended to get the visuals of the image upload page working.
-Major restructuring is expected as this is actually developed.
-*/
-
 const checkFieldType = {
   "Well Owner Consent Form": false,
   "Image Release Consent Form": false,
@@ -40,7 +35,6 @@ export default function Images() {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      console.log("Geolocation enabled");
       navigator.geolocation.getCurrentPosition((position) => {
         if (position.coords.latitude && position.coords.longitude) {
           setLatitude(position.coords.latitude);
@@ -69,7 +63,6 @@ export default function Images() {
     }
   };
 
-  //this should be async once it's not a prototype
   async function submitForm() {
     if (
       validForm() &&
