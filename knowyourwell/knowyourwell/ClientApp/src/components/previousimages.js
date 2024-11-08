@@ -113,7 +113,7 @@ export default function PreviousImages() {
   return (
     <List style={{ textAlign: "center" }}>
       <br />
-      <h2>{wellName}: Previous Images</h2>
+      <h2>{wellName}: Previously Uploaded Images</h2>
       <br />
       {listElements}
       <List.Item>

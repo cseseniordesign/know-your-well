@@ -93,8 +93,8 @@ export default function Images() {
 
           const metadata = {
             observations: observations || '',
-            latitude: latitude.toString(),
-            longitude: longitude.toString(),
+            latitude: latitude?.toString() || '',
+            longitude: longitude?.toString() || '',
             dateTaken: dateObj.toISOString(),
             photoType: type,
           };
@@ -108,8 +108,8 @@ export default function Images() {
                 metadata,
                 {
                   observations: observations || '',
-                  latitude: latitude.toString(),
-                  longitude: longitude.toString(),
+                  latitude: latitude?.toString() || '',
+                  longitude: longitude?.toString() || '',
                   dateTaken: new Date(date).toISOString(),
                   photoType: type,
                 }
@@ -117,10 +117,10 @@ export default function Images() {
               await Axios.post("/createimage", {
                 well_id: well_id,
                 im_type: type,
-                im_latitude: latitude,
-                im_longitude: longitude,
-                im_genlatitude: latitude,
-                im_genlongitude: longitude,
+                im_latitude: latitude ?? 0,
+                im_longitude: longitude ?? 0,
+                im_genlatitude: latitude ?? 0,
+                im_genlongitude: longitude ?? 0,
                 name: 'test',
                 observations: observations,
                 im_filename: blobName,

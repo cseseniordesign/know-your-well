@@ -107,7 +107,7 @@ export default function EditWell() {
             style={{ width: "45%", height: "17%" }}
             className="btn btn-primary btn-lg btn-block"
           >
-            Previous Images
+            Previously Uploaded Images
           </a>
         </List.Content>
         <br />
