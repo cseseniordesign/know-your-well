@@ -123,7 +123,6 @@ export default function ViewImage() {
         <br />
         <div className="container" style={{ textAlign: "center" }}>
           <div>
-            <h4>Image:</h4>
             <img
               src={URL.createObjectURL(formElements.blob)}
               alt="Preview"
@@ -150,6 +149,19 @@ export default function ViewImage() {
       </div>
     );
   } else {
-    return <h1>Loading</h1>;
+    return (
+      <div className="container" style={{ textAlign: "center" }}>
+        <h1>Loading</h1>
+        <button
+          type="button"
+          style={{ width: "130px", height: "17%" }}
+          className="btn btn-primary btn-lg"
+          onClick={backButton}
+        >
+          Back
+        </button>
+      </div>
+    )
+    
   }
 }

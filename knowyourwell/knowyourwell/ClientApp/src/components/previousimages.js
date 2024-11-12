@@ -11,7 +11,6 @@ let listElements = [];
 
 function generateListElements(previousImages, well_id, name, wellcode) {
   for (let [i, entry] of previousImages.entries()) {
-
     listElements.push(
       <div key={i}>
         <List.Item>
@@ -27,7 +26,7 @@ function generateListElements(previousImages, well_id, name, wellcode) {
               style={{ width: "22.5%", height: "17%" }}
               className="btn btn-primary btn-lg"
             >
-              Image (Image ID: {entry.imageID})
+              {entry.imageType}
             </a>
           </List.Content>
           <br />
@@ -71,11 +70,19 @@ export default function PreviousImages() {
 
       for (i = 0; i < imageList.length; i++) {
         const imageEntry = imageList[i];
-        const entry = {
-          imageDate: imageEntry.im_datecollected,
-          imageID: imageEntry.image_id,
-        };
-        previousImages.push(entry);
+        await Axios.get("/GetImage", {
+          responseType: "json",
+          params: {
+            image_id: imageEntry.image_id,
+          },
+        }).then((response) => {
+          const entry = {
+            imageDate: imageEntry.im_datecollected,
+            imageID: imageEntry.image_id,
+            imageType: response.data.Image[0].im_type,
+          };
+          previousImages.push(entry);
+        });
       }
       listElements = generateListElements(
         previousImages,

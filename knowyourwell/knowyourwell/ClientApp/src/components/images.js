@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import moment from "moment";
 import { useSearchParams } from "react-router-dom";
 import DatePicker from "react-datetime";
-import LongTextEntry from "./reusable/longtextentry";
 import NumberEntry from "./reusable/numberentry";
 import FormFooter from "./reusable/formfooter";
 import uploadPhoto from "./reusable/photoUpload";
+import imagePrompts from "./resources/imageprompts";
+import renderField from "./reusable/renderfield";
+import prodImageData from "./resources/prodimagedata";
+import devImageData from "./resources/devimagedata";
+import EntryPrompt from "./reusable/entryprompt";
 
 const checkFieldType = {
   "Well Owner Consent Form": false,
@@ -21,31 +24,45 @@ const checkFieldType = {
 
 export default function Images() {
   const [images, setImages] = useState([]);
-  const [type, setType] = useState();
-  const [date, setDate] = useState(moment(Date.now()));
-  const [observations, setObservations] = useState();
-  const [isField, setIsField] = useState(false);
-  const [latitude, setLatitude] = useState();
-  const [longitude, setLongitude] = useState();
-
   const [searchParams] = useSearchParams();
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
 
+  let initialImageData;
+
+  if (
+    window.location.href.indexOf("kywtest") > -1 ||
+    process.env.NODE_ENV !== "production"
+  ) {
+    initialImageData = devImageData;
+  } else {
+    initialImageData = prodImageData;
+  }
+
+  const [imageData, setImageData] = useState(initialImageData);
+  function updateImageData(fieldName, value) {
+    setImageData((prevData) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  }
+
+  // geolocation
+  const [location, setLocation] = useState(null);
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        if (position.coords.latitude && position.coords.longitude) {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-        }
-      }, (error) => {
-        console.log(error);
-        alert(
-          "Geolocation is not working right now. If uploading a photo that requires coordinates, please fill them in manually."
-        );
-      })
+        setLocation(position.coords);
+        updateImageData("im_latitude", position.coords.latitude);
+        updateImageData("im_longitude", position.coords.longitude);
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+      alert(
+        "Geolocation is not working right now, please fill it in manually.",
+      );
     }
   }, []);
 
@@ -64,18 +81,19 @@ export default function Images() {
   };
 
   async function submitForm() {
+    imageData.well_id = well_id;
     if (
       validForm() &&
-      type &&
+      imageData.type &&
       window.confirm(
-        `Submitted data is final and can only be edited by Nebraska Water Center Staff.\n\nSubmit this photo as an image of ${type}?`
+        `Submitted data is final and can only be edited by Nebraska Water Center Staff.\n\nSubmit this photo as an image of ${imageData.type}?`
       )
     ) {
       try {
         for (let i = 0; i < images.length; i++) {
           const image = images[i];
           const containerName = `well-images-${well_id}`;
-          const dateObj = new Date(date);
+          const dateObj = new Date(imageData.dateentered);
 
           const year = dateObj.getFullYear().toString();
           const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
@@ -87,16 +105,18 @@ export default function Images() {
           function sanitizeFilename(name) {
             return name.replace(/[\\/#?%*:|"<> ]/g, '-');
           }
-          const sanitizedType = sanitizeFilename(type.toLowerCase());
+          const sanitizedType = sanitizeFilename(imageData.type.toLowerCase());
           const fileExtension = image.name.split('.').pop();
           const blobName = `${sanitizedType}-${year}-${month}-${day}-${hour}-${minute}-${second}.${fileExtension}`;
 
+          imageData.blobName = blobName;
+
           const metadata = {
-            observations: observations || '',
-            latitude: latitude?.toString() || '',
-            longitude: longitude?.toString() || '',
+            observations: imageData.observations || '',
+            latitude: imageData.im_latitude?.toString() || '',
+            longitude: imageData.im_longitude?.toString() || '',
             dateTaken: dateObj.toISOString(),
-            photoType: type,
+            photoType: imageData.type,
           };
   
           await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
@@ -107,24 +127,24 @@ export default function Images() {
                 blobName,
                 metadata,
                 {
-                  observations: observations || '',
-                  latitude: latitude?.toString() || '',
-                  longitude: longitude?.toString() || '',
-                  dateTaken: new Date(date).toISOString(),
-                  photoType: type,
+                  observations: imageData.observations || '',
+                  latitude: imageData.im_latitude?.toString() || '',
+                  longitude: imageData.im_longitude?.toString() || '',
+                  dateTaken: new Date(imageData.dateentered).toISOString(),
+                  photoType: imageData.type,
                 }
               );
               await Axios.post("/createimage", {
-                well_id: well_id,
-                im_type: type,
-                im_latitude: latitude ?? 0,
-                im_longitude: longitude ?? 0,
-                im_genlatitude: latitude ?? 0,
-                im_genlongitude: longitude ?? 0,
-                name: 'test',
-                observations: observations,
-                im_filename: blobName,
-                datecollected: date,
+                well_id: imageData.well_id,
+                im_type: imageData.type,
+                im_latitude: imageData.im_latitude ?? 0,
+                im_longitude: imageData.im_longitude ?? 0,
+                im_genlatitude: imageData.im_latitude ?? 0,
+                im_genlongitude: imageData.im_longitude ?? 0,
+                name: imageData.name,
+                observations: imageData.observations,
+                im_filename: imageData.blobName,
+                datecollected: imageData.dateentered,
               });
               alert(`Photos submitted! Upload more, or press back to return to ${wellName}.`);
             })
@@ -139,7 +159,7 @@ export default function Images() {
   const backButton = () => {
     if (
       //If no type has been specified, the user hasn't interacted with the page and has no data to lose.
-      type
+      imageData.type
         ? window.confirm(
             "Any unsaved data will be lost.\nWould you like to continue?"
           )
@@ -164,70 +184,25 @@ export default function Images() {
           fields.
         </p>
       </div>
-      <label>Choose the type of image you want to upload:</label>
-      <select
-        name="Image Type"
-        id="image-type"
-        onChange={(e) => {
-          setType(e.target.value);
-          setIsField(checkFieldType[e.target.value]);
-        }}
-        defaultValue={"No Selection"}
-      >
-        <option disabled value="No Selection">
-          Select a type
-        </option>
-        <option id="well-owner-consent" value="Well Owner Consent Form">
-          Well Owner Consent Form
-        </option>
-        <option id="image-release-consent" value="Image Release Consent Form">
-          Image Release Consent Form
-        </option>
-        <option id="well-head" value="Well Head">
-          Well Head
-        </option>
-        <option id="nearest-surface-water" value="Nearest Surface Water">
-          Nearest Suface Water
-        </option>
-        <option id="nearest-cropland" value="Nearest Cropland">
-          Nearest Cropland
-        </option>
-        <option
-          id="nearest-barnyard-or-pasture"
-          value="Nearest Barnyard or Pasture"
-        >
-          Nearest Barnyard or Pasture
-        </option>
-        <option id="nearest-septic-system" value="Nearest Septic System">
-          Nearest Septic System
-        </option>
-        <option id="uncategorized-Item" value="Uncategorized Item">
-          Uncategorized Item
-        </option>
-      </select>
-      {type ? (
+      {renderField(
+        imagePrompts.find(prompt => {
+          return prompt.id === "type";
+        }),
+        imageData,
+        updateImageData)}
+      {imageData.type ? (
         <div>
           <br />
-          <h4>
-            {isField ? "Take" : "Upload"} a Photo of the {type}
-            <span
-              className="requiredField"
-              data-testid="requiredFieldIndicator"
-            >
-              {" "}
-              *
-            </span>
-          </h4>
+          <EntryPrompt id='image' fieldTitle={`${checkFieldType[imageData.type] ? "Take" : "Upload"} a Photo of the ${imageData.type}`} required={true} />
           <input
             type="file"
             id="cropLand"
             accept="image/*"
             multiple
-            capture={isField ? 'camera' : undefined}
+            capture={checkFieldType[imageData.type] ? 'camera' : undefined}
             onChange={handleFileChange}
             required
           />
-
           {images.length > 0 && (
             <div>
             <h4>Preview:</h4>
@@ -248,44 +223,48 @@ export default function Images() {
             </div>
           </div>
         )}
-          <LongTextEntry
-            fieldTitle="Observations:"
-            value={observations}
-            id="observations"
-            setValue={(value) => setObservations(value)}
-            required={false}
-          />
-          <div className="css">
-            {isField && (
+          <div>
+            {location || !navigator.onLine ? (
               <div>
                 <NumberEntry
                   fieldTitle="Latitude (use 4-12 decimals):"
-                  value={latitude}
+                  value={imageData.im_latitude}
                   min="40"
                   max="43"
-                  id="latitude"
+                  id="im_latitude"
                   label="Degrees"
-                  setValue={(value) => setLatitude(value)}
+                  setValue={(value) => updateImageData("im_latitude", value)}
                   required={true}
                 />
                 <NumberEntry
                   fieldTitle="Longitude (use 4-12 decimals):"
-                  value={longitude}
+                  value={imageData.im_longitude}
                   min="-104"
                   max="-95.417"
-                  id="longitude"
+                  id="im_longitude"
                   label="Degrees"
-                  setValue={(value) => setLongitude(value)}
+                  setValue={(value) => updateImageData("im_longitude", value)}
                   required={true}
                 />
               </div>
+            ) : (
+              <div>
+                <p>Please allow this site to access your location</p>
+                <button onClick={() => window.location.reload()}>Reload</button>
+              </div>
             )}
+          </div>
+          {imagePrompts.map((prompt) => (
+            prompt.id !== "type" &&
+            <div key={prompt.id}>
+              {renderField(prompt, imageData, updateImageData)}
+            </div>
+          ))}
+          <hr className="section-divider" />
+          <div className="css">
             <label htmlFor="dateentered">
-              Date Taken:
-              <span
-                className="requiredField"
-                data-testid="requiredFieldIndicator"
-              >
+              Date Entered:
+              <span className="requiredField" data-testid="requiredFieldIndicator">
                 {" "}
                 *
               </span>
@@ -293,10 +272,10 @@ export default function Images() {
             <div id="dateentered">
               <DatePicker
                 required
-                value={date}
+                value={imageData.dateentered}
                 dateFormat="MM-DD-YYYY"
                 timeFormat="hh:mm A"
-                onChange={(value) => setDate(value)}
+                onChange={(value) => updateImageData("dateentered", value)}
                 inputProps={{
                   style: {
                     width: 300,
