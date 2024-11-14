@@ -223,8 +223,9 @@ export default function Images() {
             </div>
           </div>
         )}
+        {checkFieldType[imageData.type] && (
           <div>
-            {location || !navigator.onLine ? (
+            {(location || !navigator.onLine) ? (
               <div>
                 <NumberEntry
                   fieldTitle="Latitude (use 4-12 decimals):"
@@ -254,6 +255,7 @@ export default function Images() {
               </div>
             )}
           </div>
+        )}
           {imagePrompts.map((prompt) => (
             prompt.id !== "type" &&
             <div key={prompt.id}>

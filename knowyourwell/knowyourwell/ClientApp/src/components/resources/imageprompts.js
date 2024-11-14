@@ -1,7 +1,7 @@
 const imagePrompts = [
   {
     type: "dropdownentry",
-    options: ["Well Owner Consent Form", "Image Release Consent Form", "Well Head", "Nearest Suface Water", "Nearest Cropland", "Nearest Barnyard or Pasture", "Nearest Septic System", "Uncategorized Item"],
+    options: ["Well Owner Consent Form", "Image Release Consent Form", "Well Head", "Nearest Surface Water", "Nearest Cropland", "Nearest Barnyard or Pasture", "Nearest Septic System", "Uncategorized Item"],
     fieldTitle: "Choose the type of image you want to upload:",
     value: "type",
     id: "type",
