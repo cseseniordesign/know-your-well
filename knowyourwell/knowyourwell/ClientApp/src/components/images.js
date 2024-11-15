@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import DatePicker from "react-datetime";
@@ -10,6 +10,7 @@ import renderField from "./reusable/renderfield";
 import prodImageData from "./resources/prodimagedata";
 import devImageData from "./resources/devimagedata";
 import EntryPrompt from "./reusable/entryprompt";
+import WellFieldLabContext from "./reusable/WellFieldLabContext";
 
 const checkFieldType = {
   "Well Owner Consent Form": false,
@@ -28,6 +29,8 @@ export default function Images() {
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
+  const { imageDataQueue, setLocalImageDataQueue } =
+    useContext(WellFieldLabContext);
 
   let initialImageData;
 
@@ -82,6 +85,11 @@ export default function Images() {
 
   async function submitForm() {
     imageData.well_id = well_id;
+    const updatedQueue = [
+      ...imageDataQueue,
+      { ...imageData },
+    ];
+
     if (
       validForm() &&
       imageData.type &&
@@ -147,7 +155,12 @@ export default function Images() {
                 datecollected: imageData.dateentered,
               });
               alert(`Photos submitted! Upload more, or press back to return to ${wellName}.`);
-            })
+            })   
+            // if the request fails, we know we are offline
+            .catch(() => {
+              setLocalImageDataQueue(updatedQueue);
+              alert("You are offline, the Image will automatically be submitted when you regain an internet connection");
+            });
         }
         window.location.reload();
       } catch (err) {

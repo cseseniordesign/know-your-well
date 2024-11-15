@@ -50,6 +50,18 @@ export default function App() {
     localStorage.setItem("wellInfoQueue", JSON.stringify(newValue));
   };
 
+  const [imageDataQueue, setImageDataQueue] = useState(() => {
+    const storedQueue = localStorage.getItem("imageDataQueue");
+    return storedQueue && storedQueue !== "undefined"
+      ? JSON.parse(storedQueue)
+      : [];
+  });
+
+  const setLocalImageDataQueue = (newValue) => {
+    setImageDataQueue(newValue);
+    localStorage.setItem("imageDataQueue", JSON.stringify(newValue));
+  };  
+
   const handleOnline = async () => {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
     const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
@@ -154,6 +166,8 @@ export default function App() {
             setLocalWellInfoQueue,
             fieldQueue,
             setLocalFieldQueue,
+            imageDataQueue,
+            setLocalImageDataQueue,
           }}
         >
           <Routes>
