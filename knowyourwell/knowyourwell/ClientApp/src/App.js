@@ -65,6 +65,7 @@ export default function App() {
   const handleOnline = async () => {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
     const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
+    const imageDataQueue = JSON.parse(localStorage.getItem("imageDataQueue")) || [];
 
     const wellInfoUpdated = wellInfoQueue.length !== 0;
 
@@ -130,10 +131,26 @@ export default function App() {
         datecollected: field.dateentered,
       });
     }
+    for (const imageData of imageDataQueue) {
+      await Axios.post("/createimage", {
+        well_id: imageData.well_id,
+        im_type: imageData.type,
+        im_latitude: imageData.im_latitude ?? 0,
+        im_longitude: imageData.im_longitude ?? 0,
+        im_genlatitude: imageData.im_latitude ?? 0,
+        im_genlongitude: imageData.im_longitude ?? 0,
+        name: imageData.name,
+        observations: imageData.observations,
+        im_filename: imageData.blobName,
+        datecollected: imageData.dateentered,
+      });
+    }
     setWellInfoQueue([]);
     localStorage.removeItem("wellInfoQueue");
     setFieldQueue([]);
     localStorage.removeItem("fieldQueue");
+    setImageDataQueue([]);
+    localStorage.removeItem("imageDataQueue");
 
     return wellInfoUpdated;
   };
@@ -142,7 +159,7 @@ export default function App() {
     // Check if the user is online every 15 seconds
     await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
       .then(async () => {
-        if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
+        if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || imageDataQueue.length > 0) {
           const wellInfoUpdated = await handleOnline();
           alert("Your connection was restored and your offline data was successfully submitted!");
           if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {
