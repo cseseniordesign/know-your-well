@@ -11,6 +11,7 @@ import prodImageData from "./resources/prodimagedata";
 import devImageData from "./resources/devimagedata";
 import EntryPrompt from "./reusable/entryprompt";
 import WellFieldLabContext from "./reusable/WellFieldLabContext";
+import { idbName, putInDB } from "../setupIndexedDB";
 
 const checkFieldType = {
   "Well Owner Consent Form": false,
@@ -84,12 +85,6 @@ export default function Images() {
   };
 
   async function submitForm() {
-    imageData.well_id = well_id;
-    const updatedQueue = [
-      ...imageDataQueue,
-      { ...imageData },
-    ];
-
     if (
       validForm() &&
       imageData.type &&
@@ -125,7 +120,13 @@ export default function Images() {
             longitude: imageData.im_longitude?.toString() || '',
             dateTaken: dateObj.toISOString(),
             photoType: imageData.type,
-          };
+                };
+
+          imageData.well_id = well_id;
+          const updatedQueue = [
+            ...imageDataQueue,
+            { ...imageData },
+          ];
   
           await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
             .then(async () => {
@@ -134,13 +135,6 @@ export default function Images() {
                 containerName,
                 blobName,
                 metadata,
-                {
-                  observations: imageData.observations || '',
-                  latitude: imageData.im_latitude?.toString() || '',
-                  longitude: imageData.im_longitude?.toString() || '',
-                  dateTaken: new Date(imageData.dateentered).toISOString(),
-                  photoType: imageData.type,
-                }
               );
               await Axios.post("/createimage", {
                 well_id: imageData.well_id,
@@ -155,9 +149,10 @@ export default function Images() {
                 datecollected: imageData.dateentered,
               });
               alert(`Photos submitted! Upload more, or press back to return to ${wellName}.`);
-            })   
+            })
             // if the request fails, we know we are offline
-            .catch(() => {
+            .catch(async () => {
+              await putInDB(idbName, "imageUploadQueue", { file: image, containerName: containerName, blobName: blobName, metadata: metadata });
               setLocalImageDataQueue(updatedQueue);
               alert("You are offline, the Image will automatically be submitted when you regain an internet connection");
             });

@@ -18,11 +18,12 @@ export default async function setupIndexedDB() {
 
 async function createLocalDB() {
   // If you are updating the schema of the database, you need to increment the version number or users with a local instance of the IndexedDB will not have their database restructured.
-  await openDB(idbName, 1, {
+  await openDB(idbName, 2, {
     upgrade(db) {
       db.createObjectStore("tblTooltip", { keyPath: "prompt_id" });
       db.createObjectStore("tblTooltipImage", { keyPath: "image_id" });
       db.createObjectStore("tooltip-images");
+      db.createObjectStore("imageUploadQueue", { keyPath: "id", autoIncrement: true });
     },
   });
 }
@@ -74,7 +75,7 @@ export async function getTooltipDataFromSqlDatabase() {
   });
 }
 
-async function clearObjectStore(database, objectStore) {
+export async function clearObjectStore(database, objectStore) {
   const db = await openDB(database);
   db.clear(objectStore);
   db.close();
@@ -92,6 +93,17 @@ export async function getFromDB(database, objectStore, key) {
   const value = db.get(objectStore, key);
   db.close();
   return value;
+}
+
+export async function getAllFromDB(database, objectStore) {
+  const db = await openDB(database);
+  const transaction = db.transaction(objectStore, "readonly");
+  const store = transaction.objectStore(objectStore);
+
+  const allRecords = await store.getAll();
+
+  await transaction.done;
+  return allRecords;
 }
 
 export async function getFilteredRecordsFromDB(database, objectStore, filter) {

@@ -23,6 +23,8 @@ import PreviousImages from "./components/previousimages";
 import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
 import ViewImage from "./components/viewImage";
+import uploadPhoto from "./components/reusable/photoUpload";
+import { clearObjectStore, getAllFromDB, getFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
 
@@ -65,6 +67,7 @@ export default function App() {
   const handleOnline = async () => {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
     const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
+    const imageQueue = await getAllFromDB(idbName, "imageUploadQueue");
     const imageDataQueue = JSON.parse(localStorage.getItem("imageDataQueue")) || [];
 
     const wellInfoUpdated = wellInfoQueue.length !== 0;
@@ -131,6 +134,14 @@ export default function App() {
         datecollected: field.dateentered,
       });
     }
+    for (const image of imageQueue) {
+      await uploadPhoto(
+        image.file,
+        image.containerName,
+        image.blobName,
+        image.metadata,
+      );
+    }
     for (const imageData of imageDataQueue) {
       await Axios.post("/createimage", {
         well_id: imageData.well_id,
@@ -149,6 +160,7 @@ export default function App() {
     localStorage.removeItem("wellInfoQueue");
     setFieldQueue([]);
     localStorage.removeItem("fieldQueue");
+    await clearObjectStore(idbName, "imageUploadQueue");
     setImageDataQueue([]);
     localStorage.removeItem("imageDataQueue");
 
@@ -159,7 +171,7 @@ export default function App() {
     // Check if the user is online every 15 seconds
     await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
       .then(async () => {
-        if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || imageDataQueue.length > 0) {
+        if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || (await getAllFromDB(idbName, "imageUploadQueue")).length > 0 || imageDataQueue.length > 0) {
           const wellInfoUpdated = await handleOnline();
           alert("Your connection was restored and your offline data was successfully submitted!");
           if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {

@@ -66,7 +66,7 @@ try {
 }
 
 app.get("/heartbeat", (req, res) => {
-  res.status(200).send();
+  res.status(200).send('');
 });
 
 app.get("/LandFeatures", async (req, res) => {
