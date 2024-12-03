@@ -110,7 +110,7 @@ export default function Images() {
           }
           const sanitizedType = sanitizeFilename(imageData.type.toLowerCase());
           const fileExtension = image.name.split('.').pop();
-          const blobName = `${sanitizedType}-${year}-${month}-${day}-${hour}-${minute}-${second}.${fileExtension}`;
+          const blobName = `well-${well_id}-${sanitizedType}-${year}-${month}-${day}-${hour}-${minute}-${second}.${fileExtension}`;
 
           imageData.blobName = blobName;
 
