@@ -1,12 +1,11 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# This workflow will do a clean installation of node dependencies, cache/restore them, and run all unit tests.
 
 name: Run Node.js tests
 
 on: [push, pull_request]
 
 jobs:
-  npm_test:
+  test:
     runs-on: windows-latest
 
     steps:
