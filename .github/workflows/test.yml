@@ -17,5 +17,34 @@ jobs:
           node-version: 22.x
           cache: "npm"
       - run: cd knowyourwell/knowyourwell
-      - run: npm run build --if-present
-      - run: npm test
+      - run: npm ci
+      - run: npm run
+      - run: npm run test
+
+  build2:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: "npm"
+      - run: npm ci
+      - run: npm run
+      - run: npm run test
+
+  build3:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: "npm"
+      - run: cd knowyourwell
+      - run: npm ci
+      - run: npm run
+      - run: npm run test
