@@ -6,23 +6,6 @@ name: Run Node.js tests
 on: [push, pull_request]
 
 jobs:
-  npm_run_test:
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          cache: "npm"
-      - name: Install dependencies
-        run: npm ci
-        working-directory: knowyourwell/knowyourwell
-      - name: Run tests
-        run: npm run test
-        working-directory: knowyourwell/knowyourwell
-
   npm_test:
     runs-on: windows-latest
 
@@ -38,21 +21,4 @@ jobs:
         working-directory: knowyourwell/knowyourwell
       - name: Run tests
         run: npm test
-        working-directory: knowyourwell/knowyourwell
-
-  npx_test:
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          cache: "npm"
-      - name: Install dependencies
-        run: npm ci
-        working-directory: knowyourwell/knowyourwell
-      - name: Run tests
-        run: npx jest
         working-directory: knowyourwell/knowyourwell

@@ -16,7 +16,7 @@ test("renders LongTextEntry component", () => {
       setValue={() => {}}
       maxLength={100}
       required
-    />,
+    />
   );
 
   expect(screen.getByText("Test Field")).toBeInTheDocument();
@@ -33,7 +33,7 @@ test("handles input change", () => {
       setValue={mockSetValue}
       maxLength={100}
       required
-    />,
+    />
   );
 
   fireEvent.change(screen.getByRole("textbox"), {
