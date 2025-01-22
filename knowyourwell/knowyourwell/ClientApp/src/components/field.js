@@ -344,7 +344,7 @@ export default function Field() {
         ) : (
           <div>
             <p>Please allow this site to access your location</p>
-            <button onClick={() => window.location.reload()}>Reload</button>
+            <button type="button" onClick={() => window.location.reload()}>Reload</button>
           </div>
         )}
       </div>
