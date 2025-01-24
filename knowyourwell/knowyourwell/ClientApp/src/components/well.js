@@ -139,14 +139,24 @@ const Well = () => {
 
   const getMapView = () => {
     return (
-      <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+      <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={[40.8202, -96.7005]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
+        <Marker position={[40.8202, -96.7005]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            <h3>UNL:001</h3> Later, an option to view the well will be added here.
+          </Popup>
+        </Marker>
+        <Marker position={[40.5, -96.3]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
+          <Popup>
+            This is here just to show how multiple markers will look.
+          </Popup>
+        </Marker>
+        <Marker position={[40.9, -96.5]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
+          <Popup>
+            This is here just to show how multiple markers will look.
           </Popup>
         </Marker>
       </MapContainer>
