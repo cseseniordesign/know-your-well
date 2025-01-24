@@ -53,6 +53,7 @@ const Well = () => {
   // const [schoolid, setSchoolid] = useState("")
 
   const [tabIndex, setTabIndex] = useState(0);
+  const [mapHeight, setMapHeight] = useState(0);
 
   useEffect(() => {
     const validateUser = async () => {
@@ -123,6 +124,10 @@ const Well = () => {
 
   const resizeMap = (mapRef) => {
     const resizeObserver = new ResizeObserver(() => {
+      const element = document.getElementById('map-container');
+      if (element) {
+        setMapHeight(document.body.getBoundingClientRect().bottom - element.getBoundingClientRect().top);
+      }
       mapRef.current?.invalidateSize();
       console.log('resize');
     });
@@ -304,7 +309,7 @@ const Well = () => {
     );
   } else {
     return (
-      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)} style={{ height: '100%'}}>
+      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)} style={{ height: `${mapHeight}px` }}>
         <TabList>
           <Tab>Map View</Tab>
           <Tab>List View</Tab>
