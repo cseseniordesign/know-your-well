@@ -3,6 +3,12 @@ import { List } from "semantic-ui-react";
 import countyOptions from "./resources/counties";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import { Icon } from 'leaflet';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 import { useUser } from "./usercontext";
 
@@ -31,7 +37,7 @@ function responseDataToHTMLList(responseData) {
   return HTMLList;
 }
 
-export default function Well() {
+const Well = () => {
   const [isLoading, setLoading] = useState(true);
   const [isSortDropdownVisible, setSortDropdownVisibility] = useState(false);
   const [isFilterDropdownVisible, setFilterDropdownVisibility] =
@@ -45,6 +51,8 @@ export default function Well() {
   const containerRef = useRef(null);
   const navigate = useNavigate();
   // const [schoolid, setSchoolid] = useState("")
+
+  const [tabIndex, setTabIndex] = useState(0);
 
   useEffect(() => {
     const validateUser = async () => {
@@ -110,32 +118,37 @@ export default function Well() {
       setFilterDropdownVisibility(false);
     }
   };
-  if (isLoading && JSON.parse(localStorage.getItem("wellData")) === null) {
-    return <h1>Loading</h1>;
-  } else if (isLoading) {
+
+  const mapRef = useRef();
+
+  const resizeMap = (mapRef) => {
+    const resizeObserver = new ResizeObserver(() => {
+      mapRef.current?.invalidateSize();
+      console.log('resize');
+    });
+    const container = document.getElementById('map-container');
+    if (container) {
+      resizeObserver.observe(container);
+    }
+  }
+
+  const getMapView = () => {
     return (
-      <List style={{ textAlign: "center" }}>
-        <h2>
-          <strong>Cached Wells</strong>
-        </h2>
-        <List.Item key={-1}>
-          <List.Content>
-            <a
-              href={`/WellInfo`}
-              style={{ width: "45%", height: "17%", border: "dashed" }}
-              className="btn btn-light btn-lg btn-block"
-            >
-              Create New Well
-            </a>
-          </List.Content>
-          <br />
-        </List.Item>
-        {responseDataToHTMLList(
-          JSON.parse(localStorage.getItem("wellData")).Wells,
-        )}
-      </List>
+      <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[51.505, -0.09]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
     );
-  } else {
+  }
+
+  const getListView = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
@@ -262,5 +275,50 @@ export default function Well() {
         </div>
       </div>
     );
+  };
+
+  if (isLoading && JSON.parse(localStorage.getItem("wellData")) === null) {
+    return <h1>Loading</h1>;
+  } else if (isLoading) {
+    return (
+      <List style={{ textAlign: "center" }}>
+        <h2>
+          <strong>Cached Wells</strong>
+        </h2>
+        <List.Item key={-1}>
+          <List.Content>
+            <a
+              href={`/WellInfo`}
+              style={{ width: "45%", height: "17%", border: "dashed" }}
+              className="btn btn-light btn-lg btn-block"
+            >
+              Create New Well
+            </a>
+          </List.Content>
+          <br />
+        </List.Item>
+        {responseDataToHTMLList(
+          JSON.parse(localStorage.getItem("wellData")).Wells,
+        )}
+      </List>
+    );
+  } else {
+    return (
+      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)} style={{ height: '100%'}}>
+        <TabList>
+          <Tab>Map View</Tab>
+          <Tab>List View</Tab>
+        </TabList>
+
+        <TabPanel style={{ height: '100%' }}>
+          {getMapView()}
+        </TabPanel>
+        <TabPanel>
+          {getListView()}
+        </TabPanel>
+      </Tabs>
+    );
   }
 }
+
+export default Well;
