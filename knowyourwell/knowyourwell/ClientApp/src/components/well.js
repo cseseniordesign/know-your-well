@@ -42,9 +42,9 @@ function responseDataToMarkerList(responseData) {
   try {
     for (const element of responseData) {
       markerList.push(
-        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 41], iconAnchor: [12, 41]})}>
+        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [30, 41], iconAnchor: [12, 41] })}>
           <Popup>
-            Testing
+            <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}> {element.wi_wellcode}: {element.wi_wellname}, {element.wi_well_owner} </a>
           </Popup>
         </Marker>
       )
@@ -81,7 +81,7 @@ const Well = () => {
         })
           .then(function (response) {
             setUser(response.data);
-        })
+          })
           .catch(function (response) {
             window.alert("The app encountered an error verifying that you are logged in.");
             navigate("/");
@@ -92,7 +92,7 @@ const Well = () => {
         navigate("/");
       }
     }
-    
+
     validateUser();
   }, [navigate, user, setUser]);
 
