@@ -46,6 +46,7 @@ function responseDataToMarkerList(responseData) {
           <Popup>
             <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}> {element.wi_wellcode}: {element.wi_wellname}</a><br />
             Owned by: {element.wi_well_owner}
+
           </Popup>
         </Marker>
       )
