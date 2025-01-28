@@ -37,6 +37,24 @@ function responseDataToHTMLList(responseData) {
   return HTMLList;
 }
 
+function responseDataToMarkerList(responseData) {
+  let markerList = [];
+  try {
+    for (const element of responseData) {
+      markerList.push(
+        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 41], iconAnchor: [12, 41]})}>
+          <Popup>
+            Testing
+          </Popup>
+        </Marker>
+      )
+    }
+  } catch (e) {
+    console.log("Error Parsing Data into Marker List.");
+  }
+  return markerList;
+}
+
 const Well = () => {
   const [isLoading, setLoading] = useState(true);
   const [isSortDropdownVisible, setSortDropdownVisibility] = useState(false);
@@ -141,23 +159,11 @@ const Well = () => {
       <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={[40.8202, -96.7005]} zoom={8} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[40.8202, -96.7005]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 41], iconAnchor: [12, 41]})}>
-          <Popup>
-            <h3>UNL:001</h3> Later, an option to view the well will be added here.
-          </Popup>
-        </Marker>
-        <Marker position={[40.5, -96.3]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 41], iconAnchor: [12, 41]})}>
-          <Popup>
-            This is here just to show how multiple markers will look.
-          </Popup>
-        </Marker>
-        <Marker position={[40.9, -96.5]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 41], iconAnchor: [12, 41]})}>
-          <Popup>
-            This is here just to show how multiple markers will look.
-          </Popup>
-        </Marker>
+        {responseDataToMarkerList(
+          JSON.parse(localStorage.getItem("wellData"))?.Wells,
+        )}
       </MapContainer>
     );
   }
