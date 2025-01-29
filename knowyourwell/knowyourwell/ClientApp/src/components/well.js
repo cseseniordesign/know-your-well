@@ -42,7 +42,7 @@ function responseDataToMarkerList(responseData) {
   try {
     for (const element of responseData) {
       markerList.push(
-        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [30, 41], iconAnchor: [12, 41] })}>
+        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 41]})}>
           <Popup>
             <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}> {element.wi_wellcode}: {element.wi_wellname}</a><br />
             Owned by: {element.wi_well_owner}
@@ -156,9 +156,22 @@ const Well = () => {
     }
   }
 
+  const findMapCenter = () => {
+    const allWells = JSON.parse(localStorage.getItem("wellData"))?.Wells;
+    if (allWells.length > 0) { // Only adjusts center if there are wells to base it on
+      const wellLatitudes = allWells.map(well => well.wi_estlatitude);
+      const centerLatitude = (Math.max(...wellLatitudes) + Math.min(...wellLatitudes)) / 2;
+      const wellLongitudes = allWells.map(well => well.wi_estlongitude);
+      const centerLongitude = (Math.max(...wellLongitudes) + Math.min(...wellLongitudes)) / 2;
+      return [centerLatitude, centerLongitude];
+    } else {
+      return [40.8202, -96.7005]; // Defaults to the coordinates of UNL
+    }
+  }
+
   const getMapView = () => {
     return (
-      <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={[40.8202, -96.7005]} zoom={8} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+      <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={findMapCenter()} zoom={7} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
