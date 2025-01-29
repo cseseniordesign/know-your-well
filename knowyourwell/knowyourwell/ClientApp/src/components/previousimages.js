@@ -6,58 +6,38 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./usercontext";
 
-var previousEntries = [];
-var listElements = [];
+let previousImages = [];
+let listElements = [];
 
-function generateListElements(previousEntries, well_id, name, wellcode) {
-  for (var entry of previousEntries) {
-    let key = 1;
-
-    const buttonClass =
-      entry.labID === null
-        ? "btn btn-primary btn-lg disabled"
-        : "btn btn-primary btn-lg";
+function generateListElements(previousImages, well_id, name, wellcode) {
+  for (let [i, entry] of previousImages.entries()) {
     listElements.push(
-      <>
+      <div key={i}>
         <List.Item>
           <h4>
-            Field Activity Date:{" "}
-            {moment.utc(entry.fieldDate).format("MM-DD-YYYY hh:mm A")}
-          </h4>
-          <h4>
-            Class Lab Date:{" "}
-            {moment.utc(entry.labDate).format("MM-DD-YYYY hh:mm A")}
+            Image Date:{" "}
+            {moment.utc(entry.imageDate).format("MM-DD-YYYY hh:mm A")}
           </h4>
         </List.Item>
-        <List.Item key={key}>
+        <List.Item>
           <List.Content>
             <a
-              href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
+              href={`/ViewImage?image_id=${entry.imageID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
               style={{ width: "22.5%", height: "17%" }}
               className="btn btn-primary btn-lg"
             >
-              Field (Field ID: {entry.fieldID})
-            </a>
-            <a
-              href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
-              style={{ width: "22.5%", height: "17%" }}
-              className={buttonClass}
-              aria-disabled={entry.labID === null}
-            >
-              Class Lab{" "}
-              {entry.labID !== null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}
+              {entry.imageType}
             </a>
           </List.Content>
           <br />
         </List.Item>
-      </>,
+      </div>,
     );
-    key++;
   }
   return listElements;
 }
 
-export default function PreviousEntries() {
+export default function PreviousImages() {
   const [searchParams] = useSearchParams();
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
@@ -79,28 +59,33 @@ export default function PreviousEntries() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    Axios.get("/previousentries", {
+    Axios.get("/previousimages", {
       responseType: "json",
       params: {
         well_id: well_id,
       },
-    }).then(function (response) {
-      const fieldList = response.data.FieldList;
-      console.log(fieldList);
-      console.log(response);
-      var i;
-      for (i = 0; i < fieldList.length; i++) {
-        const fieldEntry = fieldList[i];
-        const entry = {
-          fieldDate: fieldEntry.fa_datecollected,
-          fieldID: fieldEntry.fieldactivity_id,
-          labID: fieldEntry.classlab_id,
-          labDate: fieldEntry.cl_datecollected,
-        };
-        previousEntries.push(entry);
+    }).then(async (response) => {
+      const imageList = response.data.ImageList;
+      let i;
+
+      for (i = 0; i < imageList.length; i++) {
+        const imageEntry = imageList[i];
+        await Axios.get("/GetImage", {
+          responseType: "json",
+          params: {
+            image_id: imageEntry.image_id,
+          },
+        }).then((response) => {
+          const entry = {
+            imageDate: imageEntry.im_datecollected,
+            imageID: imageEntry.image_id,
+            imageType: response.data.Image[0].im_type,
+          };
+          previousImages.push(entry);
+        });
       }
       listElements = generateListElements(
-        previousEntries,
+        previousImages,
         well_id,
         wellName,
         wellcode,
@@ -135,7 +120,7 @@ export default function PreviousEntries() {
   return (
     <List style={{ textAlign: "center" }}>
       <br />
-      <h2>{wellName}: Previous Entries</h2>
+      <h2>{wellName}: Previously Uploaded Images</h2>
       <br />
       {listElements}
       <List.Item>

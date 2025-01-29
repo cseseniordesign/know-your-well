@@ -189,11 +189,14 @@ export default function WellInfo() {
   return (
     <form action="/editwell" id="submissionAlert">
       <h2>Well Info</h2>
-      <p>* = Required Field</p>
-      <p>
-        No punctuation or special characters, such as ,.[]();’/\!@#) in text
-        fields.
-      </p>
+      <div className="requiredField">
+        <br />
+        <p>* = Required Field</p>
+        <p>
+          No punctuation or special characters, such as ,.[]();’/\!@#) in text
+          fields.
+        </p>
+      </div>
       {wellInfoPrompts.map((prompt) => (
         <div key={prompt.id}>{renderField(prompt, wellInfo, handleChange)}</div>
       ))}

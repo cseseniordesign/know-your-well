@@ -66,7 +66,7 @@ try {
 }
 
 app.get("/heartbeat", (req, res) => {
-  res.status(200).send();
+  res.status(200).send('');
 });
 
 app.get("/LandFeatures", async (req, res) => {
@@ -536,6 +536,52 @@ app.post("/createwellinfo", (req, res) => {
   });
 });
 
+app.post("/createimage", (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    request.input("well_id", sql.Int, req.body.well_id);
+    request.input("im_type", sql.NVarChar, req.body.im_type);
+    request.input("im_latitude", sql.Decimal(10, 5), req.body.im_latitude);
+    request.input("im_longitude", sql.Decimal(10, 5), req.body.im_longitude);
+    request.input("im_genlatitude", sql.Decimal(8, 3), req.body.im_genlatitude);
+    request.input("im_genlongitude", sql.Decimal(8, 3), req.body.im_genlongitude);
+    request.input("name", sql.NVarChar, req.body.name);
+    request.input("observation", sql.NVarChar, req.body.observations);
+    request.input("im_filename", sql.NVarChar, req.body.im_filename);
+    request.input("dateentered", sql.DateTime, req.body.datecollected);
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request.query(
+      "INSERT INTO dbo.tblImage(well_id, im_type, im_latitude, im_longitude, im_genlatitude, im_genlongitude, im_datacollector, im_observation, im_filename, im_datecollected) VALUES(@well_id, @im_type, @im_latitude, @im_longitude, @im_genlatitude, @im_genlongitude, @name, @observation, @im_filename, @dateentered)",
+      function (err, recordset) {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Query does not execute.");
+          if (!rolledBack) {
+            transaction.rollback((err) => {
+              // ... error checks
+            });
+          }
+        } else {
+          transaction.commit((err) => {
+            if (err) {
+              console.log(err);
+              res.status(500).send("500: Server Error.");
+            } else res.status(200).send("Values Inserted");
+          });
+        }
+      },
+    );
+  });
+});
+
 app.get("/Wells", async (req, res) => {
   let query = "SELECT * FROM dbo.tblWellInfo";
   kywmemValue = req.session.kywmem;
@@ -695,6 +741,45 @@ app.get("/previousentries", async (req, res) => {
   });
 });
 
+app.get("/previousimages", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("well_id", sql.Int, req.query.well_id)
+      .query(
+        "SELECT image_id, im_datecollected FROM dbo.tblImage WHERE well_id = @well_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                res.status(200).json({ ImageList: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
 app.get("/GetFieldEntry", async (req, res) => {
   const transaction = appPool.transaction();
   transaction.begin((err) => {
@@ -767,6 +852,45 @@ app.get("/GetLabEntry", async (req, res) => {
               } else {
                 // console.log(recordset)
                 res.status(200).json({ ClassLabEntry: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetImage", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("image_id", sql.Int, req.query.image_id)
+      .query(
+        "SELECT * FROM dbo.tblImage WHERE image_id = @image_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                res.status(200).json({ Image: recordset.recordset });
               }
             });
           }

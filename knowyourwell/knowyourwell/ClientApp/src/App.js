@@ -18,8 +18,13 @@ import ViewWell from "./components/viewwell";
 import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
+import Images from "./components/images";
+import PreviousImages from "./components/previousimages";
 import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
+import ViewImage from "./components/viewImage";
+import uploadPhoto from "./components/reusable/photoUpload";
+import { clearObjectStore, getAllFromDB, getFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
 
@@ -47,9 +52,23 @@ export default function App() {
     localStorage.setItem("wellInfoQueue", JSON.stringify(newValue));
   };
 
+  const [imageDataQueue, setImageDataQueue] = useState(() => {
+    const storedQueue = localStorage.getItem("imageDataQueue");
+    return storedQueue && storedQueue !== "undefined"
+      ? JSON.parse(storedQueue)
+      : [];
+  });
+
+  const setLocalImageDataQueue = (newValue) => {
+    setImageDataQueue(newValue);
+    localStorage.setItem("imageDataQueue", JSON.stringify(newValue));
+  };  
+
   const handleOnline = async () => {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
     const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
+    const imageQueue = await getAllFromDB(idbName, "imageUploadQueue");
+    const imageDataQueue = JSON.parse(localStorage.getItem("imageDataQueue")) || [];
 
     const wellInfoUpdated = wellInfoQueue.length !== 0;
 
@@ -115,10 +134,35 @@ export default function App() {
         datecollected: field.dateentered,
       });
     }
+    for (const image of imageQueue) {
+      await uploadPhoto(
+        image.file,
+        image.containerName,
+        image.blobName,
+        image.metadata,
+      );
+    }
+    for (const imageData of imageDataQueue) {
+      await Axios.post("/createimage", {
+        well_id: imageData.well_id,
+        im_type: imageData.type,
+        im_latitude: imageData.im_latitude ?? 0,
+        im_longitude: imageData.im_longitude ?? 0,
+        im_genlatitude: imageData.im_latitude ?? 0,
+        im_genlongitude: imageData.im_longitude ?? 0,
+        name: imageData.name,
+        observations: imageData.observations,
+        im_filename: imageData.blobName,
+        datecollected: imageData.dateentered,
+      });
+    }
     setWellInfoQueue([]);
     localStorage.removeItem("wellInfoQueue");
     setFieldQueue([]);
     localStorage.removeItem("fieldQueue");
+    await clearObjectStore(idbName, "imageUploadQueue");
+    setImageDataQueue([]);
+    localStorage.removeItem("imageDataQueue");
 
     return wellInfoUpdated;
   };
@@ -127,7 +171,7 @@ export default function App() {
     // Check if the user is online every 15 seconds
     await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
       .then(async () => {
-        if (fieldQueue.length > 0 || wellInfoQueue.length > 0) {
+        if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || (await getAllFromDB(idbName, "imageUploadQueue")).length > 0 || imageDataQueue.length > 0) {
           const wellInfoUpdated = await handleOnline();
           alert("Your connection was restored and your offline data was successfully submitted!");
           if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {
@@ -151,6 +195,8 @@ export default function App() {
             setLocalWellInfoQueue,
             fieldQueue,
             setLocalFieldQueue,
+            imageDataQueue,
+            setLocalImageDataQueue,
           }}
         >
           <Routes>
@@ -167,6 +213,9 @@ export default function App() {
             <Route exact path="/viewwell" element={<ViewWell />} />
             <Route exact path="/fieldselection" element={<FieldSelection />} />
             <Route exact path="/formsubmission" element={<FormSubmission />} />
+            <Route exact path="/images" element={<Images />} />
+            <Route exact path="/previousimages" element={<PreviousImages />} />
+            <Route exact path="/viewimage" element={<ViewImage />} />
           </Routes>
         </WellFieldLabContext.Provider>
       </UserProvider>
