@@ -24,7 +24,7 @@ import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
 import ViewImage from "./components/viewImage";
 import uploadPhoto from "./components/reusable/photoUpload";
-import { clearObjectStore, getAllFromDB, getFromDB, idbName } from "./setupIndexedDB";
+import { clearObjectStore, getAllFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
 

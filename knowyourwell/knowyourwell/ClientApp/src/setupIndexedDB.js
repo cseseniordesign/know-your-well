@@ -19,12 +19,23 @@ export default async function setupIndexedDB() {
 async function createLocalDB() {
   // If you are updating the schema of the database, you need to increment the version number or users with a local instance of the IndexedDB will not have their database restructured.
   await openDB(idbName, 2, {
-    upgrade(db) {
-      db.createObjectStore("tblTooltip", { keyPath: "prompt_id" });
-      db.createObjectStore("tblTooltipImage", { keyPath: "image_id" });
-      db.createObjectStore("tooltip-images");
-      db.createObjectStore("imageUploadQueue", { keyPath: "id", autoIncrement: true });
+    upgrade(db, oldVersion, newVersion) {
+      if (oldVersion < 1) {
+        db.createObjectStore("tblTooltip", { keyPath: "prompt_id" });
+        db.createObjectStore("tblTooltipImage", { keyPath: "image_id" });
+        db.createObjectStore("tooltip-images");
+      }
+      // When you modify the schema of the database, you need to take into account any adjustments that need to be made from version-to-version.
+      if (oldVersion < 2) {
+        db.createObjectStore("imageUploadQueue", { keyPath: "id", autoIncrement: true });
+      }
+      if (oldVersion < newVersion) {
+        window.location.reload();
+      }
     },
+    blocked() {
+      alert("Please close all open tabs to the site for an update to occur.");
+    }
   });
 }
 
