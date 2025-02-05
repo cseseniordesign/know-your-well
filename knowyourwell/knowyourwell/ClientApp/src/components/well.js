@@ -44,8 +44,7 @@ function responseDataToMarkerList(responseData) {
       markerList.push(
         <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 30], iconAnchor: [15, 30]})}>
           <Popup>
-            <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}> {element.wi_wellcode}: {element.wi_wellname}</a><br />
-            Owned by: {element.wi_well_owner}
+            <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}>{element.wi_wellcode}</a><br />
 
           </Popup>
         </Marker>
