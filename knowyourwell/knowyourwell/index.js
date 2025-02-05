@@ -592,9 +592,7 @@ app.get("/Wells", async (req, res) => {
       query = query + ` AND ${req.query.filterBy}`;
     }
   } else {
-    if (req.query.filterBy && req.query.filterBy !== "undefined") {
-      query = query + ` WHERE ${req.query.filterBy}`;
-    }
+    res.status(422).send("school_id must be defined");
   }
 
   if (req.query.sortBy && req.query.sortBy !== "undefined") {
