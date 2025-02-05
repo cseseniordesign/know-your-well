@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/login_signup.css";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,13 +9,22 @@ import { useUser } from "./usercontext";
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useUser();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setUser(null);
   })
 
+  useEffect(() => {
+    async function initializeDB() {
+      setLoading(true);
+      await setupIndexedDB();
+      setLoading(false);
+    }
+    initializeDB();
+  }, []);
+
   const initRedirectRequest = async () => {
-    await setupIndexedDB();
     if (
       window.location.href.indexOf("kywtest") > -1 ||
       process.env.NODE_ENV !== "production"
@@ -66,8 +75,12 @@ export default function Login() {
             type="button"
             className="btn btn-primary btn-lg"
             onClick={initRedirectRequest}
+            disabled={loading}
           >
-            Login with School Credentials
+            {loading ?
+              "Loading..." :
+              "Login with School Credentials"
+            }
           </button>
         </div>
       </div>
