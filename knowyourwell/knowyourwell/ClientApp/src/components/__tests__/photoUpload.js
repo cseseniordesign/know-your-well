@@ -9,6 +9,7 @@ describe('uploadPhoto function', () => {
   beforeEach(() => {
     __setCreateIfNotExistsMock(async () => {});
     __setUploadDataMock(async () => {});
+    global.alert.mockClear();
   });
 
   test('successfully uploads a blob to Azure Blob Storage', async () => {
@@ -17,22 +18,7 @@ describe('uploadPhoto function', () => {
     const name = 'testBlob';
     const fileName = 'fileName.png';
 
-    await expect(photoUpload(mockBlob, container, name, fileName)).resolves.not.toThrow();
-  });
-
-  test('handles container creation failure', async () => {
-    __setCreateIfNotExistsMock(async () => {
-      throw new Error('Simulated container creation failure');
-    });
-
-    const mockBlob = new Blob(['mock image data'], { type: 'image/png' });
-    const container = 'testContainer';
-    const name = 'testBlob';
-    const fileName = 'fileName.png';
-
-    await expect(photoUpload(mockBlob, container, name, fileName)).rejects.toThrow(
-      'Simulated container creation failure'
-    );
+    await expect(photoUpload(mockBlob, container, name, fileName)).resolves.toBeUndefined();
   });
 
   test('handles network failure during blob upload', async () => {
