@@ -17,9 +17,11 @@ export default async function uploadPhoto(file, containerName, blobName, metadat
     );
 
     const containerClient = blobServiceClient.getContainerClient(containerName);
-    try {
-      await containerClient.createIfNotExists();
-    } catch { };
+    await containerClient.createIfNotExists().catch((error) => {
+      if (error.statusCode !== 409) {
+        console.error(error);
+      }
+    });
 
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
