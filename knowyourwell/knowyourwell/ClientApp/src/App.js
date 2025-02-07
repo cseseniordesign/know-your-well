@@ -113,6 +113,9 @@ export default function App() {
         zipcode: wellInfo.zipcode,
       });
     }
+    setWellInfoQueue([]);
+    localStorage.removeItem("wellInfoQueue");
+
     for (const field of fieldQueue) {
       await Axios.post("/api/insert", {
         well_id: field.well_id,
@@ -134,6 +137,9 @@ export default function App() {
         datecollected: field.dateentered,
       });
     }
+    setFieldQueue([]);
+    localStorage.removeItem("fieldQueue");
+
     for (const image of imageQueue) {
       await uploadPhoto(
         image.file,
@@ -142,6 +148,8 @@ export default function App() {
         image.metadata,
       );
     }
+    await clearObjectStore(idbName, "imageUploadQueue");
+
     for (const imageData of imageDataQueue) {
       await Axios.post("/createimage", {
         well_id: imageData.well_id,
@@ -156,11 +164,6 @@ export default function App() {
         datecollected: imageData.dateentered,
       });
     }
-    setWellInfoQueue([]);
-    localStorage.removeItem("wellInfoQueue");
-    setFieldQueue([]);
-    localStorage.removeItem("fieldQueue");
-    await clearObjectStore(idbName, "imageUploadQueue");
     setImageDataQueue([]);
     localStorage.removeItem("imageDataQueue");
 
