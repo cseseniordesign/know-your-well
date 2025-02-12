@@ -12,6 +12,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
 import { useUser } from "./usercontext";
+import axios from "axios";
 
 function responseDataToHTMLList(responseData) {
   let HTMLList = [];
@@ -68,6 +69,7 @@ const Well = () => {
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState(String);
   const [wellList, setWells] = useState([]);
+  const [distance, setDistance] = useState(0);
   const { user, setUser } = useUser();
 
   const containerRef = useRef(null);
@@ -102,19 +104,16 @@ const Well = () => {
 
   //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {
+    console.log(filter);
     const queryParams = {};
-
     if (filter) {
       // The filter is now an object that maps each of the filter types to the value, so we need to parse it into something that can be used in the queryParams
       queryParams.filterBy = filter;
     }
-
     if (sort) {
       queryParams.sortBy = sort;
     }
-
-    // queryParams.schoolid = schoolid
-
+    console.log(queryParams);
     Axios.get("/Wells", {
       params: queryParams,
       responseType: "json",
@@ -122,15 +121,11 @@ const Well = () => {
       .then(function (response) {
         localStorage.setItem("wellData", JSON.stringify(response.data));
         setWells(responseDataToHTMLList(response.data.Wells));
-
         setLoading(false);
       })
       .catch(function (error) {
-        // localStorage.setItem("wellData", [])
         console.error("An error occurred while fetching the wells:", error);
-        // Here, you can also set isLoading to false to stop the loading indicator
         setLoading(true);
-        // Optionally, handle the error more gracefully, such as showing an error message to the user
       });
   }, [filter, sort]);
 
@@ -172,7 +167,34 @@ const Well = () => {
     }
   }
 
-  const filterWellsByDistance = (distance) => {
+  function calculateDistance(wellLatitude, wellLongitude) {
+    const userLatitude = sessionStorage.getItem("lat");
+    const userLongitude = sessionStorage.getItem("long");
+    var R = 3959; // Radius of earth in miles
+    var dLat = userLatitude * Math.PI / 180 - wellLatitude * Math.PI / 180;
+    var dLon = userLongitude * Math.PI / 180 - wellLongitude * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(userLatitude * Math.PI / 180) * Math.cos(wellLatitude * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in miles
+    return d;
+  }
+
+  const filterWellsByDistance = async (distance) => {
+    await Axios.get("/Wells", {
+      params: {},
+      responseType: "json",
+    })
+      .then(function (response) {
+        localStorage.setItem("wellData", JSON.stringify(response.data));
+        setWells(responseDataToHTMLList(response.data.Wells));
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.error("An error occurred while fetching the wells:", error);
+        setLoading(true);
+      });
     const allWells = JSON.parse(localStorage.getItem("wellData"))?.Wells;
     if (allWells.length === 0 || distance < 0) {
       return [];
@@ -180,16 +202,19 @@ const Well = () => {
     if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
       return allWells;
     }
-    const currentLat = sessionStorage.getItem("lat");
-    const currentLong = sessionStorage.getItem("long");
     const filteredWells = allWells.filter(well => {
       const wellLat = well.wi_estlatitude;
       const wellLong = well.wi_estlongitude;
-      const distanceBetween = Math.sqrt((wellLat - currentLat) ** 2 + (wellLong - currentLong) ** 2);
+      const distanceBetween = calculateDistance(wellLat, wellLong);
       return distanceBetween <= distance;
     });
+    const extractedIDs = filteredWells.map(well => well.well_id);
+    const sqlString = 'well_id IN (' + extractedIDs.join(', ') + ')';
+    setFilter({ ...filter, byDistance: sqlString });
+    console.log(sqlString);
+    console.log(extractedIDs);
     console.log(filteredWells);
-    return filteredWells;
+    return extractedIDs;
   }
 
   const getMapView = () => {
@@ -210,10 +235,7 @@ const Well = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
-          <div ref={containerRef}>         
-            
-
-
+          <div ref={containerRef}>
             <button
               onClick={() => {
                 setSortDropdownVisibility(!isSortDropdownVisible);
@@ -231,7 +253,7 @@ const Well = () => {
             >
               Filters
             </button>
-            
+
             {isSortDropdownVisible && (
               <div
                 style={{
@@ -273,7 +295,6 @@ const Well = () => {
                 </button>
               </div>
             )}
-            
             {isFilterDropdownVisible && (
               <div
                 style={{
@@ -296,20 +317,21 @@ const Well = () => {
                 >
                   <p>County: </p>
                   <select onChange={(e) => setFilter({ county: e.target.value })}>
-                  {countyOptions.map((county, index) =>
-                    <option key={index} value={county.value}>{county.value}</option>
-                  )}
+                    {countyOptions.map((county, index) =>
+                      <option key={index} value={county.value}>{county.value}</option>
+                    )}
                   </select>
+                </div>
+                <div
+                  style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline' }}
+                >
+                  <p>Filter by distance: </p>
+                  <input type="number" id="filterByNumber" onChange={(e) => setDistance(Number(e.target.value))} />
+                  <button onClick={() => filterWellsByDistance(distance)}>Submit</button>
                 </div>
               </div>
             )}
-            
-
-
-
-
           </div>
-
           <List>
             <h2>
               <strong>Wells</strong>
