@@ -590,7 +590,12 @@ app.get("/Wells", async (req, res) => {
     query = query + ` WHERE school_id = ${kywmemValue}`;
     if (req.query.filterBy && Object.keys(req.query.filterBy).length !== 0) {
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
-        query += ` AND ${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1)`;
+        if (column === "search") {
+          query += ` AND wi_wellname LIKE '%${filter}%'`;
+        } else {
+          query += ` AND ${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1)`;
+        }
+        
       }
     }
   } else {

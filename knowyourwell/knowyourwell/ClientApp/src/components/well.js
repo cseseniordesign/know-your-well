@@ -184,6 +184,12 @@ const Well = () => {
   }
 
   const getListView = () => {
+    const wellsData = JSON.parse(localStorage.getItem("wellData"))?.Wells || [];
+    const filteredWells = filter.search
+      ? wellsData.filter((well) =>
+          well.wi_wellname.toLowerCase().includes(filter.search.toLowerCase())
+        )
+      : wellsData;
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
@@ -274,13 +280,41 @@ const Well = () => {
                   )}
                   </select>
                 </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'baseline',
+                    marginTop: '10px'
+                  }}
+                >
+                  <p>Search: </p>
+                  <input
+                    type="text"
+                    placeholder="Search by well name"
+                    value={filter.search || ""}
+                    onChange={(e) =>
+                      setFilter({ ...filter, search: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                      }
+                    }}
+                    style={{ marginLeft: "10px", padding: "4px", flex: 1 }}
+                  />
+                  <button
+                    onClick={() =>
+                      setFilter({ ...filter, search: filter.search || "" })
+                    }
+                    style={{ marginLeft: "10px" }}
+                  >
+                    Go
+                  </button>
+                </div>
               </div>
             )}
-            
-
-
-
-
           </div>
 
           <List>
