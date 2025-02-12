@@ -258,7 +258,9 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setFilter({})}
+                  onClick={() => {
+                    setFilter({ county_id: -1 });
+                  }}
                 >
                   Clear Filters
                 </button>
@@ -266,9 +268,9 @@ const Well = () => {
                   style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline' }}
                 >
                   <p>County: </p>
-                  <select onChange={(e) => setFilter({ county: e.target.value })}>
-                  {countyOptions.map((county, index) =>
-                    <option key={index} value={county.value}>{county.value}</option>
+                  <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
+                  {[ { key: -1, value: '' }, ...countyOptions].map((county, index) =>
+                    <option key={index} value={county.key}>{county.value}</option>
                   )}
                   </select>
                 </div>
