@@ -63,7 +63,7 @@ const Well = () => {
     useState(false);
   // const [isCountyDropdownVisible, setCountyDropdownVisibility] = useState(false)
   const [filter, setFilter] = useState({});
-  const [sort, setSort] = useState(String);
+  const [sort, setSort] = useState(undefined);
   const [wellList, setWells] = useState([]);
   const { user, setUser } = useUser();
 
@@ -187,14 +187,10 @@ const Well = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
-          <div ref={containerRef}>         
-            
-
-
+          <div ref={containerRef}>
             <button
               onClick={() => {
                 setSortDropdownVisibility(!isSortDropdownVisible);
-                setSort("undefined");
               }}
               className="btn btn-primary"
             >
@@ -208,7 +204,6 @@ const Well = () => {
             >
               Filters
             </button>
-            
             {isSortDropdownVisible && (
               <div
                 style={{
@@ -219,14 +214,14 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setSort("undefined")}
+                  onClick={() => setSort()}
                   style={{
                     backgroundColor:
-                      sort === "undefined" ? "yellow" : "transparent",
+                      sort === undefined ? "yellow" : "transparent",
                   }}
                   className="dropdown-item"
                 >
-                  Clear Sort
+                  Alphabetical (By Well Code)
                 </button>
                 <button
                   onClick={() => setSort("well_id")}
@@ -236,7 +231,7 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Oldest-Newest
+                  Oldest
                 </button>
                 <button
                   onClick={() => setSort("well_id DESC")}
@@ -246,7 +241,7 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Newest-Oldest
+                  Newest
                 </button>
               </div>
             )}
@@ -264,7 +259,6 @@ const Well = () => {
               >
                 <button
                   onClick={() => setFilter({})}
-                  className="dropdown-item"
                 >
                   Clear Filters
                 </button>
