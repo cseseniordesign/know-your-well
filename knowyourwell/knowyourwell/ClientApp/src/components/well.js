@@ -65,7 +65,7 @@ const Well = () => {
   const [isFilterDropdownVisible, setFilterDropdownVisibility] =
     useState(false);
   // const [isCountyDropdownVisible, setCountyDropdownVisibility] = useState(false)
-  const [filter, setFilter] = useState(String);
+  const [filter, setFilter] = useState({});
   const [sort, setSort] = useState(String);
   const [wellList, setWells] = useState([]);
   const { user, setUser } = useUser();
@@ -105,6 +105,7 @@ const Well = () => {
     const queryParams = {};
 
     if (filter) {
+      // The filter is now an object that maps each of the filter types to the value, so we need to parse it into something that can be used in the queryParams
       queryParams.filterBy = filter;
     }
 
@@ -209,7 +210,10 @@ const Well = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
-          <div ref={containerRef}>
+          <div ref={containerRef}>         
+            
+
+
             <button
               onClick={() => {
                 setSortDropdownVisibility(!isSortDropdownVisible);
@@ -217,8 +221,17 @@ const Well = () => {
               }}
               className="btn btn-primary"
             >
-              Sort Wells
+              Sort
             </button>
+            <button
+              onClick={() => {
+                setFilterDropdownVisibility(!isFilterDropdownVisible);
+              }}
+              className="btn btn-primary"
+            >
+              Filters
+            </button>
+            
             {isSortDropdownVisible && (
               <div
                 style={{
@@ -260,15 +273,7 @@ const Well = () => {
                 </button>
               </div>
             )}
-            <button
-              onClick={() => {
-                setFilterDropdownVisibility(!isFilterDropdownVisible);
-                setFilter("undefined");
-              }}
-              className="btn btn-primary"
-            >
-              Filter By County
-            </button>
+            
             {isFilterDropdownVisible && (
               <div
                 style={{
@@ -281,32 +286,28 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setFilter("undefined")}
-                  style={{
-                    backgroundColor:
-                      filter === "undefined" ? "yellow" : "transparent",
-                  }}
+                  onClick={() => setFilter({})}
                   className="dropdown-item"
                 >
-                  Clear Filter
+                  Clear Filters
                 </button>
-                {countyOptions.map((county) => (
-                  <button
-                    key={county.key}
-                    onClick={() => setFilter(`county_id = '${county.key}'`)}
-                    style={{
-                      backgroundColor:
-                        filter === `county_id = '${county.key}'`
-                          ? "yellow"
-                          : "transparent",
-                    }}
-                    className="dropdown-item"
-                  >
-                    {county.value}
-                  </button>
-                ))}
+                <div
+                  style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline' }}
+                >
+                  <p>County: </p>
+                  <select onChange={(e) => setFilter({ county: e.target.value })}>
+                  {countyOptions.map((county, index) =>
+                    <option key={index} value={county.value}>{county.value}</option>
+                  )}
+                  </select>
+                </div>
               </div>
             )}
+            
+
+
+
+
           </div>
 
           <List>
