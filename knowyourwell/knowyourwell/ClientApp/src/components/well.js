@@ -6,6 +6,7 @@ import Axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIconPng from '../components/images/wellIcon.png';
+import magicBlueDot from '../components/images/magicBlueDot.png';
 import { Icon } from 'leaflet';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -42,14 +43,16 @@ function responseDataToMarkerList(responseData) {
   try {
     for (const element of responseData) {
       markerList.push(
-        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 30], iconAnchor: [15, 30]})}>
+        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [30, 30], iconAnchor: [15, 30] })}>
           <Popup>
             <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}>{element.wi_wellcode}</a><br />
-
           </Popup>
         </Marker>
       )
     }
+    markerList.push(
+      <Marker key="currentLocation" position={[sessionStorage.getItem("lat"), sessionStorage.getItem("long")]} icon={new Icon({ iconUrl: magicBlueDot, iconSize: [15, 15], iconAnchor: [15, 30] })} />
+    )
   } catch (e) {
     console.log("Error Parsing Data into Marker List.");
   }
@@ -166,6 +169,26 @@ const Well = () => {
     } else {
       return [40.8202, -96.7005]; // Defaults to the coordinates of UNL
     }
+  }
+
+  const filterWellsByDistance = (distance) => {
+    const allWells = JSON.parse(localStorage.getItem("wellData"))?.Wells;
+    if (allWells.length === 0 || distance < 0) {
+      return [];
+    }
+    if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
+      return allWells;
+    }
+    const currentLat = sessionStorage.getItem("lat");
+    const currentLong = sessionStorage.getItem("long");
+    const filteredWells = allWells.filter(well => {
+      const wellLat = well.wi_estlatitude;
+      const wellLong = well.wi_estlongitude;
+      const distanceBetween = Math.sqrt((wellLat - currentLat) ** 2 + (wellLong - currentLong) ** 2);
+      return distanceBetween <= distance;
+    });
+    console.log(filteredWells);
+    return filteredWells;
   }
 
   const getMapView = () => {
@@ -306,10 +329,23 @@ const Well = () => {
               JSON.parse(localStorage.getItem("wellData"))?.Wells,
             )}
           </List>
+          <button onClick={() => { filterWellsByDistance(Number(prompt('gib distamce'))) }} />
         </div>
       </div>
     );
   };
+
+  if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        sessionStorage.setItem("lat", position.coords.latitude);
+        sessionStorage.setItem("long", position.coords.longitude);
+      }, function (error) {
+        console.log("Error getting location: ", error);
+      });
+    }
+  }
+
 
   if (isLoading && JSON.parse(localStorage.getItem("wellData")) === null) {
     return <h1>Loading</h1>;
