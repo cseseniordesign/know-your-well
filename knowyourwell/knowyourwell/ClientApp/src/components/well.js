@@ -67,7 +67,7 @@ const Well = () => {
     useState(false);
   // const [isCountyDropdownVisible, setCountyDropdownVisibility] = useState(false)
   const [filter, setFilter] = useState({});
-  const [sort, setSort] = useState(String);
+  const [sort, setSort] = useState(undefined);
   const [wellList, setWells] = useState([]);
   const [distance, setDistance] = useState(0);
   const { user, setUser } = useUser();
@@ -239,7 +239,6 @@ const Well = () => {
             <button
               onClick={() => {
                 setSortDropdownVisibility(!isSortDropdownVisible);
-                setSort("undefined");
               }}
               className="btn btn-primary"
             >
@@ -253,7 +252,6 @@ const Well = () => {
             >
               Filters
             </button>
-
             {isSortDropdownVisible && (
               <div
                 style={{
@@ -264,14 +262,14 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setSort("undefined")}
+                  onClick={() => setSort()}
                   style={{
                     backgroundColor:
-                      sort === "undefined" ? "yellow" : "transparent",
+                      sort === undefined ? "yellow" : "transparent",
                   }}
                   className="dropdown-item"
                 >
-                  Clear Sort
+                  Alphabetical (By Well Code)
                 </button>
                 <button
                   onClick={() => setSort("well_id")}
@@ -281,7 +279,7 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Oldest-Newest
+                  Oldest
                 </button>
                 <button
                   onClick={() => setSort("well_id DESC")}
@@ -291,7 +289,7 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Newest-Oldest
+                  Newest
                 </button>
               </div>
             )}
@@ -307,8 +305,9 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setFilter({})}
-                  className="dropdown-item"
+                  onClick={() => {
+                    setFilter({ county_id: -1 });
+                  }}
                 >
                   Clear Filters
                 </button>
@@ -316,9 +315,9 @@ const Well = () => {
                   style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline' }}
                 >
                   <p>County: </p>
-                  <select onChange={(e) => setFilter({ county: e.target.value })}>
-                    {countyOptions.map((county, index) =>
-                      <option key={index} value={county.value}>{county.value}</option>
+                  <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
+                    {[{ key: -1, value: '' }, ...countyOptions].map((county, index) =>
+                      <option key={index} value={county.key}>{county.value}</option>
                     )}
                   </select>
                 </div>

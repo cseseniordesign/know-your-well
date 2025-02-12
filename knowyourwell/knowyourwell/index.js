@@ -588,15 +588,19 @@ app.get("/Wells", async (req, res) => {
 
   if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
     query = query + ` WHERE school_id = ${kywmemValue}`;
-    if (req.query.filterBy && req.query.filterBy !== "undefined") {
-      query = query + ` AND ${req.query.filterBy}`;
+    if (req.query.filterBy && Object.keys(req.query.filterBy).length !== 0) {
+      for (const [column, filter] of Object.entries(req.query.filterBy)) {
+        query += ` AND ${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1)`;
+      }
     }
   } else {
     res.status(422).send("school_id must be defined");
   }
 
-  if (req.query.sortBy && req.query.sortBy !== "undefined") {
-    query = query + ` ORDER BY ${req.query.sortBy}`;
+  if (req.query.sortBy) {
+    query += ` ORDER BY ${req.query.sortBy}`;
+  } else {
+    query += ' ORDER BY wi_wellcode';
   }
 
   appPool.query(query, function (err, recordset) {
