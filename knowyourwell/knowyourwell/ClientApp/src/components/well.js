@@ -302,7 +302,7 @@ const Well = () => {
                         e.preventDefault();
                       }
                     }}
-                    style={{ marginLeft: "10px", padding: "4px", flex: 1 }}
+                    style={{ marginLeft: "10px", padding: "4px", width: "250px" }}
                   />
                   <button
                     onClick={() =>
