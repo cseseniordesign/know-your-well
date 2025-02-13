@@ -11,6 +11,7 @@ const cors = require("cors");
 const { response } = require("express");
 const path = require("path");
 const { error } = require("console");
+const { aborted } = require("util");
 
 //require('dotenv').config()
 
@@ -584,10 +585,19 @@ app.post("/createimage", (req, res) => {
 
 app.get("/Wells", async (req, res) => {
   let query = "SELECT * FROM dbo.tblWellInfo";
+
   kywmemValue = req.session.kywmem;
 
-  if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
-    query = query + ` WHERE school_id = ${kywmemValue}`;
+  const applySchoolId = () => {
+    if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
+      return ` WHERE school_id = ${kywmemValue} `
+    } else {
+      res.status(422).send("school_id must be defined");
+    }
+  }
+  query += applySchoolId();
+
+  const applyFilter = () => {
     if (req.query.filterBy && Object.keys(req.query.filterBy).length !== 0) {
       let conditions = [];
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
@@ -598,15 +608,30 @@ app.get("/Wells", async (req, res) => {
         }
       }
       if (conditions.length > 0) {
-        query += " AND (" + conditions.join(" AND ") + ")";
+        return " AND (" + conditions.join(" AND ") + ")";
       }
     }
-  } else {
-    res.status(422).send("school_id must be defined");
   }
+  query += applyFilter();
+
+  const fieldSort =  `SELECT w.*
+                        FROM dbo.tblWellInfo w
+                        LEFT JOIN (
+                          SELECT well_id, MAX(fa_datecollected) as newest 
+                          FROM dbo.tblFieldActivity
+                          GROUP BY well_id
+                        ) fa on w.well_id = fa.well_id` +
+                        applySchoolId()  +
+                        applyFilter() +
+                        ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`  
+
 
   if (req.query.sortBy) {
-    query += ` ORDER BY ${req.query.sortBy}`;
+    if (req.query.sortBy === "field_activity") {
+      query = fieldSort;
+    } else {
+      query += ` ORDER BY ${req.query.sortBy}`;
+    }
   } else {
     query += ' ORDER BY wi_wellname';
   }
@@ -845,6 +870,46 @@ app.get("/GetLabEntry", async (req, res) => {
       .input("classlab_id", sql.Int, req.query.classlab_id)
       .query(
         "SELECT * FROM dbo.tblClassRoomLab WHERE classlab_id = @classlab_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ ClassLabEntry: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetNewestFieldEntryDate", async(req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("well_id", sql.Int, req.query.well_id)
+      .query(
+        "SELECT max(fa_datecollected) FROM dbo.tblFieldActivity WHERE well_id = @well_id;",
         function (err, recordset) {
           if (err) {
             console.log(err);

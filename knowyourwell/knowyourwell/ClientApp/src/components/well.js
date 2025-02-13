@@ -185,6 +185,19 @@ const Well = () => {
     );
   }
 
+  const sortByField = (well_id) => {
+    try {
+      Axios.get("/GetNewestFieldEntryDate", {
+        responseType: "json",
+        params: {
+          well_id: well_id
+        }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  }
+
   const getListView = () => {
     const wellsData = JSON.parse(localStorage.getItem("wellData"))?.Wells || [];
     const filteredWells = filter.search
@@ -224,10 +237,10 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setSort()}
+                  onClick={() => setSort("wi_wellname")}
                   style={{
                     backgroundColor:
-                      sort === undefined ? "yellow" : "transparent",
+                      sort === "wi_wellname" ? "yellow" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -241,7 +254,7 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Oldest
+                  Oldest First
                 </button>
                 <button
                   onClick={() => setSort("well_id DESC")}
@@ -251,7 +264,17 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Newest
+                  Newest First
+                </button>
+                <button
+                  onClick={() => setSort("field_activity")}
+                  style={{
+                    backgroundColor:
+                      sort === "field_activity" ? "yellow" : "transparent",
+                  }}
+                  className="dropdown-item"
+                >
+                  Most Recent Field Entry
                 </button>
               </div>
             )}
