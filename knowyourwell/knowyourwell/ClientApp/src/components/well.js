@@ -201,6 +201,7 @@ const Well = () => {
                 setSortDropdownVisibility(!isSortDropdownVisible);
               }}
               className="btn btn-primary"
+              style={{ margin: '0.5em', width: '5em' }}
             >
               Sort
             </button>
@@ -209,6 +210,7 @@ const Well = () => {
                 setFilterDropdownVisibility(!isFilterDropdownVisible);
               }}
               className="btn btn-primary"
+              style={{ margin: '0.5em', width: '5em' }}
             >
               Filters
             </button>
@@ -229,7 +231,7 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Alphabetical (By Well Code)
+                  Alphabetical (By Well Name)
                 </button>
                 <button
                   onClick={() => setSort("well_id")}
