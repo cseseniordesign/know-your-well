@@ -65,7 +65,7 @@ const Well = () => {
     useState(false);
   // const [isCountyDropdownVisible, setCountyDropdownVisibility] = useState(false)
   const [filter, setFilter] = useState({});
-  const [sort, setSort] = useState(undefined);
+  const [sort, setSort] = useState('well_id');
   const [wellList, setWells] = useState([]);
   const { user, setUser } = useUser();
 
@@ -185,19 +185,6 @@ const Well = () => {
     );
   }
 
-  const sortByField = (well_id) => {
-    try {
-      Axios.get("/GetNewestFieldEntryDate", {
-        responseType: "json",
-        params: {
-          well_id: well_id
-        }
-    });
-  } catch (err) {
-    console.log(err);
-  }
-  }
-
   const getListView = () => {
     const wellsData = JSON.parse(localStorage.getItem("wellData"))?.Wells || [];
     const filteredWells = filter.search
@@ -237,16 +224,6 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setSort("wi_wellname")}
-                  style={{
-                    backgroundColor:
-                      sort === "wi_wellname" ? "yellow" : "transparent",
-                  }}
-                  className="dropdown-item"
-                >
-                  Alphabetical (By Well Name)
-                </button>
-                <button
                   onClick={() => setSort("well_id")}
                   style={{
                     backgroundColor:
@@ -265,6 +242,16 @@ const Well = () => {
                   className="dropdown-item"
                 >
                   Newest First
+                </button>
+                <button
+                  onClick={() => setSort("wi_wellname")}
+                  style={{
+                    backgroundColor:
+                      sort === "wi_wellname" ? "yellow" : "transparent",
+                  }}
+                  className="dropdown-item"
+                >
+                  Alphabetical (By Well Name)
                 </button>
                 <button
                   onClick={() => setSort("field_activity")}

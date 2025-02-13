@@ -11,7 +11,6 @@ const cors = require("cors");
 const { response } = require("express");
 const path = require("path");
 const { error } = require("console");
-const { aborted } = require("util");
 
 //require('dotenv').config()
 
@@ -611,6 +610,7 @@ app.get("/Wells", async (req, res) => {
         return " AND (" + conditions.join(" AND ") + ")";
       }
     }
+    return '';
   }
   query += applyFilter();
 
@@ -870,46 +870,6 @@ app.get("/GetLabEntry", async (req, res) => {
       .input("classlab_id", sql.Int, req.query.classlab_id)
       .query(
         "SELECT * FROM dbo.tblClassRoomLab WHERE classlab_id = @classlab_id;",
-        function (err, recordset) {
-          if (err) {
-            console.log(err);
-            res.status(500).send("Query does not execute.");
-            if (!rolledBack) {
-              transaction.rollback((err) => {
-                // ... error checks
-              });
-            }
-          } else {
-            transaction.commit((err) => {
-              if (err) {
-                console.log(err);
-                res.status(500).send("500: Server Error.");
-              } else {
-                // console.log(recordset)
-                res.status(200).json({ ClassLabEntry: recordset.recordset });
-              }
-            });
-          }
-        },
-      );
-  });
-});
-
-app.get("/GetNewestFieldEntryDate", async(req, res) => {
-  const transaction = appPool.transaction();
-  transaction.begin((err) => {
-    if (err) console.error("Transaction Failed");
-    const request = appPool.request(transaction);
-    let rolledBack = false;
-
-    transaction.on("rollback", (aborted) => {
-      rolledBack = true;
-    });
-
-    request
-      .input("well_id", sql.Int, req.query.well_id)
-      .query(
-        "SELECT max(fa_datecollected) FROM dbo.tblFieldActivity WHERE well_id = @well_id;",
         function (err, recordset) {
           if (err) {
             console.log(err);
