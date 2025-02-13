@@ -593,6 +593,8 @@ app.get("/Wells", async (req, res) => {
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
         if (column === "search") {
           conditions.push(`wi_wellname LIKE '%${filter}%'`);
+        } else if (column === "byDistance") {
+          conditions.push(filter)
         } else {
           conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1) OR ( ${column} = nrd_id AND ${filter} = -1))`);
         }

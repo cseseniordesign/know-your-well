@@ -190,15 +190,20 @@ const Well = () => {
     })
       .then(function (response) {
         localStorage.setItem("wellData", JSON.stringify(response.data));
-        setWells(responseDataToHTMLList(response.data.Wells));
-        setLoading(false);
+        // setWells(responseDataToHTMLList(response.data.Wells));
+        // setLoading(false);
       })
       .catch(function (error) {
         console.error("An error occurred while fetching the wells:", error);
-        setLoading(true);
+        // setLoading(true);
       });
+    if (distance === "") {
+      // field was cleared so set filter to always true
+      setFilter({ ...filter, byDistance: "1=1" });
+      return;
+    }
     const allWells = JSON.parse(localStorage.getItem("wellData"))?.Wells;
-    if (allWells.length === 0 || distance < 0) {
+    if (allWells.length === 0) {
       return [];
     }
     if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
@@ -210,13 +215,14 @@ const Well = () => {
       const distanceBetween = calculateDistance(wellLat, wellLong);
       return distanceBetween <= distance;
     });
+    if (filteredWells.length === 0) {
+      // no wells within distance so set filter to impossible value
+      setFilter({ ...filter, byDistance: "0=1" });
+      return;
+    }
     const extractedIDs = filteredWells.map(well => well.well_id);
     const sqlString = 'well_id IN (' + extractedIDs.join(', ') + ')';
     setFilter({ ...filter, byDistance: sqlString });
-    console.log(sqlString);
-    console.log(extractedIDs);
-    console.log(filteredWells);
-    return extractedIDs;
   }
 
   const getMapView = () => {
@@ -350,6 +356,11 @@ const Well = () => {
                       }
                     }}
                     style={{ marginLeft: "10px", padding: "4px", width: "250px" }}
+                  />
+                  <p>Wells in a ___ mile radius.</p>
+                  <input
+                    type="number"
+                    onChange={(e) => filterWellsByDistance(e.target.value)}
                   />
                 </div>
               </div>
