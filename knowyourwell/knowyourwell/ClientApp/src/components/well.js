@@ -304,14 +304,6 @@ const Well = () => {
                     }}
                     style={{ marginLeft: "10px", padding: "4px", width: "250px" }}
                   />
-                  <button
-                    onClick={() =>
-                      setFilter({ ...filter, search: filter.search || "" })
-                    }
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Go
-                  </button>
                 </div>
               </div>
             )}
