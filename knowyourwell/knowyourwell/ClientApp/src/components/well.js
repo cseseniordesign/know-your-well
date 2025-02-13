@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import { List } from "semantic-ui-react";
 import countyOptions from "./resources/counties";
+import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -232,6 +233,12 @@ const Well = () => {
   }
 
   const getListView = () => {
+    const wellsData = JSON.parse(localStorage.getItem("wellData"))?.Wells || [];
+    const filteredWells = filter.search
+      ? wellsData.filter((well) =>
+        well.wi_wellname.toLowerCase().includes(filter.search.toLowerCase())
+      )
+      : wellsData;
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
@@ -306,7 +313,7 @@ const Well = () => {
               >
                 <button
                   onClick={() => {
-                    setFilter({ county_id: -1 });
+                    setFilter({ county_id: -1, nrd_id: -1 });
                   }}
                 >
                   Clear Filters
@@ -324,9 +331,37 @@ const Well = () => {
                 <div
                   style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline' }}
                 >
-                  <p>Filter by distance: </p>
-                  <input type="number" id="filterByNumber" onChange={(e) => setDistance(Number(e.target.value))} />
-                  <button onClick={() => filterWellsByDistance(distance)}>Submit</button>
+                  <p>Natural Resource District: </p>
+                  <select value={filter.nrd_id} onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}>
+                    {[{ key: -1, value: '' }, ...nrdOptions].map((nrd, index) =>
+                      <option key={index} value={nrd.key}>{nrd.value}</option>
+                    )}
+                  </select>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'baseline',
+                    marginTop: '10px'
+                  }}
+                >
+                  <p>Search: </p>
+                  <input
+                    type="text"
+                    placeholder="Search by well name"
+                    value={filter.search || ""}
+                    onChange={(e) =>
+                      setFilter({ ...filter, search: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                      }
+                    }}
+                    style={{ marginLeft: "10px", padding: "4px", width: "250px" }}
+                  />
                 </div>
               </div>
             )}
