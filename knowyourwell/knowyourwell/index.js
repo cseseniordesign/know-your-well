@@ -608,7 +608,7 @@ app.get("/Wells", async (req, res) => {
   if (req.query.sortBy) {
     query += ` ORDER BY ${req.query.sortBy}`;
   } else {
-    query += ' ORDER BY wi_wellcode';
+    query += ' ORDER BY wi_wellname';
   }
 
   appPool.query(query, function (err, recordset) {
