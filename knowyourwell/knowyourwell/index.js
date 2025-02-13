@@ -594,7 +594,7 @@ app.get("/Wells", async (req, res) => {
         if (column === "search") {
           conditions.push(`wi_wellname LIKE '%${filter}%'`);
         } else {
-          conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1))`);
+          conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1) OR ( ${column} = nrd_id AND ${filter} = -1))`);
         }
       }
       if (conditions.length > 0) {

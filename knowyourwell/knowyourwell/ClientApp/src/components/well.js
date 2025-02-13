@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import { List } from "semantic-ui-react";
 import countyOptions from "./resources/counties";
+import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -265,7 +266,7 @@ const Well = () => {
               >
                 <button
                   onClick={() => {
-                    setFilter({ county_id: -1 });
+                    setFilter({ county_id: -1, nrd_id: -1 });
                   }}
                 >
                   Clear Filters
@@ -277,6 +278,16 @@ const Well = () => {
                   <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
                   {[ { key: -1, value: '' }, ...countyOptions].map((county, index) =>
                     <option key={index} value={county.key}>{county.value}</option>
+                  )}
+                  </select>
+                </div>
+                <div
+                  style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline' }}
+                >
+                  <p>Natural Resource District: </p>
+                  <select value={filter.nrd_id} onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}>
+                  {[ { key: -1, value: '' }, ...nrdOptions].map((nrd, index) =>
+                    <option key={index} value={nrd.key}>{nrd.value}</option>
                   )}
                   </select>
                 </div>
