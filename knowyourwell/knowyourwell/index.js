@@ -589,13 +589,16 @@ app.get("/Wells", async (req, res) => {
   if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
     query = query + ` WHERE school_id = ${kywmemValue}`;
     if (req.query.filterBy && Object.keys(req.query.filterBy).length !== 0) {
+      let conditions = [];
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
         if (column === "search") {
-          query += ` AND wi_wellname LIKE '%${filter}%'`;
+          conditions.push(`wi_wellname LIKE '%${filter}%'`);
         } else {
-          query += ` AND ${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1)`;
+          conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1))`);
         }
-        
+      }
+      if (conditions.length > 0) {
+        query += " AND (" + conditions.join(" AND ") + ")";
       }
     }
   } else {
