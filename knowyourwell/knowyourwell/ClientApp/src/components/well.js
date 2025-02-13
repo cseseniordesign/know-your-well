@@ -351,7 +351,6 @@ const Well = () => {
               JSON.parse(localStorage.getItem("wellData"))?.Wells,
             )}
           </List>
-          <button onClick={() => { filterWellsByDistance(Number(prompt('gib distamce'))) }} />
         </div>
       </div>
     );
