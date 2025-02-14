@@ -602,18 +602,14 @@ app.get("/Wells", async (req, res) => {
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
         if (column === "search") {
           conditions.push(`wi_wellname LIKE '%${filter}%'`);
-        } else if (column === "minLat" || column === "maxLat") {
-          const value = parseFloat(filter);
-          if (!isNaN(value)) {
-            const operator = column === "minLat" ? ">=" : "<=";
-            conditions.push(`wi_estlatitude ${operator} ${value} AND wi_estlatitude BETWEEN 40 AND 43`);
-          }
-        } else if (column === "minLon" || column === "maxLon") {
-          const value = parseFloat(filter);
-          if (!isNaN(value)) {
-            const operator = column === "minLon" ? ">=" : "<=";
-            conditions.push(`wi_estlongitude ${operator} ${value} AND wi_estlongitude BETWEEN -104 AND -95.417`);
-          }
+        } else if (column === "minLat" && !isNaN(parseFloat(filter))) {
+          conditions.push(`wi_estlatitude >= ${parseFloat(filter)}`);
+        } else if (column === "maxLat" && !isNaN(parseFloat(filter))) {
+          conditions.push(`wi_estlatitude <= ${parseFloat(filter)}`);
+        } else if (column === "minLon" && !isNaN(parseFloat(filter))) {
+          conditions.push(`wi_estlongitude >= ${parseFloat(filter)}`);
+        } else if (column === "maxLon" && !isNaN(parseFloat(filter))) {
+          conditions.push(`wi_estlongitude <= ${parseFloat(filter)}`);
         } else if (column === "county_id" || column === "nrd_id") {
           conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
         }
