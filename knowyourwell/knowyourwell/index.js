@@ -602,8 +602,24 @@ app.get("/Wells", async (req, res) => {
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
         if (column === "search") {
           conditions.push(`wi_wellname LIKE '%${filter}%'`);
-        } else {
-          conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1) OR ( ${column} = nrd_id AND ${filter} = -1))`);
+        } else if (column === "minLat" || column === "maxLat") {
+          const value = parseFloat(filter);
+          if (!isNaN(value) && value >= 40 && value <= 43) {
+            const operator = column === "minLat" ? ">=" : "<=";
+            conditions.push(`wi_estlatitude ${operator} ${value}`);
+          } else if (!isNaN(value)) {
+            conditions.push('1=0');
+          }
+        } else if (column === "minLon" || column === "maxLon") {
+          const value = parseFloat(filter);
+          if (!isNaN(value) && value >= -104 && value <= -95.417) {
+            const operator = column === "minLon" ? ">=" : "<=";
+            conditions.push(`wi_estlongitude ${operator} ${value}`);
+          } else if (!isNaN(value)) {
+            conditions.push('1=0');
+          }
+        } else if (column === "county_id" || column === "nrd_id") {
+          conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
         }
       }
       if (conditions.length > 0) {

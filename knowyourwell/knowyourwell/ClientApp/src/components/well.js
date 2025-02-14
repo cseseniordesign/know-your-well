@@ -314,6 +314,46 @@ const Well = () => {
                     }}
                     style={{ marginLeft: "10px", padding: "4px", width: "250px" }}
                   />
+                  <p>Latitude: </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+                    <input
+                      type="text"
+                      maxLength="5"
+                      placeholder="40-43"
+                      value={filter.minLat || ""}
+                      onChange={(e) => setFilter({ ...filter, minLat: e.target.value })}
+                      style={{ width: "120px", padding: "4px" }}
+                    />
+                    <p>to</p>
+                    <input
+                      type="text"
+                      maxLength="5"
+                      placeholder="40-43"
+                      value={filter.maxLat || ""}
+                      onChange={(e) => setFilter({ ...filter, maxLat: e.target.value })}
+                      style={{ width: "120px", padding: "4px" }}
+                    />
+                  </div>
+                  <p>Longitude: </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+                    <input
+                      type="text"
+                      maxLength="7"
+                      placeholder="-104 to -95.417"
+                      value={filter.minLon || ""}
+                      onChange={(e) => setFilter({ ...filter, minLon: e.target.value })}
+                      style={{ width: "120px", padding: "4px" }}
+                    />
+                    <p>to</p>
+                    <input
+                      type="text"
+                      maxLength="7"
+                      placeholder="-104 to -95.417"
+                      value={filter.maxLon || ""}
+                      onChange={(e) => setFilter({ ...filter, maxLon: e.target.value })}
+                      style={{ width: "120px", padding: "4px" }}
+                    />
+                  </div>
                 </div>
               </div>
             )}
