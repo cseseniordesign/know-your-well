@@ -602,14 +602,22 @@ app.get("/Wells", async (req, res) => {
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
         if (column === "search") {
           conditions.push(`wi_wellname LIKE '%${filter}%'`);
-        } else if (column === "minLat" && !isNaN(parseFloat(filter))) {
-          conditions.push(`wi_estlatitude >= ${parseFloat(filter)}`);
-        } else if (column === "maxLat" && !isNaN(parseFloat(filter))) {
-          conditions.push(`wi_estlatitude <= ${parseFloat(filter)}`);
-        } else if (column === "minLon" && !isNaN(parseFloat(filter))) {
-          conditions.push(`wi_estlongitude >= ${parseFloat(filter)}`);
-        } else if (column === "maxLon" && !isNaN(parseFloat(filter))) {
-          conditions.push(`wi_estlongitude <= ${parseFloat(filter)}`);
+        } else if (column === "minLat") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlatitude >= ${parseFloat(filter)}`);
+          }
+        } else if (column === "maxLat") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlatitude <= ${parseFloat(filter)}`);
+          }
+        } else if (column === "minLon") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlongitude >= ${parseFloat(filter)}`);
+          }
+        } else if (column === "maxLon") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlongitude <= ${parseFloat(filter)}`);
+          }
         } else if (column === "county_id" || column === "nrd_id") {
           conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
         } else if (column === "byDistance") {
