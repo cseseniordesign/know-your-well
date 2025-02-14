@@ -12,6 +12,7 @@
 
 .filter-container p {
   justify-self: end;
+  text-align: right;
   margin-bottom: 0;
 }
 
