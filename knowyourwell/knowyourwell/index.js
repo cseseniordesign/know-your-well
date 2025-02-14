@@ -616,6 +616,10 @@ app.get("/Wells", async (req, res) => {
           }
         } else if (column === "county_id" || column === "nrd_id") {
           conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
+        } else if (column === "byDistance") {
+          conditions.push(filter)
+        } else {
+          conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1) OR ( ${column} = nrd_id AND ${filter} = -1))`);
         }
       }
       if (conditions.length > 0) {
@@ -626,16 +630,16 @@ app.get("/Wells", async (req, res) => {
   }
   query += applyFilter();
 
-  const fieldSort =  `SELECT w.*
+  const fieldSort = `SELECT w.*
                         FROM dbo.tblWellInfo w
                         LEFT JOIN (
-                          SELECT well_id, MAX(fa_datecollected) as newest 
+                          SELECT well_id, MAX(fa_datecollected) as newest
                           FROM dbo.tblFieldActivity
                           GROUP BY well_id
                         ) fa on w.well_id = fa.well_id` +
-                        applySchoolId()  +
-                        applyFilter() +
-                        ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`  
+    applySchoolId() +
+    applyFilter() +
+    ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`
 
 
   if (req.query.sortBy) {
