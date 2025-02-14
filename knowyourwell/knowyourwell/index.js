@@ -613,7 +613,11 @@ app.get("/Wells", async (req, res) => {
         } else if (column === "county_id" || column === "nrd_id") {
           conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
         } else if (column === "byDistance") {
-          conditions.push(filter)
+          if (req.query.sortBy === "field_activity") {
+            conditions.push(`w.${filter}`);
+          } else {
+            conditions.push(filter)
+          }
         } else {
           conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1) OR ( ${column} = nrd_id AND ${filter} = -1))`);
         }
