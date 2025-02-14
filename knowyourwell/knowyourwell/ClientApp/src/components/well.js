@@ -1,16 +1,20 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import { List } from "semantic-ui-react";
 import countyOptions from "./resources/counties";
+import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIconPng from '../components/images/wellIcon.png';
+import magicBlueDot from '../components/images/magicBlueDot.png';
 import { Icon } from 'leaflet';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import './css/wells.css';
 
 import { useUser } from "./usercontext";
+import axios from "axios";
 
 function responseDataToHTMLList(responseData) {
   let HTMLList = [];
@@ -42,10 +46,9 @@ function responseDataToMarkerList(responseData) {
   try {
     for (const element of responseData) {
       markerList.push(
-        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [30, 30], iconAnchor: [15, 30]})}>
+        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [30, 30], iconAnchor: [15, 30] })}>
           <Popup>
             <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}>{element.wi_wellcode}</a><br />
-
           </Popup>
         </Marker>
       )
@@ -56,15 +59,17 @@ function responseDataToMarkerList(responseData) {
   return markerList;
 }
 
+
 const Well = () => {
   const [isLoading, setLoading] = useState(true);
   const [isSortDropdownVisible, setSortDropdownVisibility] = useState(false);
   const [isFilterDropdownVisible, setFilterDropdownVisibility] =
     useState(false);
   // const [isCountyDropdownVisible, setCountyDropdownVisibility] = useState(false)
-  const [filter, setFilter] = useState(String);
-  const [sort, setSort] = useState(String);
+  const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState('well_id');
   const [wellList, setWells] = useState([]);
+  const [userMarker, setUserMarker] = useState(<></>);
   const { user, setUser } = useUser();
 
   const containerRef = useRef(null);
@@ -100,17 +105,13 @@ const Well = () => {
   //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {
     const queryParams = {};
-
     if (filter) {
+      // The filter is now an object that maps each of the filter types to the value, so we need to parse it into something that can be used in the queryParams
       queryParams.filterBy = filter;
     }
-
     if (sort) {
       queryParams.sortBy = sort;
     }
-
-    // queryParams.schoolid = schoolid
-
     Axios.get("/Wells", {
       params: queryParams,
       responseType: "json",
@@ -118,15 +119,11 @@ const Well = () => {
       .then(function (response) {
         localStorage.setItem("wellData", JSON.stringify(response.data));
         setWells(responseDataToHTMLList(response.data.Wells));
-
         setLoading(false);
       })
       .catch(function (error) {
-        // localStorage.setItem("wellData", [])
         console.error("An error occurred while fetching the wells:", error);
-        // Here, you can also set isLoading to false to stop the loading indicator
         setLoading(true);
-        // Optionally, handle the error more gracefully, such as showing an error message to the user
       });
   }, [filter, sort]);
 
@@ -168,6 +165,81 @@ const Well = () => {
     }
   }
 
+  function calculateDistance(wellLatitude, wellLongitude) {
+    const userLatitude = sessionStorage.getItem("lat");
+    const userLongitude = sessionStorage.getItem("long");
+    var R = 3959; // Radius of earth in miles
+    var dLat = userLatitude * Math.PI / 180 - wellLatitude * Math.PI / 180;
+    var dLon = userLongitude * Math.PI / 180 - wellLongitude * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(userLatitude * Math.PI / 180) * Math.cos(wellLatitude * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in miles
+    return d;
+  }
+
+  const filterWellsByDistance = async (distance) => {
+    await Axios.get("/Wells", {
+      params: {},
+      responseType: "json",
+    })
+      .then(function (response) {
+        localStorage.setItem("wellData", JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.error("An error occurred while fetching the wells:", error);
+      });
+    if (distance === "") {
+      // field was cleared so set filter to always true
+      setFilter({ ...filter, byDistance: "1=1" });
+      return;
+    }
+    const allWells = JSON.parse(localStorage.getItem("wellData"))?.Wells;
+    if (allWells.length === 0) {
+      return [];
+    }
+    if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
+      return allWells;
+    }
+    const filteredWells = allWells.filter(well => {
+      const wellLat = well.wi_estlatitude;
+      const wellLong = well.wi_estlongitude;
+      const distanceBetween = calculateDistance(wellLat, wellLong);
+      return distanceBetween <= distance;
+    });
+    if (filteredWells.length === 0) {
+      // no wells within distance so set filter to impossible value
+      setFilter({ ...filter, byDistance: "0=1" });
+      return;
+    }
+    const extractedIDs = filteredWells.map(well => well.well_id);
+    const sqlString = 'well_id IN (' + extractedIDs.join(', ') + ')';
+    setFilter({ ...filter, byDistance: sqlString });
+  }
+
+  // function getUserMarker() {
+  //   console.log("updating user marker");
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(function (position) {
+  //       sessionStorage.setItem("lat", position.coords.latitude);
+  //       sessionStorage.setItem("long", position.coords.longitude);
+  //     }, function (error) {
+  //       console.log("Error getting location: ", error);
+  //     }, { enableHighAccuracy: false, maximumAge: 15000 });
+  //   }
+  //   const userLat = sessionStorage.getItem("lat");
+  //   const userLong = sessionStorage.getItem("long");
+  //   if (userLat === null || userLong === null) {
+  //     return
+  //   }
+  //   setUserMarker(<Marker position={[userLat, userLong]} icon={new Icon({ iconUrl: magicBlueDot, iconSize: [15, 15] })} />)
+  // }
+
+  // setInterval(() => {
+  //   getUserMarker();
+  // }, 15000);
+
   const getMapView = () => {
     return (
       <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={findMapCenter()} zoom={7} maxZoom={12} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
@@ -178,11 +250,19 @@ const Well = () => {
         {responseDataToMarkerList(
           JSON.parse(localStorage.getItem("wellData"))?.Wells,
         )}
+        {/* {userMarker} */}
       </MapContainer>
     );
   }
 
+
   const getListView = () => {
+    const wellsData = JSON.parse(localStorage.getItem("wellData"))?.Wells || [];
+    const filteredWells = filter.search
+      ? wellsData.filter((well) =>
+        well.wi_wellname.toLowerCase().includes(filter.search.toLowerCase())
+      )
+      : wellsData;
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
@@ -190,11 +270,20 @@ const Well = () => {
             <button
               onClick={() => {
                 setSortDropdownVisibility(!isSortDropdownVisible);
-                setSort("undefined");
               }}
               className="btn btn-primary"
+              style={{ margin: '0.5em', width: '5em' }}
             >
-              Sort Wells
+              Sort
+            </button>
+            <button
+              onClick={() => {
+                setFilterDropdownVisibility(!isFilterDropdownVisible);
+              }}
+              className="btn btn-primary"
+              style={{ margin: '0.5em', width: '5em' }}
+            >
+              Filters
             </button>
             {isSortDropdownVisible && (
               <div
@@ -206,16 +295,6 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setSort("undefined")}
-                  style={{
-                    backgroundColor:
-                      sort === "undefined" ? "yellow" : "transparent",
-                  }}
-                  className="dropdown-item"
-                >
-                  Clear Sort
-                </button>
-                <button
                   onClick={() => setSort("well_id")}
                   style={{
                     backgroundColor:
@@ -223,7 +302,7 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Oldest-Newest
+                  Oldest First
                 </button>
                 <button
                   onClick={() => setSort("well_id DESC")}
@@ -233,19 +312,30 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Newest-Oldest
+                  Newest First
+                </button>
+                <button
+                  onClick={() => setSort("wi_wellname")}
+                  style={{
+                    backgroundColor:
+                      sort === "wi_wellname" ? "yellow" : "transparent",
+                  }}
+                  className="dropdown-item"
+                >
+                  Alphabetical (By Well Name)
+                </button>
+                <button
+                  onClick={() => setSort("field_activity")}
+                  style={{
+                    backgroundColor:
+                      sort === "field_activity" ? "yellow" : "transparent",
+                  }}
+                  className="dropdown-item"
+                >
+                  Most Recent Field Entry
                 </button>
               </div>
             )}
-            <button
-              onClick={() => {
-                setFilterDropdownVisibility(!isFilterDropdownVisible);
-                setFilter("undefined");
-              }}
-              className="btn btn-primary"
-            >
-              Filter By County
-            </button>
             {isFilterDropdownVisible && (
               <div
                 style={{
@@ -258,34 +348,88 @@ const Well = () => {
                 }}
               >
                 <button
-                  onClick={() => setFilter("undefined")}
-                  style={{
-                    backgroundColor:
-                      filter === "undefined" ? "yellow" : "transparent",
+                  className="btn btn-primary"
+                  style={{ margin: '0.5em' }}
+                  onClick={() => {
+                    document.getElementById('distanceFilter').value = "";
+                    setFilter({ county_id: -1, nrd_id: -1 });
                   }}
-                  className="dropdown-item"
                 >
-                  Clear Filter
+                  Clear Filters
                 </button>
-                {countyOptions.map((county) => (
-                  <button
-                    key={county.key}
-                    onClick={() => setFilter(`county_id = '${county.key}'`)}
-                    style={{
-                      backgroundColor:
-                        filter === `county_id = '${county.key}'`
-                          ? "yellow"
-                          : "transparent",
+                <div className="filter-container">
+                  <p>County: </p>
+                  <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
+                    {[{ key: -1, value: '' }, ...countyOptions].map((county, index) =>
+                      <option key={index} value={county.key}>{county.value}</option>
+                    )}
+                  </select>
+                  <p>Natural Resource District: </p>
+                  <select value={filter.nrd_id} onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}>
+                    {[{ key: -1, value: '' }, ...nrdOptions].map((nrd, index) =>
+                      <option key={index} value={nrd.key}>{nrd.value}</option>
+                    )}
+                  </select>
+                  <p>Search: </p>
+                  <input
+                    type="text"
+                    placeholder="Search by well name"
+                    value={filter.search || ""}
+                    onChange={(e) =>
+                      setFilter({ ...filter, search: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                      }
                     }}
-                    className="dropdown-item"
-                  >
-                    {county.value}
-                  </button>
-                ))}
+                  />
+                  <p>Latitude: </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+                    <input
+                      type="text"
+                      maxLength="5"
+                      placeholder="40-43"
+                      value={filter.minLat || ""}
+                      onChange={(e) => setFilter({ ...filter, minLat: e.target.value })}
+                    />
+                    <p>to</p>
+                    <input
+                      type="text"
+                      maxLength="5"
+                      placeholder="40-43"
+                      value={filter.maxLat || ""}
+                      onChange={(e) => setFilter({ ...filter, maxLat: e.target.value })}
+                    />
+                  </div>
+                  <p>Longitude: </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+                    <input
+                      type="text"
+                      maxLength="7"
+                      placeholder="-104 to -95.417"
+                      value={filter.minLon || ""}
+                      onChange={(e) => setFilter({ ...filter, minLon: e.target.value })}
+                    />
+                    <p>to</p>
+                    <input
+                      type="text"
+                      maxLength="7"
+                      placeholder="-104 to -95.417"
+                      value={filter.maxLon || ""}
+                      onChange={(e) => setFilter({ ...filter, maxLon: e.target.value })}
+                    />
+                  </div>
+                  <p>Wells in a ___ mile radius.</p>
+                  <input
+                    id="distanceFilter"
+                    type="number"
+                    onChange={(e) => filterWellsByDistance(e.target.value)}
+                  />
+                </div>
               </div>
             )}
           </div>
-
           <List>
             <h2>
               <strong>Wells</strong>
@@ -310,6 +454,18 @@ const Well = () => {
       </div>
     );
   };
+
+  if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        sessionStorage.setItem("lat", position.coords.latitude);
+        sessionStorage.setItem("long", position.coords.longitude);
+      }, function (error) {
+        console.log("Error getting location: ", error);
+      });
+    }
+  }
+
 
   if (isLoading && JSON.parse(localStorage.getItem("wellData")) === null) {
     return <h1>Loading</h1>;
