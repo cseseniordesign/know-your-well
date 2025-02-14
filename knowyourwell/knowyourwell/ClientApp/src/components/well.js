@@ -53,14 +53,12 @@ function responseDataToMarkerList(responseData) {
         </Marker>
       )
     }
-    markerList.push(
-      <Marker key="currentLocation" position={[sessionStorage.getItem("lat"), sessionStorage.getItem("long")]} icon={new Icon({ iconUrl: magicBlueDot, iconSize: [15, 15], iconAnchor: [15, 30] })} />
-    )
   } catch (e) {
     console.log("Error Parsing Data into Marker List.");
   }
   return markerList;
 }
+
 
 const Well = () => {
   const [isLoading, setLoading] = useState(true);
@@ -71,7 +69,7 @@ const Well = () => {
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState(undefined);
   const [wellList, setWells] = useState([]);
-  const [distance, setDistance] = useState(0);
+  const [userMarker, setUserMarker] = useState(<></>);
   const { user, setUser } = useUser();
 
   const containerRef = useRef(null);
@@ -106,7 +104,6 @@ const Well = () => {
 
   //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {
-    console.log(filter);
     const queryParams = {};
     if (filter) {
       // The filter is now an object that maps each of the filter types to the value, so we need to parse it into something that can be used in the queryParams
@@ -115,7 +112,6 @@ const Well = () => {
     if (sort) {
       queryParams.sortBy = sort;
     }
-    console.log(queryParams);
     Axios.get("/Wells", {
       params: queryParams,
       responseType: "json",
@@ -190,12 +186,9 @@ const Well = () => {
     })
       .then(function (response) {
         localStorage.setItem("wellData", JSON.stringify(response.data));
-        // setWells(responseDataToHTMLList(response.data.Wells));
-        // setLoading(false);
       })
       .catch(function (error) {
         console.error("An error occurred while fetching the wells:", error);
-        // setLoading(true);
       });
     if (distance === "") {
       // field was cleared so set filter to always true
@@ -225,6 +218,28 @@ const Well = () => {
     setFilter({ ...filter, byDistance: sqlString });
   }
 
+  function getUserMarker() {
+    console.log("updating user marker");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        sessionStorage.setItem("lat", position.coords.latitude);
+        sessionStorage.setItem("long", position.coords.longitude);
+      }, function (error) {
+        console.log("Error getting location: ", error);
+      }, { enableHighAccuracy: false, maximumAge: 15000 });
+    }
+    const userLat = sessionStorage.getItem("lat");
+    const userLong = sessionStorage.getItem("long");
+    if (userLat === null || userLong === null) {
+      return
+    }
+    setUserMarker(<Marker position={[userLat, userLong]} icon={new Icon({ iconUrl: magicBlueDot, iconSize: [15, 15] })} />)
+  }
+
+  setInterval(() => {
+    getUserMarker();
+  }, 15000);
+
   const getMapView = () => {
     return (
       <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={findMapCenter()} zoom={7} maxZoom={12} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
@@ -235,9 +250,11 @@ const Well = () => {
         {responseDataToMarkerList(
           JSON.parse(localStorage.getItem("wellData"))?.Wells,
         )}
+        {userMarker}
       </MapContainer>
     );
   }
+
 
   const getListView = () => {
     const wellsData = JSON.parse(localStorage.getItem("wellData"))?.Wells || [];
