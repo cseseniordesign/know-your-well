@@ -604,19 +604,15 @@ app.get("/Wells", async (req, res) => {
           conditions.push(`wi_wellname LIKE '%${filter}%'`);
         } else if (column === "minLat" || column === "maxLat") {
           const value = parseFloat(filter);
-          if (!isNaN(value) && value >= 40 && value <= 43) {
+          if (!isNaN(value)) {
             const operator = column === "minLat" ? ">=" : "<=";
-            conditions.push(`wi_estlatitude ${operator} ${value}`);
-          } else if (!isNaN(value)) {
-            conditions.push('1=0');
+            conditions.push(`wi_estlatitude ${operator} ${value} AND wi_estlatitude BETWEEN 40 AND 43`);
           }
         } else if (column === "minLon" || column === "maxLon") {
           const value = parseFloat(filter);
-          if (!isNaN(value) && value >= -104 && value <= -95.417) {
+          if (!isNaN(value)) {
             const operator = column === "minLon" ? ">=" : "<=";
-            conditions.push(`wi_estlongitude ${operator} ${value}`);
-          } else if (!isNaN(value)) {
-            conditions.push('1=0');
+            conditions.push(`wi_estlongitude ${operator} ${value} AND wi_estlongitude BETWEEN -104 AND -95.417`);
           }
         } else if (column === "county_id" || column === "nrd_id") {
           conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
