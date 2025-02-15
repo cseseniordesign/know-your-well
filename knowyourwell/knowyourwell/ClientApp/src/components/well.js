@@ -70,6 +70,8 @@ const Well = () => {
   const [sort, setSort] = useState('well_id');
   const [wellList, setWells] = useState([]);
   const [userMarker, setUserMarker] = useState(<></>);
+  const [userLatitude, setUserLatitude] = useState();
+  const [userLongitude, setUserLongitude] = useState();
   const { user, setUser } = useUser();
 
   const containerRef = useRef(null);
@@ -166,8 +168,6 @@ const Well = () => {
   }
 
   function calculateDistance(wellLatitude, wellLongitude) {
-    const userLatitude = sessionStorage.getItem("lat");
-    const userLongitude = sessionStorage.getItem("long");
     var R = 3959; // Radius of earth in miles
     var dLat = userLatitude * Math.PI / 180 - wellLatitude * Math.PI / 180;
     var dLon = userLongitude * Math.PI / 180 - wellLongitude * Math.PI / 180;
@@ -199,7 +199,7 @@ const Well = () => {
     if (allWells.length === 0) {
       return [];
     }
-    if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
+    if (!userLatitude || !userLongitude) {
       return allWells;
     }
     const filteredWells = allWells.filter(well => {
@@ -455,11 +455,11 @@ const Well = () => {
     );
   };
 
-  if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
+  if (!userLatitude || !userLongitude) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        sessionStorage.setItem("lat", position.coords.latitude);
-        sessionStorage.setItem("long", position.coords.longitude);
+        setUserLatitude(position.coords.latitude);
+        setUserLongitude(position.coords.longitude);
       }, function (error) {
         console.log("Error getting location: ", error);
       });

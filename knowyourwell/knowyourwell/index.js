@@ -621,7 +621,7 @@ app.get("/Wells", async (req, res) => {
         } else if (column === "county_id" || column === "nrd_id") {
           conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
         } else if (column === "byDistance") {
-          if (req.query.sortBy === "field_activity") {
+          if (req.query.sortBy === "field_activity" && filter.includes("well_id")) {
             conditions.push(`w.${filter}`);
           } else {
             conditions.push(filter)
