@@ -13,8 +13,6 @@ import prodFieldData from "./resources/prodfielddata";
 import fieldPrompts from "./resources/fieldprompts";
 import renderField from "./reusable/renderfield";
 import WellFieldLabContext from "./reusable/WellFieldLabContext";
-import uploadPhoto from "./reusable/photoUpload";
-import LongTextEntry from "./reusable/longtextentry";
 
 export default function Field() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,6 +21,7 @@ export default function Field() {
   const well_id = parseInt(searchParams.get("id"));
   const [photosFeatureFlag, setPhotosFeatureFlag] = useState(false);
   const wellcode = searchParams.get("wellcode");
+  const { coords } = useContext(WellFieldLabContext);
 
   let initialFieldData;
 
@@ -108,24 +107,13 @@ export default function Field() {
     updateFieldData(fieldName, value);
   };
 
-  // geolocation
-  const [location, setLocation] = useState(null);
-
   useEffect(() => {
-    if (!sessionContinued) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setLocation(position.coords);
-          updateFieldData("fa_latitude", position.coords.latitude);
-          updateFieldData("fa_longitude", position.coords.longitude);
-        });
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-        alert(
-          "Geolocation is not working right now, please fill it in manually.",
-        );
-      }
+    if (coords?.latitude && coords?.longitude) {
+      updateFieldData("fa_latitude", coords.latitude);
+      updateFieldData("fa_longitude", coords.longitude);
     }
+  // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function addFieldData() {
@@ -318,35 +306,26 @@ export default function Field() {
         </p>
       </div>
       <div>
-        {location || sessionContinued || !navigator.onLine ? (
-          <div>
-            <NumberEntry
-              fieldTitle="Latitude (use 4-12 decimals):"
-              value={fieldData.fa_latitude}
-              min="40"
-              max="43"
-              id="fa_latitude"
-              label="Degrees"
-              setValue={(value) => updateFieldData("fa_latitude", value)}
-              required={true}
-            />
-            <NumberEntry
-              fieldTitle="Longitude (use 4-12 decimals):"
-              value={fieldData.fa_longitude}
-              min="-104"
-              max="-95.417"
-              id="fa_longitude"
-              label="Degrees"
-              setValue={(value) => updateFieldData("fa_longitude", value)}
-              required={true}
-            />
-          </div>
-        ) : (
-          <div>
-            <p>Please allow this site to access your location</p>
-            <button type="button" onClick={() => window.location.reload()}>Reload</button>
-          </div>
-        )}
+        <NumberEntry
+          fieldTitle="Latitude (use 4-12 decimals):"
+          value={fieldData.fa_latitude}
+          min="40"
+          max="43"
+          id="fa_latitude"
+          label="Degrees"
+          setValue={(value) => updateFieldData("fa_latitude", value)}
+          required={true}
+        />
+        <NumberEntry
+          fieldTitle="Longitude (use 4-12 decimals):"
+          value={fieldData.fa_longitude}
+          min="-104"
+          max="-95.417"
+          id="fa_longitude"
+          label="Degrees"
+          setValue={(value) => updateFieldData("fa_longitude", value)}
+          required={true}
+        />
       </div>
       {fieldPrompts.map((prompt) => (
         <div key={prompt.id}>
