@@ -5,7 +5,7 @@ import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import WellFieldLabContext from "./reusable/WellFieldLabContext";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, AttributionControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIconPng from '../components/images/wellIcon.png';
 import magicBlueDot from '../components/images/magicBlueDot.png';
@@ -13,7 +13,6 @@ import { Icon } from 'leaflet';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import './css/wells.css';
-
 import { useUser } from "./usercontext";
 import axios from "axios";
 
@@ -242,10 +241,16 @@ const Well = () => {
 
   const getMapView = () => {
     return (
-      <MapContainer id='map-container' ref={mapRef} whenReady={() => resizeMap(mapRef)} center={findMapCenter()} zoom={7} maxZoom={12} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
+      <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={findMapCenter()} zoom={7} maxZoom={12} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
+        <AttributionControl prefix={false}/>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <TileLayer
+          attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+          opacity={0.5}
         />
         {responseDataToMarkerList(
           JSON.parse(localStorage.getItem("wellData"))?.Wells,
