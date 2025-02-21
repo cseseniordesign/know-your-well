@@ -1,9 +1,10 @@
-﻿import React, { useEffect, useState, useRef } from "react";
+﻿import React, { useContext, useEffect, useState, useRef } from "react";
 import { List } from "semantic-ui-react";
 import countyOptions from "./resources/counties";
 import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import WellFieldLabContext from "./reusable/WellFieldLabContext";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIconPng from '../components/images/wellIcon.png';
@@ -71,6 +72,7 @@ const Well = () => {
   const [wellList, setWells] = useState([]);
   const [userMarker, setUserMarker] = useState(<></>);
   const { user, setUser } = useUser();
+  const { coords } = useContext(WellFieldLabContext);
 
   const containerRef = useRef(null);
   const navigate = useNavigate();
@@ -166,13 +168,11 @@ const Well = () => {
   }
 
   function calculateDistance(wellLatitude, wellLongitude) {
-    const userLatitude = sessionStorage.getItem("lat");
-    const userLongitude = sessionStorage.getItem("long");
     var R = 3959; // Radius of earth in miles
-    var dLat = userLatitude * Math.PI / 180 - wellLatitude * Math.PI / 180;
-    var dLon = userLongitude * Math.PI / 180 - wellLongitude * Math.PI / 180;
+    var dLat = coords.latitude * Math.PI / 180 - wellLatitude * Math.PI / 180;
+    var dLon = coords.longitude * Math.PI / 180 - wellLongitude * Math.PI / 180;
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(userLatitude * Math.PI / 180) * Math.cos(wellLatitude * Math.PI / 180) *
+      Math.cos(coords.latitude * Math.PI / 180) * Math.cos(wellLatitude * Math.PI / 180) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in miles
@@ -199,7 +199,7 @@ const Well = () => {
     if (allWells.length === 0) {
       return [];
     }
-    if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
+    if (!coords?.latitude || !coords?.longitude) {
       return allWells;
     }
     const filteredWells = allWells.filter(well => {
@@ -389,7 +389,7 @@ const Well = () => {
                     <input
                       type="text"
                       maxLength="5"
-                      placeholder="40-43"
+                      placeholder="40 to 43"
                       value={filter.minLat || ""}
                       onChange={(e) => setFilter({ ...filter, minLat: e.target.value })}
                     />
@@ -397,7 +397,7 @@ const Well = () => {
                     <input
                       type="text"
                       maxLength="5"
-                      placeholder="40-43"
+                      placeholder="40 to 43"
                       value={filter.maxLat || ""}
                       onChange={(e) => setFilter({ ...filter, maxLat: e.target.value })}
                     />
@@ -423,7 +423,9 @@ const Well = () => {
                   <p>Wells in a ___ mile radius.</p>
                   <input
                     id="distanceFilter"
-                    type="number"
+                    type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
+                    disabled={!coords?.latitude || !coords?.longitude}
+                    placeholder={!coords?.latitude || !coords?.longitude ? "Geolocation is currently unavailable" : null}
                     onChange={(e) => filterWellsByDistance(e.target.value)}
                   />
                 </div>
@@ -454,18 +456,6 @@ const Well = () => {
       </div>
     );
   };
-
-  if (sessionStorage.getItem("lat") === null || sessionStorage.getItem("long") === null) {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        sessionStorage.setItem("lat", position.coords.latitude);
-        sessionStorage.setItem("long", position.coords.longitude);
-      }, function (error) {
-        console.log("Error getting location: ", error);
-      });
-    }
-  }
-
 
   if (isLoading && JSON.parse(localStorage.getItem("wellData")) === null) {
     return <h1>Loading</h1>;
