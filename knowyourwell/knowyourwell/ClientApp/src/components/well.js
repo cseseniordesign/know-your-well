@@ -380,9 +380,10 @@ const Well = () => {
                     type="text"
                     placeholder="Search by well name"
                     value={filter.search || ""}
-                    onChange={(e) =>
-                      setFilter({ ...filter, search: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const sanitizedValue = e.target.value.replace(/['"!@#$%^&*(),.?":{}|<>]/g, '');
+                      setFilter({ ...filter, search: sanitizedValue });
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
