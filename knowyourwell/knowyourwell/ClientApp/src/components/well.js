@@ -78,7 +78,7 @@ const Well = () => {
   const navigate = useNavigate();
   // const [schoolid, setSchoolid] = useState("")
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(1); // Temporarily set to 1 until map view is complete
   const [mapHeight, setMapHeight] = useState(0);
 
   useEffect(() => {
