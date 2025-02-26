@@ -78,7 +78,13 @@ const Well = () => {
   const navigate = useNavigate();
   // const [schoolid, setSchoolid] = useState("")
 
-  const [tabIndex, setTabIndex] = useState(1); // Temporarily set to 1 until map view is complete
+  const [tabIndex, setTabIndex] = useState(() => {
+    const tab = Number.parseInt(sessionStorage.getItem("tabIndex"));
+    if (tab === 0 || tab === 1) {
+      return tab;
+    }
+    return 1;
+  });
   const [mapHeight, setMapHeight] = useState(0);
 
   useEffect(() => {
@@ -485,7 +491,7 @@ const Well = () => {
     );
   } else {
     return (
-      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)} style={{ height: `${mapHeight}px` }}>
+      <Tabs selectedIndex={tabIndex} onSelect={(index) => {setTabIndex(index); sessionStorage.setItem("tabIndex", index.toString())}} style={{ height: `${mapHeight}px` }}>
         <TabList>
           <Tab>Map View</Tab>
           <Tab>List View</Tab>
