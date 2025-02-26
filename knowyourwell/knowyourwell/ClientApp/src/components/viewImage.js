@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./css/forms.css";
 import Axios from "axios";
 import moment from "moment";
@@ -6,10 +6,6 @@ import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./usercontext";
 
-const { BlobServiceClient } = require("@azure/storage-blob");
-
-let formElements = [];
-let columnList = [];
 const labelList = [
   "Image Type:",
   "Data Collector’s Name:",
@@ -27,6 +23,9 @@ const keyList = [
   "im_longitude",
   "im_datecollected",
 ];
+
+let formElements = [];
+let columnList = [];
 
 export default function ViewImage() {
   const [searchParams] = useSearchParams();
@@ -57,24 +56,10 @@ export default function ViewImage() {
       },
     }).then(async (response) => {
       try {
-        const AZURE_STORAGE_CONNECTION_STRING = `\
-        BlobEndpoint=https://knowyourwell.blob.core.windows.net/;\
-        QueueEndpoint=https://knowyourwell.queue.core.windows.net/;\
-        FileEndpoint=https://knowyourwell.file.core.windows.net/;\
-        TableEndpoint=https://knowyourwell.table.core.windows.net/;\
-        SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwlactfx&se=2999-12-31T18:59:59Z&st=2024-11-07T20:20:40Z&spr=https&sig=QbowwqDo0yTELgGEKK8XhkNmfI3FSBUnBrMUY8evsSM%3D`;
-
-        const blobServiceClient = BlobServiceClient.fromConnectionString(
-          AZURE_STORAGE_CONNECTION_STRING,
-        );
-        const containerClient =
-          blobServiceClient.getContainerClient(`well-images-${well_id}`);
-        const blobClient =
-          containerClient.getBlobClient(response.data.Image[0].im_filename);
-        
-        const downloadResponse = await blobClient.download();
-
-        formElements = { blob: await downloadResponse.blobBody, ...response.data.Image[0] };
+      const sasToken = "sv=2022-11-02&ss=b&srt=o&sp=r&se=3000-01-01T00:25:47Z&st=2022-01-01T16:25:47Z&spr=https&sig=Y4R081nDtDn2wdhA5G5ryp6BPzxBQq1gUMS5S7FiEH4%3D";
+      const azureUrl = `https://knowyourwell.blob.core.windows.net/well-images-${well_id}/${response.data.Image[0].im_filename}?${sasToken}`;
+        formElements = { azureUrl, ...response.data.Image[0] };
+          
       } catch (error) {
         console.log(error);
       }
@@ -124,11 +109,11 @@ export default function ViewImage() {
         <div className="container" style={{ textAlign: "center" }}>
           <div>
             <img
-              src={URL.createObjectURL(formElements.blob)}
-              alt="Preview"
+              src={formElements.azureUrl}
+              alt="Previous Upload"
               style={{ width: "100%", maxWidth: "300px", height: "auto" }}
               required={true}
-            />
+          />
           </div>
           {columnList}
           <br />

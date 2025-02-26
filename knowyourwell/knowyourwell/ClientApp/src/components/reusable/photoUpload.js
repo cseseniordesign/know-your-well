@@ -4,7 +4,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 export default async function uploadPhoto(file, containerName, blobName, metadata) {
   try {
     const AZURE_STORAGE_CONNECTION_STRING =
-      "BlobEndpoint=https://knowyourwell.blob.core.windows.net/;\
+        "BlobEndpoint=https://knowyourwell.blob.core.windows.net/;\
         QueueEndpoint=https://knowyourwell.queue.core.windows.net/;\
         FileEndpoint=https://knowyourwell.file.core.windows.net/;\
         TableEndpoint=https://knowyourwell.table.core.windows.net/;\
@@ -25,7 +25,13 @@ export default async function uploadPhoto(file, containerName, blobName, metadat
 
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
+    const blobHTTPHeaders = {
+      blobContentType: file.type,
+      blobContentDisposition: `inline; filename="${blobName}"`,
+    }; 
+
     await blockBlobClient.uploadData(file, {
+      blobHTTPHeaders: blobHTTPHeaders,
       metadata: metadata,
     });
   } catch (err) {
