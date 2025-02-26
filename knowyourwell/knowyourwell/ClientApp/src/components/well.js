@@ -92,6 +92,7 @@ const Well = () => {
           })
           .catch(function (response) {
             window.alert("The app encountered an error verifying that you are logged in.");
+            console.log(response)
             navigate("/");
           });
       }
@@ -298,7 +299,7 @@ const Well = () => {
                   onClick={() => setSort("well_id")}
                   style={{
                     backgroundColor:
-                      sort === "well_id" ? "yellow" : "transparent",
+                      sort === "well_id" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -308,7 +309,7 @@ const Well = () => {
                   onClick={() => setSort("well_id DESC")}
                   style={{
                     backgroundColor:
-                      sort === "well_id DESC" ? "yellow" : "transparent",
+                      sort === "well_id DESC" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -318,7 +319,7 @@ const Well = () => {
                   onClick={() => setSort("wi_wellname")}
                   style={{
                     backgroundColor:
-                      sort === "wi_wellname" ? "yellow" : "transparent",
+                      sort === "wi_wellname" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -328,7 +329,7 @@ const Well = () => {
                   onClick={() => setSort("field_activity")}
                   style={{
                     backgroundColor:
-                      sort === "field_activity" ? "yellow" : "transparent",
+                      sort === "field_activity" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >

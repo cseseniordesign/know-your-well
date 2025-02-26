@@ -53,13 +53,13 @@ export default function Images() {
   }
 
   useEffect(() => {
-      if (coords?.latitude && coords?.longitude) {
-        updateImageData("im_latitude", coords.latitude);
-        updateImageData("im_longitude", coords.longitude);
-      }
+    if (coords?.latitude && coords?.longitude) {
+      updateImageData("im_latitude", coords.latitude);
+      updateImageData("im_longitude", coords.longitude);
+    }
     // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+  }, []);
 
   const handleFileChange = (event) => {
     setImages(Array.from(event.target.files));
@@ -111,14 +111,14 @@ export default function Images() {
             longitude: imageData.im_longitude?.toString() || '',
             dateTaken: dateObj.toISOString(),
             photoType: imageData.type,
-                };
+          };
 
           imageData.well_id = well_id;
           const updatedQueue = [
             ...imageDataQueue,
             { ...imageData },
           ];
-  
+
           await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
             .then(async () => {
               await uploadPhoto(
@@ -139,13 +139,13 @@ export default function Images() {
                 im_filename: imageData.blobName,
                 datecollected: imageData.dateentered,
               });
-              alert(`Photos submitted! Upload more, or press back to return to ${wellName}.`);
+              alert(`Photos submitted! You can upload more by selecting another category, or you can press 'back' to return to ${wellName}.`);
             })
             // if the request fails, we know we are offline
             .catch(async () => {
               await putInDB(idbName, "imageUploadQueue", { file: image, containerName: containerName, blobName: blobName, metadata: metadata });
               setLocalImageDataQueue(updatedQueue);
-              alert("You are offline, the Image will automatically be submitted when you regain an internet connection");
+              alert("You are offline. The image will automatically be submitted when you regain an internet connection");
             });
         }
         window.location.reload();
@@ -160,8 +160,8 @@ export default function Images() {
       //If no type has been specified, the user hasn't interacted with the page and has no data to lose.
       imageData.type
         ? window.confirm(
-            "Any unsaved data will be lost.\nWould you like to continue?"
-          )
+          "Any unsaved data will be lost.\nWould you like to continue?"
+        )
         : true
     ) {
       if (well_id != null) {
@@ -204,55 +204,54 @@ export default function Images() {
           />
           {images.length > 0 && (
             <div>
-            <h4>Preview:</h4>
-            <div style={{ textAlign: 'center' }}>
-              {images.map((img, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(img)}
-                  alt={`Preview ${index + 1}`}
-                  style={{
-                    width: "100%",
-                    maxWidth: "300px",
-                    height: "auto",
-                    margin: "5px",
-                  }}
-                />
-              ))}
+              <h4>Preview:</h4>
+              <div style={{ textAlign: 'center' }}>
+                {images.map((img, index) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(img)}
+                    alt={`Preview ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      maxWidth: "300px",
+                      height: "auto",
+                      margin: "5px",
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-        {checkFieldType[imageData.type] && (
-          <div>
-            <NumberEntry
-              fieldTitle="Latitude (use 4-12 decimals):"
-              value={imageData.im_latitude}
-              min="40"
-              max="43"
-              id="im_latitude"
-              label="Degrees"
-              setValue={(value) => updateImageData("im_latitude", value)}
-              required={true}
-            />
-            <NumberEntry
-              fieldTitle="Longitude (use 4-12 decimals):"
-              value={imageData.im_longitude}
-              min="-104"
-              max="-95.417"
-              id="im_longitude"
-              label="Degrees"
-              setValue={(value) => updateImageData("im_longitude", value)}
-              required={true}
-            />
-          </div>
-        )}
+          )}
+          {checkFieldType[imageData.type] && (
+            <div>
+              <NumberEntry
+                fieldTitle="Latitude (use 4-12 decimals):"
+                value={imageData.im_latitude}
+                min="40"
+                max="43"
+                id="im_latitude"
+                label="Degrees"
+                setValue={(value) => updateImageData("im_latitude", value)}
+                required={true}
+              />
+              <NumberEntry
+                fieldTitle="Longitude (use 4-12 decimals):"
+                value={imageData.im_longitude}
+                min="-104"
+                max="-95.417"
+                id="im_longitude"
+                label="Degrees"
+                setValue={(value) => updateImageData("im_longitude", value)}
+                required={true}
+              />
+            </div>
+          )}
           {imagePrompts.map((prompt) => (
             prompt.id !== "type" &&
             <div key={prompt.id}>
               {renderField(prompt, imageData, updateImageData)}
             </div>
           ))}
-          <hr className="section-divider" />
           <div className="css">
             <label htmlFor="dateentered">
               Date Entered:

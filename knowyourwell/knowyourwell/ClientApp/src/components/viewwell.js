@@ -217,7 +217,6 @@ export default function ViewWell() {
               </p>
             </div>
           </div>
-          <hr className="section-divider" />
           {renderLandFeatures()}
           <br />
           <button
