@@ -3,7 +3,7 @@ import moment from "moment";
 const devFieldData = {
   conditions: "dev sample conditions",
   fa_latitude: "40.8420352",
-  fa_longitude: "96.6623232",
+  fa_longitude: "-96.6623232",
   temp: "50",
   ph: "7",
   conductivity: "101",

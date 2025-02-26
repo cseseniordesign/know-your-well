@@ -1,0 +1,27 @@
+.filter-container {
+  padding-bottom: 0.5em;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+  justify-content: center;
+  align-content: space-around;
+}
+
+.filter-container * {
+  align-self: center;
+}
+
+.filter-container p {
+  justify-self: end;
+  text-align: right;
+  margin-bottom: 0;
+}
+
+.filter-container :not(p) {
+  justify-self: start;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  margin-left: 0 !important;
+}

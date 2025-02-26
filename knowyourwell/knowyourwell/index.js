@@ -584,21 +584,80 @@ app.post("/createimage", (req, res) => {
 
 app.get("/Wells", async (req, res) => {
   let query = "SELECT * FROM dbo.tblWellInfo";
+
   kywmemValue = req.session.kywmem;
 
-  if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
-    query = query + ` WHERE school_id = ${kywmemValue}`;
-    if (req.query.filterBy && req.query.filterBy !== "undefined") {
-      query = query + ` AND ${req.query.filterBy}`;
-    }
-  } else {
-    if (req.query.filterBy && req.query.filterBy !== "undefined") {
-      query = query + ` WHERE ${req.query.filterBy}`;
+  const applySchoolId = () => {
+    if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
+      return ` WHERE school_id = ${kywmemValue} `
+    } else {
+      res.status(422).send("school_id must be defined");
     }
   }
+  query += applySchoolId();
 
-  if (req.query.sortBy && req.query.sortBy !== "undefined") {
-    query = query + ` ORDER BY ${req.query.sortBy}`;
+  const applyFilter = () => {
+    if (req.query.filterBy && Object.keys(req.query.filterBy).length !== 0) {
+      let conditions = [];
+      for (const [column, filter] of Object.entries(req.query.filterBy)) {
+        if (column === "search") {
+          conditions.push(`wi_wellname LIKE '%${filter}%'`);
+        } else if (column === "minLat") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlatitude >= ${parseFloat(filter)}`);
+          }
+        } else if (column === "maxLat") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlatitude <= ${parseFloat(filter)}`);
+          }
+        } else if (column === "minLon") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlongitude >= ${parseFloat(filter)}`);
+          }
+        } else if (column === "maxLon") {
+          if (!isNaN(parseFloat(filter))) {
+            conditions.push(`wi_estlongitude <= ${parseFloat(filter)}`);
+          }
+        } else if (column === "county_id" || column === "nrd_id") {
+          conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
+        } else if (column === "byDistance") {
+          if (req.query.sortBy === "field_activity" && filter.includes("well_id")) {
+            conditions.push(`w.${filter}`);
+          } else {
+            conditions.push(filter)
+          }
+        } else {
+          conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1) OR ( ${column} = nrd_id AND ${filter} = -1))`);
+        }
+      }
+      if (conditions.length > 0) {
+        return " AND (" + conditions.join(" AND ") + ")";
+      }
+    }
+    return '';
+  }
+  query += applyFilter();
+
+  const fieldSort = `SELECT w.*
+                        FROM dbo.tblWellInfo w
+                        LEFT JOIN (
+                          SELECT well_id, MAX(fa_datecollected) as newest
+                          FROM dbo.tblFieldActivity
+                          GROUP BY well_id
+                        ) fa on w.well_id = fa.well_id` +
+    applySchoolId() +
+    applyFilter() +
+    ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`
+
+
+  if (req.query.sortBy) {
+    if (req.query.sortBy === "field_activity") {
+      query = fieldSort;
+    } else {
+      query += ` ORDER BY ${req.query.sortBy}`;
+    }
+  } else {
+    query += ' ORDER BY wi_wellname';
   }
 
   appPool.query(query, function (err, recordset) {

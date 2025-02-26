@@ -27,6 +27,17 @@ import uploadPhoto from "./components/reusable/photoUpload";
 import { clearObjectStore, getAllFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
+  const [coords, setCoords] = useState(() => {
+    const storedCoords = localStorage.getItem("coords");
+    return storedCoords && storedCoords !== "undefined"
+      ? JSON.parse(storedCoords)
+      : {};
+  })
+
+  const setLocalCoords = (newValue) => {
+    setCoords(newValue);
+    localStorage.setItem("coords", JSON.stringify(newValue));
+  }
 
   const [fieldQueue, setFieldQueue] = useState(() => {
     const storedQueue = localStorage.getItem("fieldQueue");
@@ -62,7 +73,7 @@ export default function App() {
   const setLocalImageDataQueue = (newValue) => {
     setImageDataQueue(newValue);
     localStorage.setItem("imageDataQueue", JSON.stringify(newValue));
-  };  
+  }; 
 
   const handleOnline = async () => {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
@@ -113,8 +124,7 @@ export default function App() {
         zipcode: wellInfo.zipcode,
       });
     }
-    setWellInfoQueue([]);
-    localStorage.removeItem("wellInfoQueue");
+    setLocalWellInfoQueue([]);
 
     for (const field of fieldQueue) {
       await Axios.post("/api/insert", {
@@ -137,8 +147,7 @@ export default function App() {
         datecollected: field.dateentered,
       });
     }
-    setFieldQueue([]);
-    localStorage.removeItem("fieldQueue");
+    setLocalFieldQueue([]);
 
     for (const image of imageQueue) {
       await uploadPhoto(
@@ -164,29 +173,49 @@ export default function App() {
         datecollected: imageData.dateentered,
       });
     }
-    setImageDataQueue([]);
-    localStorage.removeItem("imageDataQueue");
+    setLocalImageDataQueue([]);
 
     return wellInfoUpdated;
   };
 
-  setInterval(async () => {
-    // Check if the user is online every 15 seconds
-    await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
-      .then(async () => {
-        if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || (await getAllFromDB(idbName, "imageUploadQueue")).length > 0 || imageDataQueue.length > 0) {
-          const wellInfoUpdated = await handleOnline();
-          alert("Your connection was restored and your offline data was successfully submitted!");
-          if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {
-            window.location.reload();
+  useEffect(() => {
+    if (!sessionStorage.getItem("pageInitialized")) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLocalCoords(position.coords);
+        },
+        (error) => {
+          console.log(error);
+          setLocalCoords({});
+          alert("There was an issue retrieving your location. Geolocation capabilities in the app are not availible for the current session.");
+        });
+      }
+      // Setting this item in the session storage will prevent any further attempts to use geolocation until the page is closed and re-opened.
+      sessionStorage.setItem("pageInitialized", "true");
+    }
+
+    setInterval(() => {
+      // Check if the user is online every 15 seconds
+      Axios.get(`/heartbeat?timestamp=${Date.now()}`)
+        .then(async () => {
+          if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || (await getAllFromDB(idbName, "imageUploadQueue")).length > 0 || imageDataQueue.length > 0) {
+            const wellInfoUpdated = await handleOnline();
+            alert("Your connection was restored and your offline data was successfully submitted!");
+            if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {
+              window.location.reload();
+            }
           }
-        }
-      })
-      .catch(() => {
-        // Do nothing since the user is offline
-        return;
-      });
-  }, 15000);
+        })
+        .catch(() => {
+          // Do nothing since the user is offline
+          return;
+        });
+    }, 15000);
+  // We only want this useEffect to run once per refresh, so we pass an empty dependency array.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  
 
   return (
     <>
@@ -194,6 +223,8 @@ export default function App() {
         <NavMenu />
         <WellFieldLabContext.Provider
           value={{
+            coords,
+            setLocalCoords,
             wellInfoQueue,
             setLocalWellInfoQueue,
             fieldQueue,

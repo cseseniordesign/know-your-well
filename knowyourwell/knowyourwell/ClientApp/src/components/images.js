@@ -21,7 +21,7 @@ const checkFieldType = {
   "Nearest Cropland": true,
   "Nearest Barnyard or Pasture": true,
   "Nearest Septic System": true,
-  "Uncategorized Item": false,
+  "Uncategorized Item": true,
 };
 
 export default function Images() {
@@ -30,7 +30,7 @@ export default function Images() {
   const well_id = parseInt(searchParams.get("id"));
   const wellName = searchParams.get("wellName");
   const wellcode = searchParams.get("wellcode");
-  const { imageDataQueue, setLocalImageDataQueue } =
+  const { coords, imageDataQueue, setLocalImageDataQueue } =
     useContext(WellFieldLabContext);
 
   let initialImageData;
@@ -52,23 +52,14 @@ export default function Images() {
     }));
   }
 
-  // geolocation
-  const [location, setLocation] = useState(null);
-
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLocation(position.coords);
-        updateImageData("im_latitude", position.coords.latitude);
-        updateImageData("im_longitude", position.coords.longitude);
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-      alert(
-        "Geolocation is not working right now, please fill it in manually.",
-      );
-    }
-  }, []);
+      if (coords?.latitude && coords?.longitude) {
+        updateImageData("im_latitude", coords.latitude);
+        updateImageData("im_longitude", coords.longitude);
+      }
+    // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
   const handleFileChange = (event) => {
     setImages(Array.from(event.target.files));
@@ -233,35 +224,26 @@ export default function Images() {
         )}
         {checkFieldType[imageData.type] && (
           <div>
-            {(location || !navigator.onLine) ? (
-              <div>
-                <NumberEntry
-                  fieldTitle="Latitude (use 4-12 decimals):"
-                  value={imageData.im_latitude}
-                  min="40"
-                  max="43"
-                  id="im_latitude"
-                  label="Degrees"
-                  setValue={(value) => updateImageData("im_latitude", value)}
-                  required={true}
-                />
-                <NumberEntry
-                  fieldTitle="Longitude (use 4-12 decimals):"
-                  value={imageData.im_longitude}
-                  min="-104"
-                  max="-95.417"
-                  id="im_longitude"
-                  label="Degrees"
-                  setValue={(value) => updateImageData("im_longitude", value)}
-                  required={true}
-                />
-              </div>
-            ) : (
-              <div>
-                <p>Please allow this site to access your location</p>
-                <button type="button" onClick={() => window.location.reload()}>Reload</button>
-              </div>
-            )}
+            <NumberEntry
+              fieldTitle="Latitude (use 4-12 decimals):"
+              value={imageData.im_latitude}
+              min="40"
+              max="43"
+              id="im_latitude"
+              label="Degrees"
+              setValue={(value) => updateImageData("im_latitude", value)}
+              required={true}
+            />
+            <NumberEntry
+              fieldTitle="Longitude (use 4-12 decimals):"
+              value={imageData.im_longitude}
+              min="-104"
+              max="-95.417"
+              id="im_longitude"
+              label="Degrees"
+              setValue={(value) => updateImageData("im_longitude", value)}
+              required={true}
+            />
           </div>
         )}
           {imagePrompts.map((prompt) => (
