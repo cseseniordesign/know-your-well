@@ -323,6 +323,9 @@ const Well = () => {
   }
 
   const getMapView = () => {
+    const hasActiveFilters = Object.entries(filter).some(
+      ([, value]) => value !== "" && value !== -1 && value !== undefined && value !== null
+    );
     return (
     <>
       <div>
@@ -341,6 +344,19 @@ const Well = () => {
           }}
         >
           Filters
+          {hasActiveFilters && (
+            <span
+              style={{
+                position: "absolute",
+                top: "-5px",
+                right: "-5px",
+                width: "13px",
+                height: "13px",
+                background: "red",
+                borderRadius: "60%",
+              }}
+            ></span>
+          )}
         </button>
         {isFilterDropdownVisible &&
           <div
@@ -393,6 +409,10 @@ const Well = () => {
           well.wi_wellname.toLowerCase().includes(filter.search.toLowerCase())
         )
         : wellsData;
+      const hasActiveFilters = Object.entries(filter).some(
+        ([, value]) => value !== "" && value !== -1 && value !== undefined && value !== null
+      );
+
       return (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ flex: 30, textAlign: "center" }}>
@@ -411,9 +431,22 @@ const Well = () => {
                   setFilterDropdownVisibility(!isFilterDropdownVisible);
                 }}
                 className="btn btn-primary"
-                style={{ margin: '0.5em', width: '5em' }}
+                style={{ margin: '0.5em', width: '5em', position: 'relative' }}
               >
                 Filters
+                {hasActiveFilters && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "-5px",
+                      right: "-5px",
+                      width: "13px",
+                      height: "13px",
+                      background: "red",
+                      borderRadius: "60%"
+                    }}
+                  ></span>
+                )}
               </button>
               {isSortDropdownVisible && (
                 <div
