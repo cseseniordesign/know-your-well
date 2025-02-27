@@ -324,8 +324,9 @@ const Well = () => {
 
   const getMapView = () => {
     const hasActiveFilters = Object.entries(filter).some(
-      ([, value]) => value !== "" && value !== -1 && value !== undefined && value !== null
+      ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
     );
+    console.log(filter);
     return (
     <>
       <div>
@@ -410,7 +411,7 @@ const Well = () => {
         )
         : wellsData;
       const hasActiveFilters = Object.entries(filter).some(
-        ([, value]) => value !== "" && value !== -1 && value !== undefined && value !== null
+        ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
       );
 
       return (
