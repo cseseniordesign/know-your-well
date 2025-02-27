@@ -9,18 +9,18 @@ import { useUser } from "./usercontext";
 const labelList = [
   "Image Type:",
   "Data Collector’s Name:",
-  "Observations:",
   "Latitude:",
   "Longitude:",
+  "Observations:",
   "Date Entered:",
 ];
 
 const keyList = [
   "im_type",
   "im_datacollector",
-  "im_observation",
   "im_latitude",
   "im_longitude",
+  "im_observation",
   "im_datecollected",
 ];
 
@@ -56,10 +56,10 @@ export default function ViewImage() {
       },
     }).then(async (response) => {
       try {
-      const sasToken = "sv=2022-11-02&ss=b&srt=o&sp=r&se=3000-01-01T00:25:47Z&st=2022-01-01T16:25:47Z&spr=https&sig=Y4R081nDtDn2wdhA5G5ryp6BPzxBQq1gUMS5S7FiEH4%3D";
-      const azureUrl = `https://knowyourwell.blob.core.windows.net/well-images-${well_id}/${response.data.Image[0].im_filename}?${sasToken}`;
+        const sasToken =
+          "sv=2022-11-02&ss=b&srt=o&sp=r&se=3000-01-01T00:25:47Z&st=2022-01-01T16:25:47Z&spr=https&sig=Y4R081nDtDn2wdhA5G5ryp6BPzxBQq1gUMS5S7FiEH4%3D";
+        const azureUrl = `https://knowyourwell.blob.core.windows.net/well-images-${well_id}/${response.data.Image[0].im_filename}?${sasToken}`;
         formElements = { azureUrl, ...response.data.Image[0] };
-          
       } catch (error) {
         console.log(error);
       }
@@ -71,20 +71,23 @@ export default function ViewImage() {
     for (let i = 0; i < labelList.length; i += 2) {
       const firstColumnName = labelList[i];
       let firstColumnValue = formElements[keyList[i]];
-      if (firstColumnName === "Date Entered:")
+      if (firstColumnName === "Date Entered:") {
         firstColumnValue = moment
           .utc(formElements["fa_datecollected"])
           .format("MM-DD-YYYY hh:mm A");
+      }
+
       let secondColumnValue = "";
       let secondColumnName = "";
       if (i < labelList.length + 1) {
         secondColumnName = labelList[i + 1];
         secondColumnValue = formElements[keyList[i + 1]];
+        if (secondColumnName === "Date Entered:") {
+          secondColumnValue = moment
+            .utc(formElements["fa_datecollected"])
+            .format("MM-DD-YYYY hh:mm A");
+        }
       }
-      if (secondColumnName === "Date Entered:")
-        secondColumnValue = moment
-          .utc(formElements["fa_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
 
       columnList.push(
         <div className="row" key={i}>
@@ -98,7 +101,7 @@ export default function ViewImage() {
               <b>{secondColumnName}</b> {secondColumnValue}
             </p>
           </div>
-        </div>,
+        </div>
       );
     }
 
@@ -113,7 +116,7 @@ export default function ViewImage() {
               alt="Previous Upload"
               style={{ width: "100%", maxWidth: "300px", height: "auto" }}
               required={true}
-          />
+            />
           </div>
           {columnList}
           <br />
@@ -146,7 +149,6 @@ export default function ViewImage() {
           Back
         </button>
       </div>
-    )
-    
+    );
   }
 }
