@@ -281,7 +281,10 @@ const Well = () => {
             maxLength="5"
             placeholder="40 to 43"
             value={filter.minLat || ""}
-            onChange={(e) => setFilter({ ...filter, minLat: e.target.value })}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+              setFilter({ ...filter, minLat: sanitizedValue });
+            }}
           />
           <p>to</p>
           <input
@@ -289,7 +292,10 @@ const Well = () => {
             maxLength="5"
             placeholder="40 to 43"
             value={filter.maxLat || ""}
-            onChange={(e) => setFilter({ ...filter, maxLat: e.target.value })}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+              setFilter({ ...filter, maxLat: sanitizedValue });
+            }}
           />
         </div>
         <p>Longitude: </p>
@@ -299,7 +305,10 @@ const Well = () => {
             maxLength="7"
             placeholder="-104 to -95.417"
             value={filter.minLon || ""}
-            onChange={(e) => setFilter({ ...filter, minLon: e.target.value })}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+              setFilter({ ...filter, minLon: sanitizedValue });
+            }}
           />
           <p>to</p>
           <input
@@ -307,7 +316,10 @@ const Well = () => {
             maxLength="7"
             placeholder="-104 to -95.417"
             value={filter.maxLon || ""}
-            onChange={(e) => setFilter({ ...filter, maxLon: e.target.value })}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+              setFilter({ ...filter, maxLon: sanitizedValue });
+            }}
           />
         </div>
         <p>Wells in a ___ mile radius.</p>
@@ -316,7 +328,10 @@ const Well = () => {
           type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
           disabled={!coords?.latitude || !coords?.longitude}
           placeholder={!coords?.latitude || !coords?.longitude ? "Geolocation is currently unavailable" : null}
-          onChange={(e) => filterWellsByDistance(e.target.value)}
+          onChange={(e) => {
+            const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+            filterWellsByDistance(sanitizedValue);
+          }}
         />
       </div>
     </>);
