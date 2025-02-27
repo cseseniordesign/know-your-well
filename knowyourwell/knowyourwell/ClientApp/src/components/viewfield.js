@@ -20,9 +20,9 @@ const labelList = [
   "pH [0-14]:",
   "Conductivity [uS/cm]:",
   "Data Collector’s Name:",
-  "Observations:",
   "Latitude:",
   "Longitude:",
+  "Observations:",
   "Date Entered:",
 ];
 
@@ -37,9 +37,9 @@ const keyList = [
   "fa_ph",
   "fa_conductivity",
   "fa_datacollector",
-  "fa_observation",
-  "fa_latitude",
-  "fa_longitude",
+  "fa_latitude",    
+  "fa_longitude",    
+  "fa_observation",  
   "fa_datecollected",
 ];
 
@@ -80,38 +80,43 @@ export default function ViewField() {
 
   if (formElements === null) {
     /*
-        const wellCookie = localStorage.getItem("wellData" + well_id); if (wellCookie) {
+        const wellCookie = localStorage.getItem("wellData" + well_id); 
+        if (wellCookie) {
             try {
                 formElements = JSON.parse(wellCookie)
             }
             catch (e) {
                 console.log("wellData is Invalid JSON")
             }
-            //console.log(formElements)
         }
-        */
+    */
   }
 
   //console.log(formElements)
   if (formElements.length !== 0) {
-    //console.log(formElements)
     for (let i = 0; i < labelList.length; i += 2) {
       const firstColumnName = labelList[i];
       let firstColumnValue = formElements[keyList[i]];
-      if (firstColumnName === "Date Entered:")
+
+      if (firstColumnName === "Date Entered:") {
         firstColumnValue = moment
           .utc(formElements["fa_datecollected"])
           .format("MM-DD-YYYY hh:mm A");
+      }
+
       let secondColumnValue = "";
       let secondColumnName = "";
+
       if (i < labelList.length + 1) {
         secondColumnName = labelList[i + 1];
         secondColumnValue = formElements[keyList[i + 1]];
+
+        if (secondColumnName === "Date Entered:") {
+          secondColumnValue = moment
+            .utc(formElements["fa_datecollected"])
+            .format("MM-DD-YYYY hh:mm A");
+        }
       }
-      if (secondColumnName === "Date Entered:")
-        secondColumnValue = moment
-          .utc(formElements["fa_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
 
       columnList.push(
         <div className="row">
@@ -125,7 +130,7 @@ export default function ViewField() {
               <b>{secondColumnName}</b> {secondColumnValue}
             </p>
           </div>
-        </div>,
+        </div>
       );
     }
 
