@@ -25,3 +25,27 @@
   width: 100%;
   margin-left: 0 !important;
 }
+
+@media (max-width: 768px) {
+  .filter-container {
+    grid-template-columns: 0.9fr;
+    gap: 4px;
+  }
+  
+  .filter-container p {
+    justify-self: start;
+    text-align: left;
+    margin-bottom: 3px;
+    font-size: 0.9em;
+  }
+  
+  .filter-container :not(p) {
+    margin-bottom: 3px;
+    height: 27px;
+    font-size: 0.9em;
+  }
+  
+  .filter-container input, .filter-container select {
+    padding: 2px 5px;
+  }
+}

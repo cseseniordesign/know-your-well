@@ -234,136 +234,188 @@ const Well = () => {
   //   getUserMarker();
   // }, 15000);
 
-  const getMapView = () => {
+  const getFilters = () => {
     return (
-      <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={(coords.latitude && coords.longitude) ? [coords.latitude, coords.longitude] : [40.8202, -96.7005]} zoom={7} maxZoom={12} scrollWheelZoom={true} doubleClickZoom={false} style={{ height: '100%', width: '100%' }}>
-        <AttributionControl prefix={false} />
+      <>
+        <button
+          className="btn btn-primary"
+          style={{ margin: '0.5em' }}
+          onClick={() => {
+            document.getElementById('distanceFilter').value = "";
+            setFilter({ county_id: -1, nrd_id: -1 });
+          }}
+        >
+          Clear Filters
+        </button>
+        <div className="filter-container">
+          <p>County: </p>
+          <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
+            {[{ key: -1, value: '' }, ...countyOptions].map((county, index) =>
+              <option key={index} value={county.key}>{county.value}</option>
+            )}
+          </select>
+          <p>Natural Resource District: </p>
+          <select value={filter.nrd_id} onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}>
+            {[{ key: -1, value: '' }, ...nrdOptions].map((nrd, index) =>
+              <option key={index} value={nrd.key}>{nrd.value}</option>
+            )}
+          </select>
+          <p>Search: </p>
+          <input
+            type="text"
+            placeholder="Search by well name"
+            value={filter.search || ""}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/['"!@#$%^&*(),.?":{}|<>]/g, '');
+              setFilter({ ...filter, search: sanitizedValue });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+          />
+          <p>Latitude: </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+            <input
+              type="text"
+              maxLength="5"
+              placeholder="40 to 43"
+              value={filter.minLat || ""}
+              onChange={(e) => {
+                const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+                setFilter({ ...filter, minLat: sanitizedValue });
+              }}
+            />
+            <p>to</p>
+            <input
+              type="text"
+              maxLength="5"
+              placeholder="40 to 43"
+              value={filter.maxLat || ""}
+              onChange={(e) => {
+                const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+                setFilter({ ...filter, maxLat: sanitizedValue });
+              }}
+            />
+          </div>
+          <p>Longitude: </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+            <input
+              type="text"
+              maxLength="7"
+              placeholder="-104 to -95.417"
+              value={filter.minLon || ""}
+              onChange={(e) => {
+                const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+                setFilter({ ...filter, minLon: sanitizedValue });
+              }}
+            />
+            <p>to</p>
+            <input
+              type="text"
+              maxLength="7"
+              placeholder="-104 to -95.417"
+              value={filter.maxLon || ""}
+              onChange={(e) => {
+                const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+                setFilter({ ...filter, maxLon: sanitizedValue });
+              }}
+            />
+          </div>
+          <p>Wells in a ___ mile radius.</p>
+          <input
+            id="distanceFilter"
+            type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
+            disabled={!coords?.latitude || !coords?.longitude}
+            placeholder={!coords?.latitude || !coords?.longitude ? "Geolocation is currently unavailable" : null}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+              filterWellsByDistance(sanitizedValue);
+            }}
+          />
+        </div>
+      </>);
+  }
+
+  const getMapView = () => {
+    const hasActiveFilters = Object.entries(filter).some(
+      ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
+    );
+    console.log(filter);
+    return (
+      <>
         <div>
           <button
             onClick={() => {
               setFilterDropdownVisibility(!isFilterDropdownVisible);
             }}
             className="btn btn-primary"
-            style={{ margin: '1em 0.5em', width: '5em', position: 'relative', zIndex: '1000', float: "right" }}
+            style={{
+              marginTop: "10px",
+              marginRight: "10px",
+              width: '5em',
+              position: 'absolute',
+              zIndex: '1000',
+              right: '0'
+            }}
           >
             Filters
+            {hasActiveFilters && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-5px",
+                  right: "-5px",
+                  width: "13px",
+                  height: "13px",
+                  background: "red",
+                  borderRadius: "60%",
+                }}
+              ></span>
+            )}
           </button>
-          {isFilterDropdownVisible && (
+          {isFilterDropdownVisible &&
             <div
               style={{
                 border: "1px solid #ccc",
+                marginTop: "10px",
                 boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
                 boxSizing: "border-box",
                 overflow: "auto",
+                maxHeight: "150px",
+                zIndex: "500",
                 position: "absolute",
-                zIndex: '1000',
-                background: "rgba(255, 255, 255, 0.5)",
+                top: document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
+                background: "rgba(255,255,255,0.5)",
+                width: "100%",
                 display: "flex",
-                float: "right",
                 flexDirection: "column",
                 alignContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                overscrollBehavior: "contain"
               }}
             >
-              <button
-                className="btn btn-primary"
-                style={{ margin: '0.5em' }}
-                onClick={() => {
-                  document.getElementById('distanceFilter').value = "";
-                  setFilter({ county_id: -1, nrd_id: -1 });
-                }}
-              >
-                Clear Filters
-              </button>
-              <div className="filter-container">
-                <p>County: </p>
-                <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
-                  {[{ key: -1, value: '' }, ...countyOptions].map((county, index) =>
-                    <option key={index} value={county.key}>{county.value}</option>
-                  )}
-                </select>
-                <p>Natural Resource District: </p>
-                <select value={filter.nrd_id} onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}>
-                  {[{ key: -1, value: '' }, ...nrdOptions].map((nrd, index) =>
-                    <option key={index} value={nrd.key}>{nrd.value}</option>
-                  )}
-                </select>
-                <p>Search: </p>
-                <input
-                  type="text"
-                  placeholder="Search by well name"
-                  value={filter.search || ""}
-                  onChange={(e) =>
-                    setFilter({ ...filter, search: e.target.value })
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                    }
-                  }}
-                />
-                <p>Latitude: </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
-                  <input
-                    type="text"
-                    maxLength="5"
-                    placeholder="40 to 43"
-                    value={filter.minLat || ""}
-                    onChange={(e) => setFilter({ ...filter, minLat: e.target.value })}
-                  />
-                  <p>to</p>
-                  <input
-                    type="text"
-                    maxLength="5"
-                    placeholder="40 to 43"
-                    value={filter.maxLat || ""}
-                    onChange={(e) => setFilter({ ...filter, maxLat: e.target.value })}
-                  />
-                </div>
-                <p>Longitude: </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
-                  <input
-                    type="text"
-                    maxLength="7"
-                    placeholder="-104 to -95.417"
-                    value={filter.minLon || ""}
-                    onChange={(e) => setFilter({ ...filter, minLon: e.target.value })}
-                  />
-                  <p>to</p>
-                  <input
-                    type="text"
-                    maxLength="7"
-                    placeholder="-104 to -95.417"
-                    value={filter.maxLon || ""}
-                    onChange={(e) => setFilter({ ...filter, maxLon: e.target.value })}
-                  />
-                </div>
-                <p>Wells in a ___ mile radius.</p>
-                <input
-                  id="distanceFilter"
-                  type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
-                  disabled={!coords?.latitude || !coords?.longitude}
-                  placeholder={!coords?.latitude || !coords?.longitude ? "Geolocation is currently unavailable" : null}
-                  onChange={(e) => filterWellsByDistance(e.target.value)}
-                />
-              </div>
-            </div>)}
+              {getFilters()}
+            </div>}
         </div>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <TileLayer
-          attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-          opacity={0.5}
-        />
-        {responseDataToMarkerList(
-          JSON.parse(localStorage.getItem("wellData"))?.Wells,
-        )}
-        {/* {userMarker} */}
-      </MapContainer>
-    );
+        <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={(coords.latitude && coords.longitude) ? [coords.latitude, coords.longitude] : [40.8202, -96.7005]} zoom={7} maxZoom={12} scrollWheelZoom={true} doubleClickZoom={false} style={{ height: '100%', width: '100%' }}>
+          <AttributionControl prefix={false} />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <TileLayer
+            attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            opacity={0.5}
+          />
+          {responseDataToMarkerList(
+            JSON.parse(localStorage.getItem("wellData"))?.Wells,
+          )}
+          {/* {userMarker} */}
+        </MapContainer>
+      </>);
   }
 
 
@@ -374,6 +426,10 @@ const Well = () => {
         well.wi_wellname.toLowerCase().includes(filter.search.toLowerCase())
       )
       : wellsData;
+    const hasActiveFilters = Object.entries(filter).some(
+      ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
+    );
+
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 30, textAlign: "center" }}>
@@ -392,9 +448,22 @@ const Well = () => {
                 setFilterDropdownVisibility(!isFilterDropdownVisible);
               }}
               className="btn btn-primary"
-              style={{ margin: '0.5em', width: '5em' }}
+              style={{ margin: '0.5em', width: '5em', position: 'relative' }}
             >
               Filters
+              {hasActiveFilters && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "-5px",
+                    right: "-5px",
+                    width: "13px",
+                    height: "13px",
+                    background: "red",
+                    borderRadius: "60%"
+                  }}
+                ></span>
+              )}
             </button>
             {isSortDropdownVisible && (
               <div
@@ -409,7 +478,7 @@ const Well = () => {
                   onClick={() => setSort("well_id")}
                   style={{
                     backgroundColor:
-                      sort === "well_id" ? "lightblue" : "transparent",
+                      sort === "well_id" ? "yellow" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -419,7 +488,7 @@ const Well = () => {
                   onClick={() => setSort("well_id DESC")}
                   style={{
                     backgroundColor:
-                      sort === "well_id DESC" ? "lightblue" : "transparent",
+                      sort === "well_id DESC" ? "yellow" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -429,7 +498,7 @@ const Well = () => {
                   onClick={() => setSort("wi_wellname")}
                   style={{
                     backgroundColor:
-                      sort === "wi_wellname" ? "lightblue" : "transparent",
+                      sort === "wi_wellname" ? "yellow" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -439,7 +508,7 @@ const Well = () => {
                   onClick={() => setSort("field_activity")}
                   style={{
                     backgroundColor:
-                      sort === "field_activity" ? "lightblue" : "transparent",
+                      sort === "field_activity" ? "yellow" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -447,7 +516,7 @@ const Well = () => {
                 </button>
               </div>
             )}
-            {isFilterDropdownVisible && (
+            {isFilterDropdownVisible &&
               <div
                 style={{
                   border: "1px solid #ccc",
@@ -458,106 +527,8 @@ const Well = () => {
                   overflow: "auto",
                 }}
               >
-                <button
-                  className="btn btn-primary"
-                  style={{ margin: '0.5em' }}
-                  onClick={() => {
-                    document.getElementById('distanceFilter').value = "";
-                    setFilter({ county_id: -1, nrd_id: -1 });
-                  }}
-                >
-                  Clear Filters
-                </button>
-                <div className="filter-container">
-                  <p>County: </p>
-                  <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
-                    {[{ key: -1, value: '' }, ...countyOptions].map((county, index) =>
-                      <option key={index} value={county.key}>{county.value}</option>
-                    )}
-                  </select>
-                  <p>Natural Resource District: </p>
-                  <select value={filter.nrd_id} onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}>
-                    {[{ key: -1, value: '' }, ...nrdOptions].map((nrd, index) =>
-                      <option key={index} value={nrd.key}>{nrd.value}</option>
-                    )}
-                  </select>
-                  <p>Search: </p>
-                  <input
-                    type="text"
-                    placeholder="Search by well name"
-                    value={filter.search || ""}
-                    onChange={(e) => {
-                      const sanitizedValue = e.target.value.replace(/['"!@#$%^&*(),.?":{}|<>]/g, '');
-                      setFilter({ ...filter, search: sanitizedValue });
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
-                  <p>Latitude: </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
-                    <input
-                      type="text"
-                      maxLength="5"
-                      placeholder="40 to 43"
-                      value={filter.minLat || ""}
-                      onChange={(e) => {
-                        const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
-                        setFilter({ ...filter, minLat: sanitizedValue });
-                      }}
-                    />
-                    <p>to</p>
-                    <input
-                      type="text"
-                      maxLength="5"
-                      placeholder="40 to 43"
-                      value={filter.maxLat || ""}
-                      onChange={(e) => {
-                        const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
-                        setFilter({ ...filter, maxLat: sanitizedValue });
-                      }}
-                    />
-                  </div>
-                  <p>Longitude: </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
-                    <input
-                      type="text"
-                      maxLength="7"
-                      placeholder="-104 to -95.417"
-                      value={filter.minLon || ""}
-                      onChange={(e) => {
-                        const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
-                        setFilter({ ...filter, minLon: sanitizedValue });
-                      }}
-                    />
-                    <p>to</p>
-                    <input
-                      type="text"
-                      maxLength="7"
-                      placeholder="-104 to -95.417"
-                      value={filter.maxLon || ""}
-                      onChange={(e) => {
-                        const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
-                        setFilter({ ...filter, maxLon: sanitizedValue });
-                      }}
-                    />
-                  </div>
-                  <p>Wells in a ___ mile radius.</p>
-                  <input
-                    id="distanceFilter"
-                    type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
-                    disabled={!coords?.latitude || !coords?.longitude}
-                    placeholder={!coords?.latitude || !coords?.longitude ? "Geolocation is currently unavailable" : null}
-                    onChange={(e) => {
-                      const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
-                      filterWellsByDistance(sanitizedValue);
-                    }}
-                  />
-                </div>
-              </div>
-            )}
+                {getFilters()}
+              </div>}
           </div>
           <List>
             <h2>
