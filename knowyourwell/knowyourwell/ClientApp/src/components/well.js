@@ -5,14 +5,20 @@ import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import WellFieldLabContext from "./reusable/WellFieldLabContext";
-import { MapContainer, TileLayer, Marker, Popup, AttributionControl } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import markerIconPng from '../components/images/wellIcon.png';
-import magicBlueDot from '../components/images/magicBlueDot.png';
-import { Icon } from 'leaflet';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import './css/wells.css';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  AttributionControl,
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import markerIconPng from "../components/images/wellIcon.png";
+import magicBlueDot from "../components/images/magicBlueDot.png";
+import { Icon } from "leaflet";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import "./css/wells.css";
 import { useUser } from "./usercontext";
 import axios from "axios";
 
@@ -32,7 +38,7 @@ function responseDataToHTMLList(responseData) {
             </a>
           </List.Content>
           <br />
-        </List.Item>,
+        </List.Item>
       );
     }
   } catch (e) {
@@ -46,19 +52,33 @@ function responseDataToMarkerList(responseData) {
   try {
     for (const element of responseData) {
       markerList.push(
-        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [40, 40], iconAnchor: [20, 40] })}>
+        <Marker
+          key={element.wi_wellcode}
+          position={[element.wi_estlatitude, element.wi_estlongitude]}
+          icon={
+            new Icon({
+              iconUrl: markerIconPng,
+              iconSize: [40, 40],
+              iconAnchor: [20, 40],
+            })
+          }
+        >
           <Popup>
-            <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}>{element.wi_wellcode}</a><br />
+            <a
+              href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}
+            >
+              {element.wi_wellcode}
+            </a>
+            <br />
           </Popup>
         </Marker>
-      )
+      );
     }
   } catch (e) {
     console.log("Error Parsing Data into Marker List.");
   }
   return markerList;
 }
-
 
 const Well = () => {
   const [isLoading, setLoading] = useState(true);
@@ -67,7 +87,7 @@ const Well = () => {
     useState(false);
   // const [isCountyDropdownVisible, setCountyDropdownVisibility] = useState(false)
   const [filter, setFilter] = useState({});
-  const [sort, setSort] = useState('well_id');
+  const [sort, setSort] = useState("well_id");
   const [wellList, setWells] = useState([]);
   const [userMarker, setUserMarker] = useState(<></>);
   const { user, setUser } = useUser();
@@ -88,7 +108,8 @@ const Well = () => {
     const satellite = sessionStorage.getItem("showSatellite");
     if (satellite === "false") {
       return false;
-    } else { //either "true" or null, which should default to true
+    } else {
+      //either "true" or null, which should default to true
       return true;
     }
   });
@@ -105,8 +126,10 @@ const Well = () => {
             setUser(response.data);
           })
           .catch(function (response) {
-            window.alert("The app encountered an error verifying that you are logged in.");
-            console.log(response)
+            window.alert(
+              "The app encountered an error verifying that you are logged in."
+            );
+            console.log(response);
             navigate("/");
           });
       }
@@ -114,7 +137,7 @@ const Well = () => {
         window.alert("You are not yet logged in. Please log in.");
         navigate("/");
       }
-    }
+    };
 
     validateUser();
   }, [navigate, user, setUser]);
@@ -160,26 +183,34 @@ const Well = () => {
       const element = document.getElementById('map-container');
       const attributionElement = document.getElementsByClassName('leaflet-control-attribution')[0];
       if (element) {
-        setMapHeight(document.body.getBoundingClientRect().bottom - element.getBoundingClientRect().top);
+        setMapHeight(
+          document.body.getBoundingClientRect().bottom -
+            element.getBoundingClientRect().top
+        );
       }
       if (attributionElement) {
         setSatelliteToggleBottom(element.getBoundingClientRect().top + 10);
       }
       mapRef.current?.invalidateSize();
     });
-    const container = document.getElementById('map-container');
+    const container = document.getElementById("map-container");
     if (container) {
       resizeObserver.observe(container);
     }
-  }
+  };
 
   function calculateDistance(wellLatitude, wellLongitude) {
     var R = 3959; // Radius of earth in miles
-    var dLat = coords.latitude * Math.PI / 180 - wellLatitude * Math.PI / 180;
-    var dLon = coords.longitude * Math.PI / 180 - wellLongitude * Math.PI / 180;
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(coords.latitude * Math.PI / 180) * Math.cos(wellLatitude * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var dLat =
+      (coords.latitude * Math.PI) / 180 - (wellLatitude * Math.PI) / 180;
+    var dLon =
+      (coords.longitude * Math.PI) / 180 - (wellLongitude * Math.PI) / 180;
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((coords.latitude * Math.PI) / 180) *
+        Math.cos((wellLatitude * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in miles
     return d;
@@ -208,7 +239,7 @@ const Well = () => {
     if (!coords?.latitude || !coords?.longitude) {
       return allWells;
     }
-    const filteredWells = allWells.filter(well => {
+    const filteredWells = allWells.filter((well) => {
       const wellLat = well.wi_estlatitude;
       const wellLong = well.wi_estlongitude;
       const distanceBetween = calculateDistance(wellLat, wellLong);
@@ -219,10 +250,10 @@ const Well = () => {
       setFilter({ ...filter, byDistance: "0=1" });
       return;
     }
-    const extractedIDs = filteredWells.map(well => well.well_id);
-    const sqlString = 'well_id IN (' + extractedIDs.join(', ') + ')';
+    const extractedIDs = filteredWells.map((well) => well.well_id);
+    const sqlString = "well_id IN (" + extractedIDs.join(", ") + ")";
     setFilter({ ...filter, byDistance: sqlString });
-  }
+  };
 
   // function getUserMarker() {
   //   console.log("updating user marker");
@@ -251,9 +282,9 @@ const Well = () => {
       <>
         <button
           className="btn btn-primary"
-          style={{ margin: '0.5em' }}
+          style={{ margin: "0.5em" }}
           onClick={() => {
-            document.getElementById('distanceFilter').value = "";
+            document.getElementById("distanceFilter").value = "";
             setFilter({ county_id: -1, nrd_id: -1 });
           }}
         >
@@ -261,16 +292,28 @@ const Well = () => {
         </button>
         <div className="filter-container">
           <p>County: </p>
-          <select value={filter.county_id} onChange={(e) => setFilter({ ...filter, county_id: e.target.value })}>
-            {[{ key: -1, value: '' }, ...countyOptions].map((county, index) =>
-              <option key={index} value={county.key}>{county.value}</option>
-            )}
+          <select
+            value={filter.county_id}
+            onChange={(e) =>
+              setFilter({ ...filter, county_id: e.target.value })
+            }
+          >
+            {[{ key: -1, value: "" }, ...countyOptions].map((county, index) => (
+              <option key={index} value={county.key}>
+                {county.value}
+              </option>
+            ))}
           </select>
           <p>Natural Resource District: </p>
-          <select value={filter.nrd_id} onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}>
-            {[{ key: -1, value: '' }, ...nrdOptions].map((nrd, index) =>
-              <option key={index} value={nrd.key}>{nrd.value}</option>
-            )}
+          <select
+            value={filter.nrd_id}
+            onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}
+          >
+            {[{ key: -1, value: "" }, ...nrdOptions].map((nrd, index) => (
+              <option key={index} value={nrd.key}>
+                {nrd.value}
+              </option>
+            ))}
           </select>
           <p>Search: </p>
           <input
@@ -278,7 +321,10 @@ const Well = () => {
             placeholder="Search by well name"
             value={filter.search || ""}
             onChange={(e) => {
-              const sanitizedValue = e.target.value.replace(/['"!@#$%^&*(),.?":{}|<>]/g, '');
+              const sanitizedValue = e.target.value.replace(
+                /['"!@#$%^&*(),.?":{}|<>]/g,
+                ""
+              );
               setFilter({ ...filter, search: sanitizedValue });
             }}
             onKeyDown={(e) => {
@@ -288,7 +334,14 @@ const Well = () => {
             }}
           />
           <p>Latitude: </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              marginLeft: "10px",
+            }}
+          >
             <input
               type="text"
               maxLength="5"
@@ -306,7 +359,14 @@ const Well = () => {
             />
           </div>
           <p>Longitude: </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              marginLeft: "10px",
+            }}
+          >
             <input
               type="text"
               maxLength="7"
@@ -328,39 +388,121 @@ const Well = () => {
             id="distanceFilter"
             type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
             disabled={!coords?.latitude || !coords?.longitude}
-            placeholder={!coords?.latitude || !coords?.longitude ? "Geolocation is currently unavailable" : null}
+            placeholder={
+              !coords?.latitude || !coords?.longitude
+                ? "Geolocation is currently unavailable"
+                : null
+            }
             onChange={(e) => filterWellsByDistance(e.target.value)}
           />
         </div>
-      </>);
-  }
+      </>
+    );
+  };
 
   const getMapView = () => {
     const hasActiveFilters = Object.entries(filter).some(
-      ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
+      ([, value]) =>
+        value !== "" &&
+        value !== -1 &&
+        value !== "-1" &&
+        value !== undefined &&
+        value !== null
     );
     return (
       <>
         <div>
-          <div style={{ position: 'absolute', zIndex: '1000', display: "flex", alignItems: "center", alignContent: "center", justifyContent: "space-between", right: "0" }}>
-            <button
-              onClick={() => {
-                setFilterDropdownVisibility(!isFilterDropdownVisible);
-              }}
-              className="btn btn-primary"
+          <button
+            onClick={() => {
+              setFilterDropdownVisibility(!isFilterDropdownVisible);
+            }}
+            className="btn btn-primary"
+            style={{
+              marginTop: "10px",
+              marginRight: "10px",
+              width: "5em",
+              position: "absolute",
+              zIndex: "1000",
+              right: "0",
+            }}
+          >
+            Filters
+            {hasActiveFilters && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-5px",
+                  right: "-5px",
+                  width: "13px",
+                  height: "13px",
+                  background: "red",
+                  borderRadius: "60%",
+                }}
+              ></span>
+            )}
+          </button>
+          <a
+            href={`/WellInfo`}
+            style={{
+              fontSize: "1em",
+              width: "10em",
+              border: "dashed",
+              marginTop: "10px",
+              marginRight: "10px",
+              position: "absolute",
+              zIndex: "1000",
+              right: "6em",
+            }}
+            className="btn btn-light btn-lg btn-block"
+          >
+            Create New Well
+          </a>
+          <div
+            style={{
+              position: "absolute",
+              zIndex: "1000",
+              display: "flex",
+              alignItems: "center",
+              alignContent: "center",
+              justifyContent: "space-between",
+              bottom: "5%",
+              right: "0",
+              background: "rgba(255,255,255,0.5)",
+              padding: "0.5em",
+            }}
+          >
+            <label
+              for="satelliteToggle"
               style={{
-                margin: "10px",
-                width: '5em'
+                fontSize: "1em",
+                margin: "0px 5px",
+                color: "black",
+                width: "12em",
               }}
             >
-              Filters
-            </button>
-            <label for="satelliteToggle" style={{ fontSize: "1em", margin: "0px 5px", color: "black", width: "10em" }}>
               Show Satellite Layer
             </label>
-            <input type="checkbox" id="satelliteToggle" name="satelliteToggle" checked={showSatellite} onChange={() => { sessionStorage.setItem("showSatellite", (!showSatellite).toString()); setShowSatellite(!showSatellite); }} style={{ height: "24px", padding: "0", margin: "0", width: "3em" }} />
+            <input
+              type="checkbox"
+              id="satelliteToggle"
+              name="satelliteToggle"
+              checked={showSatellite}
+              onChange={() => {
+                sessionStorage.setItem(
+                  "showSatellite",
+                  (!showSatellite).toString()
+                );
+                setShowSatellite(!showSatellite);
+              }}
+              style={{
+                height: "24px",
+                padding: "0",
+                margin: "0",
+                width: "3em",
+              }}
+            />
           </div>
-          {isFilterDropdownVisible &&
+          {isFilterDropdownVisible && (
             <div
               style={{
                 border: "1px solid #ccc",
@@ -371,48 +513,72 @@ const Well = () => {
                 maxHeight: "150px",
                 zIndex: "500",
                 position: "absolute",
-                top: document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
+                top:
+                  document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
                 background: "rgba(255,255,255,0.5)",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
                 alignContent: "center",
                 alignItems: "center",
-                overscrollBehavior: "contain"
+                overscrollBehavior: "contain",
               }}
             >
               {getFilters()}
-            </div>}
+            </div>
+          )}
         </div>
-        <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={(coords.latitude && coords.longitude) ? [coords.latitude, coords.longitude] : [40.8202, -96.7005]} zoom={7} maxZoom={12} scrollWheelZoom={true} doubleClickZoom={false} style={{ height: '100%', width: '100%' }}>
+        <MapContainer
+          id="map-container"
+          attributionControl={false}
+          ref={mapRef}
+          whenReady={() => resizeMap(mapRef)}
+          center={
+            coords.latitude && coords.longitude
+              ? [coords.latitude, coords.longitude]
+              : [40.8202, -96.7005]
+          }
+          zoom={7}
+          maxZoom={12}
+          scrollWheelZoom={true}
+          doubleClickZoom={false}
+          style={{ height: "100%", width: "100%" }}
+        >
           <AttributionControl prefix={false} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {showSatellite && <TileLayer
-            attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-            opacity={0.5}
-          />}
+          {showSatellite && (
+            <TileLayer
+              attribution="&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              opacity={0.5}
+            />
+          )}
           {responseDataToMarkerList(
-            JSON.parse(localStorage.getItem("wellData"))?.Wells,
+            JSON.parse(localStorage.getItem("wellData"))?.Wells
           )}
           {/* {userMarker} */}
         </MapContainer>
-      </>);
-  }
-
+      </>
+    );
+  };
 
   const getListView = () => {
     const wellsData = JSON.parse(localStorage.getItem("wellData"))?.Wells || [];
     const filteredWells = filter.search
       ? wellsData.filter((well) =>
-        well.wi_wellname.toLowerCase().includes(filter.search.toLowerCase())
-      )
+          well.wi_wellname.toLowerCase().includes(filter.search.toLowerCase())
+        )
       : wellsData;
     const hasActiveFilters = Object.entries(filter).some(
-      ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
+      ([, value]) =>
+        value !== "" &&
+        value !== -1 &&
+        value !== "-1" &&
+        value !== undefined &&
+        value !== null
     );
 
     return (
@@ -424,7 +590,7 @@ const Well = () => {
                 setSortDropdownVisibility(!isSortDropdownVisible);
               }}
               className="btn btn-primary"
-              style={{ margin: '0.5em', width: '5em' }}
+              style={{ margin: "0.5em", width: "5em" }}
             >
               Sort
             </button>
@@ -433,7 +599,7 @@ const Well = () => {
                 setFilterDropdownVisibility(!isFilterDropdownVisible);
               }}
               className="btn btn-primary"
-              style={{ margin: '0.5em', width: '5em', position: 'relative' }}
+              style={{ margin: "0.5em", width: "5em", position: "relative" }}
             >
               Filters
               {hasActiveFilters && (
@@ -445,7 +611,7 @@ const Well = () => {
                     width: "13px",
                     height: "13px",
                     background: "red",
-                    borderRadius: "60%"
+                    borderRadius: "60%",
                   }}
                 ></span>
               )}
@@ -511,7 +677,7 @@ const Well = () => {
                 </button>
               </div>
             )}
-            {isFilterDropdownVisible &&
+            {isFilterDropdownVisible && (
               <div
                 style={{
                   border: "1px solid #ccc",
@@ -523,7 +689,8 @@ const Well = () => {
                 }}
               >
                 {getFilters()}
-              </div>}
+              </div>
+            )}
           </div>
           <List>
             <h2>
@@ -542,7 +709,7 @@ const Well = () => {
               <br />
             </List.Item>
             {responseDataToHTMLList(
-              JSON.parse(localStorage.getItem("wellData"))?.Wells,
+              JSON.parse(localStorage.getItem("wellData"))?.Wells
             )}
           </List>
         </div>
@@ -571,27 +738,30 @@ const Well = () => {
           <br />
         </List.Item>
         {responseDataToHTMLList(
-          JSON.parse(localStorage.getItem("wellData")).Wells,
+          JSON.parse(localStorage.getItem("wellData")).Wells
         )}
       </List>
     );
   } else {
     return (
-      <Tabs selectedIndex={tabIndex} onSelect={(index) => { setTabIndex(index); sessionStorage.setItem("tabIndex", index.toString()) }} style={{ height: `${mapHeight}px` }}>
+      <Tabs
+        selectedIndex={tabIndex}
+        onSelect={(index) => {
+          setTabIndex(index);
+          sessionStorage.setItem("tabIndex", index.toString());
+        }}
+        style={{ height: `${mapHeight}px` }}
+      >
         <TabList>
           <Tab>Map View</Tab>
           <Tab>List View</Tab>
         </TabList>
 
-        <TabPanel style={{ height: '100%' }}>
-          {getMapView()}
-        </TabPanel>
-        <TabPanel>
-          {getListView()}
-        </TabPanel>
+        <TabPanel style={{ height: "100%" }}>{getMapView()}</TabPanel>
+        <TabPanel>{getListView()}</TabPanel>
       </Tabs>
     );
   }
-}
+};
 
 export default Well;
