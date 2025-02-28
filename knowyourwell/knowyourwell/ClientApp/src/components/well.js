@@ -87,7 +87,7 @@ const Well = () => {
   const [showSatellite, setShowSatellite] = useState(() => {
     const satellite = sessionStorage.getItem("showSatellite");
     if (satellite === "false") {
-        return false;
+      return false;
     } else { //either "true" or null, which should default to true
       return true;
     }
@@ -336,52 +336,52 @@ const Well = () => {
       ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
     );
     return (
-    <>
-      <div>
-        <div style={{position: 'absolute', zIndex: '1000', display: "flex", alignItems: "center", alignContent: "center", justifyContent: "space-between", right: "0"}}>
-          <button
-            onClick={() => {
-              setFilterDropdownVisibility(!isFilterDropdownVisible);
-            }}
-            className="btn btn-primary"
-            style={{
-              margin: "10px",
-              width: '5em'
-            }}
-          >
-            Filters
-          </button>
-          <label for="satelliteToggle" style={{fontSize: "1em", margin: "0px 5px", color: "black", width: "10em"}}>
-            Show Satellite Layer
-          </label>
-          <input type="checkbox" id="satelliteToggle" name="satelliteToggle" checked={showSatellite} onChange={() => {sessionStorage.setItem("showSatellite", (!showSatellite).toString()); setShowSatellite(!showSatellite);}} style={{height: "24px", padding: "0", margin: "0", width: "3em"}}/>
+      <>
+        <div>
+          <div style={{ position: 'absolute', zIndex: '1000', display: "flex", alignItems: "center", alignContent: "center", justifyContent: "space-between", right: "0" }}>
+            <button
+              onClick={() => {
+                setFilterDropdownVisibility(!isFilterDropdownVisible);
+              }}
+              className="btn btn-primary"
+              style={{
+                margin: "10px",
+                width: '5em'
+              }}
+            >
+              Filters
+            </button>
+            <label for="satelliteToggle" style={{ fontSize: "1em", margin: "0px 5px", color: "black", width: "10em" }}>
+              Show Satellite Layer
+            </label>
+            <input type="checkbox" id="satelliteToggle" name="satelliteToggle" checked={showSatellite} onChange={() => { sessionStorage.setItem("showSatellite", (!showSatellite).toString()); setShowSatellite(!showSatellite); }} style={{ height: "24px", padding: "0", margin: "0", width: "3em" }} />
+          </div>
+          {isFilterDropdownVisible &&
+            <div
+              style={{
+                border: "1px solid #ccc",
+                marginTop: "10px",
+                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                boxSizing: "border-box",
+                overflow: "auto",
+                maxHeight: "150px",
+                zIndex: "500",
+                position: "absolute",
+                top: document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
+                background: "rgba(255,255,255,0.5)",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignContent: "center",
+                alignItems: "center",
+                overscrollBehavior: "contain"
+              }}
+            >
+              {getFilters()}
+            </div>}
         </div>
-        {isFilterDropdownVisible &&
-          <div
-          style={{
-            border: "1px solid #ccc",
-            marginTop: "10px",
-            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-            boxSizing: "border-box",
-            overflow: "auto",
-            maxHeight: "150px",
-            zIndex: "500",
-            position: "absolute",
-            top: document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
-            background: "rgba(255,255,255,0.5)",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignContent: "center",
-            alignItems: "center",
-            overscrollBehavior: "contain"
-          }}
-          >
-          {getFilters()} 
-          </div>}
-      </div>
-      <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={( coords.latitude && coords.longitude) ? [coords.latitude, coords.longitude] : [40.8202, -96.7005]} zoom={7} maxZoom={12} scrollWheelZoom={true} doubleClickZoom={false} style={{ height: '100%', width: '100%' }}>
-        <AttributionControl prefix={false} />
+        <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={(coords.latitude && coords.longitude) ? [coords.latitude, coords.longitude] : [40.8202, -96.7005]} zoom={7} maxZoom={12} scrollWheelZoom={true} doubleClickZoom={false} style={{ height: '100%', width: '100%' }}>
+          <AttributionControl prefix={false} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -459,7 +459,7 @@ const Well = () => {
                   onClick={() => setSort("well_id")}
                   style={{
                     backgroundColor:
-                      sort === "well_id" ? "yellow" : "transparent",
+                      sort === "well_id" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -469,7 +469,7 @@ const Well = () => {
                   onClick={() => setSort("well_id DESC")}
                   style={{
                     backgroundColor:
-                      sort === "well_id DESC" ? "yellow" : "transparent",
+                      sort === "well_id DESC" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -479,7 +479,7 @@ const Well = () => {
                   onClick={() => setSort("wi_wellname")}
                   style={{
                     backgroundColor:
-                      sort === "wi_wellname" ? "yellow" : "transparent",
+                      sort === "wi_wellname" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -489,7 +489,7 @@ const Well = () => {
                   onClick={() => setSort("wi_wellname DESC")}
                   style={{
                     backgroundColor:
-                      sort === "wi_wellname DESC" ? "yellow" : "transparent",
+                      sort === "wi_wellname DESC" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
@@ -499,7 +499,7 @@ const Well = () => {
                   onClick={() => setSort("field_activity")}
                   style={{
                     backgroundColor:
-                      sort === "field_activity" ? "yellow" : "transparent",
+                      sort === "field_activity" ? "lightblue" : "transparent",
                   }}
                   className="dropdown-item"
                 >
