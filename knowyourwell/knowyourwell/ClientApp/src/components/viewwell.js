@@ -9,54 +9,42 @@ import { useNavigate } from "react-router-dom";
 
 import { useUser } from "./usercontext";
 
-const firstColumn = [
-  { "Well Code:": "wi_wellcode" },
-  { "Data Collector:": "wi_datacollector" },
-  { "DNR Well ID:": "wi_dnr_well_id" },
-  { "Address:": "wi_address" },
-  { "State:": "wi_state" },
-  { "County:": "county_id" },
-  { "Phone # (of well user):": "wi_phone_well_user" },
-  { "Well owner (if different from resident):": "wi_well_owner" },
-  { "Complaints about smell or taste of water?:": "wi_smelltaste" },
-  { "Does the well ever go dry?:": "wi_welldry" },
-  {
-    "Maintenance done to the well itself within the last five years:":
-      "wi_maintenance5yr",
-  },
-  { "Number of Well Users:": "wi_numberwelluser" },
-  { "Estimated Latitude:": "wi_estlatitude" },
-  { "Bore hole diameter (inches):": "wi_boreholediameter" },
-  { "Water level (feet):": "wi_waterleveldepth" },
-  { "Aquifer Class:": "wi_aquiferclass" },
-  { "Well Casing Material:": "wi_wellcasematerial" },
-];
-
-const secondColumn = [
-  { "Well Name:": "wi_wellname" },
-  { "Well Registration Number:": "wi_registration_number" },
-  { "Name of Resident User:": "wi_well_user" },
-  { "Village, Town, or City:": "wi_city" },
-  { "Zip code:": "wi_zipcode" },
-  { "NRD:": "nrd_id" },
-  { "Email (of well user):": "wi_email_well_user" },
-  { "Well construction completion year:": "wi_installyear" },
-  { "Smell or taste of water desciption:": "wi_smelltaste_description" },
-  { "When well goes dry:": "wi_welldry_description" },
-  {
-    "Major land use / development changes around the well within the last five years?:":
-      "wi_landuse5yr",
-  },
-  {
-    "Manure, fertilizer, or pesticides been applied the well within the last five years:":
-      "wi_pestmanure",
-  },
-  { "Estimated Longitude:": "wi_estlongitude" },
-  { "Total depth of well (feet):": "wi_totaldepth" },
-  { "Aquifer Type:": "wi_aquifertype" },
-  { "Well Type (Construction Method):": "wi_welltype" },
-  { "Observations:": "wi_observation" },
-];
+const nameMap = {
+  "wi_wellcode": "Well Code:",
+  "wi_datacollector": "Data Collector:",
+  "wi_dnr_well_id": "DNR Well ID:",
+  "wi_address": "Address:",
+  "wi_state": "State:",
+  "county_id": "County:",
+  "wi_phone_well_user": "Phone # (of well user):",
+  "wi_well_owner": "Well owner (if different from resident):",
+  "wi_smelltaste": "Complaints about smell or taste of water?:",
+  "wi_welldry": "Does the well ever go dry?:",
+  "wi_maintenance5yr": "Maintenance done to the well itself within the last five years:",
+  "wi_numberwelluser": "Number of Well Users:",
+  "wi_estlatitude": "Estimated Latitude:",
+  "wi_boreholediameter": "Bore hole diameter (inches):",
+  "wi_waterleveldepth": "Water level (feet):",
+  "wi_aquiferclass": "Aquifer Class:",
+  "wi_wellcasematerial": "Well Casing Material:",
+  "wi_wellname": "Well Name:",
+  "wi_registration_number": "Well Registration Number:",
+  "wi_well_user": "Name of Resident User:",
+  "wi_city": "Village, Town, or City:",
+  "wi_zipcode": "Zip code:",
+  "nrd_id": "NRD:",
+  "wi_email_well_user": "Email (of well user):",
+  "wi_installyear": "Well construction completion year:",
+  "wi_smelltaste_description": "Smell or taste of water desciption:",
+  "wi_welldry_description": "When well goes dry:",
+  "wi_landuse5yr": "Major land use / development changes around the well within the last five years?:",
+  "wi_pestmanure": "Manure, fertilizer, or pesticides been applied the well within the last five years:",
+  "wi_estlongitude": "Estimated Longitude:",
+  "wi_totaldepth": "Total depth of well (feet):",
+  "wi_aquifertype": "Aquifer Type:",
+  "wi_welltype": "Well Type (Construction Method):",
+  "wi_observation": "Observations:"
+};
 
 export default function ViewWell() {
   const [searchParams] = useSearchParams();
@@ -175,26 +163,123 @@ export default function ViewWell() {
     formElements["nrd_id"] = nrdOptions.find(
       (option) => option.key === formElements["nrd_id"].toString(),
     ).value;
-    for (let i = 0; i < firstColumn.length; i++) {
-      const firstColumnName = Object.keys(firstColumn[i])[0];
-      const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
 
-      const secondColumnName = Object.keys(secondColumn[i])[0];
-      const secondColumnValue = formElements[Object.values(secondColumn[i])[0]];
+    console.log(formElements);
 
+    const basicInfo = [
+      "wi_wellcode",
+      "wi_wellname",
+      "wi_registration_number",
+      "wi_well_user",
+    ];
+
+    const locationInfo = [
+      "wi_address",
+      "wi_city",
+      "wi_zipcode",
+      "wi_state",
+      "county_id",
+      "nrd_id",
+      "wi_estlatitude",
+      "wi_estlongitude",
+    ];
+
+    const contactInfo = [
+      "wi_well_owner",
+      "wi_phone_well_user",
+      "wi_email_well_user",
+      "wi_datacollector",
+    ];
+
+    const wellInfo = [
+      "wi_dnr_well_id",
+      "wi_installyear",
+      "wi_totaldepth",
+      "wi_boreholediameter",
+      "wi_waterleveldepth",
+      "wi_aquiferclass",
+      "wi_aquifertype",
+      "wi_welltype",
+      "wi_wellcasematerial",
+      "wi_numberwelluser",
+      "wi_landuse5yr",
+      "wi_maintenance5yr",
+      "wi_pestmanure",
+      "wi_smelltaste",
+      "wi_smelltaste_description",
+      "wi_welldry",
+      "wi_welldry_description",
+      "wi_observation",
+    ];
+    const basicInfoList = ['Basic Info'];
+    const locationInfoList = ['Location Info'];
+    const contactInfoList = ['Contact Info'];
+    const wellInfoList = ['Well Info'];
+    for (const [key, value] of Object.entries(formElements)) {
+      if (basicInfo.includes(key)) {
+        basicInfoList.push([key, value]);
+      } else if (locationInfo.includes(key)) {
+        locationInfoList.push([key, value]);
+      } else if (contactInfo.includes(key)) {
+        contactInfoList.push([key, value]);
+      } else if (wellInfo.includes(key)) {
+        wellInfoList.push([key, value]);
+      }
+    }
+    // for (let i = 0; i < firstColumn.length; i++) {
+    //   const firstColumnName = Object.keys(firstColumn[i])[0];
+    //   const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
+
+    //   const secondColumnName = Object.keys(secondColumn[i])[0];
+    //   const secondColumnValue = formElements[Object.values(secondColumn[i])[0]];
+
+
+    //   columnList.push(
+    //     <div key={i} className="row">
+    //       <div className="col">
+    //         <p style={{ textAlign: "center" }}>
+    //           <b>{firstColumnName}</b> {firstColumnValue}
+    //         </p>
+    //       </div>
+    //       <div className="col">
+    //         <p style={{ textAlign: "center" }}>
+    //           <b>{secondColumnName}</b> {secondColumnValue}
+    //         </p>
+    //       </div>
+    //     </div>,
+    //   );
+    // }
+    for (const i of [basicInfoList, locationInfoList, contactInfoList, wellInfoList]) {
+      const summaryName = i[0];
+      const fields = i.slice(1);
+      console.log(i);
       columnList.push(
-        <div key={i} className="row">
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{firstColumnName}</b> {firstColumnValue}
-            </p>
-          </div>
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{secondColumnName}</b> {secondColumnValue}
-            </p>
-          </div>
-        </div>,
+        <details key={summaryName}>
+          <summary><b>{summaryName}</b></summary>
+          {
+            // map through fields and separate into two columns
+            fields.map((field, index) => {
+              if (index % 2 === 0) {
+                return (
+                  <div key={index} className="row">
+                    <div className="col">
+                      <p style={{ textAlign: "center" }}>
+                        <b>{nameMap[field[0]]}</b> {field[1] || "[No Data]"}
+                      </p>
+                    </div>
+                    <div className="col">
+                      <p style={{ textAlign: "center" }}>
+                        <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "[No Data]"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+              // return so map is happy
+              return null;
+            })
+          }
+        </details>,
       );
     }
 
