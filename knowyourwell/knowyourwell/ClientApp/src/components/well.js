@@ -483,7 +483,17 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Alphabetical (By Well Name)
+                  Well Name A-Z
+                </button>
+                <button
+                  onClick={() => setSort("wi_wellname DESC")}
+                  style={{
+                    backgroundColor:
+                      sort === "wi_wellname DESC" ? "yellow" : "transparent",
+                  }}
+                  className="dropdown-item"
+                >
+                  Well Name Z-A
                 </button>
                 <button
                   onClick={() => setSort("field_activity")}
