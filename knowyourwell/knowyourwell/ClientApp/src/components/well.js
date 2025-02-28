@@ -46,7 +46,7 @@ function responseDataToMarkerList(responseData) {
   try {
     for (const element of responseData) {
       markerList.push(
-        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [30, 30], iconAnchor: [15, 30] })}>
+        <Marker key={element.wi_wellcode} position={[element.wi_estlatitude, element.wi_estlongitude]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [40, 40], iconAnchor: [20, 40] })}>
           <Popup>
             <a href={`/EditWell?id=${element.well_id}&wellName=${element.wi_wellname}&wellcode=${element.wi_wellcode}`}>{element.wi_wellcode}</a><br />
           </Popup>
@@ -83,6 +83,14 @@ const Well = () => {
       return tab;
     }
     return 1;
+  });
+  const [showSatellite, setShowSatellite] = useState(() => {
+    const satellite = sessionStorage.getItem("showSatellite");
+    if (satellite === "false") {
+        return false;
+    } else { //either "true" or null, which should default to true
+      return true;
+    }
   });
   const [mapHeight, setMapHeight] = useState(0);
 
@@ -327,74 +335,62 @@ const Well = () => {
     const hasActiveFilters = Object.entries(filter).some(
       ([, value]) => value !== "" && value !== -1 && value !== "-1" && value !== undefined && value !== null
     );
-    console.log(filter);
     return (
-      <>
-        <div>
+    <>
+      <div>
+        <div style={{position: 'absolute', zIndex: '1000', display: "flex", alignItems: "center", alignContent: "center", justifyContent: "space-between", right: "0"}}>
           <button
             onClick={() => {
               setFilterDropdownVisibility(!isFilterDropdownVisible);
             }}
             className="btn btn-primary"
             style={{
-              marginTop: "10px",
-              marginRight: "10px",
-              width: '5em',
-              position: 'absolute',
-              zIndex: '1000',
-              right: '0'
+              margin: "10px",
+              width: '5em'
             }}
           >
             Filters
-            {hasActiveFilters && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-5px",
-                  right: "-5px",
-                  width: "13px",
-                  height: "13px",
-                  background: "red",
-                  borderRadius: "60%",
-                }}
-              ></span>
-            )}
           </button>
-          {isFilterDropdownVisible &&
-            <div
-              style={{
-                border: "1px solid #ccc",
-                marginTop: "10px",
-                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-                boxSizing: "border-box",
-                overflow: "auto",
-                maxHeight: "150px",
-                zIndex: "500",
-                position: "absolute",
-                top: document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
-                background: "rgba(255,255,255,0.5)",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignContent: "center",
-                alignItems: "center",
-                overscrollBehavior: "contain"
-              }}
-            >
-              {getFilters()}
-            </div>}
+          <label for="satelliteToggle" style={{fontSize: "1em", margin: "0px 5px", color: "black", width: "10em"}}>
+            Show Satellite Layer
+          </label>
+          <input type="checkbox" id="satelliteToggle" name="satelliteToggle" checked={showSatellite} onChange={() => {sessionStorage.setItem("showSatellite", (!showSatellite).toString()); setShowSatellite(!showSatellite);}} style={{height: "24px", padding: "0", margin: "0", width: "3em"}}/>
         </div>
-        <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={(coords.latitude && coords.longitude) ? [coords.latitude, coords.longitude] : [40.8202, -96.7005]} zoom={7} maxZoom={12} scrollWheelZoom={true} doubleClickZoom={false} style={{ height: '100%', width: '100%' }}>
-          <AttributionControl prefix={false} />
+        {isFilterDropdownVisible &&
+          <div
+          style={{
+            border: "1px solid #ccc",
+            marginTop: "10px",
+            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+            boxSizing: "border-box",
+            overflow: "auto",
+            maxHeight: "150px",
+            zIndex: "500",
+            position: "absolute",
+            top: document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
+            background: "rgba(255,255,255,0.5)",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "center",
+            alignItems: "center",
+            overscrollBehavior: "contain"
+          }}
+          >
+          {getFilters()} 
+          </div>}
+      </div>
+      <MapContainer id='map-container' attributionControl={false} ref={mapRef} whenReady={() => resizeMap(mapRef)} center={( coords.latitude && coords.longitude) ? [coords.latitude, coords.longitude] : [40.8202, -96.7005]} zoom={7} maxZoom={12} scrollWheelZoom={true} doubleClickZoom={false} style={{ height: '100%', width: '100%' }}>
+        <AttributionControl prefix={false} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <TileLayer
+          {showSatellite && <TileLayer
             attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
             opacity={0.5}
-          />
+          />}
           {responseDataToMarkerList(
             JSON.parse(localStorage.getItem("wellData"))?.Wells,
           )}
@@ -487,7 +483,17 @@ const Well = () => {
                   }}
                   className="dropdown-item"
                 >
-                  Alphabetical (By Well Name)
+                  Well Name A-Z
+                </button>
+                <button
+                  onClick={() => setSort("wi_wellname DESC")}
+                  style={{
+                    backgroundColor:
+                      sort === "wi_wellname DESC" ? "yellow" : "transparent",
+                  }}
+                  className="dropdown-item"
+                >
+                  Well Name Z-A
                 </button>
                 <button
                   onClick={() => setSort("field_activity")}
