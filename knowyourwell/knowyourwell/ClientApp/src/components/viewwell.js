@@ -164,7 +164,6 @@ export default function ViewWell() {
       (option) => option.key === formElements["nrd_id"].toString(),
     ).value;
 
-    console.log(formElements);
 
     const basicInfo = [
       "wi_wellcode",
@@ -252,7 +251,6 @@ export default function ViewWell() {
     for (const i of [basicInfoList, locationInfoList, contactInfoList, wellInfoList]) {
       const summaryName = i[0];
       const fields = i.slice(1);
-      console.log(i);
       columnList.push(
         <details key={summaryName}>
           <summary><b>{summaryName}</b></summary>
