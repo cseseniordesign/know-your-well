@@ -291,110 +291,119 @@ const Well = () => {
           Clear Filters
         </button>
         <div className="filter-container">
-          <p>County: </p>
-          <select
-            value={filter.county_id}
-            onChange={(e) =>
-              setFilter({ ...filter, county_id: e.target.value })
-            }
-          >
-            {[{ key: -1, value: "" }, ...countyOptions].map((county, index) => (
-              <option key={index} value={county.key}>
-                {county.value}
-              </option>
-            ))}
-          </select>
-          <p>Natural Resource District: </p>
-          <select
-            value={filter.nrd_id}
-            onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}
-          >
-            {[{ key: -1, value: "" }, ...nrdOptions].map((nrd, index) => (
-              <option key={index} value={nrd.key}>
-                {nrd.value}
-              </option>
-            ))}
-          </select>
-          <p>Search: </p>
-          <input
-            type="text"
-            placeholder="Search by well name"
-            value={filter.search || ""}
-            onChange={(e) => {
-              const sanitizedValue = e.target.value.replace(
-                /['"!@#$%^&*(),.?":{}|<>]/g,
-                ""
-              );
-              setFilter({ ...filter, search: sanitizedValue });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-              }
-            }}
-          />
-          <p>Latitude: </p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              marginLeft: "10px",
-            }}
-          >
-            <input
-              type="text"
-              maxLength="5"
-              placeholder="40 to 43"
-              value={filter.minLat || ""}
-              onChange={(e) => setFilter({ ...filter, minLat: e.target.value })}
-            />
-            <p>to</p>
-            <input
-              type="text"
-              maxLength="5"
-              placeholder="40 to 43"
-              value={filter.maxLat || ""}
-              onChange={(e) => setFilter({ ...filter, maxLat: e.target.value })}
-            />
+          <div className="filter-column">
+            <div className="filter-column-content">
+              <p>County: </p>
+              <select
+                value={filter.county_id}
+                onChange={(e) =>
+                  setFilter({ ...filter, county_id: e.target.value })
+                }
+              >
+                {[{ key: -1, value: "" }, ...countyOptions].map((county, index) => (
+                  <option key={index} value={county.key}>
+                    {county.value}
+                  </option>
+                ))}
+              </select>
+              <p>Natural Resource District: </p>
+              <select
+                value={filter.nrd_id}
+                onChange={(e) => setFilter({ ...filter, nrd_id: e.target.value })}
+              >
+                {[{ key: -1, value: "" }, ...nrdOptions].map((nrd, index) => (
+                  <option key={index} value={nrd.key}>
+                    {nrd.value}
+                  </option>
+                ))}
+              </select>
+              <p>Search: </p>
+              <input
+                type="text"
+                placeholder="Search by well name"
+                value={filter.search || ""}
+                onChange={(e) => {
+                  const sanitizedValue = e.target.value.replace(
+                    /['"!@#$%^&*(),.?":{}|<>]/g,
+                    ""
+                  );
+                  setFilter({ ...filter, search: sanitizedValue });
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
           </div>
-          <p>Longitude: </p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              marginLeft: "10px",
-            }}
-          >
-            <input
-              type="text"
-              maxLength="7"
-              placeholder="-104 to -95.417"
-              value={filter.minLon || ""}
-              onChange={(e) => setFilter({ ...filter, minLon: e.target.value })}
-            />
-            <p>to</p>
-            <input
-              type="text"
-              maxLength="7"
-              placeholder="-104 to -95.417"
-              value={filter.maxLon || ""}
-              onChange={(e) => setFilter({ ...filter, maxLon: e.target.value })}
-            />
+          
+          <div className="filter-column">
+            <div className="filter-column-content">
+              <p>Latitude: </p>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  marginLeft: "10px",
+                }}
+              >
+                <input
+                  type="text"
+                  maxLength="5"
+                  placeholder="40 to 43"
+                  value={filter.minLat || ""}
+                  onChange={(e) => setFilter({ ...filter, minLat: e.target.value })}
+                />
+                <p>to</p>
+                <input
+                  type="text"
+                  maxLength="5"
+                  placeholder="40 to 43"
+                  value={filter.maxLat || ""}
+                  onChange={(e) => setFilter({ ...filter, maxLat: e.target.value })}
+                />
+              </div>
+              <p>Longitude: </p>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  marginLeft: "10px",
+                }}
+              >
+                <input
+                  type="text"
+                  maxLength="7"
+                  placeholder="-104 to -95.417"
+                  value={filter.minLon || ""}
+                  onChange={(e) => setFilter({ ...filter, minLon: e.target.value })}
+                />
+                <p>to</p>
+                <input
+                  type="text"
+                  maxLength="7"
+                  placeholder="-104 to -95.417"
+                  value={filter.maxLon || ""}
+                  onChange={(e) => setFilter({ ...filter, maxLon: e.target.value })}
+                />
+              </div>
+              <p>Wells in a ___ mile radius.</p>
+              <input
+                id="distanceFilter"
+                type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
+                disabled={!coords?.latitude || !coords?.longitude}
+                placeholder={
+                  !coords?.latitude || !coords?.longitude
+                    ? "Geolocation is currently unavailable"
+                    : null
+                }
+                onChange={(e) => filterWellsByDistance(e.target.value)}
+              />
+            </div>
           </div>
-          <p>Wells in a ___ mile radius.</p>
-          <input
-            id="distanceFilter"
-            type={!coords?.latitude || !coords?.longitude ? "text" : "number"}
-            disabled={!coords?.latitude || !coords?.longitude}
-            placeholder={
-              !coords?.latitude || !coords?.longitude
-                ? "Geolocation is currently unavailable"
-                : null
-            }
-            onChange={(e) => filterWellsByDistance(e.target.value)}
-          />
         </div>
       </>
     );
