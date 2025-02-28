@@ -114,7 +114,7 @@ const Well = () => {
     }
   });
   const [mapHeight, setMapHeight] = useState(0);
-  const [satelliteToggleBottom, setSatelliteToggleBottom] = useState(document.body.getBoundingClientRect().bottom);
+  const [satelliteToggleBottom, setSatelliteToggleBottom] = useState();
 
   useEffect(() => {
     const validateUser = async () => {
@@ -189,7 +189,7 @@ const Well = () => {
         );
       }
       if (attributionElement) {
-        setSatelliteToggleBottom(element.getBoundingClientRect().top + 10);
+        setSatelliteToggleBottom(attributionElement.getBoundingClientRect().bottom - attributionElement.getBoundingClientRect().top + 10); // For some reason the bottom attribute has 0 at the bottom, but the boundingClientRect gives positions having 0 at the top
       }
       mapRef.current?.invalidateSize();
     });
@@ -443,8 +443,9 @@ const Well = () => {
           </button>
           <a
             href={`/WellInfo`}
+            className="btn btn-light btn-block"
             style={{
-              fontSize: "1em",
+              height: "38px",
               width: "10em",
               border: "dashed",
               marginTop: "10px",
@@ -453,11 +454,10 @@ const Well = () => {
               zIndex: "1000",
               right: "6em",
             }}
-            className="btn btn-light btn-lg btn-block"
           >
             Create New Well
           </a>
-          <div
+          {satelliteToggleBottom && <div
             style={{
               position: "absolute",
               zIndex: "1000",
@@ -465,7 +465,7 @@ const Well = () => {
               alignItems: "center",
               alignContent: "center",
               justifyContent: "space-between",
-              bottom: "5%",
+              bottom: `${satelliteToggleBottom}px`,
               right: "0",
               background: "rgba(255,255,255,0.5)",
               padding: "0.5em",
@@ -501,7 +501,7 @@ const Well = () => {
                 width: "3em",
               }}
             />
-          </div>
+          </div>}
           {isFilterDropdownVisible && (
             <div
               style={{
