@@ -93,6 +93,7 @@ const Well = () => {
     }
   });
   const [mapHeight, setMapHeight] = useState(0);
+  const [satelliteToggleBottom, setSatelliteToggleBottom] = useState(document.body.getBoundingClientRect().bottom);
 
   useEffect(() => {
     const validateUser = async () => {
@@ -157,8 +158,12 @@ const Well = () => {
   const resizeMap = (mapRef) => {
     const resizeObserver = new ResizeObserver(() => {
       const element = document.getElementById('map-container');
+      const attributionElement = document.getElementsByClassName('leaflet-control-attribution')[0];
       if (element) {
         setMapHeight(document.body.getBoundingClientRect().bottom - element.getBoundingClientRect().top);
+      }
+      if (attributionElement) {
+        setSatelliteToggleBottom(element.getBoundingClientRect().top + 10);
       }
       mapRef.current?.invalidateSize();
     });
@@ -167,7 +172,6 @@ const Well = () => {
       resizeObserver.observe(container);
     }
   }
-
 
   function calculateDistance(wellLatitude, wellLongitude) {
     var R = 3959; // Radius of earth in miles
