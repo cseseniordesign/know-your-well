@@ -114,7 +114,6 @@ const Well = () => {
     }
   });
   const [mapHeight, setMapHeight] = useState(0);
-  const [satelliteToggleBottom, setSatelliteToggleBottom] = useState();
 
   useEffect(() => {
     const validateUser = async () => {
@@ -181,15 +180,11 @@ const Well = () => {
   const resizeMap = (mapRef) => {
     const resizeObserver = new ResizeObserver(() => {
       const element = document.getElementById('map-container');
-      const attributionElement = document.getElementsByClassName('leaflet-control-attribution')[0];
       if (element) {
         setMapHeight(
           document.body.getBoundingClientRect().bottom -
             element.getBoundingClientRect().top
         );
-      }
-      if (attributionElement) {
-        setSatelliteToggleBottom(attributionElement.getBoundingClientRect().bottom - attributionElement.getBoundingClientRect().top + 10); // For some reason the bottom attribute has 0 at the bottom, but the boundingClientRect gives positions having 0 at the top
       }
       mapRef.current?.invalidateSize();
     });
@@ -427,6 +422,7 @@ const Well = () => {
             }}
             className="btn btn-primary"
             style={{
+              height: "38px",
               marginTop: "10px",
               marginRight: "10px",
               width: "5em",
@@ -466,15 +462,17 @@ const Well = () => {
           >
             Create New Well
           </a>
-          {satelliteToggleBottom && <div
+          <div
             style={{
+              height: "38px",
               position: "absolute",
               zIndex: "1000",
               display: "flex",
               alignItems: "center",
               alignContent: "center",
               justifyContent: "space-between",
-              bottom: `${satelliteToggleBottom}px`,
+              marginTop: "10px",
+              top: `${document.body.getBoundingClientRect().bottom - mapHeight + 48}px`, // This places it 48px below the top of the map, which should be exactly at the bottom of the create new well and filter buttons.
               right: "0",
               background: "rgba(255,255,255,0.5)",
               padding: "0.5em",
@@ -510,7 +508,7 @@ const Well = () => {
                 width: "3em",
               }}
             />
-          </div>}
+          </div>
           {isFilterDropdownVisible && (
             <div
               style={{
@@ -523,7 +521,7 @@ const Well = () => {
                 zIndex: "500",
                 position: "absolute",
                 top:
-                  document.body.getBoundingClientRect().bottom - mapHeight + 74, // +/- zoom button height + 10 extra padding on the bottom
+                  document.body.getBoundingClientRect().bottom - mapHeight + 96, // Places it below the show satellite layer checkbox
                 background: "rgba(255,255,255,0.5)",
                 width: "100%",
                 display: "flex",
