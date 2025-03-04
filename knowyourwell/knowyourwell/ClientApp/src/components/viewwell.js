@@ -266,9 +266,11 @@ export default function ViewWell() {
                       </p>
                     </div>
                     <div className="col">
+                      {fields[index + 1] &&
                       <p style={{ textAlign: "center" }}>
                         <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "[No Data]"}
                       </p>
+                      }
                     </div>
                   </div>
                 );
