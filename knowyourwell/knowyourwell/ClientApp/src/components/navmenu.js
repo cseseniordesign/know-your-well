@@ -19,45 +19,6 @@ const NavMenu = () => {
   const toggleNavbar = () => setCollapsed(!collapsed);
   const { user, setUser } = useUser();
 
-  const exportCSV = () => {
-    Axios.get("/csvqueries", {
-      responseType: "json",
-    })
-      .then(function (response) {
-        let csv = [""];
-        let flag = 0;
-        for (let i = 0; i < response.data.Data.length; i++) {
-          csv[i + 1] = "";
-          for (const [key, value] of Object.entries(response.data.Data[i])) {
-            if (flag === 0) {
-              csv[0] += csvKey[key] + ",";
-            }
-            csv[i + 1] += value + ",";
-          }
-          csv[i + 1] += "\n";
-          flag = 1;
-        }
-        csv[0] += "\n";
-        const file = new File(csv, "welldata.csv", {
-          type: "text/csv",
-        });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(file);
-
-        link.href = url;
-        link.download = file.name;
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      })
-      .catch(function (error) {
-        // Handle error
-        console.error("Error fetching data:", error);
-      });
-  };
-
   const initLogout = async () => {
     await Axios.get("/logout", {
       responseType: "json",
@@ -100,7 +61,7 @@ const NavMenu = () => {
           <ul className="navbar-nav flex-grow">
             {user ? (
               <NavItem>
-                <NavLink className="text-dark" onClick={exportCSV}>
+                <NavLink tag={Link}className="text-dark" to="Export">
                   Export Data
                 </NavLink>
               </NavItem>
