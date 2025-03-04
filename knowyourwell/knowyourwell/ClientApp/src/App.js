@@ -20,6 +20,7 @@ import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
 import Images from "./components/images";
 import PreviousImages from "./components/previousimages";
+import ExportPage from "./components/export";
 import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
 import ViewImage from "./components/viewImage";
@@ -250,6 +251,7 @@ export default function App() {
             <Route exact path="/images" element={<Images />} />
             <Route exact path="/previousimages" element={<PreviousImages />} />
             <Route exact path="/viewimage" element={<ViewImage />} />
+            <Route exact path="/export" element={<ExportPage />} />
           </Routes>
         </WellFieldLabContext.Provider>
       </UserProvider>
