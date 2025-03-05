@@ -46,22 +46,25 @@ const exportImageMetadata = () => {
   Axios.get('/allImageMetadata', {
     responseType: "json",
   }).then((response) => {
-    console.log(response);
+    const dataArray = response.data.Data;
     let csv = [""];
     let headerRow = 1;
-    for (let i = 0; i < response.data.length; i++) {
+    for (let i = 0; i < dataArray.length; i++) {
       csv[i + 1] = "";
-      for (const [key, value] of Object.entries(response.data[i])) {
+      const finalKey = Object.keys(dataArray[i]).at(-1);
+      for (const [key, value] of Object.entries(dataArray[i])) {
         if (headerRow) {
           csv[0] += csvKey[key] + ",";
+          if (key === finalKey) {
+            csv[0] += "\n";
+          }
         }
         csv[i + 1] += value + ",";
       }
       csv[i + 1] += "\n";
       headerRow = 0;
     }
-    csv[0] += "\n";
-    const file = new File(csv, "imagedata.csv", {
+    const file = new File(csv, `imagedata_${Date().slice(0, 24).replaceAll(" ", "_")}.csv`, {
       type: "text/csv",
     });
     const link = document.createElement("a");
