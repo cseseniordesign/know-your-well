@@ -96,6 +96,7 @@ export default function ExportPage() {
         <List.Item>
           <List.Content>
             <button
+              type="button"
               onClick={exportCSV}
               style={{ width: "45%", height: "17%" }}
               className="btn btn-primary btn-lg btn-block"
@@ -108,6 +109,7 @@ export default function ExportPage() {
         <List.Item>
           <List.Content>
             <button
+              type="button"
               onClick={exportImageMetadata}
               style={{ width: "45%", height: "17%" }}
               className="btn btn-primary btn-lg btn-block"
