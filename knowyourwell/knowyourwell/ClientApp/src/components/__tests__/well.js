@@ -2,9 +2,10 @@ import React from 'react';
 import { render, waitFor, screen, fireEvent, act } from '@testing-library/react';
 import Well from '../well';
 import Axios from 'axios';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Router, Routes, Route } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import WellFieldLabContext from '../reusable/WellFieldLabContext';
+import { createMemoryHistory } from 'history';
 
 global.ResizeObserver = require('resize-observer-polyfill');
 
@@ -126,11 +127,124 @@ describe('Geographic Map Interface in Well Component', () => {
       expect(markers.length).toBeGreaterThanOrEqual(sampleWells.Wells.length);
     });
   });
+
+  test('toggles satellite layer on and off', async () => {
+    sessionStorage.setItem("tabIndex", "0");
+    sessionStorage.setItem("showSatellite", "true");
+    localStorage.setItem('wellData', JSON.stringify(sampleWells));
+  
+    Axios.get.mockImplementation((url) => {
+      if (url === '/userinfo') {
+        return Promise.resolve({ data: { displayn: 'testuser' } });
+      } else if (url === '/Wells') {
+        return Promise.resolve({ data: sampleWells });
+      }
+    });
+  
+    renderWellWithContext();
+  
+    await waitFor(() => {
+      expect(document.getElementById('map-container')).toBeInTheDocument();
+    });
+  
+    const satelliteToggle = screen.getByLabelText(/Show Satellite Layer/i);
+    expect(satelliteToggle).toBeInTheDocument();
+  
+    expect(satelliteToggle).toBeChecked();
+  
+    fireEvent.click(satelliteToggle);
+  
+    expect(satelliteToggle).not.toBeChecked();
+    expect(sessionStorage.getItem("showSatellite")).toBe("false");
+  
+    fireEvent.click(satelliteToggle);
+
+    expect(satelliteToggle).toBeChecked();
+    expect(sessionStorage.getItem("showSatellite")).toBe("true");
+  });
+
+  test('the Create New Well button has the correct href', async () => {
+    sessionStorage.setItem("tabIndex", "0");
+    localStorage.setItem('wellData', JSON.stringify(sampleWells));
+  
+    const history = createMemoryHistory({ initialEntries: ["/"] });
+  
+    Axios.get.mockImplementation((url) => {
+      if (url === '/userinfo') {
+        return Promise.resolve({ data: { displayn: 'testuser' } });
+      } else if (url === '/Wells') {
+        return Promise.resolve({ data: sampleWells });
+      }
+    });
+  
+    render(
+      <Router location={history.location} navigator={history}>
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <WellFieldLabContext.Provider value={mockedWellFieldLabContext}>
+                <Well />
+              </WellFieldLabContext.Provider>
+            }
+          />
+          <Route path="/WellInfo" element={<div>Create Well Page</div>} />
+        </Routes>
+      </Router>
+    );
+  
+    await waitFor(() => {
+      expect(document.getElementById('map-container')).toBeInTheDocument();
+    });
+  
+    const createWellButton = screen.getByText("Create New Well");
+    expect(createWellButton).toBeInTheDocument();
+    expect(createWellButton.tagName).toBe("A");
+    expect(createWellButton).toHaveAttribute("href", "/WellInfo");
+  });
+
+  test('shows filter indicator in map view when any filter is active', async () => {
+    sessionStorage.setItem("tabIndex", "0");
+    localStorage.setItem('wellData', JSON.stringify(sampleWells));
+
+    Axios.get.mockImplementation((url) => {
+      if (url === '/userinfo') {
+        return Promise.resolve({ data: { displayn: 'testuser' } });
+      } else if (url === '/Wells') {
+        return Promise.resolve({ data: sampleWells });
+      }
+    });
+
+    renderWellWithContext();
+
+    await waitFor(() => {
+      expect(document.getElementById('map-container')).toBeInTheDocument();
+    });
+
+    const filterButton = screen.getByText('Filters');
+    fireEvent.click(filterButton);
+
+    const searchInput = screen.getByPlaceholderText("Search by well name");
+    await act(async () => {
+      fireEvent.change(searchInput, { target: { value: "Alpha" } });
+    });
+
+    const indicator = filterButton.querySelector('span');
+    expect(indicator).toBeInTheDocument();
+    expect(indicator).toHaveStyle({
+      position: 'absolute',
+      top: '-5px',
+      right: '-5px',
+      width: '13px',
+      height: '13px',
+      background: 'red',
+      borderRadius: '60%'
+    });
+  });
 });
 
 describe('Well Filtering & Sorting', () => {
   test('filters wells by radius from user location', async () => {
-    // This test uses the map so set tab index to 0.
     sessionStorage.setItem("tabIndex", "0");
     const mockGeolocation = {
       getCurrentPosition: jest.fn().mockImplementation(success => success({
@@ -480,7 +594,6 @@ describe('Well Filtering & Sorting', () => {
   });
   
   test('filters wells by county', async () => {
-    // For county filtering, ensure map view is active.
     sessionStorage.setItem("tabIndex", "0");
     localStorage.setItem('wellData', JSON.stringify(sampleWells));
   
@@ -520,7 +633,6 @@ describe('Well Filtering & Sorting', () => {
   });
   
   test('filters wells by nrd', async () => {
-    // For NRD filtering, ensure map view is active.
     sessionStorage.setItem("tabIndex", "0");
     localStorage.setItem('wellData', JSON.stringify(sampleWells));
   
@@ -775,5 +887,140 @@ describe('Well Filtering & Sorting', () => {
       expect(screen.queryByText(/Charlie Well/i)).toBeNull();
     });
   });
+
+  test('shows filter indicator in list view when any filter criteria is entered', async () => {
+    localStorage.setItem('wellData', JSON.stringify(sampleWells));
+
+    Axios.get.mockImplementation((url) => {
+      if (url === '/userinfo') {
+        return Promise.resolve({ data: { displayn: 'testuser' } });
+      } else if (url === '/Wells') {
+        return Promise.resolve({ data: sampleWells });
+      }
+    });
+
+    renderWellWithContext();
+
+    await waitFor(() => {
+      const listViewTab = screen.getByText('List View');
+      fireEvent.click(listViewTab);
+    });
+
+    const filterButton = screen.getByText('Filters');
+    fireEvent.click(filterButton);
+
+    const countySelect = screen.getByText("County:").nextSibling;
+    await act(async () => {
+      fireEvent.change(countySelect, { target: { value: "1" } });
+    });
+
+    const indicator = filterButton.querySelector('span');
+    expect(indicator).toBeInTheDocument();
+    expect(indicator).toHaveStyle({
+      position: 'absolute',
+      top: '-5px',
+      right: '-5px',
+      width: '13px',
+      height: '13px',
+      background: 'red',
+      borderRadius: '60%'
+    });
+  });
+
+  test('filter indicator correctly tracks filter state changes', async () => {
+    localStorage.setItem('wellData', JSON.stringify(sampleWells));
+
+    Axios.get.mockImplementation((url) => {
+      if (url === '/userinfo') {
+        return Promise.resolve({ data: { displayn: 'testuser' } });
+      } else if (url === '/Wells') {
+        return Promise.resolve({ data: sampleWells });
+      }
+    });
+
+    renderWellWithContext();
+
+    await waitFor(() => {
+      const listViewTab = screen.getByText('List View');
+      fireEvent.click(listViewTab);
+    });
+
+    const filterButton = screen.getByText('Filters');
+    fireEvent.click(filterButton);
+
+    let indicator = filterButton.querySelector('span');
+    expect(indicator).toBeDefined();
+
+    const searchInput = screen.getByPlaceholderText("Search by well name");
+    await act(async () => {
+      fireEvent.change(searchInput, { target: { value: "Alpha" } });
+    });
+
+    indicator = filterButton.querySelector('span');
+    expect(indicator).toBeInTheDocument();
+    expect(indicator).toHaveStyle({
+      background: 'red'
+    });
+
+    const clearButton = screen.getByText('Clear Filters');
+    await act(async () => {
+      fireEvent.click(clearButton);
+    });
+
+    await waitFor(() => {
+      indicator = filterButton.querySelector('span');
+      expect(indicator).not.toBeInTheDocument();
+    });
+  });
+
+  test('sorts well alphabetically by well name and highlights selected option in list view', async () => {
+    sessionStorage.setItem("tabIndex", "1");
+    localStorage.setItem('wellData', JSON.stringify(sampleWells));
+
+    Axios.get.mockImplementation((url, config) => {
+      if (url === '/userinfo') {
+        return Promise.resolve({ data: { displayn: 'testuser' } });
+      } else if (url === '/Wells') {
+        if (config?.params?.sortBy === 'wi_wellname') {
+          const sortedData = {
+            Wells: [...sampleWells.Wells].sort((a, b) => 
+              a.wi_wellname.localeCompare(b.wi_wellname)
+            )
+          };
+          return Promise.resolve({ data: sortedData });
+        }
+        return Promise.resolve({ data: sampleWells });
+      }
+    });
+
+    renderWellWithContext();
+
+    await waitFor(() => {
+      expect(screen.getByText("Sort")).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText("Sort"));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Well Name A-Z/i)).toBeInTheDocument();
+    });
+    const sortOption = screen.getByText(/Well Name A-Z/i);
+    fireEvent.click(sortOption);
+
+    expect(sortOption).toHaveStyle({ backgroundColor: 'lightblue' });
+
+    await waitFor(() => {
+      const listItems = screen.getAllByRole('listitem');
+      expect(listItems[1]).toHaveTextContent("Alpha Well");
+      expect(listItems[2]).toHaveTextContent("Beta Well");
+      expect(listItems[3]).toHaveTextContent("Charlie Well");
+    });
+
+    const newSortOption = screen.getByText(/Newest First/i);
+    fireEvent.click(newSortOption);
+
+    expect(sortOption).not.toHaveStyle({ backgroundColor: 'lightblue' });
+    expect(newSortOption).toHaveStyle({ backgroundColor: 'lightblue' });
+  });
+
 
 });
