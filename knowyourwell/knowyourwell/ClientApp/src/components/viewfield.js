@@ -92,14 +92,14 @@ export default function ViewField() {
           return (
             <div key={index} className="row">
               <div className="col">
-                <p style={{ textAlign: "center" }}>
-                  <b>{nameMap[field[0]]}</b> {field[1] || "[No Data]"}
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
                 </p>
               </div>
               <div className="col">
                 {fields[index + 1] &&
-                <p style={{ textAlign: "center" }}>
-                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "[No Data]"}
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
                 </p>
                 }
               </div>
@@ -119,7 +119,7 @@ export default function ViewField() {
           {columnList}
           <div key="dateentered" className="row">
             <div className="col">
-              <p style={{ textAlign: "center" }}>
+              <p style={{ textAlign: "left" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
                   .utc(formElements["fa_dateentered"])

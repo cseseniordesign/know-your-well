@@ -701,7 +701,7 @@ const Well = () => {
           </div>
           <List>
             <h2>
-              <strong>Wells</strong>
+              Wells
             </h2>
             <List.Item key={-1}>
               <List.Content>
@@ -730,7 +730,7 @@ const Well = () => {
     return (
       <List style={{ textAlign: "center" }}>
         <h2>
-          <strong>Cached Wells</strong>
+          Cached Wells
         </h2>
         <List.Item key={-1}>
           <List.Content>
