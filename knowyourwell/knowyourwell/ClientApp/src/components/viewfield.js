@@ -75,9 +75,9 @@ export default function ViewField() {
   }, [fieldactivity_id]);
 
   const fieldInfoList = [];
-  for (const [key, value] of Object.entries(formElements)) {
-    if (fieldInfo.includes(key)) {
-      fieldInfoList.push([key, value]);
+  for (const key of fieldInfo) {
+    if (formElements[key]) {
+      fieldInfoList.push([key, formElements[key]]);
     }
   }
 

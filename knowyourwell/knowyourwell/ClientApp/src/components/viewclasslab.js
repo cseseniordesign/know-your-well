@@ -70,11 +70,12 @@ export default function ViewLab() {
   }, [classlab_id]);
 
   const classLabInfoList = [];
-  for (const [key, value] of Object.entries(formElements)) {
-    if (classLabInfo.includes(key)) {
-      classLabInfoList.push([key, value]);
+  for (const key of classLabInfo) {
+    if (formElements[key]) {
+      classLabInfoList.push([key, formElements[key]]);
     }
   }
+
   let columnList = [];
 
   if (formElements) {

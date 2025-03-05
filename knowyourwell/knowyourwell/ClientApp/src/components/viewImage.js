@@ -65,9 +65,9 @@ export default function ViewImage() {
   }, [well_id, image_id]);
 
   const imageInfoList = [];
-  for (const [key, value] of Object.entries(formElements)) {
-    if (imageInfo.includes(key)) {
-      imageInfoList.push([key, value]);
+  for (const key of imageInfo) {
+    if (formElements[key]) {
+      imageInfoList.push([key, formElements[key]]);
     }
   }
 

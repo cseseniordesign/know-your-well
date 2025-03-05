@@ -214,17 +214,28 @@ export default function ViewWell() {
     const locationInfoList = ['Location Info'];
     const contactInfoList = ['Contact Info'];
     const wellInfoList = ['Well Info'];
-    for (const [key, value] of Object.entries(formElements)) {
-      if (basicInfo.includes(key)) {
-        basicInfoList.push([key, value]);
-      } else if (locationInfo.includes(key)) {
-        locationInfoList.push([key, value]);
-      } else if (contactInfo.includes(key)) {
-        contactInfoList.push([key, value]);
-      } else if (wellInfo.includes(key)) {
-        wellInfoList.push([key, value]);
+
+    for (const key of basicInfo) {
+      if (formElements[key]) {
+        basicInfoList.push([key, formElements[key]]);
       }
     }
+    for (const key of locationInfo) {
+      if (formElements[key]) {
+        locationInfoList.push([key, formElements[key]]);
+      }
+    }
+    for (const key of contactInfo) {
+      if (formElements[key]) {
+        contactInfoList.push([key, formElements[key]]);
+      }
+    }
+    for (const key of wellInfo) {
+      if (formElements[key]) {
+        wellInfoList.push([key, formElements[key]]);
+      }
+    }
+
     // for (let i = 0; i < firstColumn.length; i++) {
     //   const firstColumnName = Object.keys(firstColumn[i])[0];
     //   const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
