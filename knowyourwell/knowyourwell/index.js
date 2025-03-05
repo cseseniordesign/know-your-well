@@ -716,11 +716,26 @@ FROM     dbo.tblNRDLookup INNER JOIN
 });
 
 app.get('/allImageMetadata', async (req, res) => {
-  let query = `SELECT        dbo.tblWellInfo.school_id, dbo.tblSchool.sch_name, dbo.tblWellInfo.well_id, dbo.tblWellInfo.wi_wellcode, dbo.tblWellInfo.wi_wellname, dbo.tblImage.im_type, dbo.tblImage.im_latitude, dbo.tblImage.im_longitude,
-                         dbo.tblImage.im_filename, dbo.tblImage.im_datacollector, dbo.tblImage.im_observation, dbo.tblImage.im_datecollected
-FROM            dbo.tblWellInfo INNER JOIN
-                         dbo.tblImage ON dbo.tblWellInfo.well_id = dbo.tblImage.well_id INNER JOIN
-                         dbo.tblSchool ON dbo.tblWellInfo.school_id = dbo.tblSchool.school_id WHERE dbo.tblWellInfo.school_id = ${kywmemValue};`;
+  let query = `SELECT
+  dbo.tblWellInfo.school_id,
+  dbo.tblSchool.sch_name,
+  dbo.tblWellInfo.well_id,
+  dbo.tblWellInfo.wi_wellcode,
+  dbo.tblWellInfo.wi_wellname,
+  dbo.tblImage.im_type,
+  dbo.tblImage.im_latitude,
+  dbo.tblImage.im_longitude,
+  dbo.tblImage.im_filename,
+  dbo.tblImage.im_datacollector,
+  dbo.tblImage.im_observation,
+  dbo.tblImage.im_datecollected
+  FROM
+  dbo.tblWellInfo INNER JOIN
+    dbo.tblImage ON dbo.tblWellInfo.well_id = dbo.tblImage.well_id
+    INNER JOIN
+    dbo.tblSchool ON dbo.tblWellInfo.school_id = dbo.tblSchool.school_id
+    WHERE
+      dbo.tblWellInfo.school_id = ${kywmemValue};`;
 
   appPool.query(query, function (err, recordset) {
     if (err) {

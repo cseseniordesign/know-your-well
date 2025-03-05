@@ -112,8 +112,8 @@ export default function Field() {
       updateFieldData("fa_latitude", coords.latitude);
       updateFieldData("fa_longitude", coords.longitude);
     }
-  // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function addFieldData() {
