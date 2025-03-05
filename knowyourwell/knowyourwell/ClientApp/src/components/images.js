@@ -139,13 +139,13 @@ export default function Images() {
                 im_filename: imageData.blobName,
                 datecollected: imageData.dateentered,
               });
-              alert(`Photos submitted! Upload more, or press back to return to ${wellName}.`);
+              alert(`Photos submitted! You can upload more by selecting another category, or you can press 'back' to return to ${wellName}.`);
             })
             // if the request fails, we know we are offline
             .catch(async () => {
               await putInDB(idbName, "imageUploadQueue", { file: image, containerName: containerName, blobName: blobName, metadata: metadata });
               setLocalImageDataQueue(updatedQueue);
-              alert("You are offline, the Image will automatically be submitted when you regain an internet connection");
+              alert("You are offline. The image will automatically be submitted when you regain an internet connection");
             });
         }
         window.location.reload();
@@ -252,7 +252,6 @@ export default function Images() {
               {renderField(prompt, imageData, updateImageData)}
             </div>
           ))}
-          <hr className="section-divider" />
           <div className="css">
             <label htmlFor="dateentered">
               Date Entered:

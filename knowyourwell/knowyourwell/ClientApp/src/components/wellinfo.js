@@ -78,7 +78,7 @@ export default function WellInfo() {
 
   function cacheWellInfo() {
     localStorage.setItem("wellInfo", JSON.stringify(wellInfo));
-    alert("Well information has been saved!");
+    alert("Well information has been saved! You can return to edit this later, or can keep working on it.");
   }
 
   function clearLocalStorage() {
@@ -132,13 +132,14 @@ export default function WellInfo() {
           welltype: wellInfo.welltype,
           welluser: wellInfo.welluser,
           zipcode: wellInfo.zipcode,
+        }).then(() => {
+          alert("The well info form has been submitted!");
         });
-        alert("Successfully submitted Well Info Form!");
       })
       // if the request fails, we know we are offline
       .catch(() => {
         setLocalWellInfoQueue(updatedQueue);
-        alert("You are offline, Well Info Form will automatically be submitted when you regain an internet connection");
+        alert("You are offline. The well info form will automatically be submitted when you regain an internet connection");
       });
   }
 
@@ -230,6 +231,22 @@ export default function WellInfo() {
         type="button"
         style={{ width: "180px", height: "17%" }}
         className="btn btn-primary btn-lg"
+        onClick={backButton}
+      >
+        Back
+      </button>
+      <button
+        type="button"
+        style={{ width: "180px", height: "17%", margin: "15px" }}
+        className="btn btn-secondary btn-lg"
+        onClick={cacheWellInfo}
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        style={{ width: "180px", height: "17%" }}
+        className="btn btn-primary btn-lg"
         onClick={() => {
           if (
             checkDepthValidation(
@@ -241,28 +258,12 @@ export default function WellInfo() {
           } else {
             updateWellInfo("waterleveldepth", "");
             window.alert(
-              "Well water depth CANNOT be greater than total well depth.",
+              "Well water depth cannot be greater than total well depth.",
             );
           }
         }}
       >
         Submit
-      </button>
-      <button
-        type="button"
-        style={{ width: "180px", height: "17%" }}
-        className="btn btn-primary btn-lg"
-        onClick={backButton}
-      >
-        Back
-      </button>
-      <button
-        type="button"
-        style={{ width: "180px", height: "17%" }}
-        className="btn btn-secondary btn-lg"
-        onClick={cacheWellInfo}
-      >
-        Save
       </button>
     </form>
   );
