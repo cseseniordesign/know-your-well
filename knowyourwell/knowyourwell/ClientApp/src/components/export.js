@@ -3,6 +3,17 @@ import { List } from "semantic-ui-react";
 import Axios from "axios";
 import csvKey from "./resources/csvkey";
 
+const openDownloadDialog = (file) => {
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(file);
+  link.href = url;
+  link.download = file.name;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
 const exportCSV = () => {
   Axios.get("/csvqueries", {
     responseType: "json",
@@ -25,19 +36,9 @@ const exportCSV = () => {
       const file = new File(csv, "welldata.csv", {
         type: "text/csv",
       });
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(file);
-
-      link.href = url;
-      link.download = file.name;
-      document.body.appendChild(link);
-      link.click();
-
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      openDownloadDialog(file);
     })
     .catch(function (error) {
-      // Handle error
       console.error("Error fetching data:", error);
     });
 };
@@ -67,15 +68,7 @@ const exportImageMetadata = () => {
     const file = new File(csv, `imagedata_${Date().slice(0, 24).replaceAll(" ", "_")}.csv`, {
       type: "text/csv",
     });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(file);
-    link.href = url;
-    link.download = file.name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-
+    openDownloadDialog(file);
   }).catch((error) => {
     console.log(error);
   });
