@@ -2,6 +2,7 @@ import React from "react";
 import { List } from "semantic-ui-react";
 import Axios from "axios";
 import csvKey from "./resources/csvkey";
+import EntryPrompt from "./reusable/entryprompt";
 
 const openDownloadDialog = (file) => {
   const link = document.createElement("a");
@@ -91,26 +92,30 @@ export default function ExportPage() {
         <br />
         <List.Item>
           <List.Content>
+            <EntryPrompt id='ex_all' fieldTitle={"Well, Field, Class & Water Science Lab"} />
+            <p>All data for School separated by commas</p>
             <button
               type="button"
               onClick={exportCSV}
-              style={{ width: "45%", height: "17%" }}
-              className="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary"
+              style={{ width: "12em" }}
             >
-              Export Well, Field, Class Lab, and Water Science Lab Data
+              Download Data
             </button>
           </List.Content>
         </List.Item>
         <br />
         <List.Item>
           <List.Content>
+            <EntryPrompt id='ex_image' fieldTitle={"Well & Image"} />
+            <p>Selected well data and all image data; no actual images</p>
             <button
               type="button"
               onClick={exportImageMetadata}
-              style={{ width: "45%", height: "17%" }}
-              className="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary"
+              style={{ width: "12em" }}
             >
-              Export Well and Image Data
+              Export Data
             </button>
           </List.Content>
         </List.Item>
