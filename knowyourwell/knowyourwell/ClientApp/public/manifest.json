@@ -34,7 +34,7 @@
     }
   ],
   "scope": "./",
-  "start_url": "https://kywtest.azurewebsites.net/?utm_source=app",
+  "start_url": "./?utm_source=app",
   "display": "standalone",
   "theme-color": "#000000",
   "background_color": "#ffffff"
