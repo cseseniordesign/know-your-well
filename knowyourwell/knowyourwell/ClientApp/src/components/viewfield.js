@@ -8,25 +8,24 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "./usercontext";
 
 let formElements = [];
-let columnList = [];
-const labelList = [
-  "Conditions: Weather, temperature, or anything note-worthy the well:",
-  "Condition of the well cover:",
-  "Well Cover Description:",
-  "Topography of the well location:",
-  "Evidence of surface run-off entry to the well:",
-  "Evidence of pooling or puddles within 12 ft of the well:",
-  "Groundwater Temperature [Degrees Celsius]:",
-  "pH [0-14]:",
-  "Conductivity [uS/cm]:",
-  "Data Collector’s Name:",
-  "Observations:",
-  "Latitude:",
-  "Longitude:",
-  "Date Entered:",
-];
 
-const keyList = [
+const nameMap = {
+  "fa_weather": "Conditions: Weather, temperature, or anything note-worthy the well:",
+  "fa_wellcovercondition": "Condition of the well cover:",
+  "fa_wellcoverdescription": "Well Cover Description:",
+  "fa_topography": "Topography of the well location:",
+  "fa_surfacerunoff": "Evidence of surface run-off entry to the well:",
+  "fa_pooling": "Evidence of pooling or puddles within 12 ft of the well:",
+  "fa_groundwatertemp": "Groundwater Temperature [Degrees Celsius]:",
+  "fa_ph": "pH [0-14]:",
+  "fa_conductivity": "Conductivity [uS/cm]:",
+  "fa_datacollector": "Data Collector’s Name:",
+  "fa_latitude": "Latitude:",
+  "fa_longitude": "Longitude:",
+  "fa_observation": "Observations:",
+}
+
+const fieldInfo = [
   "fa_weather",
   "fa_wellcovercondition",
   "fa_wellcoverdescription",
@@ -37,10 +36,9 @@ const keyList = [
   "fa_ph",
   "fa_conductivity",
   "fa_datacollector",
-  "fa_observation",
   "fa_latitude",
   "fa_longitude",
-  "fa_datecollected",
+  "fa_observation",
 ];
 
 export default function ViewField() {
@@ -71,70 +69,64 @@ export default function ViewField() {
         fieldactivity_id: fieldactivity_id,
       },
     }).then(function (response) {
-      //console.log(response)
       formElements = response.data.FieldActivity[0];
-      //console.log(formElements.wi_wellcode)
       setLoading(false);
     });
   }, [fieldactivity_id]);
 
-  if (formElements === null) {
-    /*
-        const wellCookie = localStorage.getItem("wellData" + well_id); if (wellCookie) {
-            try {
-                formElements = JSON.parse(wellCookie)
-            }
-            catch (e) {
-                console.log("wellData is Invalid JSON")
-            }
-            //console.log(formElements)
-        }
-        */
+  const fieldInfoList = [];
+  for (const key of fieldInfo) {
+    if (formElements[key]) {
+      fieldInfoList.push([key, formElements[key]]);
+    }
   }
 
-  //console.log(formElements)
-  if (formElements.length !== 0) {
-    //console.log(formElements)
-    for (let i = 0; i < labelList.length; i += 2) {
-      const firstColumnName = labelList[i];
-      let firstColumnValue = formElements[keyList[i]];
-      if (firstColumnName === "Date Entered:")
-        firstColumnValue = moment
-          .utc(formElements["fa_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
-      let secondColumnValue = "";
-      let secondColumnName = "";
-      if (i < labelList.length + 1) {
-        secondColumnName = labelList[i + 1];
-        secondColumnValue = formElements[keyList[i + 1]];
-      }
-      if (secondColumnName === "Date Entered:")
-        secondColumnValue = moment
-          .utc(formElements["fa_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
+  let columnList = [];
 
-      columnList.push(
-        <div className="row">
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{firstColumnName}</b> {firstColumnValue}
-            </p>
-          </div>
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{secondColumnName}</b> {secondColumnValue}
-            </p>
-          </div>
-        </div>,
-      );
-    }
+  console.log(columnList);
+  if (formElements) {
+    const fields = fieldInfoList;
+    columnList.push(
+      fields.map((field, index) => {
+        if (index % 2 === 0) {
+          return (
+            <div key={index} className="row">
+              <div className="col">
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                </p>
+              </div>
+              <div className="col">
+                {fields[index + 1] &&
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                </p>
+                }
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })
+    );
 
+    console.log(columnList);
     return (
       <div className="css">
         <h2>{wellName}: Field Activity</h2>
         <br />
         <div className="container" style={{ textAlign: "center" }}>
           {columnList}
+          <div key="dateentered" className="row">
+            <div className="col">
+              <p style={{ textAlign: "left" }}>
+                <b>Date Entered:</b>{" "}
+                {moment
+                  .utc(formElements["fa_dateentered"])
+                  .format("MM-DD-YYYY hh:mm A")}
+              </p>
+            </div>
+          </div>
           <br />
           <button
             type="button"

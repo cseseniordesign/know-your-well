@@ -130,8 +130,7 @@ export default function ClassLab() {
       //     Dateentered: dateentered,
       // };
       localStorage.setItem("labData" + fa_id, JSON.stringify(classLab));
-      alert("Information Saved!");
-      window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}&FieldRedirect=True`;
+      alert("Lab data information Saved!");
     }
   }
 
