@@ -185,14 +185,14 @@ export default function Images() {
       </div>
       {renderField(
         imagePrompts.find(prompt => {
-          return prompt.id === "type";
+          return prompt.id === "im_type";
         }),
         imageData,
         updateImageData)}
       {imageData.type ? (
         <div>
           <br />
-          <EntryPrompt id='image' fieldTitle={`${checkFieldType[imageData.type] ? "Take" : "Upload"} a Photo of the ${imageData.type}`} required={true} />
+          <EntryPrompt id='im_image' fieldTitle={`${checkFieldType[imageData.type] ? "Take" : "Upload"} a Photo of the ${imageData.type}`} required={true} />
           <input
             type="file"
             id="cropLand"
@@ -247,7 +247,7 @@ export default function Images() {
             </div>
           )}
           {imagePrompts.map((prompt) => (
-            prompt.id !== "type" &&
+            prompt.id !== "im_type" &&
             <div key={prompt.id}>
               {renderField(prompt, imageData, updateImageData)}
             </div>
