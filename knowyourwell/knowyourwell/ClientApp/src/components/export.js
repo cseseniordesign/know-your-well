@@ -115,7 +115,7 @@ export default function ExportPage() {
               className="btn btn-primary"
               style={{ width: "12em" }}
             >
-              Export Data
+              Download Data
             </button>
           </List.Content>
         </List.Item>
