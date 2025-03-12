@@ -28,6 +28,9 @@ import uploadPhoto from "./components/reusable/photoUpload";
 import { clearObjectStore, getAllFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
+  const isPWA = window.navigator.standalone || (window.matchMedia('(display-mode: standalone)')).matches;
+  console.log(`isPWA: ${isPWA}`);
+
   const [coords, setCoords] = useState(() => {
     const storedCoords = localStorage.getItem("coords");
     return storedCoords && storedCoords !== "undefined"
