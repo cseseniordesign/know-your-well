@@ -34,7 +34,7 @@
     }
   ],
   "scope": "./",
-  "start_url": "./?utm_source=app",
+  "start_url": "./",
   "display": "standalone",
   "theme-color": "#000000",
   "background_color": "#ffffff"
