@@ -953,6 +953,86 @@ app.get("/GetLabEntry", async (req, res) => {
   });
 });
 
+app.get("/GetWaterScienceLabEntry", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("watersciencelab_id", sql.Int, req.query.watersciencelab_id)
+      .query(
+        "SELECT * FROM dbo.tblWaterScienceLab WHERE watersciencelab_id = @watersciencelab_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ WaterScienceLabEntry: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetWaterScienceLabEntryByFieldActivity", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("fieldactivity_id", sql.Int, req.query.fieldactivity_id)
+      .query(
+        "SELECT * FROM dbo.tblWaterScienceLab WHERE fieldactivity_id = @fieldactivity_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ WaterScienceLabEntries: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
 app.get("/GetImage", async (req, res) => {
   const transaction = appPool.transaction();
   transaction.begin((err) => {
