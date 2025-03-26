@@ -834,6 +834,46 @@ app.get("/previousentries", async (req, res) => {
   });
 });
 
+app.get("/GetFieldEntriesByWell", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("well_id", sql.Int, req.query.well_id)
+      .query(
+        "SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE well_id = @well_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ MinimalFieldList: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
 app.get("/previousimages", async (req, res) => {
   const transaction = appPool.transaction();
   transaction.begin((err) => {
@@ -945,6 +985,46 @@ app.get("/GetLabEntry", async (req, res) => {
               } else {
                 // console.log(recordset)
                 res.status(200).json({ ClassLabEntry: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetClassLabEntryByFieldActivity", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("fieldactivity_id", sql.Int, req.query.fieldactivity_id)
+      .query(
+        "SELECT * FROM dbo.tblClassroomLab WHERE fieldactivity_id = @fieldactivity_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ ClassLabEntries: recordset.recordset });
               }
             });
           }
