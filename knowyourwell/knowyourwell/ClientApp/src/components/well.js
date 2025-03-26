@@ -14,13 +14,10 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import markerIconPng from "../components/images/wellIcon.png";
-import magicBlueDot from "../components/images/magicBlueDot.png";
 import { Icon } from "leaflet";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./css/wells.css";
-import { useUser } from "./usercontext";
-import axios from "axios";
 
 function responseDataToHTMLList(responseData) {
   let HTMLList = [];
@@ -89,8 +86,6 @@ const Well = () => {
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState("well_id");
   const [wellList, setWells] = useState([]);
-  const [userMarker, setUserMarker] = useState(<></>);
-  const { user, setUser } = useUser();
   const { coords } = useContext(WellFieldLabContext);
 
   const containerRef = useRef(null);
@@ -114,32 +109,6 @@ const Well = () => {
     }
   });
   const [mapHeight, setMapHeight] = useState(0);
-
-  useEffect(() => {
-    const validateUser = async () => {
-      if (!user) {
-        await Axios.get("/userinfo", {
-          responseType: "json",
-        })
-          .then(function (response) {
-            setUser(response.data);
-          })
-          .catch(function (response) {
-            window.alert(
-              "The app encountered an error verifying that you are logged in."
-            );
-            console.log(response);
-            navigate("/");
-          });
-      }
-      if (user?.displayn === "") {
-        window.alert("You are not yet logged in. Please log in.");
-        navigate("/");
-      }
-    };
-
-    validateUser();
-  }, [navigate, user, setUser]);
 
   //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {
