@@ -78,94 +78,96 @@ export default function PreviousEntries() {
 
   const [isLoading, setLoading] = useState(true);
 
-  function getClassLabs(fieldId, well_id, wellcode, wellName) {
+  async function getClassLabs(fieldId, well_id, wellcode, wellName) {
     let labList = [];
-    Axios.get("/GetClassLabEntryByFieldActivity", {
+    const response = await Axios.get("/GetClassLabEntryByFieldActivity", {
       responseType: "json",
       params: {
         fieldactivity_id: fieldId,
       },
-    }).then(function (response) {
-      const labs = response.data.ClassLabEntries;
-      console.log(labs);
-      for (let i = 0; i < labs.length; i++) {
-        const lab = labs[i];
-        labList.push(
-          <>
-            <List.Item>
-              <h4>
-                Class Lab Date:{" "}
-                {moment.utc(lab.fa_datecollected).local().format("MM-DD-YYYY hh:mm A")}
-              </h4>
-              <a
-                href={`/ViewClassLab?classlab_id=${lab.classlab_id}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}
-                style={{ width: "22.5%", height: "17%" }}
+    });
+    const labs = response.data.ClassLabEntries;
+    console.log(labs);
+    for (let i = 0; i < labs.length; i++) {
+      const lab = labs[i];
+      labList.push(
+        <List.Item key={`class-${lab.classlab_id}`}>
+          <h4>
+            Class Lab Date:{" "}
+                {moment.utc(lab.cl_datecollected).local().format("MM-DD-YYYY hh:mm A")}
+          </h4>
+          <a
+            href={`/ViewClassLab?classlab_id=${lab.classlab_id}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}
+            style={{ width: "22.5%", height: "17%" }}
                 className={ "btn btn-primary btn-lg"}
-              >
+          >
                 Class Lab{" "}
-              </a>
-            </List.Item>
-          </>
-        );
-      }
-      console.log(labList);
-      return labList;
-    })
-  };
+          </a>
+        </List.Item>
+      );
+    }
+    console.log(labList);
+    return labList;
+  }
 
-  function getWaterScienceLabs(fieldId, well_id, wellcode, wellName) {
+  async function getWaterScienceLabs(fieldId, well_id, wellcode, wellName) {
     let labList = [];
-    Axios.get("/GetWaterScienceLabEntryByFieldActivity", {
+    const response = await Axios.get("/GetWaterScienceLabEntryByFieldActivity", {
       responseType: "json",
       params: {
         fieldactivity_id: fieldId,
       },
-    }).then(function (response) {
-      const labs = response.data.WaterScienceLabEntries;
-      console.log(labList);
-      console.log(response);
-      for (let i = 0; i < labs.length; i++) {
-        labList.push(
-          <List.Item>
-            <h4>
-              Water Science Lab Date:{" "}
+    });
+    const labs = response.data.WaterScienceLabEntries;
+    console.log(labList);
+    console.log(response);
+    for (let i = 0; i < labs.length; i++) {
+      const lab = labs[i];
+      labList.push(
+        <List.Item key={`wsl-${lab.watersciencelab_id}`}>
+          <h4>
+            Water Science Lab Date:{" "}
               {/* {moment.utc(entry.wsl_dateentered).local().format("MM-DD-YYYY hh:mm A")} */}
-            </h4>
-            <a
+          </h4>
+          <a
               // href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}
-              style={{ width: "22.5%", height: "17%" }}
+            style={{ width: "22.5%", height: "17%" }}
               // className={buttonClass}
               // aria-disabled={entry.labID === null}
-            >
+          >
               Class Lab{" "}
               {/* {entry.labID !== null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"} */}
-            </a>
-          </List.Item>
-        );
-      }
-      return labList;
-    })
-  };
+          </a>
+        </List.Item>
+      );
+    }
+    return labList;
+  }
 
   useEffect(() => {
-    Axios.get("/GetFieldEntriesByWell", {
-      responseType: "json",
-      params: {
-        well_id: well_id,
-      },
-    }).then(function (response) {
+    async function fetchData() {
+      const response = await Axios.get("/GetFieldEntriesByWell", {
+        responseType: "json",
+        params: {
+          well_id: well_id,
+        },
+      });
       const fieldList = response.data.MinimalFieldList;
       console.log(fieldList);
       console.log(response);
-      var i;
-      for (i = 0; i < fieldList.length; i++) {
+      previousEntries = [];
+      
+      for (let i = 0; i < fieldList.length; i++) {
         const fieldEntry = fieldList[i];
+        const classLabs = await getClassLabs(fieldEntry.fieldactivity_id, well_id, wellcode, wellName);
+        const waterScienceLabs = await getWaterScienceLabs(fieldEntry.fieldactivity_id, well_id, wellcode, wellName);
+        
         const entry = {
           fieldDate: fieldEntry.fa_datecollected,
           fieldID: fieldEntry.fieldactivity_id,
-          classLabs: getClassLabs(fieldEntry.fieldactivity_id),
-          waterScienceLabs: getWaterScienceLabs(fieldEntry.fieldactivity_id)
-        }
+          classLabs: classLabs,
+          waterScienceLabs: waterScienceLabs
+        };
         previousEntries.push(entry);
       };
       listElements = generateListElements(
@@ -175,8 +177,10 @@ export default function PreviousEntries() {
         wellcode,
       );
       setLoading(false);
-    });
-  }, [wellName, well_id, wellcode]);
+    }
+    
+    fetchData();
+  }, [well_id, wellName, wellcode]);
 
   if (isLoading) {
     return (
