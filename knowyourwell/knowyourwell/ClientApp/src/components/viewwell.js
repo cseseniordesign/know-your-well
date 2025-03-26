@@ -121,7 +121,7 @@ export default function ViewWell() {
               className={colClass}
               style={{ marginBottom: "20px" }}
             >
-              <h3>{`${feature.lf_type} on ${moment.utc(feature.lf_datecollected).format("MM/DD/YYYY")}`}</h3>
+              <h3>{`${feature.lf_type} on ${moment.utc(feature.lf_datecollected).local().format("MM/DD/YYYY")}`}</h3>
               <p>
                 <b>Comments:</b> {feature.lf_comments}
               </p>
@@ -312,6 +312,7 @@ export default function ViewWell() {
                 <b>Date Entered:</b>{" "}
                 {moment
                   .utc(formElements["wi_dateentered"])
+                  .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>

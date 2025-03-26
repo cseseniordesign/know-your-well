@@ -110,7 +110,6 @@ export default function ViewField() {
       })
     );
 
-    console.log(columnList);
     return (
       <div className="css">
         <h2>{wellName}: Field Activity</h2>
@@ -123,6 +122,7 @@ export default function ViewField() {
                 <b>Date Entered:</b>{" "}
                 {moment
                   .utc(formElements["fa_dateentered"])
+                  .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>

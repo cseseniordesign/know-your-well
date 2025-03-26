@@ -120,6 +120,7 @@ export default function ViewImage() {
                 <b>Date Entered:</b>{" "}
                 {moment
                   .utc(formElements["fa_dateentered"])
+                  .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>
