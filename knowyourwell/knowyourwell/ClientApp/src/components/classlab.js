@@ -87,14 +87,14 @@ export default function ClassLab() {
   }
 
   const idList = [
-    "ammonia",
-    "calcium",
-    "chloride",
-    "bacteria",
-    "copper",
-    "iron",
-    "manganese",
-    "nitrate",
+    "cl_ammonia",
+    "cl_calcium",
+    "cl_chloride",
+    "cl_bacteria",
+    "cl_copper",
+    "cl_iron",
+    "cl_manganese",
+    "cl_nitrate",
   ];
   // caching - local storage
   function cacheLabForm() {

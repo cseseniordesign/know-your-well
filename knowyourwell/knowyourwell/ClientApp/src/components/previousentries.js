@@ -18,7 +18,7 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
         <List.Item>
           <h4>
             Field Activity Date:{" "}
-            {moment.utc(entry.fieldDate).format("MM-DD-YYYY hh:mm A")}
+            {moment.utc(entry.fieldDate).local().format("MM-DD-YYYY hh:mm A")}
           </h4>
         </List.Item>
         <List.Item key={key}>
@@ -95,7 +95,7 @@ export default function PreviousEntries() {
             <List.Item>
               <h4>
                 Class Lab Date:{" "}
-                {moment.utc(lab.fa_datecollected).format("MM-DD-YYYY hh:mm A")}
+                {moment.utc(lab.fa_datecollected).local().format("MM-DD-YYYY hh:mm A")}
               </h4>
               <a
                 href={`/ViewClassLab?classlab_id=${lab.classlab_id}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}
@@ -129,7 +129,7 @@ export default function PreviousEntries() {
           <List.Item>
             <h4>
               Water Science Lab Date:{" "}
-              {/* {moment.utc(entry.wsl_dateentered).format("MM-DD-YYYY hh:mm A")} */}
+              {/* {moment.utc(entry.wsl_dateentered).local().format("MM-DD-YYYY hh:mm A")} */}
             </h4>
             <a
               // href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}

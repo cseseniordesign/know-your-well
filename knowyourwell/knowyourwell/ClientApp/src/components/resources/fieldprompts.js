@@ -60,7 +60,7 @@ const fieldPrompts = [
   },
   {
     type: "numberentry",
-    fieldTitle: "ph",
+    fieldTitle: "pH",
     value: "ph",
     id: "fa_ph",
     min: "0",
