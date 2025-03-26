@@ -162,13 +162,13 @@ export default function Field() {
   const idList = [
     "fa_latitude",
     "fa_longitude",
-    "conditions",
-    "wellcover",
-    "temp",
-    "ph",
-    "conductivity",
-    "name",
-    "observations",
+    "fa_conditions",
+    "fa_wellcover",
+    "fa_temp",
+    "fa_ph",
+    "fa_conductivity",
+    "fa_name",
+    "fa_observations",
   ];
   // caching - local storage
   function cacheFieldForm() {
