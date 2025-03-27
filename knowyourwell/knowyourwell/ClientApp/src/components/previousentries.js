@@ -36,20 +36,24 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
         <List.Item>
           <List.Content>
             <details style={{marginTop: "2px", alignItems: "center"}}>
-              <summary>Classroom Labs</summary>
+              <summary style={{textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white"}}>
+                {`Class Labs (${entry.classLabs.length})`}
+              </summary>
+              <br />
               {entry.classLabs}
             </details>
           </List.Content>
         </List.Item>
         <List.Item>
           <details style={{marginTop: "2px", alignItems: "center"}}>
-            <summary>Water Science Labs</summary>
-            <List>
+            <summary style={{textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white"}}>
+              {`Water Science Labs (${entry.waterScienceLabs.length})`}
+            </summary>
+              <br />
               {entry.waterScienceLabs}
-            </List>
           </details>
         </List.Item>
-        <br />
+        <hr />
       </>,
     );
     key++;
@@ -99,10 +103,11 @@ export default function PreviousEntries() {
           <a
             href={`/ViewClassLab?classlab_id=${lab.classlab_id}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}
             style={{ width: "22.5%", height: "17%" }}
-                className={ "btn btn-primary btn-lg"}
+                className={"btn btn-primary btn-lg"}
           >
                 Class Lab{" "}
           </a>
+          <br /><br />
         </List.Item>
       );
     }
@@ -127,17 +132,16 @@ export default function PreviousEntries() {
         <List.Item key={`wsl-${lab.watersciencelab_id}`}>
           <h4>
             Water Science Lab Date:{" "}
-              {/* {moment.utc(entry.wsl_dateentered).local().format("MM-DD-YYYY hh:mm A")} */}
+            {moment.utc(lab.wsl_dateentered).format("MM-DD-YYYY hh:mm A")}
           </h4>
           <a
-              // href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}
+            href={`/Well`} // replace
             style={{ width: "22.5%", height: "17%" }}
-              // className={buttonClass}
-              // aria-disabled={entry.labID === null}
+            className={"btn btn-primary btn-lg"}
           >
-              Class Lab{" "}
-              {/* {entry.labID !== null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"} */}
+              Water Science Lab{" "}
           </a>
+          <br /><br />
         </List.Item>
       );
     }
@@ -206,24 +210,26 @@ export default function PreviousEntries() {
   }
 
   return (
-    <List style={{ textAlign: "center" }}>
-      <br />
-      <h2>{wellName}: Previous Entries</h2>
-      <br />
-      {listElements}
-      <List.Item>
-        <List.Content>
-          <br />
-          <button
-            type="button"
-            style={{ width: "130px", height: "17%" }}
-            className="btn btn-primary btn-lg"
-            onClick={backButton}
-          >
-            Back
-          </button>
-        </List.Content>
-      </List.Item>
-    </List>
+    <div className="container">
+      <List style={{ textAlign: "center" }}>
+        <br />
+        <h2>{wellName}: Previous Entries</h2>
+        <br />
+        {listElements}
+        <List.Item>
+          <List.Content>
+            <br />
+            <button
+              type="button"
+              style={{ width: "130px", height: "17%" }}
+              className="btn btn-primary btn-lg"
+              onClick={backButton}
+            >
+              Back
+            </button>
+          </List.Content>
+        </List.Item>
+      </List>
+    </div>
   );
 }
