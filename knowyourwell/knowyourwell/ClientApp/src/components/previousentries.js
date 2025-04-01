@@ -13,12 +13,28 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
   for (var entry of previousEntries) {
     let key = 1;
 
+    const classLabButtonClass =
+      entry.labID === null
+        ? "btn btn-primary btn-lg disabled"
+        : "btn btn-primary btn-lg";
+    const wslButtonClass = 
+      entry.wslID === null
+        ? "btn btn-primary btn-lg disabled"
+        : "btn btn-primary btn-lg";
     listElements.push(
       <>
         <List.Item>
           <h4>
             Field Activity Date:{" "}
-            {moment.utc(entry.fieldDate).local().format("MM-DD-YYYY hh:mm A")}
+            {moment.utc(entry.fieldDate).format("MM-DD-YYYY hh:mm A")}
+          </h4>
+          <h4>
+            Class Lab Date:{" "}
+            {moment.utc(entry.labDate).format("MM-DD-YYYY hh:mm A")}
+          </h4>
+          <h4>
+            Water Science Lab Date:{" "}
+            {moment.utc(entry.wslDate).format("MM-DD-YYYY hh:mm A")}
           </h4>
         </List.Item>
         <List.Item key={key}>
@@ -30,30 +46,27 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
             >
               Field (Field ID: {entry.fieldID})
             </a>
+            <a
+              href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
+              style={{ width: "22.5%", height: "17%" }}
+              className={classLabButtonClass}
+              aria-disabled={entry.labID === null}
+            >
+              Class Lab{" "}
+              {entry.labID !== null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}
+            </a>
+            <a
+              href={`/Well`} //replace with WSL link
+              style={{ width: "22.5%", height: "17%" }}
+              className={wslButtonClass}
+              aria-disabled={entry.labID === null}
+            >
+              Water Science Lab{" "}
+              {entry.wslID !== null ? `(Lab ID: ${entry.wslID})` : "(No Lab ID)"}
+            </a>
           </List.Content>
           <br />
         </List.Item>
-        <List.Item>
-          <List.Content>
-            <details style={{marginTop: "2px", alignItems: "center"}}>
-              <summary style={{textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white"}}>
-                {`Class Labs (${entry.classLabs.length})`}
-              </summary>
-              <br />
-              {entry.classLabs}
-            </details>
-          </List.Content>
-        </List.Item>
-        <List.Item>
-          <details style={{marginTop: "2px", alignItems: "center"}}>
-            <summary style={{textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white"}}>
-              {`Water Science Labs (${entry.waterScienceLabs.length})`}
-            </summary>
-              <br />
-              {entry.waterScienceLabs}
-          </details>
-        </List.Item>
-        <hr />
       </>,
     );
     key++;
@@ -82,98 +95,29 @@ export default function PreviousEntries() {
 
   const [isLoading, setLoading] = useState(true);
 
-  async function getClassLabs(fieldId, well_id, wellcode, wellName) {
-    let labList = [];
-    const response = await Axios.get("/GetClassLabEntryByFieldActivity", {
-      responseType: "json",
-      params: {
-        fieldactivity_id: fieldId,
-      },
-    });
-    const labs = response.data.ClassLabEntries;
-    console.log(labs);
-    for (let i = 0; i < labs.length; i++) {
-      const lab = labs[i];
-      labList.push(
-        <List.Item key={`class-${lab.classlab_id}`}>
-          <h4>
-            Class Lab Date:{" "}
-                {moment.utc(lab.cl_datecollected).local().format("MM-DD-YYYY hh:mm A")}
-          </h4>
-          <a
-            href={`/ViewClassLab?classlab_id=${lab.classlab_id}&well_id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`}
-            style={{ width: "22.5%", height: "17%" }}
-                className={"btn btn-primary btn-lg"}
-          >
-                Class Lab{" "}
-          </a>
-          <br /><br />
-        </List.Item>
-      );
-    }
-    console.log(labList);
-    return labList;
-  }
-
-  async function getWaterScienceLabs(fieldId, well_id, wellcode, wellName) {
-    let labList = [];
-    const response = await Axios.get("/GetWaterScienceLabEntryByFieldActivity", {
-      responseType: "json",
-      params: {
-        fieldactivity_id: fieldId,
-      },
-    });
-    const labs = response.data.WaterScienceLabEntries;
-    console.log(labList);
-    console.log(response);
-    for (let i = 0; i < labs.length; i++) {
-      const lab = labs[i];
-      labList.push(
-        <List.Item key={`wsl-${lab.watersciencelab_id}`}>
-          <h4>
-            Water Science Lab Date:{" "}
-            {moment.utc(lab.wsl_dateentered).format("MM-DD-YYYY hh:mm A")}
-          </h4>
-          <a
-            href={`/Well`} // replace
-            style={{ width: "22.5%", height: "17%" }}
-            className={"btn btn-primary btn-lg"}
-          >
-              Water Science Lab{" "}
-          </a>
-          <br /><br />
-        </List.Item>
-      );
-    }
-    return labList;
-  }
-
   useEffect(() => {
-    async function fetchData() {
-      const response = await Axios.get("/GetFieldEntriesByWell", {
-        responseType: "json",
-        params: {
-          well_id: well_id,
-        },
-      });
-      const fieldList = response.data.MinimalFieldList;
+    Axios.get("/previousentriesWithWSL", {
+      responseType: "json",
+      params: {
+        well_id: well_id,
+      },
+    }).then(function (response) {
+      const fieldList = response.data.ExpandedFieldList;
       console.log(fieldList);
       console.log(response);
-      previousEntries = [];
-      
-      for (let i = 0; i < fieldList.length; i++) {
+      var i;
+      for (i = 0; i < fieldList.length; i++) {
         const fieldEntry = fieldList[i];
-        const classLabs = await getClassLabs(fieldEntry.fieldactivity_id, well_id, wellcode, wellName);
-        const waterScienceLabs = await getWaterScienceLabs(fieldEntry.fieldactivity_id, well_id, wellcode, wellName);
-        
         const entry = {
           fieldDate: fieldEntry.fa_datecollected,
           fieldID: fieldEntry.fieldactivity_id,
-          classLabs: classLabs,
-          waterScienceLabs: waterScienceLabs
+          labID: fieldEntry.classlab_id,
+          labDate: fieldEntry.cl_datecollected,
+          wslID: fieldEntry.watersciencelab_id,
+          wslDate: fieldEntry.wsl_dateentered
         };
         previousEntries.push(entry);
-      };
+      }
       listElements = generateListElements(
         previousEntries,
         well_id,
@@ -181,10 +125,8 @@ export default function PreviousEntries() {
         wellcode,
       );
       setLoading(false);
-    }
-    
-    fetchData();
-  }, [well_id, wellName, wellcode]);
+    });
+  }, [wellName, well_id, wellcode]);
 
   if (isLoading) {
     return (
@@ -210,26 +152,24 @@ export default function PreviousEntries() {
   }
 
   return (
-    <div className="container">
-      <List style={{ textAlign: "center" }}>
-        <br />
-        <h2>{wellName}: Previous Entries</h2>
-        <br />
-        {listElements}
-        <List.Item>
-          <List.Content>
-            <br />
-            <button
-              type="button"
-              style={{ width: "130px", height: "17%" }}
-              className="btn btn-primary btn-lg"
-              onClick={backButton}
-            >
-              Back
-            </button>
-          </List.Content>
-        </List.Item>
-      </List>
-    </div>
+    <List style={{ textAlign: "center" }}>
+      <br />
+      <h2>{wellName}: Previous Entries</h2>
+      <br />
+      {listElements}
+      <List.Item>
+        <List.Content>
+          <br />
+          <button
+            type="button"
+            style={{ width: "130px", height: "17%" }}
+            className="btn btn-primary btn-lg"
+            onClick={backButton}
+          >
+            Back
+          </button>
+        </List.Content>
+      </List.Item>
+    </List>
   );
 }

@@ -834,6 +834,48 @@ app.get("/previousentries", async (req, res) => {
   });
 });
 
+app.get("/previousentriesWithWSL", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
+
+    request
+      .input("well_id", sql.Int, req.query.well_id)
+      .query(
+        "SELECT fa.fieldactivity_id, fa.fa_datecollected, cl.classlab_id, cl.cl_datecollected, wsl.watersciencelab_id, wsl.wsl_dateentered FROM dbo.tblFieldActivity AS fa LEFT JOIN dbo.tblClassroomLab AS cl ON fa.fieldactivity_id = cl.fieldactivity_id LEFT JOIN dbo.tblWaterScienceLab AS wsl ON fa.fieldactivity_id = wsl.fieldactivity_id WHERE fa.well_id = @well_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ ExpandedFieldList: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
 app.get("/GetFieldEntriesByWell", async (req, res) => {
   const transaction = appPool.transaction();
   transaction.begin((err) => {
