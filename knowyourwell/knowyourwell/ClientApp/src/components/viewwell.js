@@ -216,24 +216,16 @@ export default function ViewWell() {
     const wellInfoList = ['Well Info'];
 
     for (const key of basicInfo) {
-      if (formElements[key]) {
-        basicInfoList.push([key, formElements[key]]);
-      }
+      basicInfoList.push([key, formElements[key]]);
     }
     for (const key of locationInfo) {
-      if (formElements[key]) {
-        locationInfoList.push([key, formElements[key]]);
-      }
+      locationInfoList.push([key, formElements[key]]);
     }
     for (const key of contactInfo) {
-      if (formElements[key]) {
-        contactInfoList.push([key, formElements[key]]);
-      }
+      contactInfoList.push([key, formElements[key]]);
     }
     for (const key of wellInfo) {
-      if (formElements[key]) {
-        wellInfoList.push([key, formElements[key]]);
-      }
+      wellInfoList.push([key, formElements[key]]);
     }
 
     // for (let i = 0; i < firstColumn.length; i++) {
@@ -264,35 +256,35 @@ export default function ViewWell() {
       const fields = i.slice(1);
       columnList.push(
         <>
-        <details key={summaryName} style={{marginTop: "2px", alignItems: "center"}}>
-          <summary style={{textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white"}}><b>{summaryName}</b></summary>
-          {
-            // map through fields and separate into two columns
-            fields.map((field, index) => {
-              if (index % 2 === 0) {
-                return (
-                  <div key={index} className="row" style={{paddingTop: "8px"}}>
-                    <div className="col">
-                      <p style={{ textAlign: "left" }}>
-                        <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
-                      </p>
+          <details key={summaryName} style={{ marginTop: "2px", alignItems: "center" }}>
+            <summary style={{ textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white" }}><b>{summaryName}</b></summary>
+            {
+              // map through fields and separate into two columns
+              fields.map((field, index) => {
+                if (index % 2 === 0) {
+                  return (
+                    <div key={index} className="row" style={{ paddingTop: "8px" }}>
+                      <div className="col">
+                        <p style={{ textAlign: "left" }}>
+                          <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                        </p>
+                      </div>
+                      <div className="col">
+                        {fields[index + 1] &&
+                          <p style={{ textAlign: "left" }}>
+                            <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                          </p>
+                        }
+                      </div>
                     </div>
-                    <div className="col">
-                      {fields[index + 1] &&
-                      <p style={{ textAlign: "left" }}>
-                        <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                      </p>
-                      }
-                    </div>
-                  </div>
-                );
-              }
-              // return so map is happy
-              return null;
-            })
-          }
-        </details>
-        <br />
+                  );
+                }
+                // return so map is happy
+                return null;
+              })
+            }
+          </details>
+          <br />
         </>,
       );
     }
@@ -304,7 +296,7 @@ export default function ViewWell() {
           {wellcode}: {wellName}: Well Info
         </h2>
         <br />
-        <div className="container" style={{ textAlign: "center"}}>
+        <div className="container" style={{ textAlign: "center" }}>
           {columnList}
           <div key="dateentered" className="row">
             <div className="col">

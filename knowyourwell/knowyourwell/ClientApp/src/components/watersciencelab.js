@@ -8,36 +8,103 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "./usercontext";
 
 let formElements = [];
-const nameMap = {
-  "cl_ammonia": "Ammonia [0-10 ppm(mg/L)]:",
-  "cl_calciumhardness": "Calcium hardness [50-500 ppm(mg/L)]:",
-  "cl_chloride": "Chloride [0-400 ppm(mg/L)]:",
-  "cl_bacteria": "Bacteria (Colilert) [Positive if more than 1 MPN/100ml]:",
-  "cl_copper": "Copper [0-10 ppm(mg/L)]:",
-  "cl_iron": "Iron [0-10 ppm(mg/L)]:",
-  "cl_manganese": "Manganese [0-50 ppm(mg/L)]:",
-  "cl_nitrate": "Nitrate [0-45 ppm(mg/L)]:",
-  "cl_datacollector": "Data Collector’s Name:",
-  "cl_observation": "Observations:",
-};
 
-const classLabInfo = [
-  "cl_ammonia",
-  "cl_calciumhardness",
-  "cl_chloride",
-  "cl_bacteria",
-  "cl_copper",
-  "cl_iron",
-  "cl_manganese",
-  "cl_nitrate",
-  "cl_datacollector",
-  "cl_observation",
+const nameMap = {
+  wsl_samplecode: "Sample Code:",
+  wsl_ph: "pH:",
+  wsl_conductivity: "Conductivity:",
+  wsl_calciumhardness: "Calcium Hardness:",
+  wsl_no3no2n: "Nitrate + Nitrite Nitrogen:",
+  wsl_nh4n: "Ammonium Nitrogen:",
+  wsl_bromide: "Bromide:",
+  wsl_chloride: "Chloride:",
+  wsl_fluoride: "Fluoride:",
+  wsl_orthophosphate: "Orthophosphate:",
+  wsl_sulfate: "Sulfate:",
+  wsl_arsenic: "Arsenic:",
+  wsl_chromium: "Chromium:",
+  wsl_copper: "Copper:",
+  wsl_iron: "Iron:",
+  wsl_manganese: "Manganese:",
+  wsl_selenium: "Selenium:",
+  wsl_uranium: "Uranium:",
+  wsl_zinc: "Zinc:",
+  wsl_acetochlor: "Acetochlor:",
+  wsl_atrazine: "Atrazine:",
+  wsl_butylate: "Butylate:",
+  wsl_chlorothalonil: "Chlorothalonil:",
+  wsl_cyanazine: "Cyanazine:",
+  wsl_de_ethylatrazine: "De-ethylatrazine:",
+  wsl_de_iso_propylatrazine: "De-isopropylatrazine:",
+  wsl_dimethenamid: "Dimethenamid:",
+  wsl_EPTC: "EPTC:",
+  wsl_metolachlor: "Metolachlor:",
+  wsl_metribuzin: "Metribuzin:",
+  wsl_norflurazon: "Norflurazon:",
+  wsl_pendamethalin: "Pendimethalin:",
+  wsl_permethrin: "Permethrin:",
+  wsl_prometon: "Prometon:",
+  wsl_propazine: "Propazine:",
+  wsl_propachlor: "Propachlor:",
+  wsl_simazine: "Simazine:",
+  wsl_teflurthrin: "Tefluthrin:",
+  wsl_trifluralin: "Trifluralin:",
+  wsl_totalcoliform: "Total Coliform:",
+  wsl_ecoli: "E. coli:",
+  wsl_magnesium: "Magnesium:",
+  wsl_comments: "Comments:",
+}
+
+const wslInfo = [
+  "wsl_samplecode",
+  "wsl_ph",
+  "wsl_conductivity",
+  "wsl_calciumhardness",
+  "wsl_no3no2n",
+  "wsl_nh4n",
+  "wsl_bromide",
+  "wsl_chloride",
+  "wsl_fluoride",
+  "wsl_orthophosphate",
+  "wsl_sulfate",
+  "wsl_arsenic",
+  "wsl_chromium",
+  "wsl_copper",
+  "wsl_iron",
+  "wsl_manganese",
+  "wsl_selenium",
+  "wsl_uranium",
+  "wsl_zinc",
+  "wsl_acetochlor",
+  "wsl_atrazine",
+  "wsl_butylate",
+  "wsl_chlorothalonil",
+  "wsl_cyanazine",
+  "wsl_de_ethylatrazine",
+  "wsl_de_iso_propylatrazine",
+  "wsl_dimethenamid",
+  "wsl_EPTC",
+  "wsl_metolachlor",
+  "wsl_metribuzin",
+  "wsl_norflurazon",
+  "wsl_pendamethalin",
+  "wsl_permethrin",
+  "wsl_prometon",
+  "wsl_propazine",
+  "wsl_propachlor",
+  "wsl_simazine",
+  "wsl_teflurthrin",
+  "wsl_trifluralin",
+  "wsl_totalcoliform",
+  "wsl_ecoli",
+  "wsl_magnesium",
+  "wsl_comments",
 ];
 
-export default function ViewLab() {
+export default function WaterScienceLab() {
   const [searchParams] = useSearchParams();
+  const watersciencelab_id = parseInt(searchParams.get("watersciencelab_id"));
   const wellName = searchParams.get("wellName");
-  const classlab_id = searchParams.get("classlab_id");
   const well_id = searchParams.get("well_id");
   const wellcode = searchParams.get("wellcode");
   const navigate = useNavigate();
@@ -56,28 +123,27 @@ export default function ViewLab() {
 
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    Axios.get("/GetLabEntry", {
+    Axios.get("/GetWaterScienceLabEntry", {
       responseType: "json",
       params: {
-        classlab_id: classlab_id,
+        watersciencelab_id: watersciencelab_id,
       },
     }).then(function (response) {
-      //console.log(response)
-      formElements = response.data.ClassLabEntry[0];
-      //console.log(formElements.wi_wellcode)
+      formElements = response.data.WaterScienceLabEntry[0];
       setLoading(false);
     });
-  }, [classlab_id]);
+  }, [watersciencelab_id]);
 
-  const classLabInfoList = [];
-  for (const key of classLabInfo) {
-    classLabInfoList.push([key, formElements[key]]);
+  const wslInfoList = [];
+  for (const key of wslInfo) {
+    wslInfoList.push([key, formElements[key]]);
   }
 
   let columnList = [];
 
+  console.log(columnList);
   if (formElements) {
-    const fields = classLabInfoList;
+    const fields = wslInfoList;
     columnList.push(
       fields.map((field, index) => {
         if (index % 2 === 0) {
@@ -104,7 +170,7 @@ export default function ViewLab() {
 
     return (
       <div className="css">
-        <h2>{wellName}: Class Lab</h2>
+        <h2>{wellName}: Water Science Lab</h2>
         <br />
         <div className="container" style={{ textAlign: "center" }}>
           {columnList}
@@ -113,7 +179,7 @@ export default function ViewLab() {
               <p style={{ textAlign: "left" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
-                  .utc(formElements["fa_dateentered"])
+                  .utc(formElements["wsl_dateentered"])
                   .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>

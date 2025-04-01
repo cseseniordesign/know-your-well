@@ -66,9 +66,7 @@ export default function ViewImage() {
 
   const imageInfoList = [];
   for (const key of imageInfo) {
-    if (formElements[key]) {
-      imageInfoList.push([key, formElements[key]]);
-    }
+    imageInfoList.push([key, formElements[key]]);
   }
 
   let columnList = [];
@@ -87,9 +85,9 @@ export default function ViewImage() {
               </div>
               <div className="col">
                 {fields[index + 1] &&
-                <p style={{ textAlign: "left" }}>
-                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                </p>
+                  <p style={{ textAlign: "left" }}>
+                    <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                  </p>
                 }
               </div>
             </div>

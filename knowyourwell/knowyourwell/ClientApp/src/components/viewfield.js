@@ -76,9 +76,7 @@ export default function ViewField() {
 
   const fieldInfoList = [];
   for (const key of fieldInfo) {
-    if (formElements[key]) {
-      fieldInfoList.push([key, formElements[key]]);
-    }
+    fieldInfoList.push([key, formElements[key]]);
   }
 
   let columnList = [];
@@ -98,9 +96,9 @@ export default function ViewField() {
               </div>
               <div className="col">
                 {fields[index + 1] &&
-                <p style={{ textAlign: "left" }}>
-                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                </p>
+                  <p style={{ textAlign: "left" }}>
+                    <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                  </p>
                 }
               </div>
             </div>

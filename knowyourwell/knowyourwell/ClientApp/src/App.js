@@ -18,6 +18,7 @@ import ViewWell from "./components/viewwell";
 import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
+import WaterScienceLab from "./components/watersciencelab";
 import Images from "./components/images";
 import PreviousImages from "./components/previousimages";
 import ExportPage from "./components/export";
@@ -74,7 +75,7 @@ export default function App() {
   const setLocalImageDataQueue = (newValue) => {
     setImageDataQueue(newValue);
     localStorage.setItem("imageDataQueue", JSON.stringify(newValue));
-  }; 
+  };
 
   const handleOnline = async () => {
     const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
@@ -185,11 +186,11 @@ export default function App() {
         navigator.geolocation.getCurrentPosition((position) => {
           setLocalCoords(position.coords);
         },
-        (error) => {
-          console.log(error);
-          setLocalCoords({});
-          alert("There was an issue retrieving your location. Geolocation capabilities in the app are not availible for the current session.");
-        });
+          (error) => {
+            console.log(error);
+            setLocalCoords({});
+            alert("There was an issue retrieving your location. Geolocation capabilities in the app are not availible for the current session.");
+          });
       }
       // Setting this item in the session storage will prevent any further attempts to use geolocation until the page is closed and re-opened.
       sessionStorage.setItem("pageInitialized", "true");
@@ -212,11 +213,11 @@ export default function App() {
           return;
         });
     }, 15000);
-  // We only want this useEffect to run once per refresh, so we pass an empty dependency array.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // We only want this useEffect to run once per refresh, so we pass an empty dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
+
 
   return (
     <>
@@ -251,6 +252,7 @@ export default function App() {
             <Route exact path="/images" element={<Images />} />
             <Route exact path="/previousimages" element={<PreviousImages />} />
             <Route exact path="/viewimage" element={<ViewImage />} />
+            <Route exact path="/viewwatersciencelab" element={<WaterScienceLab />} />
             <Route exact path="/export" element={<ExportPage />} />
           </Routes>
         </WellFieldLabContext.Provider>

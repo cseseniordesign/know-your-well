@@ -17,7 +17,7 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
       entry.labID === null
         ? "btn btn-primary btn-lg disabled"
         : "btn btn-primary btn-lg";
-    const wslButtonClass = 
+    const wslButtonClass =
       entry.wslID === null
         ? "btn btn-primary btn-lg disabled"
         : "btn btn-primary btn-lg";
@@ -56,7 +56,7 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
               {entry.labID !== null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}
             </a>
             <a
-              href={`/Well`} //replace with WSL link
+              href={`/ViewWaterScienceLab?watersciencelab_id=${entry.wslID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`} //replace with WSL link
               style={{ width: "22.5%", height: "17%" }}
               className={wslButtonClass}
               aria-disabled={entry.labID === null}
