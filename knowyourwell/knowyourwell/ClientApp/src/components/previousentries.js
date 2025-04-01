@@ -26,29 +26,29 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
         <List.Item>
           <h4>
             Field Activity Date:{" "}
-            {moment.utc(entry.fieldDate).format("MM-DD-YYYY hh:mm A")}
+            {moment.utc(entry.fieldDate).local().format("MM-DD-YYYY hh:mm A")}
           </h4>
-          <h4>
+          <h5>
             Class Lab Date:{" "}
-            {moment.utc(entry.labDate).format("MM-DD-YYYY hh:mm A")}
-          </h4>
-          <h4>
+            {moment.utc(entry.labDate).local().format("MM-DD-YYYY hh:mm A")}
+          </h5>
+          <h5>
             Water Science Lab Date:{" "}
             {moment.utc(entry.wslDate).format("MM-DD-YYYY hh:mm A")}
-          </h4>
+          </h5>
         </List.Item>
         <List.Item key={key}>
           <List.Content>
             <a
               href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
-              style={{ width: "22.5%", height: "17%" }}
+              style={{ width: "22.5%", height: "17%", margin: "8px" }}
               className="btn btn-primary btn-lg"
             >
               Field (Field ID: {entry.fieldID})
             </a>
             <a
               href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
-              style={{ width: "22.5%", height: "17%" }}
+              style={{ width: "22.5%", height: "17%", margin: "8px" }}
               className={classLabButtonClass}
               aria-disabled={entry.labID === null}
             >
@@ -65,6 +65,7 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
               {entry.wslID !== null ? `(Lab ID: ${entry.wslID})` : "(No Lab ID)"}
             </a>
           </List.Content>
+          <hr style={{ width: "80%", margin: "8px auto" }} />
           <br />
         </List.Item>
       </>,
