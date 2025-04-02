@@ -121,7 +121,7 @@ export default function ViewField() {
               <p style={{ textAlign: "left" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
-                  .utc(formElements["fa_dateentered"])
+                  .utc(formElements["fa_datecollected"])
                   .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
