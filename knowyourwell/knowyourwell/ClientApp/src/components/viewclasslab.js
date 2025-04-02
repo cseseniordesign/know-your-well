@@ -113,7 +113,7 @@ export default function ViewLab() {
               <p style={{ textAlign: "left" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
-                  .utc(formElements["fa_dateentered"])
+                  .utc(formElements["cl_datecollected"])
                   .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>

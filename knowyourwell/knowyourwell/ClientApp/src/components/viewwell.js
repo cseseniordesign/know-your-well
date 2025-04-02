@@ -303,7 +303,7 @@ export default function ViewWell() {
               <p style={{ textAlign: "center" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
-                  .utc(formElements["wi_dateentered"])
+                  .utc(formElements["wi_datecollected"])
                   .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
