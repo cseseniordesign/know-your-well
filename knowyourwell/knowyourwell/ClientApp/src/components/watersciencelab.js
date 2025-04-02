@@ -180,7 +180,6 @@ export default function WaterScienceLab() {
                 <b>Date Entered:</b>{" "}
                 {moment
                   .utc(formElements["wsl_dateentered"])
-                  .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>
