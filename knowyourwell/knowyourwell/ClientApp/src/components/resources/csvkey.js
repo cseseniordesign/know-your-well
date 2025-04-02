@@ -108,6 +108,15 @@ const csvKey = {
   wsl_ecoli: "WSL E. coli (MPN/100 mL)",
   wsl_magnesium: "WSL Magnesium (ug/L)",
   wsl_dateentered: "WSL date entered",
+  im_datacollector: "Image Data Collector",
+  im_datecollected: "Image Data Date Collected",
+  im_filename: "Image Filename",
+  im_latitude: "Image Latitude",
+  im_longitude: "Image Longitude",
+  im_observation: "Image Observation",
+  im_type: "Image Type",
+  well_id: "Well ID",
+  school_id: "School ID",
 };
 
 export default csvKey;

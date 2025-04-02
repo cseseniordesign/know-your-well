@@ -87,14 +87,14 @@ export default function ClassLab() {
   }
 
   const idList = [
-    "ammonia",
-    "calcium",
-    "chloride",
-    "bacteria",
-    "copper",
-    "iron",
-    "manganese",
-    "nitrate",
+    "cl_ammonia",
+    "cl_calcium",
+    "cl_chloride",
+    "cl_bacteria",
+    "cl_copper",
+    "cl_iron",
+    "cl_manganese",
+    "cl_nitrate",
   ];
   // caching - local storage
   function cacheLabForm() {
@@ -130,8 +130,7 @@ export default function ClassLab() {
       //     Dateentered: dateentered,
       // };
       localStorage.setItem("labData" + fa_id, JSON.stringify(classLab));
-      alert("Information Saved!");
-      window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}&FieldRedirect=True`;
+      alert("Lab data information Saved!");
     }
   }
 

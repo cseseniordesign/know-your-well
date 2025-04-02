@@ -93,7 +93,7 @@ export default function Field() {
 
   function cacheWellInfo() {
     localStorage.setItem("fieldData", JSON.stringify(fieldData));
-    alert("Field Data has been saved!");
+    alert("Field data has been saved! You can return to edit this later, or can keep working on it.");
   }
 
   function clearLocalStorage() {
@@ -112,8 +112,8 @@ export default function Field() {
       updateFieldData("fa_latitude", coords.latitude);
       updateFieldData("fa_longitude", coords.longitude);
     }
-  // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function addFieldData() {
@@ -155,20 +155,20 @@ export default function Field() {
       // if the request fails, we know we are offline
       .catch(() => {
         setLocalFieldQueue(updatedQueue);
-        alert("You are offline, Field Form will submit automatically when you regain an internet connection");
+        alert("You are offline. The field form will submit automatically when you regain an internet connection");
       });
   }
 
   const idList = [
     "fa_latitude",
     "fa_longitude",
-    "conditions",
-    "wellcover",
-    "temp",
-    "ph",
-    "conductivity",
-    "name",
-    "observations",
+    "fa_conditions",
+    "fa_wellcover",
+    "fa_temp",
+    "fa_ph",
+    "fa_conductivity",
+    "fa_name",
+    "fa_observations",
   ];
   // caching - local storage
   function cacheFieldForm() {
@@ -190,8 +190,7 @@ export default function Field() {
       )
     ) {
       localStorage.setItem("fieldData" + well_id, JSON.stringify(fieldData));
-      alert("Information Saved!");
-      window.location.href = `/EditWell?id=${well_id}&wellName=${wellName}&FieldRedirect=True&wellcode=${wellcode}`;
+      alert("Field data information has been saved.");
     }
   }
 
@@ -332,7 +331,6 @@ export default function Field() {
           {renderField(prompt, fieldData, handleChange)}
         </div>
       ))}
-      <hr className="section-divider" />
       <div className="css">
         <label htmlFor="dateentered">
           Date Entered:

@@ -6,27 +6,23 @@ import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./usercontext";
 
-const { BlobServiceClient } = require("@azure/storage-blob");
+const nameMap = {
+  "im_type": "Image Type:",
+  "im_datacollector": "Data Collector’s Name:",
+  "im_latitude": "Latitude:",
+  "im_longitude": "Longitude:",
+  "im_observation": "Observations:",
+};
 
-let formElements = [];
-let columnList = [];
-const labelList = [
-  "Image Type:",
-  "Data Collector’s Name:",
-  "Observations:",
-  "Latitude:",
-  "Longitude:",
-  "Date Entered:",
-];
-
-const keyList = [
+const imageInfo = [
   "im_type",
   "im_datacollector",
-  "im_observation",
   "im_latitude",
   "im_longitude",
-  "im_datecollected",
+  "im_observation",
 ];
+
+let formElements = [];
 
 export default function ViewImage() {
   const [searchParams] = useSearchParams();
@@ -57,24 +53,10 @@ export default function ViewImage() {
       },
     }).then(async (response) => {
       try {
-        const AZURE_STORAGE_CONNECTION_STRING = `\
-        BlobEndpoint=https://knowyourwell.blob.core.windows.net/;\
-        QueueEndpoint=https://knowyourwell.queue.core.windows.net/;\
-        FileEndpoint=https://knowyourwell.file.core.windows.net/;\
-        TableEndpoint=https://knowyourwell.table.core.windows.net/;\
-        SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwlactfx&se=2999-12-31T18:59:59Z&st=2024-11-07T20:20:40Z&spr=https&sig=QbowwqDo0yTELgGEKK8XhkNmfI3FSBUnBrMUY8evsSM%3D`;
-
-        const blobServiceClient = BlobServiceClient.fromConnectionString(
-          AZURE_STORAGE_CONNECTION_STRING,
-        );
-        const containerClient =
-          blobServiceClient.getContainerClient(`well-images-${well_id}`);
-        const blobClient =
-          containerClient.getBlobClient(response.data.Image[0].im_filename);
-        
-        const downloadResponse = await blobClient.download();
-
-        formElements = { blob: await downloadResponse.blobBody, ...response.data.Image[0] };
+        const sasToken =
+          "sv=2022-11-02&ss=b&srt=o&sp=r&se=3000-01-01T00:25:47Z&st=2022-01-01T16:25:47Z&spr=https&sig=Y4R081nDtDn2wdhA5G5ryp6BPzxBQq1gUMS5S7FiEH4%3D";
+        const azureUrl = `https://knowyourwell.blob.core.windows.net/well-images-${well_id}/${response.data.Image[0].im_filename}?${sasToken}`;
+        formElements = { azureUrl, ...response.data.Image[0] };
       } catch (error) {
         console.log(error);
       }
@@ -82,40 +64,40 @@ export default function ViewImage() {
     });
   }, [well_id, image_id]);
 
-  if (formElements.length !== 0) {
-    for (let i = 0; i < labelList.length; i += 2) {
-      const firstColumnName = labelList[i];
-      let firstColumnValue = formElements[keyList[i]];
-      if (firstColumnName === "Date Entered:")
-        firstColumnValue = moment
-          .utc(formElements["fa_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
-      let secondColumnValue = "";
-      let secondColumnName = "";
-      if (i < labelList.length + 1) {
-        secondColumnName = labelList[i + 1];
-        secondColumnValue = formElements[keyList[i + 1]];
-      }
-      if (secondColumnName === "Date Entered:")
-        secondColumnValue = moment
-          .utc(formElements["fa_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
-
-      columnList.push(
-        <div className="row" key={i}>
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{firstColumnName}</b> {firstColumnValue}
-            </p>
-          </div>
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{secondColumnName}</b> {secondColumnValue}
-            </p>
-          </div>
-        </div>,
-      );
+  const imageInfoList = [];
+  for (const key of imageInfo) {
+    if (formElements[key]) {
+      imageInfoList.push([key, formElements[key]]);
     }
+  }
+
+  let columnList = [];
+
+  if (formElements) {
+    const fields = imageInfoList;
+    columnList.push(
+      fields.map((field, index) => {
+        if (index % 2 === 0) {
+          return (
+            <div key={index} className="row">
+              <div className="col">
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                </p>
+              </div>
+              <div className="col">
+                {fields[index + 1] &&
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                </p>
+                }
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })
+    );
 
     return (
       <div className="css">
@@ -124,13 +106,25 @@ export default function ViewImage() {
         <div className="container" style={{ textAlign: "center" }}>
           <div>
             <img
-              src={URL.createObjectURL(formElements.blob)}
-              alt="Preview"
+              src={formElements.azureUrl}
+              alt="Previous Upload"
               style={{ width: "100%", maxWidth: "300px", height: "auto" }}
               required={true}
             />
           </div>
+          <br />
           {columnList}
+          <div key="dateentered" className="row">
+            <div className="col">
+              <p style={{ textAlign: "left" }}>
+                <b>Date Entered:</b>{" "}
+                {moment
+                  .utc(formElements["fa_dateentered"])
+                  .local()
+                  .format("MM-DD-YYYY hh:mm A")}
+              </p>
+            </div>
+          </div>
           <br />
           <button
             type="button"
@@ -161,7 +155,6 @@ export default function ViewImage() {
           Back
         </button>
       </div>
-    )
-    
+    );
   }
 }

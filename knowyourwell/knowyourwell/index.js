@@ -600,7 +600,9 @@ app.get("/Wells", async (req, res) => {
     if (req.query.filterBy && Object.keys(req.query.filterBy).length !== 0) {
       let conditions = [];
       for (const [column, filter] of Object.entries(req.query.filterBy)) {
-        if (column === "search") {
+        if (filter === "-1") {
+          // Do nothing because -1 means the dropdown box has nothing selected
+        } else if (column === "search") {
           conditions.push(`wi_wellname LIKE '%${filter}%'`);
         } else if (column === "minLat") {
           if (!isNaN(parseFloat(filter))) {
@@ -618,8 +620,6 @@ app.get("/Wells", async (req, res) => {
           if (!isNaN(parseFloat(filter))) {
             conditions.push(`wi_estlongitude <= ${parseFloat(filter)}`);
           }
-        } else if (column === "county_id" || column === "nrd_id") {
-          conditions.push(`(${column} = ${filter} OR ${filter} = -1)`);
         } else if (column === "byDistance") {
           if (req.query.sortBy === "field_activity" && filter.includes("well_id")) {
             conditions.push(`w.${filter}`);
@@ -627,11 +627,11 @@ app.get("/Wells", async (req, res) => {
             conditions.push(filter)
           }
         } else {
-          conditions.push(`(${column} = ${filter} OR ( ${column} = county_id AND ${filter} = -1) OR ( ${column} = nrd_id AND ${filter} = -1))`);
+          conditions.push(`${column} = ${filter}`);
         }
       }
       if (conditions.length > 0) {
-        return " AND (" + conditions.join(" AND ") + ")";
+        return " AND (" + conditions.join(") AND (") + ")";
       }
     }
     return '';
@@ -659,6 +659,8 @@ app.get("/Wells", async (req, res) => {
   } else {
     query += ' ORDER BY wi_wellname';
   }
+
+  console.log(query);
 
   appPool.query(query, function (err, recordset) {
     if (err) {
@@ -713,6 +715,38 @@ FROM     dbo.tblNRDLookup INNER JOIN
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+app.get('/allImageMetadata', async (req, res) => {
+  let query = `SELECT
+  dbo.tblWellInfo.school_id,
+  dbo.tblSchool.sch_name,
+  dbo.tblWellInfo.well_id,
+  dbo.tblWellInfo.wi_wellcode,
+  dbo.tblWellInfo.wi_wellname,
+  dbo.tblImage.im_type,
+  dbo.tblImage.im_latitude,
+  dbo.tblImage.im_longitude,
+  dbo.tblImage.im_filename,
+  dbo.tblImage.im_datacollector,
+  dbo.tblImage.im_observation,
+  dbo.tblImage.im_datecollected
+  FROM
+  dbo.tblWellInfo INNER JOIN
+    dbo.tblImage ON dbo.tblWellInfo.well_id = dbo.tblImage.well_id
+    INNER JOIN
+    dbo.tblSchool ON dbo.tblWellInfo.school_id = dbo.tblSchool.school_id
+    WHERE
+      dbo.tblWellInfo.school_id = ${kywmemValue};`;
+
+  appPool.query(query, function (err, recordset) {
+    if (err) {
+      console.log(err);
+      res.status(500).send("SERVER ERROR");
+      return;
+    }
+    res.status(200).json({ Data: recordset.recordset });
+  });
 });
 
 app.get("/GetWellInfo", async (req, res) => {

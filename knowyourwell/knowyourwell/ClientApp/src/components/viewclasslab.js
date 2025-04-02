@@ -8,22 +8,20 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "./usercontext";
 
 let formElements = [];
-let columnList = [];
-const labelList = [
-  "Ammonia [0-10 ppm(mg/L)]:",
-  "Calcium hardness [50-500 ppm(mg/L)]:",
-  "Chloride [0-400 ppm(mg/L)]:",
-  "Bacteria (Colilert) [Positive if more than 1 MPN/100ml]:",
-  "Copper [0-10 ppm(mg/L)]:",
-  "Iron [0-10 ppm(mg/L)]:",
-  "Manganese [0-50 ppm(mg/L)]:",
-  "Nitrate [0-45 ppm(mg/L)]:",
-  "Data Collector’s Name:",
-  "Observations:",
-  "Date Entered:",
-];
+const nameMap = {
+  "cl_ammonia": "Ammonia [0-10 ppm(mg/L)]:",
+  "cl_calciumhardness": "Calcium hardness [50-500 ppm(mg/L)]:",
+  "cl_chloride": "Chloride [0-400 ppm(mg/L)]:",
+  "cl_bacteria": "Bacteria (Colilert) [Positive if more than 1 MPN/100ml]:",
+  "cl_copper": "Copper [0-10 ppm(mg/L)]:",
+  "cl_iron": "Iron [0-10 ppm(mg/L)]:",
+  "cl_manganese": "Manganese [0-50 ppm(mg/L)]:",
+  "cl_nitrate": "Nitrate [0-45 ppm(mg/L)]:",
+  "cl_datacollector": "Data Collector’s Name:",
+  "cl_observation": "Observations:",
+};
 
-const keyList = [
+const classLabInfo = [
   "cl_ammonia",
   "cl_calciumhardness",
   "cl_chloride",
@@ -34,7 +32,6 @@ const keyList = [
   "cl_nitrate",
   "cl_datacollector",
   "cl_observation",
-  "cl_datecollected",
 ];
 
 export default function ViewLab() {
@@ -72,42 +69,40 @@ export default function ViewLab() {
     });
   }, [classlab_id]);
 
-  if (formElements.length !== 0) {
-    console.log(formElements);
-    //console.log(formElements)
-    for (let i = 0; i < labelList.length; i += 2) {
-      const firstColumnName = labelList[i];
-      let firstColumnValue = formElements[keyList[i]];
-      if (firstColumnName === "Date Entered:")
-        firstColumnValue = moment
-          .utc(formElements["cl_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
-      let secondColumnValue = "";
-      let secondColumnName = "";
-      if (i < labelList.length + 1) {
-        secondColumnName = labelList[i + 1];
-        secondColumnValue = formElements[keyList[i + 1]];
-      }
-      if (secondColumnName === "Date Entered:")
-        secondColumnValue = moment
-          .utc(formElements["cl_datecollected"])
-          .format("MM-DD-YYYY hh:mm A");
-
-      columnList.push(
-        <div className="row">
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{firstColumnName}</b> {firstColumnValue}
-            </p>
-          </div>
-          <div className="col">
-            <p style={{ textAlign: "center" }}>
-              <b>{secondColumnName}</b> {secondColumnValue}
-            </p>
-          </div>
-        </div>,
-      );
+  const classLabInfoList = [];
+  for (const key of classLabInfo) {
+    if (formElements[key]) {
+      classLabInfoList.push([key, formElements[key]]);
     }
+  }
+
+  let columnList = [];
+
+  if (formElements) {
+    const fields = classLabInfoList;
+    columnList.push(
+      fields.map((field, index) => {
+        if (index % 2 === 0) {
+          return (
+            <div key={index} className="row">
+              <div className="col">
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                </p>
+              </div>
+              <div className="col">
+                {fields[index + 1] &&
+                <p style={{ textAlign: "left" }}>
+                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                </p>
+                }
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })
+    );
 
     return (
       <div className="css">
@@ -115,6 +110,17 @@ export default function ViewLab() {
         <br />
         <div className="container" style={{ textAlign: "center" }}>
           {columnList}
+          <div key="dateentered" className="row">
+            <div className="col">
+              <p style={{ textAlign: "left" }}>
+                <b>Date Entered:</b>{" "}
+                {moment
+                  .utc(formElements["fa_dateentered"])
+                  .local()
+                  .format("MM-DD-YYYY hh:mm A")}
+              </p>
+            </div>
+          </div>
           <br />
           <button
             type="button"

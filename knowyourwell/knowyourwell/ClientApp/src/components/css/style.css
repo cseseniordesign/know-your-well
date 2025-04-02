@@ -105,3 +105,7 @@ body, html, .App, #root, .auth-wrapper {
     border: #686868;
     cursor: not-allowed;
 }
+
+select {
+    background-color: white;
+}
