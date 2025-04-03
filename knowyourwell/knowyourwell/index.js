@@ -585,15 +585,17 @@ app.post("/createimage", (req, res) => {
 app.get("/Wells", async (req, res) => {
   let query = "SELECT * FROM dbo.tblWellInfo";
 
-  kywmemValue = req.session.kywmem;
+  const kywmemValue = req.session.kywmem;
 
-  const applySchoolId = () => {
-    if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
-      return ` WHERE school_id = ${kywmemValue} `
-    } else {
-      res.status(422).send("school_id must be defined");
+  if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
+    applySchoolId = () => {
+      return ` WHERE school_id = ${kywmemValue}`;
     }
+  } else {
+    res.status(422).send("school_id must be defined");
+    return;
   }
+
   query += applySchoolId();
 
   const applyFilter = () => {
@@ -624,7 +626,7 @@ app.get("/Wells", async (req, res) => {
           if (req.query.sortBy === "field_activity" && filter.includes("well_id")) {
             conditions.push(`w.${filter}`);
           } else {
-            conditions.push(filter)
+            conditions.push(filter);
           }
         } else {
           conditions.push(`${column} = ${filter}`);
@@ -647,8 +649,7 @@ app.get("/Wells", async (req, res) => {
                         ) fa on w.well_id = fa.well_id` +
     applySchoolId() +
     applyFilter() +
-    ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`
-
+    ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`;
 
   if (req.query.sortBy) {
     if (req.query.sortBy === "field_activity") {
@@ -659,8 +660,6 @@ app.get("/Wells", async (req, res) => {
   } else {
     query += ' ORDER BY wi_wellname';
   }
-
-  console.log(query);
 
   appPool.query(query, function (err, recordset) {
     if (err) {
