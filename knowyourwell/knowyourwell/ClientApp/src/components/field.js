@@ -108,7 +108,7 @@ export default function Field() {
   };
 
   useEffect(() => {
-    if (coords?.latitude && coords?.longitude) {
+    if (coords?.latitude && coords?.longitude && !(fieldData.fa_latitude && fieldData.fa_longitude)) {
       updateFieldData("fa_latitude", coords.latitude);
       updateFieldData("fa_longitude", coords.longitude);
     }
