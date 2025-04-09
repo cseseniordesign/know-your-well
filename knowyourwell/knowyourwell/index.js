@@ -582,7 +582,8 @@ app.post("/createimage", (req, res) => {
   });
 });
 
-app.get("/Wells", async (req, res) => {
+app.get("/Wells", async (req, res, next) => {
+
   let query = "SELECT * FROM dbo.tblWellInfo";
 
   const kywmemValue = req.session.kywmem;
@@ -592,8 +593,7 @@ app.get("/Wells", async (req, res) => {
       return ` WHERE school_id = ${kywmemValue}`;
     }
   } else {
-    res.status(422).send("school_id must be defined");
-    return;
+    next(new Error("No school ID found in session."));
   }
 
   query += applySchoolId();
@@ -664,8 +664,7 @@ app.get("/Wells", async (req, res) => {
   appPool.query(query, function (err, recordset) {
     if (err) {
       console.log(err);
-      res.status(500).send("SERVER ERROR");
-      return;
+      next(err);
     }
     res.status(200).json({ Wells: recordset.recordset });
   });

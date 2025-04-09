@@ -8,6 +8,7 @@ import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 
 import { useUser } from "./usercontext";
+import axios from "axios";
 
 const nameMap = {
   "wi_wellcode": "Well Code:",
@@ -149,7 +150,14 @@ export default function ViewWell() {
         wells = JSON.parse(wellCookie).Wells;
         formElements = wells.filter((well) => well.well_id === well_id)[0];
       } catch (e) {
-        console.log("wellCookie is inValid JSON");
+        console.log("wellCookie is inValid JSON, fetching from API");
+        axios.get('/Wells').then((response) => {
+          wells = response.data.Wells;
+          formElements = wells.filter((well) => well.well_id === well_id)[0];
+          localStorage.setItem("wellData", JSON.stringify(response.data));
+          window.location.reload();
+        }
+        );
       }
     }
   }
@@ -264,35 +272,35 @@ export default function ViewWell() {
       const fields = i.slice(1);
       columnList.push(
         <>
-        <details key={summaryName} style={{marginTop: "2px", alignItems: "center"}}>
-          <summary style={{textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white"}}><b>{summaryName}</b></summary>
-          {
-            // map through fields and separate into two columns
-            fields.map((field, index) => {
-              if (index % 2 === 0) {
-                return (
-                  <div key={index} className="row" style={{paddingTop: "8px"}}>
-                    <div className="col">
-                      <p style={{ textAlign: "left" }}>
-                        <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
-                      </p>
+          <details key={summaryName} style={{ marginTop: "2px", alignItems: "center" }}>
+            <summary style={{ textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white" }}><b>{summaryName}</b></summary>
+            {
+              // map through fields and separate into two columns
+              fields.map((field, index) => {
+                if (index % 2 === 0) {
+                  return (
+                    <div key={index} className="row" style={{ paddingTop: "8px" }}>
+                      <div className="col">
+                        <p style={{ textAlign: "left" }}>
+                          <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                        </p>
+                      </div>
+                      <div className="col">
+                        {fields[index + 1] &&
+                          <p style={{ textAlign: "left" }}>
+                            <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                          </p>
+                        }
+                      </div>
                     </div>
-                    <div className="col">
-                      {fields[index + 1] &&
-                      <p style={{ textAlign: "left" }}>
-                        <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                      </p>
-                      }
-                    </div>
-                  </div>
-                );
-              }
-              // return so map is happy
-              return null;
-            })
-          }
-        </details>
-        <br />
+                  );
+                }
+                // return so map is happy
+                return null;
+              })
+            }
+          </details>
+          <br />
         </>,
       );
     }
@@ -304,7 +312,7 @@ export default function ViewWell() {
           {wellcode}: {wellName}: Well Info
         </h2>
         <br />
-        <div className="container" style={{ textAlign: "center"}}>
+        <div className="container" style={{ textAlign: "center" }}>
           {columnList}
           <div key="dateentered" className="row">
             <div className="col">
