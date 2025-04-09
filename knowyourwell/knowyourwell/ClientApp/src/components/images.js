@@ -192,13 +192,12 @@ export default function Images() {
       {imageData.type ? (
         <div>
           <br />
-          <EntryPrompt id='im_image' fieldTitle={`${checkFieldType[imageData.type] ? "Take" : "Upload"} a Photo of the ${imageData.type}`} required={true} />
+          <EntryPrompt id='im_image' fieldTitle={`Upload or Take a Photo of the ${imageData.type}`} required={true} />
           <input
             type="file"
             id="cropLand"
             accept="image/*"
             multiple
-            capture={checkFieldType[imageData.type] ? 'camera' : undefined}
             onChange={handleFileChange}
             required
           />
