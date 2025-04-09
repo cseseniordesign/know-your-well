@@ -30,7 +30,7 @@ const nameMap = {
   "wi_wellcasematerial": "Well Casing Material:",
   "wi_wellname": "Well Name:",
   "wi_registration_number": "Well Registration Number:",
-  "wi_well_user": "Name of Resident User:",
+  "wi_well_user": "Name of Resident Well User:",
   "wi_city": "Village, Town, or City:",
   "wi_zipcode": "Zip code:",
   "nrd_id": "NRD:",
@@ -177,7 +177,6 @@ export default function ViewWell() {
       "wi_wellcode",
       "wi_wellname",
       "wi_registration_number",
-      "wi_well_user",
     ];
 
     const locationInfo = [
@@ -193,9 +192,9 @@ export default function ViewWell() {
 
     const contactInfo = [
       "wi_well_owner",
+      "wi_well_user",
       "wi_phone_well_user",
       "wi_email_well_user",
-      "wi_datacollector",
     ];
 
     const wellInfo = [
@@ -314,6 +313,14 @@ export default function ViewWell() {
         <br />
         <div className="container" style={{ textAlign: "center" }}>
           {columnList}
+          <div key="datacollector" className="row">
+            <div className="col">
+              <p style={{ textAlign: "center" }}>
+                <b>Data Collector:</b>{" "}
+                {formElements["wi_datacollector"]}
+              </p>
+            </div>
+          </div>
           <div key="dateentered" className="row">
             <div className="col">
               <p style={{ textAlign: "center" }}>
