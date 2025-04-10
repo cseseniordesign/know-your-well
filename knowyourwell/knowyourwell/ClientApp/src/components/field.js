@@ -295,7 +295,7 @@ export default function Field() {
 
   return (
     <form id="submissionAlert">
-      <h2>{wellName}: Field</h2>
+      <h2>{wellName}: Field Visit</h2>
       <div className="requiredField">
         <br></br>
         <p>* = Required Field</p>

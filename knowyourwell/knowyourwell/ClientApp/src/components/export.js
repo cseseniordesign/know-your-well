@@ -16,6 +16,7 @@ const openDownloadDialog = (file) => {
 };
 
 const exportCSV = () => {
+  gtag('event', 'detailed_export');
   Axios.get("/csvqueries", {
     responseType: "json",
   })
@@ -34,7 +35,7 @@ const exportCSV = () => {
         headerRow = 0;
       }
       csv[0] += "\n";
-      const file = new File(csv, "welldata.csv", {
+      const file = new File(csv, `welldata_${Date().slice(0, 24).replaceAll(" ", "_")}.csv`, {
         type: "text/csv",
       });
       openDownloadDialog(file);
@@ -45,6 +46,7 @@ const exportCSV = () => {
 };
 
 const exportImageMetadata = () => {
+  gtag('event', 'image_export');
   Axios.get('/allImageMetadata', {
     responseType: "json",
   }).then((response) => {
