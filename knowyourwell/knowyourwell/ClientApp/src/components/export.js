@@ -15,8 +15,16 @@ const openDownloadDialog = (file) => {
   URL.revokeObjectURL(url);
 };
 
+const sendExportEvent = (type) => {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9SVHGVZ6R2');
+  gtag('event', type);
+}
+
 const exportCSV = () => {
-  gtag('event', 'detailed_export');
+  sendExportEvent('detailed_export');
   Axios.get("/csvqueries", {
     responseType: "json",
   })
@@ -46,7 +54,7 @@ const exportCSV = () => {
 };
 
 const exportImageMetadata = () => {
-  gtag('event', 'image_export');
+  sendExportEvent('image_export');
   Axios.get('/allImageMetadata', {
     responseType: "json",
   }).then((response) => {
