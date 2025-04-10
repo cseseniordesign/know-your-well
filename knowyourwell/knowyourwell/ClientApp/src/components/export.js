@@ -17,7 +17,7 @@ const openDownloadDialog = (file) => {
 
 const sendExportEvent = (type) => {
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){window.dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-9SVHGVZ6R2');
   gtag('event', type);
