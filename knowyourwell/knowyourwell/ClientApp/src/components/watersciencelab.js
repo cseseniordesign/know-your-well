@@ -30,6 +30,7 @@ const nameMap = {
   wsl_uranium: "Uranium:",
   wsl_zinc: "Zinc:",
   wsl_acetochlor: "Acetochlor:",
+  wsl_alachlor: "Alachlor:",
   wsl_atrazine: "Atrazine:",
   wsl_butylate: "Butylate:",
   wsl_chlorothalonil: "Chlorothalonil:",
@@ -76,6 +77,7 @@ const wslInfo = [
   "wsl_uranium",
   "wsl_zinc",
   "wsl_acetochlor",
+  "wsl_alachlor",
   "wsl_atrazine",
   "wsl_butylate",
   "wsl_chlorothalonil",
@@ -139,35 +141,90 @@ export default function WaterScienceLab() {
     wslInfoList.push([key, formElements[key]]);
   }
 
+  const basicWaterInfo = [
+    "wsl_conductivity",
+    "wsl_ph",
+    "wsl_calciumhardness",
+    "wsl_nh4n",
+    "wsl_no3no2n",
+    "wsl_chloride",
+    "wsl_orthophosphate",
+    "wsl_sulfate",
+  ];
+
+  const metalsInfo = [
+    "wsl_arsenic",
+    "wsl_chromium",
+    "wsl_copper",
+    "wsl_iron",
+    "wsl_manganese",
+    "wsl_selenium",
+    "wsl_uranium",
+    "wsl_zinc",
+  ];
+
+  const pesticidesInfo = [
+    "wsl_acetochlor",
+    "wsl_alachlor",
+    "wsl_atrazine",
+    "wsl_de_ethylatrazine",
+    "wsl_de_iso_propylatrazine",
+    "wsl_dimethenamid",
+    "wsl_metolachlor",
+    "wsl_teflurthrin",
+  ];
+
+
+  const miscInfo = wslInfo.filter((key) => {
+    return !basicWaterInfo.includes(key) && !metalsInfo.includes(key) && !pesticidesInfo.includes(key) && key !== "wsl_comments" && key !== "wsl_dateentered";
+  });
+
+  const miscList = ["Miscellaneous", ...miscInfo.map((key) => [key, formElements[key]])];
+  console.log(miscList);
   let columnList = [];
 
-  console.log(columnList);
-  if (formElements) {
-    const fields = wslInfoList;
-    columnList.push(
-      fields.map((field, index) => {
-        if (index % 2 === 0) {
-          return (
-            <div key={index} className="row">
-              <div className="col">
-                <p style={{ textAlign: "left" }}>
-                  <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
-                </p>
-              </div>
-              <div className="col">
-                {fields[index + 1] &&
-                  <p style={{ textAlign: "left" }}>
-                    <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                  </p>
-                }
-              </div>
-            </div>
-          );
-        }
-        return null;
-      })
-    );
+  let basicChemList = ['Basic Water Chemistry', ...basicWaterInfo.map((key) => [key, formElements[key]])];
+  let metalList = ['Metals', ...metalsInfo.map((key) => [key, formElements[key]])];
+  let pesticideList = ['Pesticides', ...pesticidesInfo.map((key) => [key, formElements[key]])];
 
+  if (formElements) {
+    for (const section of [basicChemList, metalList, pesticideList, miscList]) {
+      const summaryName = section[0];
+      const fields = section.slice(1);
+      columnList.push(
+        <>
+          <details key={summaryName} style={{ marginTop: "2px", alignItems: "center" }}>
+            <summary style={{ textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white" }}><b>{summaryName}</b></summary>
+            {
+              // map through fields and separate into two columns
+              fields.map((field, index) => {
+                if (index % 2 === 0) {
+                  return (
+                    <div key={index} className="row" style={{ paddingTop: "8px" }}>
+                      <div className="col">
+                        <p style={{ textAlign: "left" }}>
+                          <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                        </p>
+                      </div>
+                      <div className="col">
+                        {fields[index + 1] &&
+                          <p style={{ textAlign: "left" }}>
+                            <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                          </p>
+                        }
+                      </div>
+                    </div>
+                  );
+                }
+                // return so map is happy
+                return null;
+              })
+            }
+          </details>
+          <br />
+        </>,
+      );
+    }
     return (
       <div className="css">
         <h2>{wellName}: Water Science Lab</h2>
@@ -175,6 +232,12 @@ export default function WaterScienceLab() {
         <div className="container" style={{ textAlign: "center" }}>
           {columnList}
           <div key="dateentered" className="row">
+            <div className="col">
+              <p style={{ textAlign: "left" }}>
+                <b>Comments:</b>{" "}
+                {formElements["wsl_comments"] || "None Provided"}
+              </p>
+            </div>
             <div className="col">
               <p style={{ textAlign: "left" }}>
                 <b>Date Entered:</b>{" "}

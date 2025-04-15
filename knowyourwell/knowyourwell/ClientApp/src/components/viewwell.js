@@ -210,47 +210,11 @@ export default function ViewWell() {
       "wi_welldry_description",
       "wi_observation",
     ];
-    const basicInfoList = ['Basic Info'];
-    const locationInfoList = ['Location Info'];
-    const contactInfoList = ['Contact Info'];
-    const wellInfoList = ['Well Info'];
+    const basicInfoList = ['Basic Info', ...basicInfo.map((key) => [key, formElements[key]])];
+    const locationInfoList = ['Location Info', ...locationInfo.map((key) => [key, formElements[key]])];
+    const contactInfoList = ['Contact Info', ...contactInfo.map((key) => [key, formElements[key]])];
+    const wellInfoList = ['Well Info', ...wellInfo.map((key) => [key, formElements[key]])];
 
-    for (const key of basicInfo) {
-      basicInfoList.push([key, formElements[key]]);
-    }
-    for (const key of locationInfo) {
-      locationInfoList.push([key, formElements[key]]);
-    }
-    for (const key of contactInfo) {
-      contactInfoList.push([key, formElements[key]]);
-    }
-    for (const key of wellInfo) {
-      wellInfoList.push([key, formElements[key]]);
-    }
-
-    // for (let i = 0; i < firstColumn.length; i++) {
-    //   const firstColumnName = Object.keys(firstColumn[i])[0];
-    //   const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
-
-    //   const secondColumnName = Object.keys(secondColumn[i])[0];
-    //   const secondColumnValue = formElements[Object.values(secondColumn[i])[0]];
-
-
-    //   columnList.push(
-    //     <div key={i} className="row">
-    //       <div className="col">
-    //         <p style={{ textAlign: "center" }}>
-    //           <b>{firstColumnName}</b> {firstColumnValue}
-    //         </p>
-    //       </div>
-    //       <div className="col">
-    //         <p style={{ textAlign: "center" }}>
-    //           <b>{secondColumnName}</b> {secondColumnValue}
-    //         </p>
-    //       </div>
-    //     </div>,
-    //   );
-    // }
     for (const i of [basicInfoList, locationInfoList, contactInfoList, wellInfoList]) {
       const summaryName = i[0];
       const fields = i.slice(1);
