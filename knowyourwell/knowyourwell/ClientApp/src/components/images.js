@@ -141,11 +141,11 @@ export default function Images() {
               });
               alert(`Photos submitted! You can upload more by selecting another category, or you can press 'back' to return to ${wellName}.`);
             })
-            // if the request fails, we know we are offline
+            // If the request fails, we can't connect to the server
             .catch(async () => {
               await putInDB(idbName, "imageUploadQueue", { file: image, containerName: containerName, blobName: blobName, metadata: metadata });
               setLocalImageDataQueue(updatedQueue);
-              alert("You are offline. The image will automatically be submitted when you regain an internet connection");
+              alert("The application cannot connect to the server. The image will automatically be submitted when the connection is restored");
             });
         }
         window.location.reload();

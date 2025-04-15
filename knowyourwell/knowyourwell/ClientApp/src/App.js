@@ -3,6 +3,7 @@ import React from "react";
 import "./components/css/custom.css";
 import "./components/css/style.css";
 import Axios from "axios";
+import pullAt from "lodash/pullAt";
 import Login from "./components/login";
 import NavMenu from "./components/navmenu";
 import Well from "./components/well";
@@ -25,7 +26,7 @@ import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
 import ViewImage from "./components/viewImage";
 import uploadPhoto from "./components/reusable/photoUpload";
-import { clearObjectStore, getAllFromDB, idbName } from "./setupIndexedDB";
+import { deleteFromDB, getAllFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
   const [coords, setCoords] = useState(() => {
@@ -77,14 +78,23 @@ export default function App() {
   }; 
 
   const handleOnline = async () => {
-    const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
-    const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
-    const imageQueue = await getAllFromDB(idbName, "imageUploadQueue");
-    const imageDataQueue = JSON.parse(localStorage.getItem("imageDataQueue")) || [];
+    let wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
+    let fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
+    let imageQueue = await getAllFromDB(idbName, "imageUploadQueue") || [];
+    let imageDataQueue = JSON.parse(localStorage.getItem("imageDataQueue")) || [];
 
     const wellInfoUpdated = wellInfoQueue.length !== 0;
+    let uploadedIndexes = [];
+    let allDataUploaded = true;
 
-    for (const wellInfo of wellInfoQueue) {
+    const markIndexUploaded = (i) => {
+      uploadedIndexes.push(i);
+    }
+    const errorUploading = () => {
+      allDataUploaded = false;
+    }
+
+    for (const [i, wellInfo] of wellInfoQueue.entries()) {
       const wellcode = await generateWellcode();
       await Axios.post("/createwellinfo", {
         address: wellInfo.address,
@@ -123,11 +133,18 @@ export default function App() {
         welltype: wellInfo.welltype,
         welluser: wellInfo.welluser,
         zipcode: wellInfo.zipcode,
-      });
+      }).then(markIndexUploaded(i))
+      .catch(errorUploading);
     }
-    setLocalWellInfoQueue([]);
+    // Remove any elements that were successfully uploaded.
+    pullAt(wellInfoQueue, uploadedIndexes);
+    setLocalWellInfoQueue(wellInfoQueue || []);
+    uploadedIndexes = [];
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    for (const field of fieldQueue) {
+    for (const [i, field] of fieldQueue.entries()) {
       await Axios.post("/api/insert", {
         well_id: field.well_id,
         fa_latitude: field.fa_latitude,
@@ -146,21 +163,30 @@ export default function App() {
         name: field.name,
         observations: field.observations,
         datecollected: field.dateentered,
-      });
+      }).then(markIndexUploaded(i))
+      .catch(errorUploading);
     }
-    setLocalFieldQueue([]);
+    pullAt(fieldQueue, uploadedIndexes);
+    setLocalFieldQueue(fieldQueue || []);
+    uploadedIndexes = [];
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    for (const image of imageQueue) {
+    for (const [i, image] of imageQueue.entries()) {
       await uploadPhoto(
         image.file,
         image.containerName,
         image.blobName,
         image.metadata,
-      );
+      ).then(deleteFromDB(idbName, "imageUploadQueue", image.id))
+      .catch(errorUploading);
     }
-    await clearObjectStore(idbName, "imageUploadQueue");
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    for (const imageData of imageDataQueue) {
+    for (const [i, imageData] of imageDataQueue.entries()) {
       await Axios.post("/createimage", {
         well_id: imageData.well_id,
         im_type: imageData.type,
@@ -172,11 +198,18 @@ export default function App() {
         observations: imageData.observations,
         im_filename: imageData.blobName,
         datecollected: imageData.dateentered,
-      });
+      }).then(markIndexUploaded(i))
+      .catch(errorUploading);
     }
-    setLocalImageDataQueue([]);
+    pullAt(imageDataQueue, uploadedIndexes);
+    setLocalImageDataQueue(imageDataQueue || []);
+    // I know this part is unnecessary, but I think it helps readability to keep it consistent.
+    uploadedIndexes = [];
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    return wellInfoUpdated;
+    return [wellInfoUpdated, allDataUploaded];
   };
 
   useEffect(() => {
@@ -196,12 +229,16 @@ export default function App() {
     }
 
     setInterval(() => {
-      // Check if the user is online every 15 seconds
+      // Check if the server can be reached every 15 seconds
       Axios.get(`/heartbeat?timestamp=${Date.now()}`)
         .then(async () => {
           if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || (await getAllFromDB(idbName, "imageUploadQueue")).length > 0 || imageDataQueue.length > 0) {
-            const wellInfoUpdated = await handleOnline();
-            alert("Your connection was restored and your offline data was successfully submitted!");
+            const [wellInfoUpdated, allDataUploaded] = await handleOnline();
+            if (allDataUploaded) {
+              alert("Your connection was restored and your data was successfully submitted!");
+            } else {
+              alert("There was an issue uploading your data. The app will try again if it has a connection to the server.");
+            }
             if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {
               window.location.reload();
             }

@@ -152,10 +152,10 @@ export default function Field() {
         });
         alert("Successfully submitted Field Form!");
       })
-      // if the request fails, we know we are offline
+      // If the request fails, we can't connect to the server
       .catch(() => {
         setLocalFieldQueue(updatedQueue);
-        alert("You are offline. The field form will submit automatically when you regain an internet connection");
+        alert("The application cannot connect to the server. The field form will automatically be submitted when the connection is restored");
       });
   }
 

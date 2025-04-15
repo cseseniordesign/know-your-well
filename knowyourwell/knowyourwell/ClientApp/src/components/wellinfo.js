@@ -136,10 +136,10 @@ export default function WellInfo() {
           alert("The well info form has been submitted!");
         });
       })
-      // if the request fails, we know we are offline
+      // If the request fails, we can't connect to the server
       .catch(() => {
         setLocalWellInfoQueue(updatedQueue);
-        alert("You are offline. The well info form will automatically be submitted when you regain an internet connection");
+        alert("The application cannot connect to the server. The well info form will automatically be submitted when the connection is restored");
       });
   }
 
