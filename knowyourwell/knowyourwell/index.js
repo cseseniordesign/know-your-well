@@ -671,6 +671,8 @@ app.get("/Wells", async (req, res, next) => {
 });
 
 app.get("/csvqueries", async (req, res) => {
+  const kywmemValue = req.session.kywmem;
+
   try {
     // Perform multiple queries concurrently
     //const result1 = query1Function(request);
@@ -716,6 +718,8 @@ FROM     dbo.tblNRDLookup INNER JOIN
 });
 
 app.get('/allImageMetadata', async (req, res) => {
+  const kywmemValue = req.session.kywmem;
+
   let query = `SELECT
   dbo.tblWellInfo.school_id,
   dbo.tblSchool.sch_name,
