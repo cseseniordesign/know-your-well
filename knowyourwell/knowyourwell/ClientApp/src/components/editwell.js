@@ -17,7 +17,7 @@ export default function EditWell() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
