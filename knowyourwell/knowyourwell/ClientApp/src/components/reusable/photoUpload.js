@@ -35,7 +35,7 @@ export default async function uploadPhoto(file, containerName, blobName, metadat
       metadata: metadata,
     });
   } catch (err) {
-    alert(`Error: ${err.message}`);
+    console.log(`Error: ${err.message}`);
     throw err;
   }
 }
