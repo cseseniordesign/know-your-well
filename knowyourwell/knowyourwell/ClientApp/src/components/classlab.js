@@ -67,23 +67,33 @@ export default function ClassLab() {
     }));
   }
 
-  function addClassLab() {
-    Axios.post("/createclasslab", {
-      fa_id: fa_id,
-      ammonia: classLab.ammonia,
-      calciumhardness: classLab.calcium,
-      chloride: classLab.chloride,
-      copper: classLab.copper,
-      bacteria: classLab.bacteria,
-      iron: classLab.iron,
-      manganese: classLab.manganese,
-      nitrate: classLab.nitrate,
-      observations: classLab.observation,
-      datacollector: classLab.name,
-      dateentered: classLab.dateentered,
-    }).then(() => {
-      console.log("success");
+  async function addClassLab() {
+    let dataSubmitted = false;
+    await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
+      .then(async () => {
+      await Axios.post("/createclasslab", {
+        fa_id: fa_id,
+        ammonia: classLab.ammonia,
+        calciumhardness: classLab.calcium,
+        chloride: classLab.chloride,
+        copper: classLab.copper,
+        bacteria: classLab.bacteria,
+        iron: classLab.iron,
+        manganese: classLab.manganese,
+        nitrate: classLab.nitrate,
+        observations: classLab.observation,
+        datacollector: classLab.name,
+        dateentered: classLab.dateentered,
+      }).then(() => {
+        dataSubmitted = true;
+        console.log("Successfully submitted Class Lab Form!");
+      });
+    })
+    // If the request fails, we can't connect to the server
+    .catch(() => {
+      alert("The application cannot connect to the server. Please save your data and try again once the connection to the server has been restored.");
     });
+    return dataSubmitted;
   }
 
   const idList = [
@@ -158,17 +168,18 @@ export default function ClassLab() {
     }
   };
 
-  function submitForm() {
+  async function submitForm() {
     if (
       validForm() &&
       window.confirm(
         "Submitted data is final and Can only be edited by Nebraska Water Center Staff.\nWould you like to continue?",
       )
     ) {
-      addClassLab();
-      handleClearLocalStorage();
-      alert("Successfully submitted Class Lab Form!");
-      window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;
+      const dataSubmitted = await addClassLab();
+      if (dataSubmitted) {
+        handleClearLocalStorage();
+        window.location.href = `/EditWell?id=${well_id}&wellcode=${wellcode}&wellName=${wellName}`;
+      }
     }
   }
 

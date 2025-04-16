@@ -50,7 +50,7 @@ export default function EditWell() {
             style={{ width: "45%", height: "17%" }}
             className="btn btn-primary btn-lg btn-block"
           >
-            Field
+            Field Visit
           </a>
         </List.Content>
         <br />

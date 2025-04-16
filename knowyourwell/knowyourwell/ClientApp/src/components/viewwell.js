@@ -8,6 +8,7 @@ import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 
 import { useUser } from "./usercontext";
+import axios from "axios";
 
 const nameMap = {
   "wi_wellcode": "Well Code:",
@@ -29,7 +30,7 @@ const nameMap = {
   "wi_wellcasematerial": "Well Casing Material:",
   "wi_wellname": "Well Name:",
   "wi_registration_number": "Well Registration Number:",
-  "wi_well_user": "Name of Resident User:",
+  "wi_well_user": "Name of Resident Well User:",
   "wi_city": "Village, Town, or City:",
   "wi_zipcode": "Zip code:",
   "nrd_id": "NRD:",
@@ -149,7 +150,14 @@ export default function ViewWell() {
         wells = JSON.parse(wellCookie).Wells;
         formElements = wells.filter((well) => well.well_id === well_id)[0];
       } catch (e) {
-        console.log("wellCookie is inValid JSON");
+        console.log("wellCookie is inValid JSON, fetching from API");
+        axios.get('/Wells').then((response) => {
+          wells = response.data.Wells;
+          formElements = wells.filter((well) => well.well_id === well_id)[0];
+          localStorage.setItem("wellData", JSON.stringify(response.data));
+          window.location.reload();
+        }
+        );
       }
     }
   }
@@ -169,7 +177,6 @@ export default function ViewWell() {
       "wi_wellcode",
       "wi_wellname",
       "wi_registration_number",
-      "wi_well_user",
     ];
 
     const locationInfo = [
@@ -185,9 +192,9 @@ export default function ViewWell() {
 
     const contactInfo = [
       "wi_well_owner",
+      "wi_well_user",
       "wi_phone_well_user",
       "wi_email_well_user",
-      "wi_datacollector",
     ];
 
     const wellInfo = [
@@ -262,6 +269,14 @@ export default function ViewWell() {
         <br />
         <div className="container" style={{ textAlign: "center" }}>
           {columnList}
+          <div key="datacollector" className="row">
+            <div className="col">
+              <p style={{ textAlign: "center" }}>
+                <b>Data Collector:</b>{" "}
+                {formElements["wi_datacollector"]}
+              </p>
+            </div>
+          </div>
           <div key="dateentered" className="row">
             <div className="col">
               <p style={{ textAlign: "center" }}>

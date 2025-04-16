@@ -106,6 +106,12 @@ export async function getFromDB(database, objectStore, key) {
   return value;
 }
 
+export async function deleteFromDB(database, objectStore, key) {
+  const db = await openDB(database);
+  db.delete(objectStore, key);
+  db.close();
+}
+
 export async function getAllFromDB(database, objectStore) {
   const db = await openDB(database);
   const transaction = db.transaction(objectStore, "readonly");
