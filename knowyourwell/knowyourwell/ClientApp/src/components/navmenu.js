@@ -33,7 +33,7 @@ const NavMenu = () => {
               setUser(response.data);
             })
             .catch((response) => {
-              window.alert(
+              alert(
                 "The app encountered an error verifying that you are logged in."
               );
               console.log(response);
@@ -41,7 +41,7 @@ const NavMenu = () => {
             });
         }
         if (user?.displayn === "") {
-          window.alert("You are not yet logged in. Please log in.");
+          alert("You are not yet logged in. Please log in.");
           navigate("/");
         }
       });
