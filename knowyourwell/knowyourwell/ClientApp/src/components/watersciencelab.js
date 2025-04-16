@@ -11,50 +11,50 @@ let formElements = [];
 
 const nameMap = {
   wsl_samplecode: "Sample Code:",
-  wsl_ph: "pH:",
-  wsl_conductivity: "Conductivity:",
-  wsl_calciumhardness: "Calcium Hardness:",
-  wsl_no3no2n: "Nitrate + Nitrite Nitrogen:",
-  wsl_nh4n: "Ammonium Nitrogen:",
-  wsl_bromide: "Bromide:",
-  wsl_chloride: "Chloride:",
-  wsl_fluoride: "Fluoride:",
-  wsl_orthophosphate: "Orthophosphate:",
-  wsl_sulfate: "Sulfate:",
-  wsl_arsenic: "Arsenic:",
-  wsl_chromium: "Chromium:",
-  wsl_copper: "Copper:",
-  wsl_iron: "Iron:",
-  wsl_manganese: "Manganese:",
-  wsl_selenium: "Selenium:",
-  wsl_uranium: "Uranium:",
-  wsl_zinc: "Zinc:",
-  wsl_acetochlor: "Acetochlor:",
-  wsl_alachlor: "Alachlor:",
-  wsl_atrazine: "Atrazine:",
-  wsl_butylate: "Butylate:",
-  wsl_chlorothalonil: "Chlorothalonil:",
-  wsl_cyanazine: "Cyanazine:",
-  wsl_de_ethylatrazine: "De-ethylatrazine:",
-  wsl_de_iso_propylatrazine: "De-isopropylatrazine:",
-  wsl_dimethenamid: "Dimethenamid:",
-  wsl_EPTC: "EPTC:",
-  wsl_metolachlor: "Metolachlor:",
-  wsl_metribuzin: "Metribuzin:",
-  wsl_norflurazon: "Norflurazon:",
-  wsl_pendamethalin: "Pendimethalin:",
-  wsl_permethrin: "Permethrin:",
-  wsl_prometon: "Prometon:",
-  wsl_propazine: "Propazine:",
-  wsl_propachlor: "Propachlor:",
-  wsl_simazine: "Simazine:",
-  wsl_teflurthrin: "Tefluthrin:",
-  wsl_trifluralin: "Trifluralin:",
-  wsl_totalcoliform: "Total Coliform:",
-  wsl_ecoli: "E. coli:",
-  wsl_magnesium: "Magnesium:",
+  wsl_ph: "pH [0-14]:",
+  wsl_conductivity: "Conductivity [100-2000 μS/cm]:",
+  wsl_calciumhardness: "Calcium Hardness [50-500 ppm(mg/L)]:",
+  wsl_no3no2n: "Nitrate + Nitrite Nitrogen [0-45 ppm(mg/L)]:",
+  wsl_nh4n: "Ammonium Nitrogen (mg/L):",
+  wsl_bromide: "Bromide (mg/L):",
+  wsl_chloride: "Chloride (mg/L):",
+  wsl_fluoride: "Fluoride (mg/L):",
+  wsl_orthophosphate: "Orthophosphate (mg/L):",
+  wsl_sulfate: "Sulfate (mg/L):",
+  wsl_arsenic: "Arsenic (mg/L):",
+  wsl_chromium: "Chromium (μg/L):",
+  wsl_copper: "Copper (μg/L):",
+  wsl_iron: "Iron (μg/L):",
+  wsl_manganese: "Manganese (μg/L):",
+  wsl_selenium: "Selenium (μg/L):",
+  wsl_uranium: "Uranium (μg/L):",
+  wsl_zinc: "Zinc (μg/L):",
+  wsl_acetochlor: "Acetochlor (μg/L):",
+  wsl_alachlor: "Alachlor (μg/L):",
+  wsl_atrazine: "Atrazine (μg/L):",
+  wsl_butylate: "Butylate (μg/L):",
+  wsl_chlorothalonil: "Chlorothalonil (μg/L):",
+  wsl_cyanazine: "Cyanazine (μg/L):",
+  wsl_de_ethylatrazine: "De-ethylatrazine (μg/L):",
+  wsl_de_iso_propylatrazine: "De-isopropylatrazine (μg/L):",
+  wsl_dimethenamid: "Dimethenamid (μg/L):",
+  wsl_EPTC: "EPTC (μg/L):",
+  wsl_metolachlor: "Metolachlor (μg/L):",
+  wsl_metribuzin: "Metribuzin (μg/L):",
+  wsl_norflurazon: "Norflurazon (μg/L):",
+  wsl_pendamethalin: "Pendimethalin (μg/L):",
+  wsl_permethrin: "Permethrin (μg/L):",
+  wsl_prometon: "Prometon (μg/L):",
+  wsl_propazine: "Propazine (μg/L):",
+  wsl_propachlor: "Propachlor (μg/L):",
+  wsl_simazine: "Simazine (μg/L):",
+  wsl_teflurthrin: "Tefluthrin (μg/L):",
+  wsl_trifluralin: "Trifluralin (μg/L):",
+  wsl_totalcoliform: "Total Coliform (MPN/100 mL):",
+  wsl_ecoli: "E. coli (MPN/100 mL):",
+  wsl_magnesium: "Magnesium (μg/L):",
   wsl_comments: "Comments:",
-}
+};
 
 const wslInfo = [
   "wsl_samplecode",
@@ -174,18 +174,35 @@ export default function WaterScienceLab() {
     "wsl_teflurthrin",
   ];
 
-
   const miscInfo = wslInfo.filter((key) => {
-    return !basicWaterInfo.includes(key) && !metalsInfo.includes(key) && !pesticidesInfo.includes(key) && key !== "wsl_comments" && key !== "wsl_dateentered";
+    return (
+      !basicWaterInfo.includes(key) &&
+      !metalsInfo.includes(key) &&
+      !pesticidesInfo.includes(key) &&
+      key !== "wsl_comments" &&
+      key !== "wsl_dateentered"
+    );
   });
 
-  const miscList = ["Miscellaneous", ...miscInfo.map((key) => [key, formElements[key]])];
+  const miscList = [
+    "Miscellaneous",
+    ...miscInfo.map((key) => [key, formElements[key]]),
+  ];
   console.log(miscList);
   let columnList = [];
 
-  let basicChemList = ['Basic Water Chemistry', ...basicWaterInfo.map((key) => [key, formElements[key]])];
-  let metalList = ['Metals', ...metalsInfo.map((key) => [key, formElements[key]])];
-  let pesticideList = ['Pesticides', ...pesticidesInfo.map((key) => [key, formElements[key]])];
+  let basicChemList = [
+    "Basic Water Chemistry",
+    ...basicWaterInfo.map((key) => [key, formElements[key]]),
+  ];
+  let metalList = [
+    "Metals",
+    ...metalsInfo.map((key) => [key, formElements[key]]),
+  ];
+  let pesticideList = [
+    "Pesticides",
+    ...pesticidesInfo.map((key) => [key, formElements[key]]),
+  ];
 
   if (formElements) {
     for (const section of [basicChemList, metalList, pesticideList, miscList]) {
@@ -193,25 +210,44 @@ export default function WaterScienceLab() {
       const fields = section.slice(1);
       columnList.push(
         <>
-          <details key={summaryName} style={{ marginTop: "2px", alignItems: "center" }}>
-            <summary style={{ textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white" }}><b>{summaryName}</b></summary>
+          <details
+            key={summaryName}
+            style={{ marginTop: "2px", alignItems: "center" }}
+          >
+            <summary
+              style={{
+                textAlign: "left",
+                fontSize: "1.25em",
+                background: "#686868",
+                padding: "2px 8px",
+                color: "white",
+              }}
+            >
+              <b>{summaryName}</b>
+            </summary>
             {
               // map through fields and separate into two columns
               fields.map((field, index) => {
                 if (index % 2 === 0) {
                   return (
-                    <div key={index} className="row" style={{ paddingTop: "8px" }}>
+                    <div
+                      key={index}
+                      className="row"
+                      style={{ paddingTop: "8px" }}
+                    >
                       <div className="col">
                         <p style={{ textAlign: "left" }}>
-                          <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                          <b>{nameMap[field[0]]}</b>{" "}
+                          {field[1] || "None Provided"}
                         </p>
                       </div>
                       <div className="col">
-                        {fields[index + 1] &&
+                        {fields[index + 1] && (
                           <p style={{ textAlign: "left" }}>
-                            <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                            <b>{nameMap[fields[index + 1][0]]}</b>{" "}
+                            {fields[index + 1][1] || "None Provided"}
                           </p>
-                        }
+                        )}
                       </div>
                     </div>
                   );
@@ -222,7 +258,7 @@ export default function WaterScienceLab() {
             }
           </details>
           <br />
-        </>,
+        </>
       );
     }
     return (
