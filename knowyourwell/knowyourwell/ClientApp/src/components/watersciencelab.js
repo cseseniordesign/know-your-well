@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./css/forms.css";
 import Axios from "axios";
 import moment from "moment";
-import { basicWaterInfo, metalsInfo, pesticidesInfo, nameMap, wslInfo } from "./resources/wslConstants"
+import {
+  basicWaterInfo,
+  metalsInfo,
+  pesticidesInfo,
+  nameMap,
+  wslInfo
+} from "./resources/wslConstants"
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
