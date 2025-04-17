@@ -2,106 +2,19 @@ import React, { useEffect, useState } from "react";
 import "./css/forms.css";
 import Axios from "axios";
 import moment from "moment";
+import {
+  basicWaterInfo,
+  metalsInfo,
+  pesticidesInfo,
+  nameMap,
+  wslInfo,
+} from "./resources/wslConstants";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useUser } from "./usercontext";
 
 let formElements = [];
-
-const nameMap = {
-  wsl_samplecode: "Sample Code:",
-  wsl_ph: "pH [0-14]:",
-  wsl_conductivity: "Conductivity [100-2000 μS/cm]:",
-  wsl_calciumhardness: "Calcium Hardness [50-500 mg/L]:",
-  wsl_no3no2n: "Nitrate + Nitrite Nitrogen [0-45 mg/L]:",
-  wsl_nh4n: "Ammonium Nitrogen (mg/L):",
-  wsl_bromide: "Bromide (mg/L):",
-  wsl_chloride: "Chloride (mg/L):",
-  wsl_fluoride: "Fluoride (mg/L):",
-  wsl_orthophosphate: "Orthophosphate (mg/L):",
-  wsl_sulfate: "Sulfate (mg/L):",
-  wsl_arsenic: "Arsenic (mg/L):",
-  wsl_chromium: "Chromium (μg/L):",
-  wsl_copper: "Copper (μg/L):",
-  wsl_iron: "Iron (μg/L):",
-  wsl_manganese: "Manganese (μg/L):",
-  wsl_selenium: "Selenium (μg/L):",
-  wsl_uranium: "Uranium (μg/L):",
-  wsl_zinc: "Zinc (μg/L):",
-  wsl_acetochlor: "Acetochlor (μg/L):",
-  wsl_alachlor: "Alachlor (μg/L):",
-  wsl_atrazine: "Atrazine (μg/L):",
-  wsl_butylate: "Butylate (μg/L):",
-  wsl_chlorothalonil: "Chlorothalonil (μg/L):",
-  wsl_cyanazine: "Cyanazine (μg/L):",
-  wsl_de_ethylatrazine: "De-ethylatrazine (μg/L):",
-  wsl_de_iso_propylatrazine: "De-isopropylatrazine (μg/L):",
-  wsl_dimethenamid: "Dimethenamid (μg/L):",
-  wsl_EPTC: "EPTC (μg/L):",
-  wsl_metolachlor: "Metolachlor (μg/L):",
-  wsl_metribuzin: "Metribuzin (μg/L):",
-  wsl_norflurazon: "Norflurazon (μg/L):",
-  wsl_pendamethalin: "Pendimethalin (μg/L):",
-  wsl_permethrin: "Permethrin (μg/L):",
-  wsl_prometon: "Prometon (μg/L):",
-  wsl_propazine: "Propazine (μg/L):",
-  wsl_propachlor: "Propachlor (μg/L):",
-  wsl_simazine: "Simazine (μg/L):",
-  wsl_teflurthrin: "Tefluthrin (μg/L):",
-  wsl_trifluralin: "Trifluralin (μg/L):",
-  wsl_totalcoliform: "Total Coliform (MPN/100 mL):",
-  wsl_ecoli: "E. coli (MPN/100 mL):",
-  wsl_magnesium: "Magnesium (μg/L):",
-  wsl_comments: "Comments:",
-};
-
-const wslInfo = [
-  "wsl_samplecode",
-  "wsl_ph",
-  "wsl_conductivity",
-  "wsl_calciumhardness",
-  "wsl_no3no2n",
-  "wsl_nh4n",
-  "wsl_bromide",
-  "wsl_chloride",
-  "wsl_fluoride",
-  "wsl_orthophosphate",
-  "wsl_sulfate",
-  "wsl_arsenic",
-  "wsl_chromium",
-  "wsl_copper",
-  "wsl_iron",
-  "wsl_manganese",
-  "wsl_selenium",
-  "wsl_uranium",
-  "wsl_zinc",
-  "wsl_acetochlor",
-  "wsl_alachlor",
-  "wsl_atrazine",
-  "wsl_butylate",
-  "wsl_chlorothalonil",
-  "wsl_cyanazine",
-  "wsl_de_ethylatrazine",
-  "wsl_de_iso_propylatrazine",
-  "wsl_dimethenamid",
-  "wsl_EPTC",
-  "wsl_metolachlor",
-  "wsl_metribuzin",
-  "wsl_norflurazon",
-  "wsl_pendamethalin",
-  "wsl_permethrin",
-  "wsl_prometon",
-  "wsl_propazine",
-  "wsl_propachlor",
-  "wsl_simazine",
-  "wsl_teflurthrin",
-  "wsl_trifluralin",
-  "wsl_totalcoliform",
-  "wsl_ecoli",
-  "wsl_magnesium",
-  "wsl_comments",
-];
 
 export default function WaterScienceLab() {
   const [searchParams] = useSearchParams();
@@ -114,7 +27,7 @@ export default function WaterScienceLab() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
@@ -140,39 +53,6 @@ export default function WaterScienceLab() {
   for (const key of wslInfo) {
     wslInfoList.push([key, formElements[key]]);
   }
-
-  const basicWaterInfo = [
-    "wsl_conductivity",
-    "wsl_ph",
-    "wsl_calciumhardness",
-    "wsl_nh4n",
-    "wsl_no3no2n",
-    "wsl_chloride",
-    "wsl_orthophosphate",
-    "wsl_sulfate",
-  ];
-
-  const metalsInfo = [
-    "wsl_arsenic",
-    "wsl_chromium",
-    "wsl_copper",
-    "wsl_iron",
-    "wsl_manganese",
-    "wsl_selenium",
-    "wsl_uranium",
-    "wsl_zinc",
-  ];
-
-  const pesticidesInfo = [
-    "wsl_acetochlor",
-    "wsl_alachlor",
-    "wsl_atrazine",
-    "wsl_de_ethylatrazine",
-    "wsl_de_iso_propylatrazine",
-    "wsl_dimethenamid",
-    "wsl_metolachlor",
-    "wsl_teflurthrin",
-  ];
 
   const miscInfo = wslInfo.filter((key) => {
     return (
