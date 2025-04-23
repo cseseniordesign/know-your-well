@@ -139,7 +139,7 @@ export default function WellInfo() {
       // If the request fails, we can't connect to the server
       .catch(() => {
         setLocalWellInfoQueue(updatedQueue);
-        alert("The application cannot connect to the server. The well info form will automatically be submitted when the connection is restored.");
+        alert("The application cannot connect to the server. This form will automatically be submitted when the connection to the server is restored.");
       });
   }
 

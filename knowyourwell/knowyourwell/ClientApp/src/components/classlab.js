@@ -91,7 +91,7 @@ export default function ClassLab() {
     })
     // If the request fails, we can't connect to the server
     .catch(() => {
-      alert("The application cannot connect to the server. Please save your data and try again once the connection to the server has been restored.");
+      alert("The application cannot connect to the server. Please save this form and try again once the connection to the server has been restored.");
     });
     return dataSubmitted;
   }

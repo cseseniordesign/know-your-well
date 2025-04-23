@@ -145,7 +145,7 @@ export default function Images() {
             .catch(async () => {
               await putInDB(idbName, "imageUploadQueue", { file: image, containerName: containerName, blobName: blobName, metadata: metadata });
               setLocalImageDataQueue(updatedQueue);
-              alert("The application cannot connect to the server. The image will automatically be submitted when the connection is restored.");
+              alert("The application cannot connect to the server. This form will automatically be submitted when the connection to the server is restored.");
             });
         }
         window.location.reload();

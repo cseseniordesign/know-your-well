@@ -155,7 +155,7 @@ export default function Field() {
       // If the request fails, we can't connect to the server
       .catch(() => {
         setLocalFieldQueue(updatedQueue);
-        alert("The application cannot connect to the server. The field form will automatically be submitted when the connection is restored.");
+        alert("The application cannot connect to the server. This form will automatically be submitted when the connection to the server is restored.");
       });
   }
 
