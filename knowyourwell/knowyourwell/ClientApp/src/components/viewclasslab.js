@@ -114,7 +114,6 @@ export default function ViewLab() {
                 <b>Date Entered:</b>{" "}
                 {moment
                   .utc(formElements["cl_datecollected"])
-                  .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>

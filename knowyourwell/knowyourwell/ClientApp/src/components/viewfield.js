@@ -120,7 +120,6 @@ export default function ViewField() {
                 <b>Date Entered:</b>{" "}
                 {moment
                   .utc(formElements["fa_datecollected"])
-                  .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>

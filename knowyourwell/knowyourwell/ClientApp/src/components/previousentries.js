@@ -26,11 +26,11 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
         <List.Item>
           <h4>
             Field Activity Date:{" "}
-            {moment.utc(entry.fieldDate).local().format("MM-DD-YYYY hh:mm A")}
+            {moment.utc(entry.fieldDate).format("MM-DD-YYYY hh:mm A")}
           </h4>
           <h5>
             Class Lab Date:{" "}
-            {moment.utc(entry.labDate).local().format("MM-DD-YYYY hh:mm A")}
+            {moment.utc(entry.labDate).format("MM-DD-YYYY hh:mm A")}
           </h5>
           <h5>
             Water Science Lab Date:{" "}
