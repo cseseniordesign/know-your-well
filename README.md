@@ -28,15 +28,7 @@
 
 ## Executive Summary
 
-[Know Your Well](https://knowyourwell.unl.edu/ "Know Your Well") (KYW) is a project started at the University of Nebraska affiliated Nebraska Water Center (referred to as "the sponsor") that engages high school students and teachers in sampling and testing groundwater quality. About 160 students from 19 schools participated in KYW Phase 1 from 2017 to 2019. Through KYW, students are trained in well construction, features affecting well water quality, and how to collect and test samples. While sampling, students use a Progressive Web Application (PWA) to record well coordinates, land use, and other relevant features for (**IS THIS STILL TRUE**)up to 20 wells within 50 miles around their school, laying the groundwork for understanding groundwater vulnerability.
-
-(_delete??_)The long-term goal is to build a sustainable youth education well water program by extending the scope of previous KYW projects with an NRD-led program supported by the University of Nebraska Lincoln (UNL) and Kearney (UNK), involving up to 50 schools across Nebraska. Specific objectives are to:
-
-DELETE WHAT'S BELOW??!!
-
-- improve the website, strengthen links to NRD stakeholders, and develop an Android-based KYW-III App,
-- involve and train NRD staff in KYW-III program materials, and
-- recruit and engage up to 50 school groups in sampling and testing of local domestic wells, helping students relate results to land use, well construction, and hydrogeology.
+[Know Your Well](https://knowyourwell.unl.edu/ "Know Your Well") (KYW) is a project started at the University of Nebraska affiliated Nebraska Water Center (referred to as "the sponsor") that engages high school students and teachers in sampling and testing groundwater quality. About 160 students from 19 schools participated in KYW Phase 1 from 2017 to 2019. Through KYW, students are trained in well construction, features affecting well water quality, and how to collect and test samples. While sampling, students use a Progressive Web Application (PWA) to record well coordinates, land use, and other relevant well features, laying the groundwork for understanding groundwater vulnerability.
 
 ## Introduction
 
@@ -80,7 +72,7 @@ Offline caching is the most important feature of the application. This is becaus
 
 1. Manual Caching: When the user knows they do not have a connection, or wants to cache their data to come back and edit later, they can press the "Save" button on supported forms. When the user navigates back to the page and cached data exists, the app will prompt the user to ask if they would like to continue with their cached data. This is implemented using localStorage to save the relevant data.
 
-0. Automatic Caching: When the user attempts to submit data, if the app does not have a connection to the server it will automatically cache the data in a queue that will check for a connection every 15 seconds and, if one is found, upload the user's data. This is implemented using localStorage to store form data and IndexedDB to store images.
+2. Automatic Caching: When the user attempts to submit data, if the app does not have a connection to the server it will automatically cache the data in a queue that will check for a connection every 15 seconds and, if one is found, upload the user's data. This is implemented using localStorage to store form data and IndexedDB to store images.
 
 ### Input Validation
 
@@ -160,19 +152,13 @@ _More in-depth information can be found in [Frontend.md](/Frontend.md)_
 
 ### Notable At Large Bugs
 
-- Currently, not all packages are automatically deployed to Azure. Client side packages (inside the ClientApp folder) are deployed correctly, but packages within the knowyourwell folder do not get deployed correctly. Our current workaround is to have that upper level package.json sent to Azure each deployment, so you can then manually run "npm install" from the Kudu console in Azure. This is very inefficient and the process should be performed automatically. There are two solutions to this problem that we can think of:
-  1. Investigate why the client side packages are successfully transferred to Azure but the upper level packages are not. Ideally, everything needed on the Azure side is zipped up and sent from the GitHub Actions script. We do know that you may run into file size issues attempting to zip up and send the entire node_modules folder over from GitHub Actions, so another solution may be necessary.
-  1. Have the Web App automatically run a script on deployment: Some Azure resource types have a post-deployment script as a default part of their structure but it seems that our resource type is not among them. More research is required for this option.
-- At this point, users are often unable to be authenticated. Upon clicking the "Login with School Credentials" button they are met with a screen that says that the page could not be reached. This appears to be related to Nebraska Cloud in some capacity.
-  1. This bug arose after another Nebraska Cloud issue, specifically where the app's saml requests sent with the "AllowCreate" attribute as an empty string. It is unknown why this bug occurred, as when the SAML was initially implemented this was not an issue. In order to solve this, we greatly reworked how the saml requests are sent including using samlify templates. After the issue was solved the new issue of the page not being able to be reached arose.
-  2. It appears this issue is random in timing. However you can generally work around it by continuing to sent refresh the page and restarting the app. This almost always bypasses the issue, although it will need to be investigated and addressed in the future.
+While the application performs as expected the vast majority of the time, there are a few issues that the development team is aware of.
 
-### Agile Epic Level Issues
+1. There are times when the application treats users as being offline when they are actually online. There is a high chance that this issue has been resolved by upgrading the application's Azure plan to a paid plan, but the development team is unable to verify whether this upgrade has completely resolved this issue.
 
-\*Besides a few lingering bugs, we have implemented a large portion of the application. The largest outstanding categories are photo uploads and land features, and offline capabilities. A large triage of bugs causes us to delay features that we had initially been planning on releasing. Major progress has been made on the side of both offline capabilities and photo uploads, although it is not finished.
+### Stretch Goals
 
-1.  Photo upload capabilities involves taking images of land features (in the field page, land features are described as septic tanks, surface water etc.) and uploading them in the field page. Eventually these images should be displayed in the view well page. Code for this is on production right now, but it is not functional.
-2.  Because of how the database was set up, land features had to be associated with the well rather than the field activity, where the sponsors would prefer them. Moving them to the field page involves reworking the database, and this was not in the scope of our project unfortunately.
-3.  Offline capabilities had to be reworked this year due to issues that arose early on. This issue has persisted and has been very tough to manage. We have ran into issues where the offline functionality works on local environments but not on the production environment, making it even tougher. Code for offline capabilities, including the new additions and revisions, is also on production but not functional at this time
+The following are nice-to-have features that the development team did not have time to implement.
 
-A large number of known bugs can be found in the repository's ZenHub board. Good luck!
+1. Determine feasibility of and (if feasible) add land use/land feature coordinates to the graphical map interface as markers. This coordinate data should be the same coordinate data entered in the "Upload Images" form for that particular land use/land feature.
+2. Determine feasibility of and (if feasible) add limited data analysis capabilities to the graphical map interface. This would entail replacing well markers with dots of various shades of a specific color for various well-related attributes, such as concentrations of particular chemicals from Class Labs. The shade of the dot would be determined by comparing the corresponding well's attribute (that is currently being analyzed) to that attribute' threshold(s). The data used in this analysis shall be from the most recent class lab concentration that is less than or equal to 12 months old. For wells without recent data or data at all for a paticular attribute, For example, assume that we are analyzing nitrate concentrations.All wells that have a recorded nitrate concentration that is less than or equal to a year old will have colored dots that show up, replacing the respective well marker. One shade of red could be displayed for a dot if a particular well's nitrate concentration is less than 10 mg/L, and a different shade of red could be displayed if the nitrate concentration is above or equal to 10 mg/L.
