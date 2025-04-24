@@ -31,6 +31,18 @@ import { deleteFromDB, getAllFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
   const [coords, setCoords] = useState(() => {
+    // Try to update coords
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        if (position?.coords) {
+          setLocalCoords(position.coords);
+        }
+      },
+        (error) => {
+          // If there's an error getting new coords, don't change the value so we can use the cached one.
+          console.log(error);
+        });
+    }
     const storedCoords = localStorage.getItem("coords");
     return storedCoords && storedCoords !== "undefined"
       ? JSON.parse(storedCoords)
