@@ -48,7 +48,7 @@ There are two operational environments in which the app will be used: in the cla
 
 ### Intended Users and Uses
 
-High school students from participating Nebraska high schools will be the primary users of this application. Additional users include the UNL Water Sciences Lab, the Nebraska Water Center, the Daugherty Water for Food Global Institute at the University of Nebraska and other miscellaneous staff or faculty within the University's College of Agricultural Sciences and Natural Resources. The main use of this PWA is to replace documentation of information about wells, field activities, class labs, and water science labs done using paper and pencil. Another use of the PWA is to benefit from functionality that would be unfeasible on paper and pencil, such as by uploading images affilitated with a particular well.
+High school students from participating Nebraska high schools will be the primary users of this application. Additional users include the UNL Water Sciences Lab, the Nebraska Water Center, the Daugherty Water for Food Global Institute at the University of Nebraska and other miscellaneous staff or faculty within the University's College of Agricultural Sciences and Natural Resources. The main use of this PWA is to replace documentation of information about wells, field activities, class labs, and water science labs done using paper and pencil. Another use of the PWA is to benefit from functionality that would be unfeasible on paper and pencil, such as by uploading images associated with a particular well.
 
 ### Assumptions and Limitations
 
@@ -72,52 +72,51 @@ As this is a continuation project, with our group being the third team to work o
 
 ### Geolocation
 
-Geolocation was a feature that the sponsor mentioned on day one of the project as one of an app's major benefits. The main way geolocation would be used in the finished product is by easily identifying the coordinates of the well as well as important features. We have successfully implemented geolocation across the app. When the app is opened, it will use [navigator.geolocation.getCurrentPosition()](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition) to get the user's current position and store it using [React Context](https://react.dev/reference/react/useContext) so that it can be used from anywhere in the app. Currently, the app will only get the user's position once upon it being opened, so it will no
-be accurate to where the user is when they upload data. This is because we ran into issues with navigator.geolocation.getCurrentPosition() starting to fail t
+Geolocation was a feature that the sponsor mentioned on day one of the project as one of an app's major benefits. The main way geolocation would be used in the finished product is by easily identifying the coordinates of the well as well as important features. We have successfully implemented geolocation across the app. When the app is opened, it will use [navigator.geolocation.getCurrentPosition()](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition) to get the user's current position and store it using [React Context](https://react.dev/reference/react/useContext) so that it can be used from anywhere in the app. Currently, the app will first get the user's position once upon it being opened, before the user tries to use geolocation, to establish a fallback cached value. From then on, any time the user attempts to use geolocation, the app will attempt to update this value, and if it cannot it will use the most recent value it obtained.
 
-#modifying the code to attempt to get the uuserser's coords from navigator.geolocation.getCurrentposiPosition()) first , using the cached coords as a fallback.## Offline Caching
+## Offline Caching
 
-rOffline caching is the most important feature of the application. This is because as previously stated, the sponsor anticipates that many field locations won't have a stable internet connection. To counteract this the app must be able to save the information they need for their field activity,;n There are two different types of datafoffline caching supported by the app:
+Offline caching is the most important feature of the application. This is because as previously stated, the sponsor anticipates that many field locations won't have a stable internet connection. To counteract this the app must be able to save the information they need for their field activity. There are two different types of offline caching supported by the app:
 
-1. Manual Caching: When the user knows they do not have a connection, or wants to cache their data to come back and edit later, they can press the "Save" button on supported forms to cache the information for later. When the user navigates back to the page and cached data exists, the app will prompt the user to ask if they would like to continue with their cached data. This is implemented using localStorage to save the relevant data.
+1. Manual Caching: When the user knows they do not have a connection, or wants to cache their data to come back and edit later, they can press the "Save" button on supported forms. When the user navigates back to the page and cached data exists, the app will prompt the user to ask if they would like to continue with their cached data. This is implemented using localStorage to save the relevant data.
 
-0.wAutomatic Caching: When the user attempts to submit data, if the app does not have a connection to the server it will automatically cache the data in a queue that will check for a connection every 15 seconds and, if one is found, upload the user's data. hen the the app realizeds it does not have a connicen partand also the tdoniata that usersi center in the field, and then submit it when they have access to the internet. We have successfform emented this for the urrent pages where the .d, but as the app expands past its current state more pages will n (and images to Indexe to the server upon data submission.dDB)eed to be cached. We have accomplished this by saving relevant data to localStorage either when the database returns it or when the user hits save.
-e
-tu### Input Validation
-r
-nInput validation is currently handled by string patterns in the forms on the pages. These string patterns enforce constraints on the field such that users can not input data when being called repeatedly. If we require more accurate p sition data, we could consider values outside of a certain ranAn export page exists in the app that allows about wells in ththey have access to. In partThis page can be accessed from the navigation bar once the user is logged in. There are currently two supporteed d prisupported data export options: All Well Data and Image Metadata.i class labs but also for fields and wells as well.
+0. Automatic Caching: When the user attempts to submit data, if the app does not have a connection to the server it will automatically cache the data in a queue that will check for a connection every 15 seconds and, if one is found, upload the user's data. This is implemented using localStorage to store form data and IndexedDB to store images.
+
+### Input Validation
+
+Input validation is currently handled by string patterns in the forms on the pages. These string patterns enforce constraints on the field such that users can not input values outside of a certain range.
 
 ### CSV Exporting
 
-A feature was added late in the year that allowed users to export all data from the app to a csv file. This works as intended and the button can be found at the button of the wells page, beneath all the wells. One issue persists where county ids and NRD ids that are exported are one digit off.
+An export page exists in the app that allows users to export data about wells they have access to. This page can be accessed from the navigation bar once the user is logged in. There are currently two supporteed data export options: All Well Data and Image Metadata.
 
-### Filtering/Sorting Wells
+### Sorting/Filtering Wells
 
-Wells can be filtered and sorted using the two buttons at the top of the wells page. The decision to sort by date and filter by counties was a decision made by the sponsor. Additional functionality includes clicking off of the filter button clears the filter/clears the sort.
+Wells can be sorted and filtered using the two buttons at the top of the wells page. Options for sorting and filtering are listed below:
+
+- **Sort**
+  - Oldest First (default)
+  - Newest First
+  - Well Name A-Z
+  - Well Name Z-A
+  - Most Recent Field Activity
+- **Filter**
+  - County
+  - Natural Resource District
+  - Search (By Well Name)
+  - Latitude Range
+  - Longitude Range
+  - Wells in a \_\_\_ mile radius
 
 ### Authentication
 
-Authentication has been completed in the form of Nebraska Cloud. Currently, the loginWells can be sorted by The sort and filter options ar ele listed below:
-
-- **Sort**
-  - Oldest First (default): Lists the wells in order of their entry to the database, from oldest to newest.
-  - Newest First: Lists the wells in order of their entry to the database, from newest to oldest.
-  - Well Name A-Z: Lists the wells in alphabetical order.
-  - Well Name Z-A: Lists the wells in reverse alphabetical order.
-  - Most Recent Field Activity: Lists the wells ordered by the most recently entered field activity.
-- **Filter**
-  - County: Filters wells by county.
-  - Natural Resource District: Filters wells by NRD.
-  - Search: Filters wells by well name.
-  - Latitude: Finds wells inside a latitude range.
-  - Longitude: Finds wells inside a longitude range.
-  - Wells in a \_\_\_ mile radius: Finds wells within a certain mile radius of the user's current position.page sends an api request to the backend server (index.js) and a saml2.0 login request is created by utilizing the samlify library. After a SAML URL has been generated, the app is redirected to the Nebraska Cloud website where users are to submit their school email and passwords to login. The users are then redirected back to the well page after the response from nebraska cloud has been received and a user session has been created. At the wells page, the app uses the information returned from Nebraska Cloud to determine the users school and then only wells from that school are displayed.
+Authentication has been completed in the form of Nebraska Cloud. Currently, the login page sends an api request to the backend server (index.js) and a SAML 2.0 login request is created by utilizing the samlify library. After a SAML URL has been generated, the app is redirected to the Nebraska Cloud website where users are to submit their school email and passwords to login. The users are then redirected back to the well page after the response from Nebraska Cloud has been received and a user session has been created. At the wells page, the app uses the information returned from Nebraska Cloud to determine the users school and then only wells from that school are displayed.
 
 Authenticating users was a big step. This is because all wells that are created within in the app must be linked to their school, and Nebraska Cloud allowed us to do just this. In the current app, users can only see wells that are created by those who attend the same school, which was a sponsor requirement.
 
 ### Image Upload
 
-The application includes the funcionality for uploading images of various land features such as septic tanks, surface water, and well heads, as well as important documentation like the well owner's consent forms and image release consent forms. Images can be captured and uploaded to the database from the user's device during field activities. The images are designed to be viewable in the Previously Uploaded Images page. Like other field data, images can be captured offline and will automatically upload to the database when the user has internet access.
+The application includes the funcionality for uploading images of various land features such as septic tanks, surface water, and well heads, as well as important documentation like the well owner's consent forms and image release consent forms. Images can be captured and uploaded to the database from the user's device any time after the well has been added to the database. The images are designed to be viewable in the Previously Uploaded Images page. Like field data, images can be captured offline and will automatically upload to the database when the user has internet access.
 
 ## Architecture
 
