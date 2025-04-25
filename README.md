@@ -19,7 +19,7 @@
   - [Input Validation](#input-validation)
   - [Authentication](#authentication)
 - [Architecture](#architecture)
-  - [Database](#data-base)
+  - [Database](#database)
   - [Node Backend](#node-backend)
   - [React Frontend](#react-frontend)
 - [Next Steps](#next-steps)
@@ -112,41 +112,63 @@ The application includes the funcionality for uploading images of various land f
 
 ## Architecture
 
-### Data Base
+### Database
 
-![Database ER Diagram](DocumentationImages/KYW-DatabaseRelationships.jpg "Database ER Diagram")
-_Major adjustments to this database have been made as per the sponsors request. Several fields were added, the class lab and field relationship was reworked, and a land feature table was added._
+![Database ER Diagram](DocumentationImages/KYW-DatabaseRelationships.png "Database ER Diagram")
+_Major adjustments to this database have been made as per the sponsors request. Several fields were added, the class lab and field relationship was reworked, and a land feature table was added. Additionally, tooltip tables were implemented to provide in-app guidance, and an All Wells Image view was created to efficiently retrieve well image data._
 
-The database that the PWA connects to is a SQL Database hosted on the sponsor's Azure account. It has a series of tables that correspond to user-associated information and tables associated with each of the three contexts where the app is used (classroom/home for well info, remote site for well, and classroom for the class lab.) The sponsor also included a Nebraska Water Center lab table which is for an anticipated expansion of the app to be used to enter data that will come from their experiments.
+The database that the PWA connects to is a SQL Database hosted on the sponsor's Azure account. It has a series of interconnected tables that correspond to user-associated information and tables associated with each of the three contexts where the app is used (classroom/home for well info, remote site for well, and classroom for the class lab). The database architecture employs a normalized design with appropriate foreign key relationships to maintain data integrity across the application's workflow. Database access is secured through role-based permission controls, with transactions implemented in the backend to ensure data consistency during concurrent operations. The database schema includes specialized tables for different aspects of water testing (such as field measurements, classroom analysis, and advanced scientific testing), lookup tables for standardized values, and support tables for application features like tooltips and image storage. Several database views have been created to simplify complex data retrieval operations, allowing for efficient querying of related information across multiple tables without complex join operations in application code.
 
 ### Node Backend
 
 _More in-depth information can be found in [Backend.md](/Backend.md)_
 
 - The entire app is served through the Node.js backend.
-  - Accomplished by configuring project as Node app, and serving React front-end using [express.static()](https://expressjs.com/en/starter/static-files.html).
-- The app by default tries to match the request to an API endpoint using app.get methods if it fails to do this it redirects users to static files served using the method mentioned above.
-- Connects to database using Express, and [Node MSSQL](https://www.npmjs.com/package/mssql).
-  - Handles requests from the client app to retrieve, or update information in the DB.
+  - Accomplished by configuring the project as a Node app and serving the React front-end using [express.static()](https://expressjs.com/en/starter/static-files.html).
+- The app by default tries to match incoming requests to API endpoints using app.get or app.post methods. If it fails, it redirects users to static files served from the wwwroot directory.
+- Authentication is handled through SAML protocol integration with Nebraska Cloud, storing user session information to maintain authentication state.
+- Connects to the SQL database using Express and [Node MSSQL](https://www.npmjs.com/package/mssql).
+  - Uses connection pooling to efficiently manage database connections.
+  - Implements transactions to ensure data integrity when performing inserts and updates.
+  - Uses parameterized queries to prevent SQL injection attacks.
+- API endpoints are organized into two main categories:
+  - Data creation endpoints (POST requests) that insert user-submitted data into the database.
+  - Data retrieval endpoints (GET requests) that fetch and return information to the client.
+- Includes a heartbeat endpoint to help the client determine online/offline status.
 
 ### React Frontend
 
 _More in-depth information can be found in [Frontend.md](/Frontend.md)_
 
 - Served by the Node Backend if the request doesn't match any of the DB API endpoints.
-- Broadly
-  - Takes processed information from the Node backend and displays it.
-  - Collects information from users both by them entering it explicitly, and by reading system information e.g., drop-down menu, and system time.
-    - Validation is also performed using [HTML pattern attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern) in the relevant forms.
-  - Sends information collected by users to the server app using [Axios](https://axios-http.com/docs/intro).
-- Organized by the major points where the app is used with menus to navigate between these sections.
-  - Well Info – General information about the well that is entered in an area with an internet connection.
-  - Field – Collecting information in the field, designed to be usable without internet access.
-    - Information required for beginning the field section will be cached after pre-field, and the field log will be cached when the user indicates that they have finished the field section.
-      - Cached information is uploaded when the user has an internet connection.
-  - Lab – Students input results of lab tests that they run on water samples.
-    - Similar to Well-Info, except the user selects the well log they want to update for the Lab section.
-    - Associated with a Field entry
+- Uses [React Router](https://reactrouter.com/) for client‑side navigation.
+- Implements state management through React Context:
+  - `src/components/usercontext.js` exports:
+    - `UserProvider` wraps the app to manage authentication state.
+    - `useUser()` hook to read/update the current user.
+- Features offline capabilities with a multi‑layered approach:
+  - Automatic queue checks connectivity every 15 s to upload cached data.
+  - Manual “Save” button caches form state for later editing.
+  - Restoration alerts notify when offline data syncs.
+- Implements geolocation services that:
+  - Initialize on startup to set a baseline location.
+  - Cache coords in localStorage as an offline fallback.
+  - Provide real‑time updates when available.
+- Interactive map via React Leaflet:
+  - Shows well markers.
+  - Limits zoom to preserve privacy.
+  - Toggle between map and list views.
+- Uses multiple storage layers:
+  - localStorage for form data and config.
+  - IndexedDB for offline images.
+  - sessionStorage for ephemeral UI state.
+- Broadly:
+  - Displays data fetched from Node using [Axios](https://axios-http.com/docs/intro).
+  - Validates inputs with [HTML pattern attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern).
+- Organized into three main views:
+  - **Well Info** – network-only form for basic well data.
+  - **Field** – offline‑first form for field activities (pre‑cache and upload on reconnect).
+  - **Lab** – post‑field lab results tied to a field entry.
 
 ## Next Steps
 
