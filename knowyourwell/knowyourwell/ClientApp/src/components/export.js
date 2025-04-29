@@ -15,7 +15,16 @@ const openDownloadDialog = (file) => {
   URL.revokeObjectURL(url);
 };
 
+const sendExportEvent = (type) => {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9SVHGVZ6R2');
+  gtag('event', type);
+}
+
 const exportCSV = () => {
+  sendExportEvent('detailed_export');
   Axios.get("/csvqueries", {
     responseType: "json",
   })
@@ -34,7 +43,7 @@ const exportCSV = () => {
         headerRow = 0;
       }
       csv[0] += "\n";
-      const file = new File(csv, "welldata.csv", {
+      const file = new File(csv, `welldata_${Date().slice(0, 24).replaceAll(" ", "_")}.csv`, {
         type: "text/csv",
       });
       openDownloadDialog(file);
@@ -45,6 +54,7 @@ const exportCSV = () => {
 };
 
 const exportImageMetadata = () => {
+  sendExportEvent('image_export');
   Axios.get('/allImageMetadata', {
     responseType: "json",
   }).then((response) => {

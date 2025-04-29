@@ -8,6 +8,7 @@ import nrdOptions from "./resources/nrds";
 import { useNavigate } from "react-router-dom";
 
 import { useUser } from "./usercontext";
+import axios from "axios";
 
 const nameMap = {
   "wi_wellcode": "Well Code:",
@@ -29,7 +30,7 @@ const nameMap = {
   "wi_wellcasematerial": "Well Casing Material:",
   "wi_wellname": "Well Name:",
   "wi_registration_number": "Well Registration Number:",
-  "wi_well_user": "Name of Resident User:",
+  "wi_well_user": "Name of Resident Well User:",
   "wi_city": "Village, Town, or City:",
   "wi_zipcode": "Zip code:",
   "nrd_id": "NRD:",
@@ -57,7 +58,7 @@ export default function ViewWell() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
@@ -149,7 +150,14 @@ export default function ViewWell() {
         wells = JSON.parse(wellCookie).Wells;
         formElements = wells.filter((well) => well.well_id === well_id)[0];
       } catch (e) {
-        console.log("wellCookie is inValid JSON");
+        console.log("wellCookie is inValid JSON, fetching from API");
+        axios.get('/Wells').then((response) => {
+          wells = response.data.Wells;
+          formElements = wells.filter((well) => well.well_id === well_id)[0];
+          localStorage.setItem("wellData", JSON.stringify(response.data));
+          window.location.reload();
+        }
+        );
       }
     }
   }
@@ -169,7 +177,6 @@ export default function ViewWell() {
       "wi_wellcode",
       "wi_wellname",
       "wi_registration_number",
-      "wi_well_user",
     ];
 
     const locationInfo = [
@@ -185,9 +192,9 @@ export default function ViewWell() {
 
     const contactInfo = [
       "wi_well_owner",
+      "wi_well_user",
       "wi_phone_well_user",
       "wi_email_well_user",
-      "wi_datacollector",
     ];
 
     const wellInfo = [
@@ -210,89 +217,45 @@ export default function ViewWell() {
       "wi_welldry_description",
       "wi_observation",
     ];
-    const basicInfoList = ['Basic Info'];
-    const locationInfoList = ['Location Info'];
-    const contactInfoList = ['Contact Info'];
-    const wellInfoList = ['Well Info'];
+    const basicInfoList = ['Basic Info', ...basicInfo.map((key) => [key, formElements[key]])];
+    const locationInfoList = ['Location Info', ...locationInfo.map((key) => [key, formElements[key]])];
+    const contactInfoList = ['Contact Info', ...contactInfo.map((key) => [key, formElements[key]])];
+    const wellInfoList = ['Well Info', ...wellInfo.map((key) => [key, formElements[key]])];
 
-    for (const key of basicInfo) {
-      if (formElements[key]) {
-        basicInfoList.push([key, formElements[key]]);
-      }
-    }
-    for (const key of locationInfo) {
-      if (formElements[key]) {
-        locationInfoList.push([key, formElements[key]]);
-      }
-    }
-    for (const key of contactInfo) {
-      if (formElements[key]) {
-        contactInfoList.push([key, formElements[key]]);
-      }
-    }
-    for (const key of wellInfo) {
-      if (formElements[key]) {
-        wellInfoList.push([key, formElements[key]]);
-      }
-    }
-
-    // for (let i = 0; i < firstColumn.length; i++) {
-    //   const firstColumnName = Object.keys(firstColumn[i])[0];
-    //   const firstColumnValue = formElements[Object.values(firstColumn[i])[0]];
-
-    //   const secondColumnName = Object.keys(secondColumn[i])[0];
-    //   const secondColumnValue = formElements[Object.values(secondColumn[i])[0]];
-
-
-    //   columnList.push(
-    //     <div key={i} className="row">
-    //       <div className="col">
-    //         <p style={{ textAlign: "center" }}>
-    //           <b>{firstColumnName}</b> {firstColumnValue}
-    //         </p>
-    //       </div>
-    //       <div className="col">
-    //         <p style={{ textAlign: "center" }}>
-    //           <b>{secondColumnName}</b> {secondColumnValue}
-    //         </p>
-    //       </div>
-    //     </div>,
-    //   );
-    // }
     for (const i of [basicInfoList, locationInfoList, contactInfoList, wellInfoList]) {
       const summaryName = i[0];
       const fields = i.slice(1);
       columnList.push(
         <>
-        <details key={summaryName} style={{marginTop: "2px", alignItems: "center"}}>
-          <summary style={{textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white"}}><b>{summaryName}</b></summary>
-          {
-            // map through fields and separate into two columns
-            fields.map((field, index) => {
-              if (index % 2 === 0) {
-                return (
-                  <div key={index} className="row" style={{paddingTop: "8px"}}>
-                    <div className="col">
-                      <p style={{ textAlign: "left" }}>
-                        <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
-                      </p>
+          <details key={summaryName} style={{ marginTop: "2px", alignItems: "center" }}>
+            <summary style={{ textAlign: "left", fontSize: "1.25em", background: "#686868", padding: "2px 8px", color: "white" }}><b>{summaryName}</b></summary>
+            {
+              // map through fields and separate into two columns
+              fields.map((field, index) => {
+                if (index % 2 === 0) {
+                  return (
+                    <div key={index} className="row" style={{ paddingTop: "8px" }}>
+                      <div className="col">
+                        <p style={{ textAlign: "left" }}>
+                          <b>{nameMap[field[0]]}</b> {field[1] || "None Provided"}
+                        </p>
+                      </div>
+                      <div className="col">
+                        {fields[index + 1] &&
+                          <p style={{ textAlign: "left" }}>
+                            <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                          </p>
+                        }
+                      </div>
                     </div>
-                    <div className="col">
-                      {fields[index + 1] &&
-                      <p style={{ textAlign: "left" }}>
-                        <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                      </p>
-                      }
-                    </div>
-                  </div>
-                );
-              }
-              // return so map is happy
-              return null;
-            })
-          }
-        </details>
-        <br />
+                  );
+                }
+                // return so map is happy
+                return null;
+              })
+            }
+          </details>
+          <br />
         </>,
       );
     }
@@ -304,14 +267,22 @@ export default function ViewWell() {
           {wellcode}: {wellName}: Well Info
         </h2>
         <br />
-        <div className="container" style={{ textAlign: "center"}}>
+        <div className="container" style={{ textAlign: "center" }}>
           {columnList}
+          <div key="datacollector" className="row">
+            <div className="col">
+              <p style={{ textAlign: "center" }}>
+                <b>Data Collector:</b>{" "}
+                {formElements["wi_datacollector"]}
+              </p>
+            </div>
+          </div>
           <div key="dateentered" className="row">
             <div className="col">
               <p style={{ textAlign: "center" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
-                  .utc(formElements["wi_dateentered"])
+                  .utc(formElements["wi_datecollected"])
                   .local()
                   .format("MM-DD-YYYY hh:mm A")}
               </p>

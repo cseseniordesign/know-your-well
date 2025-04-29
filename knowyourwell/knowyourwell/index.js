@@ -582,18 +582,20 @@ app.post("/createimage", (req, res) => {
   });
 });
 
-app.get("/Wells", async (req, res) => {
+app.get("/Wells", async (req, res, next) => {
+
   let query = "SELECT * FROM dbo.tblWellInfo";
 
-  kywmemValue = req.session.kywmem;
+  const kywmemValue = req.session.kywmem;
 
-  const applySchoolId = () => {
-    if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
-      return ` WHERE school_id = ${kywmemValue} `
-    } else {
-      res.status(422).send("school_id must be defined");
+  if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
+    applySchoolId = () => {
+      return ` WHERE school_id = ${kywmemValue}`;
     }
+  } else {
+    next(new Error("No school ID found in session."));
   }
+
   query += applySchoolId();
 
   const applyFilter = () => {
@@ -624,7 +626,7 @@ app.get("/Wells", async (req, res) => {
           if (req.query.sortBy === "field_activity" && filter.includes("well_id")) {
             conditions.push(`w.${filter}`);
           } else {
-            conditions.push(filter)
+            conditions.push(filter);
           }
         } else {
           conditions.push(`${column} = ${filter}`);
@@ -647,8 +649,7 @@ app.get("/Wells", async (req, res) => {
                         ) fa on w.well_id = fa.well_id` +
     applySchoolId() +
     applyFilter() +
-    ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`
-
+    ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`;
 
   if (req.query.sortBy) {
     if (req.query.sortBy === "field_activity") {
@@ -660,19 +661,18 @@ app.get("/Wells", async (req, res) => {
     query += ' ORDER BY wi_wellname';
   }
 
-  console.log(query);
-
   appPool.query(query, function (err, recordset) {
     if (err) {
       console.log(err);
-      res.status(500).send("SERVER ERROR");
-      return;
+      next(err);
     }
     res.status(200).json({ Wells: recordset.recordset });
   });
 });
 
 app.get("/csvqueries", async (req, res) => {
+  const kywmemValue = req.session.kywmem;
+
   try {
     // Perform multiple queries concurrently
     //const result1 = query1Function(request);
@@ -718,6 +718,8 @@ FROM     dbo.tblNRDLookup INNER JOIN
 });
 
 app.get('/allImageMetadata', async (req, res) => {
+  const kywmemValue = req.session.kywmem;
+
   let query = `SELECT
   dbo.tblWellInfo.school_id,
   dbo.tblSchool.sch_name,
@@ -826,6 +828,88 @@ app.get("/previousentries", async (req, res) => {
               } else {
                 // console.log(recordset)
                 res.status(200).json({ FieldList: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/previousentriesWithWSL", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    //const secondFilter = req.query.newLab === "True" ? " AND classlab_id IS NULL" : "";
+
+    request
+      .input("well_id", sql.Int, req.query.well_id)
+      .query(
+        "SELECT fa.fieldactivity_id, fa.fa_datecollected, cl.classlab_id, cl.cl_datecollected, wsl.watersciencelab_id, wsl.wsl_dateentered FROM dbo.tblFieldActivity AS fa LEFT JOIN dbo.tblClassroomLab AS cl ON fa.fieldactivity_id = cl.fieldactivity_id LEFT JOIN dbo.tblWaterScienceLab AS wsl ON fa.fieldactivity_id = wsl.fieldactivity_id WHERE fa.well_id = @well_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ ExpandedFieldList: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetFieldEntriesByWell", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("well_id", sql.Int, req.query.well_id)
+      .query(
+        "SELECT fieldactivity_id, fa_datecollected FROM dbo.tblFieldActivity WHERE well_id = @well_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ MinimalFieldList: recordset.recordset });
               }
             });
           }
@@ -945,6 +1029,126 @@ app.get("/GetLabEntry", async (req, res) => {
               } else {
                 // console.log(recordset)
                 res.status(200).json({ ClassLabEntry: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetClassLabEntryByFieldActivity", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("fieldactivity_id", sql.Int, req.query.fieldactivity_id)
+      .query(
+        "SELECT * FROM dbo.tblClassroomLab WHERE fieldactivity_id = @fieldactivity_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ ClassLabEntries: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetWaterScienceLabEntry", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("watersciencelab_id", sql.Int, req.query.watersciencelab_id)
+      .query(
+        "SELECT * FROM dbo.tblWaterScienceLab WHERE watersciencelab_id = @watersciencelab_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ WaterScienceLabEntry: recordset.recordset });
+              }
+            });
+          }
+        },
+      );
+  });
+});
+
+app.get("/GetWaterScienceLabEntryByFieldActivity", async (req, res) => {
+  const transaction = appPool.transaction();
+  transaction.begin((err) => {
+    if (err) console.error("Transaction Failed");
+    const request = appPool.request(transaction);
+    let rolledBack = false;
+
+    transaction.on("rollback", (aborted) => {
+      rolledBack = true;
+    });
+
+    request
+      .input("fieldactivity_id", sql.Int, req.query.fieldactivity_id)
+      .query(
+        "SELECT * FROM dbo.tblWaterScienceLab WHERE fieldactivity_id = @fieldactivity_id;",
+        function (err, recordset) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Query does not execute.");
+            if (!rolledBack) {
+              transaction.rollback((err) => {
+                // ... error checks
+              });
+            }
+          } else {
+            transaction.commit((err) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("500: Server Error.");
+              } else {
+                // console.log(recordset)
+                res.status(200).json({ WaterScienceLabEntries: recordset.recordset });
               }
             });
           }

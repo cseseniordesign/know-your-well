@@ -16,7 +16,7 @@ function generateListElements(previousImages, well_id, name, wellcode) {
         <List.Item>
           <h4>
             Image Date:{" "}
-            {moment.utc(entry.imageDate).local().format("MM-DD-YYYY hh:mm A")}
+            {moment.utc(entry.imageDate).format("MM-DD-YYYY hh:mm A")}
           </h4>
         </List.Item>
         <List.Item>
@@ -47,7 +47,7 @@ export default function PreviousImages() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);

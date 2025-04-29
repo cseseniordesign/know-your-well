@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import {
   Collapse,
@@ -9,7 +10,6 @@ import {
   NavLink,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import csvKey from "./resources/csvkey";
 import "./css/NavMenu.css";
 
 import { useUser } from "./usercontext";
@@ -17,7 +17,38 @@ import { useUser } from "./usercontext";
 const NavMenu = () => {
   const [collapsed, setCollapsed] = useState(true);
   const toggleNavbar = () => setCollapsed(!collapsed);
+  const navigate = useNavigate();
   const { user, setUser } = useUser();
+
+  useEffect(() => {
+    const validateUser = async () => {
+      // Only check the user's login status when connected to the internet
+      await Axios.get(`/heartbeat?timestamp=${Date.now()}`)
+      .then(async () => {
+        if (!user && window.location.pathname !== "/") {
+          await Axios.get("/userinfo", {
+            responseType: "json",
+          })
+            .then((response) => {
+              setUser(response.data);
+            })
+            .catch((response) => {
+              alert(
+                "The app encountered an error verifying that you are logged in."
+              );
+              console.log(response);
+              navigate("/");
+            });
+        }
+        if (user?.displayn === "") {
+          alert("You are not yet logged in. Please log in.");
+          navigate("/");
+        }
+      });
+    };
+
+    validateUser();
+  }, [navigate, user, setUser]);
 
   const initLogout = async () => {
     await Axios.get("/logout", {

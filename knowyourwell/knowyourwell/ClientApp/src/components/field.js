@@ -108,7 +108,7 @@ export default function Field() {
   };
 
   useEffect(() => {
-    if (coords?.latitude && coords?.longitude) {
+    if (coords?.latitude && coords?.longitude && !(fieldData.fa_latitude && fieldData.fa_longitude)) {
       updateFieldData("fa_latitude", coords.latitude);
       updateFieldData("fa_longitude", coords.longitude);
     }
@@ -152,10 +152,10 @@ export default function Field() {
         });
         alert("Successfully submitted Field Form!");
       })
-      // if the request fails, we know we are offline
+      // If the request fails, we can't connect to the server
       .catch(() => {
         setLocalFieldQueue(updatedQueue);
-        alert("You are offline. The field form will submit automatically when you regain an internet connection");
+        alert("The application cannot connect to the server. This form will automatically be submitted when the connection to the server is restored.");
       });
   }
 
@@ -295,7 +295,7 @@ export default function Field() {
 
   return (
     <form id="submissionAlert">
-      <h2>{wellName}: Field</h2>
+      <h2>{wellName}: Field Visit</h2>
       <div className="requiredField">
         <br></br>
         <p>* = Required Field</p>

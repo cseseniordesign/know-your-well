@@ -3,6 +3,7 @@ import React from "react";
 import "./components/css/custom.css";
 import "./components/css/style.css";
 import Axios from "axios";
+import pullAt from "lodash/pullAt";
 import Login from "./components/login";
 import NavMenu from "./components/navmenu";
 import Well from "./components/well";
@@ -18,6 +19,7 @@ import ViewWell from "./components/viewwell";
 import FieldSelection from "./components/fieldselection";
 import FormSubmission from "./components/formsubmission";
 import WellFieldLabContext from "./components/reusable/WellFieldLabContext";
+import WaterScienceLab from "./components/watersciencelab";
 import Images from "./components/images";
 import PreviousImages from "./components/previousimages";
 import ExportPage from "./components/export";
@@ -25,10 +27,22 @@ import { useState, useEffect } from "react";
 import { UserProvider } from "./components/usercontext";
 import ViewImage from "./components/viewImage";
 import uploadPhoto from "./components/reusable/photoUpload";
-import { clearObjectStore, getAllFromDB, idbName } from "./setupIndexedDB";
+import { deleteFromDB, getAllFromDB, idbName } from "./setupIndexedDB";
 
 export default function App() {
   const [coords, setCoords] = useState(() => {
+    // Try to update coords
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        if (position?.coords) {
+          setLocalCoords(position.coords);
+        }
+      },
+        (error) => {
+          // If there's an error getting new coords, don't change the value so we can use the cached one.
+          console.log(error);
+        });
+    }
     const storedCoords = localStorage.getItem("coords");
     return storedCoords && storedCoords !== "undefined"
       ? JSON.parse(storedCoords)
@@ -74,17 +88,26 @@ export default function App() {
   const setLocalImageDataQueue = (newValue) => {
     setImageDataQueue(newValue);
     localStorage.setItem("imageDataQueue", JSON.stringify(newValue));
-  }; 
+  };
 
   const handleOnline = async () => {
-    const wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
-    const fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
-    const imageQueue = await getAllFromDB(idbName, "imageUploadQueue");
-    const imageDataQueue = JSON.parse(localStorage.getItem("imageDataQueue")) || [];
+    let wellInfoQueue = JSON.parse(localStorage.getItem("wellInfoQueue")) || [];
+    let fieldQueue = JSON.parse(localStorage.getItem("fieldQueue")) || [];
+    let imageQueue = await getAllFromDB(idbName, "imageUploadQueue") || [];
+    let imageDataQueue = JSON.parse(localStorage.getItem("imageDataQueue")) || [];
 
     const wellInfoUpdated = wellInfoQueue.length !== 0;
+    let uploadedIndexes = [];
+    let allDataUploaded = true;
 
-    for (const wellInfo of wellInfoQueue) {
+    const markIndexUploaded = (i) => {
+      uploadedIndexes.push(i);
+    }
+    const errorUploading = () => {
+      allDataUploaded = false;
+    }
+
+    for (const [i, wellInfo] of wellInfoQueue.entries()) {
       const wellcode = await generateWellcode();
       await Axios.post("/createwellinfo", {
         address: wellInfo.address,
@@ -123,11 +146,18 @@ export default function App() {
         welltype: wellInfo.welltype,
         welluser: wellInfo.welluser,
         zipcode: wellInfo.zipcode,
-      });
+      }).then(markIndexUploaded(i))
+      .catch(errorUploading);
     }
-    setLocalWellInfoQueue([]);
+    // Remove any elements that were successfully uploaded.
+    pullAt(wellInfoQueue, uploadedIndexes);
+    setLocalWellInfoQueue(wellInfoQueue || []);
+    uploadedIndexes = [];
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    for (const field of fieldQueue) {
+    for (const [i, field] of fieldQueue.entries()) {
       await Axios.post("/api/insert", {
         well_id: field.well_id,
         fa_latitude: field.fa_latitude,
@@ -146,21 +176,30 @@ export default function App() {
         name: field.name,
         observations: field.observations,
         datecollected: field.dateentered,
-      });
+      }).then(markIndexUploaded(i))
+      .catch(errorUploading);
     }
-    setLocalFieldQueue([]);
+    pullAt(fieldQueue, uploadedIndexes);
+    setLocalFieldQueue(fieldQueue || []);
+    uploadedIndexes = [];
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    for (const image of imageQueue) {
+    for (const [i, image] of imageQueue.entries()) {
       await uploadPhoto(
         image.file,
         image.containerName,
         image.blobName,
         image.metadata,
-      );
+      ).then(deleteFromDB(idbName, "imageUploadQueue", image.id))
+      .catch(errorUploading);
     }
-    await clearObjectStore(idbName, "imageUploadQueue");
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    for (const imageData of imageDataQueue) {
+    for (const [i, imageData] of imageDataQueue.entries()) {
       await Axios.post("/createimage", {
         well_id: imageData.well_id,
         im_type: imageData.type,
@@ -172,11 +211,18 @@ export default function App() {
         observations: imageData.observations,
         im_filename: imageData.blobName,
         datecollected: imageData.dateentered,
-      });
+      }).then(markIndexUploaded(i))
+      .catch(errorUploading);
     }
-    setLocalImageDataQueue([]);
+    pullAt(imageDataQueue, uploadedIndexes);
+    setLocalImageDataQueue(imageDataQueue || []);
+    // I know this part is unnecessary, but I think it helps readability to keep it consistent.
+    uploadedIndexes = [];
+    if (!allDataUploaded) {
+      return [wellInfoUpdated, allDataUploaded];
+    }
 
-    return wellInfoUpdated;
+    return [wellInfoUpdated, allDataUploaded];
   };
 
   useEffect(() => {
@@ -185,23 +231,27 @@ export default function App() {
         navigator.geolocation.getCurrentPosition((position) => {
           setLocalCoords(position.coords);
         },
-        (error) => {
-          console.log(error);
-          setLocalCoords({});
-          alert("There was an issue retrieving your location. Geolocation capabilities in the app are not availible for the current session.");
-        });
+          (error) => {
+            console.log(error);
+            setLocalCoords({});
+            alert("There was an issue retrieving your location. Geolocation capabilities in the app are not availible for the current session.");
+          });
       }
       // Setting this item in the session storage will prevent any further attempts to use geolocation until the page is closed and re-opened.
       sessionStorage.setItem("pageInitialized", "true");
     }
 
     setInterval(() => {
-      // Check if the user is online every 15 seconds
+      // Check if the server can be reached every 15 seconds
       Axios.get(`/heartbeat?timestamp=${Date.now()}`)
         .then(async () => {
           if (fieldQueue.length > 0 || wellInfoQueue.length > 0 || (await getAllFromDB(idbName, "imageUploadQueue")).length > 0 || imageDataQueue.length > 0) {
-            const wellInfoUpdated = await handleOnline();
-            alert("Your connection was restored and your offline data was successfully submitted!");
+            const [wellInfoUpdated, allDataUploaded] = await handleOnline();
+            if (allDataUploaded) {
+              alert("Your connection was restored and your data was successfully submitted!");
+            } else {
+              alert("There was an issue uploading your data. The app will try again if it has a connection to the server.");
+            }
             if (wellInfoUpdated && window.location.pathname.toLowerCase() === "/well") {
               window.location.reload();
             }
@@ -212,11 +262,11 @@ export default function App() {
           return;
         });
     }, 15000);
-  // We only want this useEffect to run once per refresh, so we pass an empty dependency array.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // We only want this useEffect to run once per refresh, so we pass an empty dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
+
 
   return (
     <>
@@ -251,6 +301,7 @@ export default function App() {
             <Route exact path="/images" element={<Images />} />
             <Route exact path="/previousimages" element={<PreviousImages />} />
             <Route exact path="/viewimage" element={<ViewImage />} />
+            <Route exact path="/viewwatersciencelab" element={<WaterScienceLab />} />
             <Route exact path="/export" element={<ExportPage />} />
           </Routes>
         </WellFieldLabContext.Provider>

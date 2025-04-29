@@ -13,8 +13,12 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
   for (var entry of previousEntries) {
     let key = 1;
 
-    const buttonClass =
+    const classLabButtonClass =
       entry.labID === null
+        ? "btn btn-primary btn-lg disabled"
+        : "btn btn-primary btn-lg";
+    const wslButtonClass =
+      entry.wslID === null
         ? "btn btn-primary btn-lg disabled"
         : "btn btn-primary btn-lg";
     listElements.push(
@@ -22,32 +26,46 @@ function generateListElements(previousEntries, well_id, name, wellcode) {
         <List.Item>
           <h4>
             Field Activity Date:{" "}
-            {moment.utc(entry.fieldDate).local().format("MM-DD-YYYY hh:mm A")}
+            {moment.utc(entry.fieldDate).format("MM-DD-YYYY hh:mm A")}
           </h4>
-          <h4>
+          <h5>
             Class Lab Date:{" "}
-            {moment.utc(entry.labDate).local().format("MM-DD-YYYY hh:mm A")}
-          </h4>
+            {moment.utc(entry.labDate).format("MM-DD-YYYY hh:mm A")}
+          </h5>
+          <h5>
+            Water Science Lab Date:{" "}
+            {moment.utc(entry.wslDate).format("MM-DD-YYYY hh:mm A")}
+          </h5>
         </List.Item>
         <List.Item key={key}>
           <List.Content>
             <a
               href={`/ViewField?fieldactivity_id=${entry.fieldID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
-              style={{ width: "22.5%", height: "17%" }}
+              style={{ width: "22.5%", height: "17%", margin: "8px" }}
               className="btn btn-primary btn-lg"
             >
               Field (Field ID: {entry.fieldID})
             </a>
             <a
               href={`/ViewClassLab?classlab_id=${entry.labID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`}
-              style={{ width: "22.5%", height: "17%" }}
-              className={buttonClass}
+              style={{ width: "22.5%", height: "17%", margin: "8px" }}
+              className={classLabButtonClass}
               aria-disabled={entry.labID === null}
             >
               Class Lab{" "}
               {entry.labID !== null ? `(Lab ID: ${entry.labID})` : "(No Lab ID)"}
             </a>
+            <a
+              href={`/ViewWaterScienceLab?watersciencelab_id=${entry.wslID}&well_id=${well_id}&wellcode=${wellcode}&wellName=${name}`} //replace with WSL link
+              style={{ width: "22.5%", height: "17%" }}
+              className={wslButtonClass}
+              aria-disabled={entry.labID === null}
+            >
+              Water Science Lab{" "}
+              {entry.wslID !== null ? `(Lab ID: ${entry.wslID})` : "(No Lab ID)"}
+            </a>
           </List.Content>
+          <hr style={{ width: "80%", margin: "8px auto" }} />
           <br />
         </List.Item>
       </>,
@@ -67,7 +85,7 @@ export default function PreviousEntries() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
@@ -79,13 +97,13 @@ export default function PreviousEntries() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    Axios.get("/previousentries", {
+    Axios.get("/previousentriesWithWSL", {
       responseType: "json",
       params: {
         well_id: well_id,
       },
     }).then(function (response) {
-      const fieldList = response.data.FieldList;
+      const fieldList = response.data.ExpandedFieldList;
       console.log(fieldList);
       console.log(response);
       var i;
@@ -96,6 +114,8 @@ export default function PreviousEntries() {
           fieldID: fieldEntry.fieldactivity_id,
           labID: fieldEntry.classlab_id,
           labDate: fieldEntry.cl_datecollected,
+          wslID: fieldEntry.watersciencelab_id,
+          wslDate: fieldEntry.wsl_dateentered
         };
         previousEntries.push(entry);
       }

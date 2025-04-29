@@ -52,7 +52,7 @@ export default function ViewField() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
@@ -76,9 +76,7 @@ export default function ViewField() {
 
   const fieldInfoList = [];
   for (const key of fieldInfo) {
-    if (formElements[key]) {
-      fieldInfoList.push([key, formElements[key]]);
-    }
+    fieldInfoList.push([key, formElements[key]]);
   }
 
   let columnList = [];
@@ -98,9 +96,9 @@ export default function ViewField() {
               </div>
               <div className="col">
                 {fields[index + 1] &&
-                <p style={{ textAlign: "left" }}>
-                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                </p>
+                  <p style={{ textAlign: "left" }}>
+                    <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                  </p>
                 }
               </div>
             </div>
@@ -121,8 +119,7 @@ export default function ViewField() {
               <p style={{ textAlign: "left" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
-                  .utc(formElements["fa_dateentered"])
-                  .local()
+                  .utc(formElements["fa_datecollected"])
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>

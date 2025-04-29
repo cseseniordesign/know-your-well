@@ -45,7 +45,7 @@ export default function ViewLab() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
@@ -71,9 +71,7 @@ export default function ViewLab() {
 
   const classLabInfoList = [];
   for (const key of classLabInfo) {
-    if (formElements[key]) {
-      classLabInfoList.push([key, formElements[key]]);
-    }
+    classLabInfoList.push([key, formElements[key]]);
   }
 
   let columnList = [];
@@ -92,9 +90,9 @@ export default function ViewLab() {
               </div>
               <div className="col">
                 {fields[index + 1] &&
-                <p style={{ textAlign: "left" }}>
-                  <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
-                </p>
+                  <p style={{ textAlign: "left" }}>
+                    <b>{nameMap[fields[index + 1][0]]}</b> {fields[index + 1][1] || "None Provided"}
+                  </p>
                 }
               </div>
             </div>
@@ -115,8 +113,7 @@ export default function ViewLab() {
               <p style={{ textAlign: "left" }}>
                 <b>Date Entered:</b>{" "}
                 {moment
-                  .utc(formElements["fa_dateentered"])
-                  .local()
+                  .utc(formElements["cl_datecollected"])
                   .format("MM-DD-YYYY hh:mm A")}
               </p>
             </div>

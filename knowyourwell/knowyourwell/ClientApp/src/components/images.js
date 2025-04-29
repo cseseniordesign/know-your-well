@@ -141,16 +141,16 @@ export default function Images() {
               });
               alert(`Photos submitted! You can upload more by selecting another category, or you can press 'back' to return to ${wellName}.`);
             })
-            // if the request fails, we know we are offline
+            // If the request fails, we can't connect to the server
             .catch(async () => {
               await putInDB(idbName, "imageUploadQueue", { file: image, containerName: containerName, blobName: blobName, metadata: metadata });
               setLocalImageDataQueue(updatedQueue);
-              alert("You are offline. The image will automatically be submitted when you regain an internet connection");
+              alert("The application cannot connect to the server. This form will automatically be submitted when the connection to the server is restored.");
             });
         }
         window.location.reload();
       } catch (err) {
-        alert(`Error uploading photos: ${err.message}`);
+        console.log(`Error uploading photos: ${err.message}`);
       }
     }
   }
@@ -192,13 +192,12 @@ export default function Images() {
       {imageData.type ? (
         <div>
           <br />
-          <EntryPrompt id='im_image' fieldTitle={`${checkFieldType[imageData.type] ? "Take" : "Upload"} a Photo of the ${imageData.type}`} required={true} />
+          <EntryPrompt id='im_image' fieldTitle={`Upload or Take a Photo of the ${imageData.type}`} required={true} />
           <input
             type="file"
             id="cropLand"
             accept="image/*"
             multiple
-            capture={checkFieldType[imageData.type] ? 'camera' : undefined}
             onChange={handleFileChange}
             required
           />

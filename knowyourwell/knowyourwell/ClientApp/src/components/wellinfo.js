@@ -33,7 +33,7 @@ export default function WellInfo() {
 
   useEffect(() => {
     if (user?.displayn === "") {
-      window.alert("You are not yet logged in. Please log in.");
+      alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
@@ -136,10 +136,10 @@ export default function WellInfo() {
           alert("The well info form has been submitted!");
         });
       })
-      // if the request fails, we know we are offline
+      // If the request fails, we can't connect to the server
       .catch(() => {
         setLocalWellInfoQueue(updatedQueue);
-        alert("You are offline. The well info form will automatically be submitted when you regain an internet connection");
+        alert("The application cannot connect to the server. This form will automatically be submitted when the connection to the server is restored.");
       });
   }
 
@@ -257,7 +257,7 @@ export default function WellInfo() {
             submitForm();
           } else {
             updateWellInfo("waterleveldepth", "");
-            window.alert(
+            alert(
               "Well water depth cannot be greater than total well depth.",
             );
           }
