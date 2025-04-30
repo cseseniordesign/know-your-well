@@ -14,8 +14,12 @@ import { useUser } from "./usercontext";
 import { useNavigate } from "react-router-dom";
 
 export default function WellInfo() {
+  const { coords, wellInfoQueue, setLocalWellInfoQueue } =
+  useContext(WellFieldLabContext);
+  const navigate = useNavigate();
+  const { user } = useUser();
   let initialWellInfo;
-
+  
   if (
     window.location.href.indexOf("kywtest") > -1 ||
     process.env.NODE_ENV !== "production"
@@ -24,20 +28,21 @@ export default function WellInfo() {
   } else {
     initialWellInfo = prodWellInfo;
   }
-
-  const [wellInfo, setWellInfo] = useState(initialWellInfo);
-  const { wellInfoQueue, setLocalWellInfoQueue } =
-    useContext(WellFieldLabContext);
-  const navigate = useNavigate();
-  const { user } = useUser();
-
+  if (coords?.latitude) {
+    initialWellInfo.estlatitude = coords.latitude;
+  }
+  if (coords?.longitude){
+    initialWellInfo.estlongitude = coords.longitude;
+  }
+  
   useEffect(() => {
     if (user?.displayn === "") {
       alert("You are not yet logged in. Please log in.");
       navigate("/");
     }
   }, [navigate, user]);
-
+  
+  const [wellInfo, setWellInfo] = useState(initialWellInfo);
   function updateWellInfo(fieldName, value) {
     setWellInfo((prevData) => ({
       ...prevData,

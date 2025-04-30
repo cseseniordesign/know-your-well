@@ -33,6 +33,12 @@ export default function Field() {
   } else {
     initialFieldData = prodFieldData;
   }
+  if (coords?.latitude) {
+    initialFieldData.fa_latitude = coords.latitude;
+  }
+  if (coords?.longitude){
+    initialFieldData.fa_longitude = coords.longitude;
+  }
 
   // Checking for saved sessions
   const [sessionContinued, setSessionContinued] = useState(
@@ -106,15 +112,6 @@ export default function Field() {
     }
     updateFieldData(fieldName, value);
   };
-
-  useEffect(() => {
-    if (coords?.latitude && coords?.longitude && !(fieldData.fa_latitude && fieldData.fa_longitude)) {
-      updateFieldData("fa_latitude", coords.latitude);
-      updateFieldData("fa_longitude", coords.longitude);
-    }
-    // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   async function addFieldData() {
     fieldData.well_id = well_id;

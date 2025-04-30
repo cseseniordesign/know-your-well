@@ -43,6 +43,12 @@ export default function Images() {
   } else {
     initialImageData = prodImageData;
   }
+  if (coords?.latitude) {
+    initialImageData.im_latitude = coords.latitude;
+  }
+  if (coords?.longitude){
+    initialImageData.im_longitude = coords.longitude;
+  }
 
   const [imageData, setImageData] = useState(initialImageData);
   function updateImageData(fieldName, value) {
@@ -51,15 +57,6 @@ export default function Images() {
       [fieldName]: value,
     }));
   }
-
-  useEffect(() => {
-    if (coords?.latitude && coords?.longitude) {
-      updateImageData("im_latitude", coords.latitude);
-      updateImageData("im_longitude", coords.longitude);
-    }
-    // We only want this useEffect to run once upon the initial load of the page, so we pass an empty dependency array.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleFileChange = (event) => {
     setImages(Array.from(event.target.files));
