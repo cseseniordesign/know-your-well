@@ -588,15 +588,14 @@ app.get("/Wells", async (req, res, next) => {
 
   const kywmemValue = req.session.kywmem;
 
+  let applySchoolId = "";
   if (kywmemValue && kywmemValue !== "" && kywmemValue !== "undefined") {
-    applySchoolId = () => {
-      return ` WHERE school_id = ${kywmemValue}`;
-    }
+    applySchoolId = ` WHERE school_id = ${kywmemValue}`;
   } else {
     next(new Error("No school ID found in session."));
   }
 
-  query += applySchoolId();
+  query += applySchoolId;
 
   const applyFilter = () => {
     if (req.query.filterBy && Object.keys(req.query.filterBy).length !== 0) {
@@ -647,7 +646,7 @@ app.get("/Wells", async (req, res, next) => {
                           FROM dbo.tblFieldActivity
                           GROUP BY well_id
                         ) fa on w.well_id = fa.well_id` +
-    applySchoolId() +
+    applySchoolId +
     applyFilter() +
     ` ORDER BY fa.newest DESC, w.wi_wellcode ASC;`;
 
