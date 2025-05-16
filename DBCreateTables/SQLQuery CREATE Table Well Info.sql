@@ -70,4 +70,16 @@ GO
 ALTER TABLE [dbo].[tblWellInfo] CHECK CONSTRAINT [FK_tblWellInfo_tblSchool]
 GO
 
+ALTER TABLE [dbo].[tblWellInfo]  WITH CHECK ADD  CONSTRAINT [FK_tblWellInfo_tblCountyLookup] FOREIGN KEY([county_id])
+REFERENCES [dbo].[tblCountyLookup] ([county_id])
+GO
 
+ALTER TABLE [dbo].[tblWellInfo] CHECK CONSTRAINT [FK_tblWellInfo_tblCountyLookup]
+GO
+
+ALTER TABLE [dbo].[tblWellInfo]  WITH CHECK ADD  CONSTRAINT [FK_tblWellInfo_tblNRDLookup] FOREIGN KEY([nrd_id])
+REFERENCES [dbo].[tblNRDLookup] ([nrd_id])
+GO
+
+ALTER TABLE [dbo].[tblWellInfo] CHECK CONSTRAINT [FK_tblWellInfo_tblNRDLookup]
+GO
