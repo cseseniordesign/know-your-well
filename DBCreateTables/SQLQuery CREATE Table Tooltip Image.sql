@@ -1,7 +1,7 @@
-USE [kyw]
+/****** Object:  Table [dbo].[tblTooltipImage]    Script Date: 5/5/2025 1:42:52 PM ******/
+use [kyw]
 GO
 
-/****** Object:  Table [dbo].[tblTooltipImage]    Script Date: 10/17/2024 2:01:36 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -14,8 +14,7 @@ CREATE TABLE [dbo].[tblTooltipImage](
 	[im_filename] [nvarchar](255) NULL,
 	[comments] [nvarchar](max) NULL,
 	[active] [bit] NOT NULL,
-	[databaseentered][datetime] NOT NULL,
-
+	[databaseentered] [datetime] NOT NULL,
  CONSTRAINT [PK_tblTooltipImage] PRIMARY KEY CLUSTERED 
 (
 	[image_id] ASC
@@ -25,3 +24,11 @@ GO
 
 ALTER TABLE [dbo].[tblTooltipImage] ADD  CONSTRAINT [DF_tblTooltipImage_databaseentered]  DEFAULT (getdate()) FOR [databaseentered]
 GO
+
+ALTER TABLE [dbo].[tblTooltipImage]  WITH CHECK ADD  CONSTRAINT [FK_tblTooltipImage_tblTooltip] FOREIGN KEY([prompt_id])
+REFERENCES [dbo].[tblTooltip] ([prompt_id])
+GO
+
+ALTER TABLE [dbo].[tblTooltipImage] CHECK CONSTRAINT [FK_tblTooltipImage_tblTooltip]
+GO
+
