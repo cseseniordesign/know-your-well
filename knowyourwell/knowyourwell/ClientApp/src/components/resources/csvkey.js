@@ -60,7 +60,7 @@ const csvKey = {
   cl_manganese: "Mangenese [0-50 ppm(mg/L)]",
   cl_nitrate: "Nitrate [0-45 ppm(mg/L)]",
   cl_observation: "Class Lab Observations",
-  cl_nitrite: "Nitrate [0-45 ppm(mg/L)]",
+  cl_nitrite: "Nitrite [0-45 ppm(mg/L)]",
   cl_pest_atrazine: "Pesticide/Atrazine (ug/L)",
   cl_datacollector: "Class Lab Data Collector",
   cl_datecollected: "Class Lab Date Entered",
