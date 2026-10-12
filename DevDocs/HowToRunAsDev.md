@@ -9,7 +9,7 @@ follow these steps.
 6. Make sure the nodemon package is installed in npm, otherwise you will be unable to run it.
    a. npm install -g nodemon
 7. Run ```npm run server```. That runs the backend, without it you can't get past the 1st screen.
-8. now, run the client with ```npm start```
+8. now, run the client, in a separate terminal, do ```cd client``` and then with ```npm start```
 
 now you can develop. 
 

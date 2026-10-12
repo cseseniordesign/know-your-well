@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PRODUCTION DATABASE" read-only="true" uuid="4faacb46-849b-48cb-89d5-40d78547906c">
+    <data-source source="LOCAL" name="KYW TEST DB" read-only="true" uuid="4faacb46-849b-48cb-89d5-40d78547906c">
       <driver-ref>azure.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
