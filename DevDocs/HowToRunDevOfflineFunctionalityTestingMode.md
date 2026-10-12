@@ -8,13 +8,15 @@ you need 2 terminals open for this. so do that please.
 
 ## files in question: 
 1. ```knowyourwell/knowyourwell/ClientApp/serve-build.js```
-   2. this is "serving" the server, front end beck end sandwich. 
-   3. it' snot like running it on a registered domain or something. so it's not deploying.
-4. ```knowyourwell/knowyourwell/Properties/launchSettings.json```
-   5. i'm mostly talking about...
-      6. ```applicationUrl```
-      7. ```sslPort```
-   8. i don't know the significance of the number, but in the build command you can specify a port number. so if firefox or chrome says "can't find your webpage" this COULD be why.
+   1. this is "serving" the server, front end beck end sandwich. 
+   2. it' snot like running it on a registered domain or something. so it's not deploying.
+2. ```knowyourwell/knowyourwell/Properties/launchSettings.json```
+   1. i'm mostly talking about...
+      1. ```applicationUrl```
+      2. ```sslPort```
+   2. i don't know the significance of the number, but in the build command you can specify a port number. so if firefox or chrome says "can't find your webpage" this COULD be why.
+3. knowyourwell/knowyourwell/ClientApp/src/setupProxy.js
+   6. this also contains a port number setting for some reason >:- (
 
 ## commands you must know
 ```bash
