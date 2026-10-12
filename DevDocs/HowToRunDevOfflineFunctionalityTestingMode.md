@@ -27,6 +27,8 @@ knowyourwell/knowyourwell/ClientApp> npm run build
 knowyourwell/knowyourwell/ClientApp> node serve-build.js
 ```
 
+any time you changed the program. you need to run ```npm run build``` again.
+
 server-build.js looks for port 5000.  
 launchSetting.json builds for port 5000.  
 if you mess with either of these your browser won't know what you're talking about.  
