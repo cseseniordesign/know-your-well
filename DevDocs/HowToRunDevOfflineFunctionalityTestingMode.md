@@ -20,8 +20,6 @@ you need 2 terminals open for this. so do that please.
 ```bash
 #terminal 1
 knowyourwell/knowyourwell> npm run server
-#if that doesn't work for some reason, do this instead.
-knowyourwell/knowyourwell> node index.js
 
 #terminal 2
 knowyourwell/knowyourwell/ClientApp> npm run build 
