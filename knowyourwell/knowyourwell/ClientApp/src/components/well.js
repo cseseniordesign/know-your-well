@@ -21,21 +21,20 @@ import "react-tabs/style/react-tabs.css";
 import "./css/wells.css";
 
 import "leaflet.heat";
+// import "leaflet.idw";
+import "./leaflet-idw.js";
+
 function WellsHeatmap({ points }) {
   const map = useMap();
 
   useEffect(() => {
-    const layer = L.heatLayer(points, {
-      radius: 100,
-      blur: 15,
+
+    const layer = L.idwLayer(points, {
+      opacity: 0.7,
+      cellSize: 5,
+      exp: 10,
+      max: 1,
       maxZoom: 12,
-      gradient: {
-        0.2: "#2c7bb6",
-        0.4: "#abd9e9",
-        0.6: "#ffffbf",
-        0.8: "#fdae61",
-        1.0: "#f0585bff",
-      },
     }).addTo(map);
 
     const frame = requestAnimationFrame(() => {
@@ -444,7 +443,7 @@ const Well = () => {
       .map((well) => [
         Number(well.wi_estlatitude),
         Number(well.wi_estlongitude),
-        // Number(well.wi_waterleveldepth) / 15,
+        Number(well.wi_waterleveldepth),
       ]);
   };
 
