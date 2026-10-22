@@ -1,95 +1,19 @@
-﻿const assignEntity = require("./middleware/saml.js");
+﻿const express = require("express");
+const sqlDefault = require("mssql");
 
-const { Constants } = require("samlify");
-
-const express = require("express");
-const session = require("express-session");
-const bodyParser = require("body-parser");
-const app = express();
-const sql = require("mssql");
-const cors = require("cors");
-const { response } = require("express");
-const path = require("path");
-const { error } = require("console");
-
-require("dotenv").config();
-
-app.use(
-  session({
-    secret: "your_secret_key",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, httpOnly: false },
-  }),
-);
-
-app.use(cors({ origin: "*" }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(bodyParser.json());
-
-app.use(express.static("wwwroot"));
-
-app.use(assignEntity);
-
-app.options("*", cors());
-
-let config;
-
-try {
-  const fs = require("fs");
-  const rawData = fs.readFileSync("config.json", "utf8");
-  config = JSON.parse(rawData);
-} catch (e) {
-  let database = "kywtestdb";
-  if (process.env.NODE_ENV === "production") {
-    database = "kyw";
-    console.log("Running in production mode. Using production database.");
-  } else {
-    console.log("Not running in production mode. Using test database.");
+/**
+ * Create the API router with its database dependencies supplied by the caller.
+ * This keeps importing the route module side-effect free and allows tests to
+ * provide a fake pool without connecting to SQL Server.
+ */
+function createRoutes({ pool, sqlClient = sqlDefault }) {
+  if (!pool) {
+    throw new TypeError("createRoutes requires a database pool.");
   }
-  
-  config = {
-    user: "kywAdmin",
-    password: process.env.APPSETTING_MSSQL_PASSWORD,
-    database: database,
-    server: "kyw.database.windows.net",
-    pool: {
-      max: 10,
-      min: 0,
-      idleTimeoutMillis: 30000,
-    },
-    options: {
-      encrypt: true, // for azure
-      trustServerCertificate: false, // change to true for local dev / self-signed certs
-    },
-  };
-}
 
-const appPool = new sql.ConnectionPool(config);
-try {
-  appPool.connect();
-} catch (error) {
-  console.error(error);
-}
-
-app.get("/heartbeat", (req, res) => {
-  res.status(200).send('');
-});
-
-app.get("/LandFeatures", async (req, res) => {
-  well_id = req.query.well_id;
-  let query = `SELECT * FROM dbo.tblLandFeature WHERE well_id = ${well_id}`;
-
-  appPool.query(query, function (err, recordset) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("SERVER ERROR");
-      return;
-    }
-    res.status(200).json({ LandFeatures: recordset.recordset });
-  });
-});
+  const app = express.Router();
+  const appPool = pool;
+  const sql = sqlClient;
 
 app.post("/feature/crop", (req, res) => {
   const transaction = appPool.transaction();
@@ -1407,20 +1331,7 @@ app.post("/saml/acs", async (req, res) => {
   res.redirect("/Well");
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
-});
+  return app;
+}
 
-app.listen(process.env.PORT || 7193, () => {
-  console.log("server is running");
-});
-
-app.get("*", (req, res) => {
-  console.log("hit");
-  res.sendFile(path.resolve(__dirname, "wwwroot", "index.html"));
-});
-
-app.get("/health", (req, res) => {
-  console.log("hit");
-  res.status(200).send("Healthy");
-});
+module.exports = createRoutes;
