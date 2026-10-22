@@ -31,9 +31,9 @@ function WellsHeatmap({ points }) {
 
     const layer = L.idwLayer(points, {
       opacity: 0.7,
-      cellSize: 5,
-      exp: 10,
-      max: 1,
+      cellSize: 4,
+      exp: 2,
+      max: 200,
       maxZoom: 12,
     }).addTo(map);
 
@@ -41,13 +41,6 @@ function WellsHeatmap({ points }) {
       map.invalidateSize();
       layer.redraw();
     });
-
-  // useEffect(() => {
-  //   const layer = L.heatLayer(points, {
-  //     radius: 200,
-  //     blur: 10,
-  //     maxZoom: 13,
-  //   }).addTo(map);
 
 
     return () => map.removeLayer(layer);
@@ -429,22 +422,23 @@ const Well = () => {
 
 
 
-    const getHeatPoints = () => {
-    const wells = JSON.parse(localStorage.getItem("wellData") || '{"Wells":[]}').Wells || [];
+  const getHeatPoints = () => {
+  const wells = JSON.parse(localStorage.getItem("wellData") || '{"Wells":[]}').Wells || [];
 
 
-    return wells
-      .filter((well) =>
-        well.wi_estlatitude != null &&
-        well.wi_estlongitude != null &&
-        Number.isFinite(Number(well.wi_estlatitude)) &&
-        Number.isFinite(Number(well.wi_estlongitude))
-      )
-      .map((well) => [
-        Number(well.wi_estlatitude),
-        Number(well.wi_estlongitude),
-        Number(well.wi_waterleveldepth),
-      ]);
+  return wells
+    .filter((well) =>
+      well.wi_estlatitude != null &&
+      well.wi_estlongitude != null &&
+      Number.isFinite(Number(well.wi_estlatitude)) &&
+      Number.isFinite(Number(well.wi_estlongitude))
+    )
+    .map((well) => [
+      Number(well.wi_estlatitude),
+      Number(well.wi_estlongitude),
+      Number(well.wi_waterleveldepth),
+      // Number(well.wi_totaldepth),
+    ]);
   };
 
 
@@ -574,7 +568,7 @@ const Well = () => {
                 width: "12em",
               }}
             >
-              Show Heat Map Layer
+              Show Interpolated Layer
             </label>
             <input
               type="checkbox"
