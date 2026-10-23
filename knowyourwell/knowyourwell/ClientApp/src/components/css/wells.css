@@ -12,8 +12,8 @@
 }
 
 .filter-container p {
-  justify-self: end;
-  text-align: right;
+  justify-self: start;
+  text-align: left;
   margin-bottom: 0;
 }
 
@@ -29,9 +29,9 @@
 @media (min-width: 769px) {
   .filter-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
     padding: 0 20px;
     width: 100%;
   }
@@ -50,14 +50,14 @@
 
   .filter-column-content {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 200px 1fr;
     gap: 10px;
     align-items: center;
   }
 
   .filter-column-content p {
-    justify-self: end;
-    text-align: right;
+    justify-self: start;
+    text-align: left;
     margin-bottom: 0;
   }
 

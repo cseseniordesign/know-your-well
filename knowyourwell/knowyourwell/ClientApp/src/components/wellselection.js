@@ -18,6 +18,7 @@ import { Icon } from "leaflet";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./css/wells.css";
+import { Rnd } from "react-rnd";
 
 function responseDataToHTMLList(responseData) {
   let HTMLList = [];
@@ -109,6 +110,7 @@ const Wellselection = () => {
     }
   });
   const [mapHeight, setMapHeight] = useState(0);
+  const [filterBox, setFilterBox] = useState(null);
 
   //credit to https://codewithnico.com/react-wait-axios-to-render/ for conditional rendering
   useEffect(() => {
@@ -382,6 +384,13 @@ const Wellselection = () => {
         value !== undefined &&
         value !== null
     );
+    const popupWidth = Math.min(500, window.innerWidth - 20);
+    const box = filterBox ?? {
+      width: popupWidth,
+      height: Math.min(350, Math.round(window.innerHeight * 0.6)),
+      x: window.innerWidth - popupWidth - 10,
+      y: document.body.getBoundingClientRect().bottom - mapHeight + 96,
+    };
     return (
       <>
         <div>
@@ -479,29 +488,73 @@ const Wellselection = () => {
             />
           </div>
           {isFilterDropdownVisible && (
-            <div
+            <Rnd
+              size={{ width: box.width, height: box.height }}
+              position={{ x: box.x, y: box.y }}
+              onDragStop={(e, d) => setFilterBox({ ...box, x: d.x, y: d.y })}
+              onResizeStop={(e, direction, ref, delta, position) =>
+                setFilterBox({
+                  width: ref.offsetWidth,
+                  height: ref.offsetHeight,
+                  ...position,
+                })
+              }
+              minWidth={300}
+              minHeight={150}
+              bounds="window"
+              dragHandleClassName="filter-popup-handle"
               style={{
-                border: "1px solid #ccc",
-                marginTop: "10px",
-                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-                boxSizing: "border-box",
-                overflow: "auto",
-                maxHeight: "150px",
-                zIndex: "500",
-                position: "absolute",
-                top:
-                  document.body.getBoundingClientRect().bottom - mapHeight + 96, // Places it below the show satellite layer checkbox
-                background: "rgba(255,255,255,0.5)",
-                width: "100%",
+                zIndex: 1001,
                 display: "flex",
                 flexDirection: "column",
-                alignContent: "center",
-                alignItems: "center",
-                overscrollBehavior: "contain",
+                border: "1px solid #ccc",
+                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                boxSizing: "border-box",
+                background: "rgba(255,255,255,0.5)",
               }}
             >
-              {getFilters()}
-            </div>
+              <div
+                className="filter-popup-handle bg-primary text-white"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "4px 8px",
+                  cursor: "move",
+                  userSelect: "none",
+                  flexShrink: 0,
+                }}
+              >
+                <span>Filter wells</span>
+                <button
+                  type="button"
+                  aria-label="Close filters"
+                  onClick={() => setFilterDropdownVisibility(false)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "white",
+                    fontSize: "1.2em",
+                    lineHeight: 1,
+                    cursor: "pointer",
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  overflow: "auto",
+                  overscrollBehavior: "contain",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {getFilters()}
+              </div>
+            </Rnd>
           )}
         </div>
         <MapContainer
@@ -660,7 +713,7 @@ const Wellselection = () => {
                   marginTop: "10px",
                   boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
                   boxSizing: "border-box",
-                  maxHeight: "150px",
+                  maxHeight: "60vh",
                   overflow: "auto",
                 }}
               >
